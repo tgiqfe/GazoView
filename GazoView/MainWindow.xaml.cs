@@ -243,7 +243,7 @@ namespace GazoView
         public void UpdateImage(int moveCount)
         {
             Item.ImageStore.CurrentIndex += moveCount;
-            ImageSource image = Item.ImageStore.GetCurrentImageSource();
+            ImageSource image = Item.ImageStore.GetCurrentImageSource(mainImage);
 
             if (image != null)
             {
@@ -292,6 +292,7 @@ namespace GazoView
                 {
                     info_ImageName.Text = "ファイル名: -";
                     info_ImagePath.Text = "ファイルパス: -";
+                    info_ImageExtension.Text = "拡張子: -";
                     info_ImageSize.Text = "ファイルサイズ: -";
                     info_ImageLength.Text = "画像サイズ: -";
                     info_ImageModDate.Text = "更新日時: -";
@@ -316,6 +317,7 @@ namespace GazoView
 
                     info_ImageName.Text = "ファイル名: " + Path.GetFileName(Item.ImageStore.CurrentPath);
                     info_ImagePath.Text = "ファイルパス: " + Item.ImageStore.CurrentPath;
+                    info_ImageExtension.Text = "拡張子: " + Item.ImageStore.CurrentExtension;
                     info_ImageSize.Text = "ファイルサイズ: " + imageFileSize;
                     info_ImageLength.Text = "画像サイズ: " + string.Format("{0} × {1}", Item.ImageStore.CurrentWidth, Item.ImageStore.CurrentHeight);
                     info_ImageModDate.Text = "更新日時: " + fi.LastWriteTime.ToString("yyyy/MM/dd HH:mm:ss");

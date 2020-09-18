@@ -11,6 +11,7 @@ using SharpVectors.Renderers.Wpf;
 using SharpVectors.Converters;
 using SharpVectors.Dom.Svg;
 using GazoView.Functions;
+using System.Windows.Controls;
 
 namespace GazoView
 {
@@ -18,7 +19,7 @@ namespace GazoView
     {
         private static string[] _imageExtensions = new string[]
         {
-            ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".svg", ".bmp"
+            ".jpg", ".jpeg", ".png", ".tif", ".tiff", ".svg", ".bmp", ".gif"
         };
         private WpfDrawingSettings _drawingSettings = null;
 
@@ -43,6 +44,11 @@ namespace GazoView
                 return _currentIndex;
             }
             set { this._currentIndex = value; }
+        }
+
+        public string CurrentExtension
+        {
+            get { return (Items != null && Items.Count > 0) ? Path.GetExtension(Items[CurrentIndex]).ToLower() : null; }
         }
 
         private BitmapImage _currentBitmapImage = null;
@@ -108,6 +114,8 @@ namespace GazoView
             }
         }
 
+        private FileStream _gifStream = null;
+
         public ImageStore() { }
         public ImageStore(string[] itemPaths)
         {
@@ -166,18 +174,53 @@ namespace GazoView
         }
 
         /// <summary>
+        /// GIFファイル用BitmapImageを取得
+        /// </summary>
+        /// <param name="targetImagePath"></param>
+        /// <returns></returns>
+        private BitmapImage GetBitMapImageForGif(string targetImagePath)
+        {
+            _currentDrawingImage = null;
+
+            _gifStream = new FileStream(targetImagePath, FileMode.Open, FileAccess.Read);
+            var bmp = new BitmapImage();
+            bmp.BeginInit();
+            bmp.CacheOption = BitmapCacheOption.OnLoad;
+            bmp.CreateOptions = BitmapCreateOptions.None;
+            bmp.StreamSource = _gifStream;
+            bmp.EndInit();
+            bmp.Freeze();
+
+            _currentBitmapImage = bmp;
+            return _currentBitmapImage;
+        }
+
+        /// <summary>
         /// 現在のインデックスの画像をBitmapImageで返す
         /// </summary>
         /// <returns></returns>
-        public ImageSource GetCurrentImageSource()
+        public ImageSource GetCurrentImageSource(Image mainImage)
         {
             if (CurrentIndex >= 0 && CurrentIndex < Items.Count)
             {
                 string targetImagePath = Items[CurrentIndex];
 
-                if (Path.GetExtension(targetImagePath) == ".svg")
+                if (_gifStream != null)
+                {
+                    WpfAnimatedGif.ImageBehavior.SetAnimatedSource(mainImage, null);
+                    _gifStream.Dispose();
+                    _gifStream = null;
+                }
+
+                if (CurrentExtension == ".svg")
                 {
                     return GetDrawingImage(targetImagePath);
+                }
+                else if (CurrentExtension == ".gif")
+                {
+                    BitmapImage bitmapImage = GetBitMapImageForGif(targetImagePath);
+                    WpfAnimatedGif.ImageBehavior.SetAnimatedSource(mainImage, bitmapImage);
+                    return bitmapImage;
                 }
                 return GetBitMapImage(targetImagePath);
             }

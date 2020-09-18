@@ -28,14 +28,20 @@ namespace GazoView.Functions
         {
             var bitmap = new CroppedBitmap(imageSource, new Int32Rect((int)x, (int)y, (int)width, (int)height));
 
-            string extension = Path.GetExtension(imagePath);
+            //  トリミング後の拡張子を決定。
+            string extension = Path.GetExtension(imagePath).ToLower();
+            if (!new string[] { ".jpg", ".jpeg", ".png" }.Contains(extension))
+            {
+                extension = ".bmp";
+            }
+
             string outputPath = SearchUnusedPath(
                 Path.Combine(Path.GetDirectoryName(imagePath), Path.GetFileNameWithoutExtension(imagePath)),
                 1,
                 extension);
             using (var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
             {
-                switch (extension.ToLower())
+                switch (extension)
                 {
                     case ".jpg":
                     case ".jpeg":
@@ -49,7 +55,6 @@ namespace GazoView.Functions
                         pngEnc.Save(fs);
                         break;
                     case ".bmp":
-                    default:
                         BitmapEncoder bmpEnc = new BmpBitmapEncoder();
                         bmpEnc.Frames.Add(BitmapFrame.Create(bitmap));
                         bmpEnc.Save(fs);

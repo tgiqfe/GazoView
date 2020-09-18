@@ -358,6 +358,7 @@
                     Visibility="Hidden">
             <TextBlock Name="info_ImageName" Style="{DynamicResource ImageInfoText}"/>
             <TextBlock Name="info_ImagePath" Style="{DynamicResource ImageInfoText}"/>
+            <TextBlock Name="info_ImageExtension" Style="{DynamicResource ImageInfoText}"/>
             <TextBlock Name="info_ImageSize" Style="{DynamicResource ImageInfoText}"/>
             <TextBlock Name="info_ImageLength" Style="{DynamicResource ImageInfoText}"/>
             <TextBlock Name="info_ImageModDate" Style="{DynamicResource ImageInfoText}"/>
