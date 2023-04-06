@@ -1,20 +1,20 @@
 {
   "format": 1,
   "restore": {
-    "C:\\Users\\User\\Documents\\Work\\GazoView\\GazoView\\GazoView.csproj": {}
+    "C:\\Users\\tq\\Documents\\Work\\GazoView\\GazoView\\GazoView.csproj": {}
   },
   "projects": {
-    "C:\\Users\\User\\Documents\\Work\\GazoView\\GazoView\\GazoView.csproj": {
+    "C:\\Users\\tq\\Documents\\Work\\GazoView\\GazoView\\GazoView.csproj": {
       "version": "1.0.0",
       "restore": {
-        "projectUniqueName": "C:\\Users\\User\\Documents\\Work\\GazoView\\GazoView\\GazoView.csproj",
+        "projectUniqueName": "C:\\Users\\tq\\Documents\\Work\\GazoView\\GazoView\\GazoView.csproj",
         "projectName": "GazoView",
-        "projectPath": "C:\\Users\\User\\Documents\\Work\\GazoView\\GazoView\\GazoView.csproj",
-        "packagesPath": "C:\\Users\\User\\.nuget\\packages\\",
-        "outputPath": "C:\\Users\\User\\Documents\\Work\\GazoView\\GazoView\\obj\\",
+        "projectPath": "C:\\Users\\tq\\Documents\\Work\\GazoView\\GazoView\\GazoView.csproj",
+        "packagesPath": "C:\\Users\\tq\\.nuget\\packages\\",
+        "outputPath": "C:\\Users\\tq\\Documents\\Work\\GazoView\\GazoView\\obj\\",
         "projectStyle": "PackageReference",
         "configFilePaths": [
-          "C:\\Users\\User\\AppData\\Roaming\\NuGet\\NuGet.Config",
+          "C:\\Users\\tq\\AppData\\Roaming\\NuGet\\NuGet.Config",
           "C:\\Program Files (x86)\\NuGet\\Config\\Microsoft.VisualStudio.Offline.config"
         ],
         "originalTargetFrameworks": [
@@ -58,7 +58,7 @@
               "privateAssets": "none"
             }
           },
-          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.202\\RuntimeIdentifierGraph.json"
+          "runtimeIdentifierGraphPath": "C:\\Program Files\\dotnet\\sdk\\7.0.201\\RuntimeIdentifierGraph.json"
         }
       }
     }
