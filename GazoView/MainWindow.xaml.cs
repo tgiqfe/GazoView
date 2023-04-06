@@ -23,6 +23,8 @@ namespace GazoView
         public MainWindow()
         {
             InitializeComponent();
+
+            
         }
     }
 }

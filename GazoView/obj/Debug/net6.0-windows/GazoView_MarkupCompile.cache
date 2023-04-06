@@ -1,5 +1,5 @@
 ﻿GazoView
-1.0.0.0
+
 
 winexe
 C#
@@ -12,9 +12,9 @@ TRACE;DEBUG;NET;NET6_0;NETCOREAPP
 C:\Users\User\Documents\Work\GazoView\GazoView\App.xaml
 11407045341
 
-8-1843254190
+5-1639245747
 194-1617825143
 MainWindow.xaml;
 
-True
+False
 
