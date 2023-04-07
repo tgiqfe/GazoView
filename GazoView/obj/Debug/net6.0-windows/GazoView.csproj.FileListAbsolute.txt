@@ -40,3 +40,12 @@ C:\Users\tq\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\refint\Gaz
 C:\Users\tq\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\GazoView.pdb
 C:\Users\tq\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\GazoView.genruntimeconfig.cache
 C:\Users\tq\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\ref\GazoView.dll
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\Lib\ImageInfoPanel1.g.cs
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\Lib\ImageInfoPanel2.g.cs
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\Lib\TitleBar.g.cs
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\Lib\TrimmingBar.g.cs
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\Lib\ImageInfoPanel1.baml
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\Lib\ImageInfoPanel2.baml
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\Lib\TitleBar.baml
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\Lib\TrimmingBar.baml
+C:\Users\User\Documents\Work\GazoView\GazoView\obj\Debug\net6.0-windows\GeneratedInternalTypeHelper.g.cs
