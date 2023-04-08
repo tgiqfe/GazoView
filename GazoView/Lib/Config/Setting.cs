@@ -7,7 +7,7 @@ namespace GazoView.Lib.Config
 {
     public class Setting
     {
-        #region Binding parameter (serialize)
+        #region Binding parameter
 
         /// <summary>
         /// ウィンドウサイズ(横)
@@ -28,54 +28,6 @@ namespace GazoView.Lib.Config
         /// ウィンドウ位置(Y軸)
         /// </summary>
         public double LocationY { get; set; }
-
-        #endregion
-        #region Binding parameter (not serialize)
-
-        /// <summary>
-        /// トリミングモード
-        /// </summary>
-        [JsonIgnore]
-        public bool TrimmingMode { get; set; }
-
-        /// <summary>
-        /// トリミングモード(テキスト出力)
-        /// </summary>
-        [JsonIgnore]
-        public string TrimmingModeText
-        {
-            get { return this.TrimmingMode ? "ON" : "OFF"; }
-        }
-
-        /// <summary>
-        /// 拡縮モード
-        /// </summary>
-        [JsonIgnore]
-        public bool ScalingMode { get; set; } 
-
-        /// <summary>
-        /// 拡縮モード(テキスト出力)
-        /// </summary>
-        [JsonIgnore]
-        public string ScalingModeText
-        {
-            get { return this.ScalingMode ? "ON" : "OFF"; }
-        }
-
-        /// <summary>
-        /// 透明化モード
-        /// </summary>
-        [JsonIgnore]
-        public bool TransparentMode { get; set; } 
-
-        /// <summary>
-        /// 透明化モード(テキスト出力)
-        /// </summary>
-        [JsonIgnore]
-        public string TransparentModeText
-        {
-            get { return this.TransparentMode ? "ON" : "OFF"; }
-        }
 
         #endregion
         #region Not binging parameter

@@ -34,7 +34,7 @@ namespace GazoView
 
 
             //  サンプルで画像指定
-            using (var fs = new FileStream(@"C:\aaaa.jpg", FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(@"D:\Test\sample\aaaa_p03.png", FileMode.Open, FileAccess.Read))
             {
                 var bmp = new BitmapImage();
                 bmp.BeginInit();

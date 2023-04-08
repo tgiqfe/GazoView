@@ -20,10 +20,11 @@ namespace GazoView
         /// <param name="e"></param>
         private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (!Item.BindingParam.Setting.TrimmingMode)
+            if (Item.BindingParam.State.TrimmingMode)
             {
-                this.DragMove();
+                return;
             }
+            this.DragMove();
         }
     }
 }

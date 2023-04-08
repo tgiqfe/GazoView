@@ -13,12 +13,18 @@ namespace GazoView
 
         public Setting Setting { get; set; }
 
+        public State State { get; set; }
+
+        public OpacityRate WindowOpacity { get; set; }
+
         /// <summary>
         /// アプリケーション起動時
         /// </summary>
         public BindingParam()
         {
             this.Setting = Setting.Load(CONF_SETTING);
+            this.State = new();
+            this.WindowOpacity = new();
         }
 
         /// <summary>

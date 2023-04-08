@@ -4,6 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Data;
 using System.Windows.Input;
 
 namespace GazoView
@@ -23,7 +24,12 @@ namespace GazoView
                     KeyEvent_PressD(); break;
                 case Key.T:
                     KeyEvent_PressT(); break;
-
+                case Key.E:
+                    KeyEvent_PressE(); break;
+                case Key.Up:
+                    KeyEvent_PressUp(); break;
+                case Key.Down:
+                    KeyEvent_PressDown(); break;
             }
         }
 
@@ -50,11 +56,59 @@ namespace GazoView
                 Visibility.Visible;
         }
 
+        /// <summary>
+        /// キー押下時イベント: T
+        /// トリミングモード
+        /// </summary>
         private void KeyEvent_PressT()
         {
-            InfoTrimmingBar.Visibility = InfoTrimmingBar.Visibility == Visibility.Visible ?
-                Visibility.Hidden :
-                Visibility.Visible;
+            Item.BindingParam.State.TrimmingMode = !Item.BindingParam.State.TrimmingMode;
+        }
+
+        /// <summary>
+        /// キー押下時イベント: E
+        /// 透明モード
+        /// </summary>
+        private void KeyEvent_PressE()
+        {
+            Item.BindingParam.State.TransparentMode = !Item.BindingParam.State.TransparentMode;
+
+            if (Item.BindingParam.State.TransparentMode)
+            {
+                SetBinding(
+                    Window.OpacityProperty,
+                    new Binding("Value") { Source = Item.BindingParam.WindowOpacity });
+                Item.BindingParam.WindowOpacity.Enabled = true;
+            }
+            else
+            {
+                BindingOperations.ClearBinding(MainBase, Window.OpacityProperty);
+                Item.BindingParam.WindowOpacity.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// キー押下時イベント: Up
+        /// 透明化モード時⇒Opacity値上昇
+        /// </summary>
+        private void KeyEvent_PressUp()
+        {
+            if (Item.BindingParam.State.TransparentMode)
+            {
+                Item.BindingParam.WindowOpacity.Index++;
+            }
+        }
+
+        /// <summary>
+        /// キー押下時イベント: Down
+        /// /// 透明化モード時⇒Opacity値下降
+        /// </summary>
+        private void KeyEvent_PressDown()
+        {
+            if (Item.BindingParam.State.TransparentMode)
+            {
+                Item.BindingParam.WindowOpacity.Index--;
+            }
         }
     }
 }

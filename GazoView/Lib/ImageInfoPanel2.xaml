@@ -4,12 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GazoView.Lib"
+             xmlns:converter="clr-namespace:GazoView.Converter"
              mc:Ignorable="d">
     <UserControl.Resources>
         <Style TargetType="Label">
             <Setter Property="FontFamily" Value="Meiryo UI" />
             <Setter Property="FontSize" Value="12" />
         </Style>
+        <converter:BoolToStringConverter x:Key="boolToStringConverter" TrueValue="ON" FalseValue="OFF" />
     </UserControl.Resources>
 
     <Grid>
@@ -18,7 +20,7 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0" 
                Background="LightGray"
-               Opacity="0.50"/>
+               Opacity="0.45"/>
         <StackPanel Grid.Row="0" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="(" />
@@ -29,21 +31,27 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="トリミングモード：" Padding="5 5 0 5"/>
-                <Label Content="{Binding Setting.TrimmingModeText}" />
+                <Label Content="{Binding State.TrimmingMode, Converter={StaticResource boolToStringConverter}}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="拡縮モード：" Padding="5 5 0 5"/>
-                <Label Content="{Binding Setting.ScalingModeText}" />
+                <Label Content="{Binding State.ScalingMode, Converter={StaticResource boolToStringConverter}}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="透明モード：" Padding="5 5 0 5"/>
-                <Label Content="{Binding Setting.TransparentModeText}" />
+                <Label Content="{Binding State.TransparentMode, Converter={StaticResource boolToStringConverter}}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="倍率：" Padding="5 5 0 5"/>
                 <Label Content="100" />
                 <Label Content="%" Padding="0 5 5 5"/>
             </StackPanel>
+            <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
+                <Label Content="不透明度：" Padding="5 5 0 5"/>
+                <Label Content="{Binding WindowOpacity.Percent}" />
+                <Label Content="%" Padding="0 5 5 5"/>
+            </StackPanel>
+
         </StackPanel>
     </Grid>
 </UserControl>

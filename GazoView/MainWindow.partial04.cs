@@ -16,7 +16,7 @@ namespace GazoView
     {
         private void ChangeScalingMode(bool toScaling)
         {
-            Item.BindingParam.Setting.ScalingMode = toScaling;
+            Item.BindingParam.State.ScalingMode = toScaling;
             if (toScaling)
             {
 
