@@ -66,13 +66,10 @@ namespace GazoView
         /// </summary>
         private void KeyEvent_PressT()
         {
-            ToggleScalingMode();
-            /*
-            Item.BindingParam.State.TrimmingMode = !Item.BindingParam.State.TrimmingMode;
-
-            MainRow1.Height = new GridLength(
-                Item.BindingParam.State.TrimmingMode ? 25 : 0);
-            */
+            if (!Item.BindingParam.State.TransparentMode)
+            {
+                ToggleTrimmingMode();
+            }
         }
 
         /// <summary>
@@ -81,23 +78,10 @@ namespace GazoView
         /// </summary>
         private void KeyEvent_PressE()
         {
-            ToggleTransparentMode();
-            /*
-            Item.BindingParam.State.TransparentMode = !Item.BindingParam.State.TransparentMode;
-
-            if (Item.BindingParam.State.TransparentMode)
+            if (!Item.BindingParam.State.TrimmingMode)
             {
-                SetBinding(
-                    Window.OpacityProperty,
-                    new Binding("Value") { Source = Item.BindingParam.WindowOpacity });
-                Item.BindingParam.WindowOpacity.Enabled = true;
+                ToggleTransparentMode();
             }
-            else
-            {
-                BindingOperations.ClearBinding(MainBase, Window.OpacityProperty);
-                Item.BindingParam.WindowOpacity.Enabled = false;
-            }
-            */
         }
 
         /// <summary>

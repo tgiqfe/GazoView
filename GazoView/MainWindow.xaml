@@ -34,9 +34,9 @@
         </Grid.RowDefinitions>
 
         <lib:AdvancedScrollViewer Grid.Row="0"
-                                      DockPanel.Dock="Top"
-                                      HorizontalScrollBarVisibility="Auto"
-                                      VerticalScrollBarVisibility="Auto">
+                                  DockPanel.Dock="Top"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto">
             <Canvas Name="MainCanvas"
                         Margin="0"
                         MouseLeftButtonDown="Window_MouseLeftButtonDown">
