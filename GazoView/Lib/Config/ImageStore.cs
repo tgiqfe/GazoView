@@ -7,6 +7,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 
 namespace GazoView.Lib.Config
@@ -42,7 +43,9 @@ namespace GazoView.Lib.Config
                     _index = 0;
                 }
                 this.Current = new BitmapImageItem(FileList[Index]);
+
                 OnPropertyChanged("ImageSource");
+                OnPropertyChanged("Current");
             }
         }
 

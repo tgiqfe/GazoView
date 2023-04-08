@@ -23,6 +23,8 @@ namespace GazoView.Lib
         public TitleBar()
         {
             InitializeComponent();
+
+            this.DataContext = Item.BindingParam;
         }
     }
 }

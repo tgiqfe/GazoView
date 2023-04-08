@@ -21,5 +21,9 @@ namespace GazoView.Lib.Config
         double Width { get; }
 
         double Height { get; }
+
+        string Size { get; }
+
+        string LastWriteTime { get; }
     }
 }
