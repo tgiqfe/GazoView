@@ -28,28 +28,11 @@ namespace GazoView
             this.DataContext = Item.BindingParam;
 
             //  各モードの初期設定
-            ChangeScalingMode(toScaling: false);
-            //ChangeTriggminMode
-            //ChangeTransparentMode
-
-
-            //  サンプルで画像指定
-            using (var fs = new FileStream(@"D:\Test\sample\aaaa_p03.png", FileMode.Open, FileAccess.Read))
-            {
-                var bmp = new BitmapImage();
-                bmp.BeginInit();
-                bmp.CacheOption = BitmapCacheOption.OnLoad;
-                bmp.CreateOptions = BitmapCreateOptions.None;
-                bmp.StreamSource = fs;
-                bmp.EndInit();
-                bmp.Freeze();
-                
-                MainImage.Source = bmp;
-            }
+            ToggleScalingMode(toScaling: false);
+            ToggleTrimmingMode(toTrimming: false);
+            ToggleTransparentMode(toTransparent: false);
 
 
         }
-
-
     }
 }

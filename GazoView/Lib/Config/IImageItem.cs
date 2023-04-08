@@ -16,7 +16,7 @@ namespace GazoView.Lib.Config
 
         string FileExtension { get; }
 
-        ImageSource ImageSource { get; }
+        ImageSource Source { get; }
 
         double Width { get; }
 

@@ -15,6 +15,8 @@ namespace GazoView
 
         public State State { get; set; }
 
+        public ImageStore Images { get; set; }
+
         public OpacityRate WindowOpacity { get; set; }
 
         /// <summary>

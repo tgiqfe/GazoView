@@ -22,25 +22,29 @@
     <Window.Resources>
         <ResourceDictionary>
             <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="WindowResource.xaml" />
+                <ResourceDictionary Source="/Lib/WindowResource.xaml" />
             </ResourceDictionary.MergedDictionaries>
         </ResourceDictionary>
     </Window.Resources>
 
     <Grid Background="DimGray">
         <Grid.RowDefinitions>
-            <RowDefinition />
+            <RowDefinition Name="MainRow0" Height="*"/>
+            <RowDefinition Name="MainRow1" Height="0"/>
         </Grid.RowDefinitions>
+
         <lib:AdvancedScrollViewer Grid.Row="0"
-                                  HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto">
-            <Canvas Name="MainCanvas" 
-                    Margin="0"
-                    MouseLeftButtonDown="Window_MouseLeftButtonDown">
+                                      DockPanel.Dock="Top"
+                                      HorizontalScrollBarVisibility="Auto"
+                                      VerticalScrollBarVisibility="Auto">
+            <Canvas Name="MainCanvas"
+                        Margin="0"
+                        MouseLeftButtonDown="Window_MouseLeftButtonDown">
                 <Canvas.RenderTransform>
                     <MatrixTransform x:Name="matrixTransform"/>
                 </Canvas.RenderTransform>
                 <Image Name="MainImage"
+                       Source ="{Binding Images.ImageSource}"
                        Stretch="Uniform"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        RenderOptions.EdgeMode="Aliased"
@@ -52,10 +56,6 @@
             <lib:TitleBar DockPanel.Dock="Top" 
                             x:Name="InfoTitleBar"
                             Visibility="{Binding IsMouseOver, ElementName=MainBase, Converter={StaticResource boolToVisibilityConverter}}" />
-            <lib:TrimmingBar DockPanel.Dock="Bottom" 
-                             x:Name="InfoTrimmingBar"
-                             VerticalAlignment="Bottom"
-                             Visibility="{Binding State.TrimmingMode, Converter={StaticResource boolToVisibilityConverter}}" />
             <lib:ImageInfoPanel1 DockPanel.Dock="Left" 
                                  x:Name="InfoImage1"
                                  VerticalAlignment="Top"
@@ -66,5 +66,10 @@
                                  Visibility="Hidden"/>
             <Rectangle />
         </DockPanel>
+
+        <lib:TrimmingBar Grid.Row="1"
+                         x:Name="InfoTrimmingBar"
+                         VerticalAlignment="Bottom"
+                         Visibility="{Binding State.TrimmingMode, Converter={StaticResource boolToVisibilityConverter}}" />
     </Grid>
 </Window>

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Lib.Config;
+using System;
 using System.Collections.Generic;
 using System.Configuration;
 using System.Data;
@@ -15,7 +16,11 @@ namespace GazoView
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Item.BindingParam = new BindingParam();
+            Item.BindingParam = new BindingParam()
+            {
+                Images = new ImageStore(new string[] { @"D:\Test\sample" }),
+                //Collection = new ImageCollection(e.Args),
+            };
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

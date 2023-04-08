@@ -14,10 +14,38 @@ namespace GazoView
     /// </summary>
     public partial class MainWindow : Window
     {
-        private void ChangeScalingMode(bool toScaling)
+        /// <summary>
+        /// トリミングモードの切り替え
+        /// </summary>
+        /// <param name="toTrimming"></param>
+        private void ToggleTrimmingMode(bool? toTrimming = null)
         {
-            Item.BindingParam.State.ScalingMode = toScaling;
-            if (toScaling)
+            Item.BindingParam.State.TrimmingMode = toTrimming == null ?
+                !Item.BindingParam.State.TrimmingMode :
+                (bool)toTrimming;
+
+            if (Item.BindingParam.State.TrimmingMode)
+            {
+                MainRow1.Height = new GridLength(25);
+            }
+            else
+            {
+                MainRow1.Height = new GridLength(0);
+            }
+
+        }
+
+        /// <summary>
+        /// 拡縮モードの切り替え
+        /// </summary>
+        /// <param name="toScaling"></param>
+        private void ToggleScalingMode(bool? toScaling = null)
+        {
+            Item.BindingParam.State.ScalingMode = toScaling == null ?
+                !Item.BindingParam.State.ScalingMode :
+                (bool)toScaling;
+
+            if (Item.BindingParam.State.ScalingMode)
             {
 
             }
@@ -29,6 +57,30 @@ namespace GazoView
                 MainImage.SetBinding(
                     Image.HeightProperty,
                     new Binding("ActualHeight") { ElementName = "MainCanvas" });
+            }
+        }
+
+        /// <summary>
+        /// 透明モードの切り替え
+        /// </summary>
+        /// <param name="toTransparent"></param>
+        private void ToggleTransparentMode(bool? toTransparent = null)
+        {
+            Item.BindingParam.State.TransparentMode = toTransparent == null ?
+                !Item.BindingParam.State.TransparentMode :
+                (bool)toTransparent;
+
+            if (Item.BindingParam.State.TransparentMode)
+            {
+                SetBinding(
+                    Window.OpacityProperty,
+                    new Binding("Value") { Source = Item.BindingParam.WindowOpacity });
+                Item.BindingParam.WindowOpacity.Enabled = true;
+            }
+            else
+            {
+                BindingOperations.ClearBinding(MainBase, Window.OpacityProperty);
+                Item.BindingParam.WindowOpacity.Enabled = false;
             }
         }
 

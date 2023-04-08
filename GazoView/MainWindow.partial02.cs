@@ -26,6 +26,10 @@ namespace GazoView
                     KeyEvent_PressT(); break;
                 case Key.E:
                     KeyEvent_PressE(); break;
+                case Key.Left:
+                    KeyEvent_PressLeft(); break;
+                case Key.Right:
+                    KeyEvent_PressRight(); break;
                 case Key.Up:
                     KeyEvent_PressUp(); break;
                 case Key.Down:
@@ -62,7 +66,13 @@ namespace GazoView
         /// </summary>
         private void KeyEvent_PressT()
         {
+            ToggleScalingMode();
+            /*
             Item.BindingParam.State.TrimmingMode = !Item.BindingParam.State.TrimmingMode;
+
+            MainRow1.Height = new GridLength(
+                Item.BindingParam.State.TrimmingMode ? 25 : 0);
+            */
         }
 
         /// <summary>
@@ -71,6 +81,8 @@ namespace GazoView
         /// </summary>
         private void KeyEvent_PressE()
         {
+            ToggleTransparentMode();
+            /*
             Item.BindingParam.State.TransparentMode = !Item.BindingParam.State.TransparentMode;
 
             if (Item.BindingParam.State.TransparentMode)
@@ -85,6 +97,25 @@ namespace GazoView
                 BindingOperations.ClearBinding(MainBase, Window.OpacityProperty);
                 Item.BindingParam.WindowOpacity.Enabled = false;
             }
+            */
+        }
+
+        /// <summary>
+        /// キー押下時イベント: Left
+        /// 前の画像を表示
+        /// </summary>
+        private void KeyEvent_PressLeft()
+        {
+            Item.BindingParam.Images.Index--;
+        }
+
+        /// <summary>
+        /// キー押下時イベント: Right
+        /// 次の画像を表示
+        /// </summary>
+        private void KeyEvent_PressRight()
+        {
+            Item.BindingParam.Images.Index++;
         }
 
         /// <summary>
