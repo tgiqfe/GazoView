@@ -6,11 +6,26 @@
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
         mc:Ignorable="d"
+        Name="MainBase"
         WindowStyle="None"
         PreviewKeyDown="Window_PreviewKeyDown"
-        MouseEnter="Window_MouseEnter"
-        MouseLeave="Window_MouseLeave"
-        Width="{Binding Setting.Width}" Height="{Binding Setting.Height}">
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        SourceInitialized="Window_SourceInitialized"
+        SizeChanged="Window_SizeChanged"
+        Width="{Binding Setting.Width, Mode=TwoWay}"
+        Height="{Binding Setting.Height, Mode=TwoWay}"
+        Left="{Binding Setting.LocationX, Mode=TwoWay}"
+        Top="{Binding Setting.LocationY, Mode=TwoWay}"
+        UseLayoutRounding="True"
+        Style="{DynamicResource WindowChromeStyle}" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="WindowResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
     <Grid Background="DimGray">
         <Grid.RowDefinitions>
             <RowDefinition />
@@ -18,28 +33,36 @@
         <lib:AdvancedScrollViewer Grid.Row="0"
                                   HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
-            <Canvas Name="MainCanvas" Margin="0">
+            <Canvas Name="MainCanvas" 
+                    Margin="0"
+                    MouseLeftButtonDown="Window_MouseLeftButtonDown">
                 <Canvas.RenderTransform>
                     <MatrixTransform x:Name="matrixTransform"/>
                 </Canvas.RenderTransform>
                 <Image Name="MainImage"
-                    Stretch="Uniform"
-                    HorizontalAlignment="Center" VerticalAlignment="Center"
-                    RenderOptions.EdgeMode="Aliased"
-                    RenderOptions.BitmapScalingMode="Fant" />
+                       Stretch="Uniform"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderOptions.EdgeMode="Aliased"
+                       RenderOptions.BitmapScalingMode="Fant" />
             </Canvas>
         </lib:AdvancedScrollViewer>
 
         <DockPanel Grid.Row="0">
             <lib:TitleBar DockPanel.Dock="Top" 
                             x:Name="InfoTitleBar"
-                            Visibility="Hidden" />
+                            Visibility="{Binding IsMouseOver, ElementName=MainBase, Converter={StaticResource boolToVisibilityConverter}}" />
             <lib:TrimmingBar DockPanel.Dock="Bottom" 
-                               VerticalAlignment="Bottom"/>
+                             x:Name="InfoTrimmingBar"
+                             VerticalAlignment="Bottom"
+                             Visibility="Hidden" />
             <lib:ImageInfoPanel1 DockPanel.Dock="Left" 
-                                   VerticalAlignment="Top"/>
+                                 x:Name="InfoImage1"
+                                 VerticalAlignment="Top"
+                                 Visibility="Hidden"/>
             <lib:ImageInfoPanel2 DockPanel.Dock="Right"
-                                   VerticalAlignment="Top"/>
+                                 x:Name="InfoImage2"
+                                 VerticalAlignment="Top"
+                                 Visibility="Hidden"/>
             <Rectangle />
         </DockPanel>
     </Grid>

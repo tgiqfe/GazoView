@@ -1,16 +1,13 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
+using System.Text.Json.Serialization;
 
 namespace GazoView.Lib.Config
 {
-    internal class Setting
+    public class Setting
     {
-        #region size,location
+        #region Binding parameter (serialize)
 
         /// <summary>
         /// ウィンドウサイズ(横)
@@ -33,7 +30,55 @@ namespace GazoView.Lib.Config
         public double LocationY { get; set; }
 
         #endregion
-        #region alt apps
+        #region Binding parameter (not serialize)
+
+        /// <summary>
+        /// トリミングモード
+        /// </summary>
+        [JsonIgnore]
+        public bool TrimmingMode { get; set; }
+
+        /// <summary>
+        /// トリミングモード(テキスト出力)
+        /// </summary>
+        [JsonIgnore]
+        public string TrimmingModeText
+        {
+            get { return this.TrimmingMode ? "ON" : "OFF"; }
+        }
+
+        /// <summary>
+        /// 拡縮モード
+        /// </summary>
+        [JsonIgnore]
+        public bool ScalingMode { get; set; } 
+
+        /// <summary>
+        /// 拡縮モード(テキスト出力)
+        /// </summary>
+        [JsonIgnore]
+        public string ScalingModeText
+        {
+            get { return this.ScalingMode ? "ON" : "OFF"; }
+        }
+
+        /// <summary>
+        /// 透明化モード
+        /// </summary>
+        [JsonIgnore]
+        public bool TransparentMode { get; set; } 
+
+        /// <summary>
+        /// 透明化モード(テキスト出力)
+        /// </summary>
+        [JsonIgnore]
+        public string TransparentModeText
+        {
+            get { return this.TransparentMode ? "ON" : "OFF"; }
+        }
+
+        #endregion
+        #region Not binging parameter
 
         /// <summary>
         /// 外部アプリ1
@@ -80,9 +125,6 @@ namespace GazoView.Lib.Config
         /// </summary>
         public string AltenateApp9 { get; set; }
 
-        #endregion
-        #region other parameter
-
         /// <summary>
         /// ファイルリストの自動アップデートインターバル
         /// </summary>
@@ -104,6 +146,7 @@ namespace GazoView.Lib.Config
             catch
             {
                 var setting = new Setting();
+                setting.Init();
                 return setting;
             }
         }
@@ -122,6 +165,14 @@ namespace GazoView.Lib.Config
                 }
             }
             catch { }
+        }
+
+        public void Init()
+        {
+            this.Width = 800;
+            this.Height = 560;
+            this.LocationX = 50;
+            this.LocationY = 50;
         }
 
         #endregion

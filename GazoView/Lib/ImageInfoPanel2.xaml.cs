@@ -23,6 +23,8 @@ namespace GazoView.Lib
         public ImageInfoPanel2()
         {
             InitializeComponent();
+
+            this.DataContext = Item.BindingParam;
         }
     }
 }

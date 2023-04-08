@@ -13,14 +13,17 @@ namespace GazoView
     /// </summary>
     public partial class MainWindow : Window
     {
-        private void Window_MouseEnter(object sender, MouseEventArgs e)
+        /// <summary>
+        /// ウィンドウ全体でドラッグ可能にする
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            InfoTitleBar.Visibility = Visibility.Visible;
-        }
-
-        private void Window_MouseLeave(object sender, MouseEventArgs e)
-        {
-            InfoTitleBar.Visibility = Visibility.Hidden;
+            if (!Item.BindingParam.Setting.TrimmingMode)
+            {
+                this.DragMove();
+            }
         }
     }
 }

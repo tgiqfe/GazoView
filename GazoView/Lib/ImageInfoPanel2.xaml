@@ -7,6 +7,7 @@
              mc:Ignorable="d">
     <UserControl.Resources>
         <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Meiryo UI" />
             <Setter Property="FontSize" Value="12" />
         </Style>
     </UserControl.Resources>
@@ -28,15 +29,15 @@
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="トリミングモード：" Padding="5 5 0 5"/>
-                <Label Content="OFF" />
+                <Label Content="{Binding Setting.TrimmingModeText}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="拡縮モード：" Padding="5 5 0 5"/>
-                <Label Content="OFF" />
+                <Label Content="{Binding Setting.ScalingModeText}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="透明モード：" Padding="5 5 0 5"/>
-                <Label Content="OFF" />
+                <Label Content="{Binding Setting.TransparentModeText}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="倍率：" Padding="5 5 0 5"/>

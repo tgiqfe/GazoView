@@ -11,7 +11,7 @@
         </Grid.RowDefinitions>
         <Label Grid.Row="0"
                Background="Beige"
-               Opacity="0.75"/>
+               Opacity="0.60"/>
         <TextBlock Grid.Row="0"
                    Padding="5 3"
                    FontFamily="Meiryo UI"
