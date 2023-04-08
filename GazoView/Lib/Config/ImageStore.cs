@@ -24,7 +24,7 @@ namespace GazoView.Lib.Config
 
         public string Parent { get; private set; }
 
-        private List<string> FileList = null;
+        public List<string> FileList { get; private set; }
 
         private int _index = 0;
 
@@ -34,18 +34,19 @@ namespace GazoView.Lib.Config
             set
             {
                 _index = value;
-                if (_index < 0)
+                if (_index <= 0)
                 {
-                    _index = FileList.Count - 1;
+                    _index = FileList.Count;
                 }
-                else if (_index >= FileList.Count)
+                else if (_index > FileList.Count)
                 {
-                    _index = 0;
+                    _index = 1;
                 }
-                this.Current = new BitmapImageItem(FileList[Index]);
+                this.Current = new BitmapImageItem(FileList[_index - 1]);
 
                 OnPropertyChanged("ImageSource");
                 OnPropertyChanged("Current");
+                OnPropertyChanged();
             }
         }
 
@@ -71,7 +72,7 @@ namespace GazoView.Lib.Config
                     Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
                     OrderBy(x => x, new NaturalStringComparer()).
                     ToList();
-                this.Index = FileList.IndexOf(path);
+                this.Index = FileList.IndexOf(path) + 1;
             }
             else if (Directory.Exists(path))
             {
@@ -80,24 +81,15 @@ namespace GazoView.Lib.Config
                     Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
                     OrderBy(x => x, new NaturalStringComparer()).
                     ToList();
-                this.Index = 0;
+                this.Index = 1;
             }
         }
 
         #endregion
         #region Inotify change
 
-        /// <summary>
-        /// 変更通知用
-        /// 参考)
-        /// https://learn.microsoft.com/ja-jp/dotnet/desktop/wpf/data/how-to-implement-property-change-notification?view=netframeworkdesktop-4.8
-        /// </summary>
         public event PropertyChangedEventHandler PropertyChanged;
 
-        /// <summary>
-        /// 変更通知用メソッド
-        /// </summary>
-        /// <param name="name"></param>
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
             PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));

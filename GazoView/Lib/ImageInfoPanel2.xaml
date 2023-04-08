@@ -24,9 +24,9 @@
         <StackPanel Grid.Row="0" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
                 <Label Content="(" />
-                <Label Content="1" />
+                <Label Content="{Binding Images.Index}" />
                 <Label Content="/" />
-                <Label Content="5" />
+                <Label Content="{Binding Images.FileList.Count}" />
                 <Label Content=")" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
