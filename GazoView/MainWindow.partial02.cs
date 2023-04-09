@@ -125,8 +125,8 @@ namespace GazoView
         private void KeyEvent_PressUp()
         {
             if (Item.BindingParam.State.TransparentMode &&
-                ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) == KeyStates.Down ||
-                (Keyboard.GetKeyStates(Key.RightCtrl) & KeyStates.Down) == KeyStates.Down))
+                ((Keyboard.GetKeyStates(Key.LeftShift) & KeyStates.Down) == KeyStates.Down ||
+                (Keyboard.GetKeyStates(Key.RightShift) & KeyStates.Down) == KeyStates.Down))
             {
                 Item.BindingParam.WindowOpacity.Index++;
             }
@@ -139,8 +139,8 @@ namespace GazoView
         private void KeyEvent_PressDown()
         {
             if (Item.BindingParam.State.TransparentMode &&
-                ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) == KeyStates.Down ||
-                (Keyboard.GetKeyStates(Key.RightCtrl) & KeyStates.Down) == KeyStates.Down))
+                ((Keyboard.GetKeyStates(Key.LeftShift) & KeyStates.Down) == KeyStates.Down ||
+                (Keyboard.GetKeyStates(Key.RightShift) & KeyStates.Down) == KeyStates.Down))
             {
                 Item.BindingParam.WindowOpacity.Index--;
             }

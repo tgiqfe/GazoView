@@ -36,7 +36,10 @@
         <lib:AdvancedScrollViewer Grid.Row="0"
                                   x:Name="ScrollViewer"
                                   HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto">
+                                  VerticalScrollBarVisibility="Auto"
+                                  MouseMove="ScrollViewer_MouseMove"
+                                  PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
+                                  PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
             <Canvas Name="MainCanvas"
                     Margin="0"
                     MouseLeftButtonDown="Window_MouseLeftButtonDown"

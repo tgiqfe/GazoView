@@ -41,54 +41,53 @@ namespace GazoView
             if ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) == KeyStates.Down ||
                 (Keyboard.GetKeyStates(Key.RightCtrl) & KeyStates.Down) == KeyStates.Down)
             {
-                if (Item.BindingParam.State.TransparentMode)
+                //  拡縮モードで拡大/縮小率変更
+                if (!Item.BindingParam.State.ScalingMode)
                 {
-                    //  透明モード時
-                    if (e.Delta > 0)
-                    {
-                        //  ホイール上方向で、不透明度を一段階上げる
-                        Item.BindingParam.WindowOpacity.Index++;
-                    }
-                    else if (e.Delta < 0)
-                    {
-                        //  ホイール下方向で、不透明度を一段階下げる
-                        Item.BindingParam.WindowOpacity.Index--;
-                    }
+                    ToggleScalingMode(true);
                 }
-                else
+
+                if (e.Delta > 0)
                 {
-                    //  拡縮モードで拡大/縮小率変更
-                    if (!Item.BindingParam.State.ScalingMode)
-                    {
-                        ToggleScalingMode(true);
-                    }
+                    //  ホイール上方向で、拡大率を一段階上げる
+                    Item.BindingParam.ImageSizeRate.Index++;
+                }
+                else if (e.Delta < 0)
+                {
+                    //  ホイール下方向で、拡大率を一段階下げる
+                    Item.BindingParam.ImageSizeRate.Index--;
+                }
 
-                    if (e.Delta > 0)
-                    {
-                        //  ホイール上方向で、拡大率を一段階上げる
-                        Item.BindingParam.ImageSizeRate.Index++;
-                    }
-                    else if (e.Delta < 0)
-                    {
-                        //  ホイール下方向で、拡大率を一段階下げる
-                        Item.BindingParam.ImageSizeRate.Index--;
-                    }
+                double scale = Item.BindingParam.ImageSizeRate.Value / Item.BindingParam.ImageSizeRate.PrevValue;
+                MainCanvas.Width *= scale;
+                MainCanvas.Height *= scale;
 
-                    double scale = Item.BindingParam.ImageSizeRate.Value / Item.BindingParam.ImageSizeRate.PrevValue;
-                    MainCanvas.Width *= scale;
-                    MainCanvas.Height *= scale;
+                Matrix matrix = new();
+                matrix.Scale(Item.BindingParam.ImageSizeRate.Value, Item.BindingParam.ImageSizeRate.Value);
+                MainCanvas.RenderTransform = new MatrixTransform(matrix);
 
-                    Matrix matrix = new();
-                    matrix.Scale(Item.BindingParam.ImageSizeRate.Value, Item.BindingParam.ImageSizeRate.Value);
-                    MainCanvas.RenderTransform = new MatrixTransform(matrix);
+                Point mousePoint = e.GetPosition(ScrollViewer);
+                double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
+                ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
+                double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
+                ScrollViewer.ScrollToVerticalOffset(y_barOffset);
 
-                    Point mousePoint = e.GetPosition(ScrollViewer);
-                    double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
-                    ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
-                    double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
-                    ScrollViewer.ScrollToVerticalOffset(y_barOffset);
-
-                    Item.BindingParam.ImageSizeRate.PrevValue = Item.BindingParam.ImageSizeRate.Value;
+                Item.BindingParam.ImageSizeRate.PrevValue = Item.BindingParam.ImageSizeRate.Value;
+            }
+            else if (Item.BindingParam.State.TransparentMode &&
+                ((Keyboard.GetKeyStates(Key.LeftShift) & KeyStates.Down) == KeyStates.Down ||
+                (Keyboard.GetKeyStates(Key.RightShift) & KeyStates.Down) == KeyStates.Down))
+            {
+                //  透明モード時
+                if (e.Delta > 0)
+                {
+                    //  ホイール上方向で、不透明度を一段階上げる
+                    Item.BindingParam.WindowOpacity.Index++;
+                }
+                else if (e.Delta < 0)
+                {
+                    //  ホイール下方向で、不透明度を一段階下げる
+                    Item.BindingParam.WindowOpacity.Index--;
                 }
             }
             else
@@ -115,6 +114,54 @@ namespace GazoView
         {
             MainCanvas.Width = e.NewSize.Width * Item.BindingParam.ImageSizeRate.Value;
             MainCanvas.Height = e.NewSize.Height * Item.BindingParam.ImageSizeRate.Value;
+        }
+
+
+        /// <summary>
+        /// 拡縮モードで、右クリックで画像移動 (開始)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Item.BindingParam.State.ScalingMode)
+            {
+                e.Handled = true;
+                Item.StartPoint_RightButtonMove = e.GetPosition(ScrollViewer);
+                Item.StartPosition_RightButtonMove = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
+                ScrollViewer.Cursor = Cursors.ScrollAll;
+            }
+        }
+
+        /// <summary>
+        /// 拡縮モードで、右クリックで画像移動
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Item.BindingParam.State.ScalingMode && e.RightButton == MouseButtonState.Pressed)
+            {
+                Point _currentPoint = e.GetPosition(ScrollViewer);
+                double moveX = Item.StartPosition_RightButtonMove.X - (_currentPoint.X - Item.StartPoint_RightButtonMove.X);
+                double moveY = Item.StartPosition_RightButtonMove.Y - (_currentPoint.Y - Item.StartPoint_RightButtonMove.Y);
+                ScrollViewer.ScrollToHorizontalOffset(moveX);
+                ScrollViewer.ScrollToVerticalOffset(moveY);
+            }
+            else
+            {
+                ScrollViewer.Cursor = Cursors.Arrow;
+            }
+        }
+
+        /// <summary>
+        /// 拡縮モードで、右クリックで画像移動 (終了)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ScrollViewer.Cursor = Cursors.Arrow;
         }
     }
 }
