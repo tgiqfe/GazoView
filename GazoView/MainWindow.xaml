@@ -12,8 +12,8 @@
         AllowsTransparency="True"
         PreviewKeyDown="Window_PreviewKeyDown"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseWheel="MainBase_MouseWheel"
         SourceInitialized="Window_SourceInitialized"
-        SizeChanged="Window_SizeChanged"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.LocationX, Mode=TwoWay}"
@@ -34,21 +34,20 @@
         </Grid.RowDefinitions>
 
         <lib:AdvancedScrollViewer Grid.Row="0"
-                                  DockPanel.Dock="Top"
+                                  x:Name="ScrollViewer"
                                   HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto">
             <Canvas Name="MainCanvas"
-                        Margin="0"
-                        MouseLeftButtonDown="Window_MouseLeftButtonDown">
-                <Canvas.RenderTransform>
-                    <MatrixTransform x:Name="matrixTransform"/>
-                </Canvas.RenderTransform>
+                    Margin="0"
+                    MouseLeftButtonDown="Window_MouseLeftButtonDown"
+                    MouseWheel="MainBase_MouseWheel">
                 <Image Name="MainImage"
                        Source ="{Binding Images.ImageSource}"
                        Stretch="Uniform"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        RenderOptions.EdgeMode="Aliased"
-                       RenderOptions.BitmapScalingMode="Fant" />
+                       RenderOptions.BitmapScalingMode="Fant"
+                       SizeChanged="MainImage_SizeChanged"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
 

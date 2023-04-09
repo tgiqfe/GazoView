@@ -16,6 +16,8 @@ namespace GazoView
     {
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            e.Handled = true;
+
             switch (e.Key)
             {
                 case Key.Escape:
@@ -24,6 +26,8 @@ namespace GazoView
                     KeyEvent_PressD(); break;
                 case Key.T:
                     KeyEvent_PressT(); break;
+                case Key.R:
+                    KeyEvent_PressR(); break;
                 case Key.E:
                     KeyEvent_PressE(); break;
                 case Key.Left:
@@ -70,6 +74,15 @@ namespace GazoView
             {
                 ToggleTrimmingMode();
             }
+        }
+
+        /// <summary>
+        /// キー押下イベント: R
+        /// 拡縮モード
+        /// </summary>
+        private void KeyEvent_PressR()
+        {
+            ToggleScalingMode();
         }
 
         /// <summary>

@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Data;
 using System.Windows.Controls;
+using System.Windows.Media;
 
 namespace GazoView
 {
@@ -41,13 +42,16 @@ namespace GazoView
         /// <param name="toScaling"></param>
         private void ToggleScalingMode(bool? toScaling = null)
         {
+
             Item.BindingParam.State.ScalingMode = toScaling == null ?
                 !Item.BindingParam.State.ScalingMode :
                 (bool)toScaling;
 
             if (Item.BindingParam.State.ScalingMode)
             {
-
+                BindingOperations.ClearBinding(MainImage, Image.WidthProperty);
+                BindingOperations.ClearBinding(MainImage, Image.HeightProperty);
+                Item.BindingParam.ImageSizeRate.Enabled = true;
             }
             else
             {
@@ -57,6 +61,18 @@ namespace GazoView
                 MainImage.SetBinding(
                     Image.HeightProperty,
                     new Binding("ActualHeight") { ElementName = "MainCanvas" });
+                Item.BindingParam.ImageSizeRate.Enabled = false;
+
+                if (MainCanvas.Width != Item.BindingParam.Setting.Width ||
+                    MainCanvas.Height != Item.BindingParam.Setting.Height)
+                {
+                    Item.BindingParam.ImageSizeRate.Value = 1;
+                    MainCanvas.Width = Item.BindingParam.Setting.Width;
+                    MainCanvas.Height = Item.BindingParam.Setting.Height;
+                    Matrix matrix = new();
+                    matrix.Scale(1, 1);
+                    MainCanvas.RenderTransform = new MatrixTransform(matrix);
+                }
             }
         }
 
@@ -82,21 +98,6 @@ namespace GazoView
                 BindingOperations.ClearBinding(MainBase, Window.OpacityProperty);
                 Item.BindingParam.WindowOpacity.Enabled = false;
             }
-        }
-
-        /// <summary>
-        /// ウィンドウサイズ変更時
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_SizeChanged(object sender, SizeChangedEventArgs e)
-        {
-            
-
-
-            
-
-
         }
     }
 }

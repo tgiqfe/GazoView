@@ -42,8 +42,8 @@
                 <Label Content="{Binding State.TransparentMode, Converter={StaticResource boolToStringConverter}}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">
-                <Label Content="倍率：" Padding="5 5 0 5"/>
-                <Label Content="100" />
+                <Label Content="拡大率：" Padding="5 5 0 5"/>
+                <Label Content="{Binding ImageSizeRate.Percent}" />
                 <Label Content="%" Padding="0 5 5 5"/>
             </StackPanel>
             <StackPanel Orientation="Horizontal" HorizontalAlignment="Right">

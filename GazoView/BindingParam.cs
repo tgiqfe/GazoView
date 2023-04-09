@@ -19,6 +19,8 @@ namespace GazoView
 
         public OpacityRate WindowOpacity { get; set; }
 
+        public ScalingRate ImageSizeRate { get; set; }
+
         /// <summary>
         /// アプリケーション起動時
         /// </summary>
@@ -27,6 +29,7 @@ namespace GazoView
             this.Setting = Setting.Load(CONF_SETTING);
             this.State = new();
             this.WindowOpacity = new();
+            this.ImageSizeRate = new();
         }
 
         /// <summary>

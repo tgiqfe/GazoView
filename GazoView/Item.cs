@@ -12,7 +12,5 @@ namespace GazoView
     class Item
     {
         public static BindingParam BindingParam = null;
-
-
     }
 }
