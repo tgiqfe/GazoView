@@ -82,7 +82,10 @@ namespace GazoView
         /// </summary>
         private void KeyEvent_PressR()
         {
-            ToggleScalingMode();
+            if (!Item.BindingParam.State.TransparentMode)
+            {
+                ToggleScalingMode();
+            }
         }
 
         /// <summary>
@@ -121,7 +124,9 @@ namespace GazoView
         /// </summary>
         private void KeyEvent_PressUp()
         {
-            if (Item.BindingParam.State.TransparentMode)
+            if (Item.BindingParam.State.TransparentMode &&
+                ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) == KeyStates.Down ||
+                (Keyboard.GetKeyStates(Key.RightCtrl) & KeyStates.Down) == KeyStates.Down))
             {
                 Item.BindingParam.WindowOpacity.Index++;
             }
@@ -133,7 +138,9 @@ namespace GazoView
         /// </summary>
         private void KeyEvent_PressDown()
         {
-            if (Item.BindingParam.State.TransparentMode)
+            if (Item.BindingParam.State.TransparentMode &&
+                ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) == KeyStates.Down ||
+                (Keyboard.GetKeyStates(Key.RightCtrl) & KeyStates.Down) == KeyStates.Down))
             {
                 Item.BindingParam.WindowOpacity.Index--;
             }

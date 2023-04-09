@@ -42,7 +42,6 @@ namespace GazoView
         /// <param name="toScaling"></param>
         private void ToggleScalingMode(bool? toScaling = null)
         {
-
             Item.BindingParam.State.ScalingMode = toScaling == null ?
                 !Item.BindingParam.State.ScalingMode :
                 (bool)toScaling;

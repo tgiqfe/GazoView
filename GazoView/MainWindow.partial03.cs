@@ -41,37 +41,55 @@ namespace GazoView
             if ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) == KeyStates.Down ||
                 (Keyboard.GetKeyStates(Key.RightCtrl) & KeyStates.Down) == KeyStates.Down)
             {
-                if (!Item.BindingParam.State.ScalingMode)
+                if (Item.BindingParam.State.TransparentMode)
                 {
-                    ToggleScalingMode(true);
-                }
-
-                if (e.Delta > 0)
-                {
-                    //  ホイール上方向で、拡大率を一段階上げる
-                    Item.BindingParam.ImageSizeRate.Index++;
+                    //  透明モード時
+                    if (e.Delta > 0)
+                    {
+                        //  ホイール上方向で、不透明度を一段階上げる
+                        Item.BindingParam.WindowOpacity.Index++;
+                    }
+                    else if (e.Delta < 0)
+                    {
+                        //  ホイール下方向で、不透明度を一段階下げる
+                        Item.BindingParam.WindowOpacity.Index--;
+                    }
                 }
                 else
                 {
-                    //  ホイール下方向で、拡大率を一段階下げる
-                    Item.BindingParam.ImageSizeRate.Index--;
+                    //  拡縮モードで拡大/縮小率変更
+                    if (!Item.BindingParam.State.ScalingMode)
+                    {
+                        ToggleScalingMode(true);
+                    }
+
+                    if (e.Delta > 0)
+                    {
+                        //  ホイール上方向で、拡大率を一段階上げる
+                        Item.BindingParam.ImageSizeRate.Index++;
+                    }
+                    else if (e.Delta < 0)
+                    {
+                        //  ホイール下方向で、拡大率を一段階下げる
+                        Item.BindingParam.ImageSizeRate.Index--;
+                    }
+
+                    double scale = Item.BindingParam.ImageSizeRate.Value / Item.BindingParam.ImageSizeRate.PrevValue;
+                    MainCanvas.Width *= scale;
+                    MainCanvas.Height *= scale;
+
+                    Matrix matrix = new();
+                    matrix.Scale(Item.BindingParam.ImageSizeRate.Value, Item.BindingParam.ImageSizeRate.Value);
+                    MainCanvas.RenderTransform = new MatrixTransform(matrix);
+
+                    Point mousePoint = e.GetPosition(ScrollViewer);
+                    double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
+                    ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
+                    double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
+                    ScrollViewer.ScrollToVerticalOffset(y_barOffset);
+
+                    Item.BindingParam.ImageSizeRate.PrevValue = Item.BindingParam.ImageSizeRate.Value;
                 }
-
-                double scale = Item.BindingParam.ImageSizeRate.Value / Item.BindingParam.ImageSizeRate.PrevValue;
-                MainCanvas.Width *= scale;
-                MainCanvas.Height *= scale;
-
-                Matrix matrix = new();
-                matrix.Scale(Item.BindingParam.ImageSizeRate.Value, Item.BindingParam.ImageSizeRate.Value);
-                MainCanvas.RenderTransform = new MatrixTransform(matrix);
-
-                Point mousePoint = e.GetPosition(ScrollViewer);
-                double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
-                ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
-                double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
-                ScrollViewer.ScrollToVerticalOffset(y_barOffset);
-
-                Item.BindingParam.ImageSizeRate.PrevValue = Item.BindingParam.ImageSizeRate.Value;
             }
             else
             {
