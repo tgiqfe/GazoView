@@ -7,6 +7,7 @@ using System.Windows;
 using System.Windows.Data;
 using System.Windows.Controls;
 using System.Windows.Media;
+using GazoView.Lib.Functions;
 
 namespace GazoView
 {
@@ -66,8 +67,8 @@ namespace GazoView
                     MainCanvas.Height != Item.BindingParam.Setting.Height)
                 {
                     Item.BindingParam.ImageSizeRate.Value = 1;
-                    MainCanvas.Width = Item.BindingParam.Setting.Width;
-                    MainCanvas.Height = Item.BindingParam.Setting.Height;
+                    MainCanvas.Width = double.NaN;
+                    MainCanvas.Height = double.NaN;
                     Matrix matrix = new();
                     matrix.Scale(1, 1);
                     MainCanvas.RenderTransform = new MatrixTransform(matrix);
@@ -96,6 +97,30 @@ namespace GazoView
             {
                 BindingOperations.ClearBinding(MainBase, Window.OpacityProperty);
                 Item.BindingParam.WindowOpacity.Enabled = false;
+            }
+        }
+
+        /// <summary>
+        /// 最大化/最小化
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainBase_StateChanged(object sender, EventArgs e)
+        {
+            switch (this.WindowState)
+            {
+                case WindowState.Minimized:
+                    WorkingSet.Shrink();
+
+                    //  その他最小化時の処理をここに
+
+                    break;
+                case WindowState.Normal:
+                case WindowState.Maximized:
+
+                    //  その他通常化/最大化時の処理をここに
+
+                    break; ;
             }
         }
     }

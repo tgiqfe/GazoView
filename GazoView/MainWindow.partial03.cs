@@ -74,20 +74,22 @@ namespace GazoView
 
                 Item.BindingParam.ImageSizeRate.PrevValue = Item.BindingParam.ImageSizeRate.Value;
             }
-            else if (Item.BindingParam.State.TransparentMode &&
-                ((Keyboard.GetKeyStates(Key.LeftShift) & KeyStates.Down) == KeyStates.Down ||
-                (Keyboard.GetKeyStates(Key.RightShift) & KeyStates.Down) == KeyStates.Down))
+            else if ((Keyboard.GetKeyStates(Key.LeftShift) & KeyStates.Down) == KeyStates.Down ||
+                (Keyboard.GetKeyStates(Key.RightShift) & KeyStates.Down) == KeyStates.Down)
             {
-                //  透明モード時
-                if (e.Delta > 0)
+                if (Item.BindingParam.State.TransparentMode)
                 {
-                    //  ホイール上方向で、不透明度を一段階上げる
-                    Item.BindingParam.WindowOpacity.Index++;
-                }
-                else if (e.Delta < 0)
-                {
-                    //  ホイール下方向で、不透明度を一段階下げる
-                    Item.BindingParam.WindowOpacity.Index--;
+                    //  透明モード時
+                    if (e.Delta > 0)
+                    {
+                        //  ホイール上方向で、不透明度を一段階上げる
+                        Item.BindingParam.WindowOpacity.Index++;
+                    }
+                    else if (e.Delta < 0)
+                    {
+                        //  ホイール下方向で、不透明度を一段階下げる
+                        Item.BindingParam.WindowOpacity.Index--;
+                    }
                 }
             }
             else
@@ -112,8 +114,11 @@ namespace GazoView
         /// <param name="e"></param>
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            MainCanvas.Width = e.NewSize.Width * Item.BindingParam.ImageSizeRate.Value;
-            MainCanvas.Height = e.NewSize.Height * Item.BindingParam.ImageSizeRate.Value;
+            if (Item.BindingParam.State.ScalingMode)
+            {
+                MainCanvas.Width = e.NewSize.Width * Item.BindingParam.ImageSizeRate.Value;
+                MainCanvas.Height = e.NewSize.Height * Item.BindingParam.ImageSizeRate.Value;
+            }
         }
 
 

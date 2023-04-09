@@ -14,6 +14,8 @@ namespace GazoView
     {
         public static BindingParam BindingParam = null;
 
+        public static MainWindow MainBase = null;
+
         /// <summary>
         /// 拡縮モードで右クリック移動する場合の開始位置
         /// </summary>

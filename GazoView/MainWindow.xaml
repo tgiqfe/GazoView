@@ -14,6 +14,7 @@
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         MouseWheel="MainBase_MouseWheel"
         SourceInitialized="Window_SourceInitialized"
+        StateChanged="MainBase_StateChanged"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.LocationX, Mode=TwoWay}"
@@ -69,6 +70,8 @@
             <Rectangle />
         </DockPanel>
 
+        <lib:CaptionButtons Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        
         <lib:TrimmingBar Grid.Row="1"
                          x:Name="InfoTrimmingBar"
                          VerticalAlignment="Bottom"

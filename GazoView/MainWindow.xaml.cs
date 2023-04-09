@@ -27,12 +27,16 @@ namespace GazoView
 
             this.DataContext = Item.BindingParam;
 
-            //  各モードの初期設定
-            ToggleScalingMode(toScaling: false);
-            ToggleTrimmingMode(toTrimming: false);
-            ToggleTransparentMode(toTransparent: false);
+            //  自オブジェクトをItemに登録
+            Item.MainBase = this;
 
-
+            //  ウィンドウサイズ変更用バイディングを初期セット
+            MainImage.SetBinding(
+                Image.WidthProperty,
+                new Binding("ActualWidth") { ElementName = "MainCanvas" });
+            MainImage.SetBinding(
+                Image.HeightProperty,
+                new Binding("ActualHeight") { ElementName = "MainCanvas" });
         }
 
 
