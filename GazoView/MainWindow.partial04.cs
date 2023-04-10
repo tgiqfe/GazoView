@@ -123,5 +123,15 @@ namespace GazoView
                     break; ;
             }
         }
+
+        /// <summary>
+        /// アクティブになった場合の処理
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainBase_Activated(object sender, EventArgs e)
+        {
+            Item.ProcessManager.MoveToFront();
+        }
     }
 }

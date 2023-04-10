@@ -24,8 +24,8 @@
         <TextBox Width="50" />
         <Label Content="Bottom:" />
         <TextBox Width="50" />
-        <Label Content="Size:" />
-        <Label Content="1028" Padding="10 5 0 5" />
+        <Label Content="Size:" Padding="10 5 0 5"/>
+        <Label Content="1028" Padding="5 5 0 5" />
         <Label Content="x" />
         <Label Content="768" Padding="0 5 15 5" />
         <ComboBox Width="250" />

@@ -57,31 +57,73 @@ namespace GazoView.Lib.Config
             get { return Current.Source; }
         }
 
-        #region Constructor
+        #region Set image
 
         public ImageStore() { }
 
         public ImageStore(string[] paths)
         {
-            string path = paths[0];
+            SetFileList(paths);
+        }
 
-            if (File.Exists(path))
+        public void UpdateFileList(string[] paths)
+        {
+            SetFileList(paths);
+            OnPropertyChanged("FileList");
+        }
+
+        /// <summary>
+        /// 画像ファイルのリストをセット
+        /// </summary>
+        /// <param name="paths"></param>
+        private void SetFileList(string[] paths)
+        {
+            if (paths.Length == 1)
             {
-                this.Parent = Path.GetDirectoryName(path);
-                this.FileList = Directory.GetFiles(Parent).
-                    Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
-                    OrderBy(x => x, new NaturalStringComparer()).
-                    ToList();
-                this.Index = FileList.IndexOf(path) + 1;
+                if (File.Exists(paths[0]))
+                {
+                    //  ファイルを1つのみ選択 (選択フォルダーと、同階層のファイルをリスト化)
+                    this.Parent = Path.GetDirectoryName(paths[0]);
+                    this.FileList = Directory.GetFiles(Parent).
+                        Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
+                        OrderBy(x => x, new NaturalStringComparer()).
+                        ToList();
+                    this.Index = FileList.IndexOf(paths[0]) + 1;
+                }
+                else if (Directory.Exists(paths[0]))
+                {
+                    //  フォルダーを一つのみ選択 (選択フォルダー配下の全ファイルをリスト化)
+                    this.Parent = paths[0];
+                    this.FileList = Directory.GetFiles(Parent).
+                        Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
+                        OrderBy(x => x, new NaturalStringComparer()).
+                        ToList();
+                    this.Index = 1;
+                }
             }
-            else if (Directory.Exists(path))
+            else if (paths.Length > 1)
             {
-                this.Parent = path;
-                this.FileList = Directory.GetFiles(Parent).
-                    Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
-                    OrderBy(x => x, new NaturalStringComparer()).
-                    ToList();
-                this.Index = 1;
+                if (File.Exists(paths[0]))
+                {
+                    //  ファイルを複数選択。少なくとも最初の1つがファイル (選択ファイルのみをリスト化)
+                    this.Parent = Path.GetDirectoryName(paths[0]);
+                    this.FileList = paths.
+                        Where(x => File.Exists(x)).
+                        Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
+                        OrderBy(x => x, new NaturalStringComparer()).
+                        ToList();
+                    this.Index = FileList.IndexOf(paths[0]) + 1;
+                }
+                else if (Directory.Exists(paths[0]))
+                {
+                    //  フォルダーを複数選択。少なくとも最初の1つがフォルダー (1つ目フォルダーの配下全ファイルをリスト化)
+                    this.Parent = paths[0];
+                    this.FileList = Directory.GetFiles(Parent).
+                        Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
+                        OrderBy(x => x, new NaturalStringComparer()).
+                        ToList();
+                    this.Index = 1;
+                }
             }
         }
 

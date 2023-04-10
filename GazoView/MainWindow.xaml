@@ -15,6 +15,7 @@
         MouseWheel="MainBase_MouseWheel"
         SourceInitialized="Window_SourceInitialized"
         StateChanged="MainBase_StateChanged"
+        Activated="MainBase_Activated"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.LocationX, Mode=TwoWay}"

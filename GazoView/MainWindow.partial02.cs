@@ -22,6 +22,7 @@ namespace GazoView
             {
                 case Key.Escape:
                     KeyEvent_PressEsc(); break;
+                case Key.Tab:
                 case Key.D:
                     KeyEvent_PressD(); break;
                 case Key.T:

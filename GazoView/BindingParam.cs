@@ -9,8 +9,6 @@ namespace GazoView
 {
     class BindingParam
     {
-        const string CONF_SETTING = "Setting.json";
-
         public Setting Setting { get; set; }
 
         public State State { get; set; }
@@ -26,7 +24,7 @@ namespace GazoView
         /// </summary>
         public BindingParam()
         {
-            this.Setting = Setting.Load(CONF_SETTING);
+            this.Setting = Setting.Load(Item.FilePath.SettingFile);
             this.State = new();
             this.WindowOpacity = new();
             this.ImageSizeRate = new();
@@ -37,7 +35,7 @@ namespace GazoView
         /// </summary>
         public void Close()
         {
-            Setting.Save(CONF_SETTING);
+            Setting.Save(Item.FilePath.SettingFile);
         }
     }
 }
