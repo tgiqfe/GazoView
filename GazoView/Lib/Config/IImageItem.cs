@@ -10,11 +10,17 @@ namespace GazoView.Lib.Config
 {
     interface IImageItem
     {
-        string FileName { get; }
+        string FileName { get; set; }
 
-        string FilePath { get; }
+        string FilePath { get; set; }
 
-        string FileExtension { get; }
+        string FileExtension { get; set; }
+
+        string LabelFileName { get; }
+
+        string LabelFilePath { get; }
+
+        string LabelFileExtension { get; }
 
         ImageSource Source { get; }
 

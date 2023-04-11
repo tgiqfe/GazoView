@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -167,6 +168,55 @@ namespace GazoView
         private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             ScrollViewer.Cursor = Cursors.Arrow;
+        }
+
+        /// <summary>
+        /// ファイルをDragOver
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainBase_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            if (e.Data.GetData(DataFormats.FileDrop) is string[] dropFiles)
+            {
+                if (File.Exists(dropFiles[0]) || Directory.Exists(dropFiles[0]))
+                {
+                    e.Effects = DragDropEffects.Copy;
+                    MainImage.Opacity = 0.6;
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3187F0"));
+                }
+                else
+                {
+                    e.Effects = DragDropEffects.None;
+                }
+                e.Handled = true;
+            }
+        }
+
+        /// <summary>
+        /// DragOverしていたファイルをLeave
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainBase_PreviewDragLeave(object sender, DragEventArgs e)
+        {
+            MainImage.Opacity = 1;
+            this.Background = Brushes.DimGray;
+        }
+
+        /// <summary>
+        /// ファイルをDropIn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void MainBase_PreviewDrop(object sender, DragEventArgs e)
+        {
+            MainImage.Opacity = 1;
+            this.Background = Brushes.DimGray;
+            if (e.Data.GetData(DataFormats.FileDrop) is string[] dropFiles)
+            {
+                Item.BindingParam.Images.UpdateFileList(dropFiles);
+            }
         }
     }
 }

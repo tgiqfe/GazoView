@@ -78,6 +78,11 @@ namespace GazoView.Lib.Config
         public string AltenateApp9 { get; set; }
 
         /// <summary>
+        /// 外部アプリ10
+        /// </summary>
+        public string AltenateApp0 { get; set; }
+
+        /// <summary>
         /// ファイルリストの自動アップデートインターバル
         /// </summary>
         public int FileListUpdateInterval { get; set; }

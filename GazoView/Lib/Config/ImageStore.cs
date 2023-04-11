@@ -1,4 +1,5 @@
 ﻿using GazoView.Lib.Functions;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.ComponentModel;
@@ -54,7 +55,7 @@ namespace GazoView.Lib.Config
 
         public ImageSource ImageSource
         {
-            get { return Current.Source; }
+            get { return Current?.Source; }
         }
 
         #region Set image
@@ -124,6 +125,70 @@ namespace GazoView.Lib.Config
                         ToList();
                     this.Index = 1;
                 }
+            }
+        }
+
+        /// <summary>
+        /// ファイルの削除
+        /// </summary>
+        /// <param name="force"></param>
+        public void DeleteCurrentFile(bool force)
+        {
+            if (FileList?.Count > 0)
+            {
+                //  ★ここでファイルリストの自動サーチを一時停止
+
+                int afterIndex = _index;
+                if (afterIndex >= FileList.Count)
+                {
+                    afterIndex -= 1;
+                }
+
+                if (force)
+                {
+                    string target = Item.BindingParam.Images.Current.FilePath;
+                    File.Delete(target);
+                }
+                else
+                {
+                    string target = Item.BindingParam.Images.Current.FilePath;
+                    FileSystem.DeleteFile(target,
+                        UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                }
+
+                this.FileList.RemoveAt(_index - 1);
+                this.Index = afterIndex;
+                OnPropertyChanged("FileList");
+
+                //  ★ここでファイルリストの自動サーチを再開
+            }
+        }
+
+        /// <summary>
+        /// ファイルの移動
+        /// </summary>
+        public void MoveCurrentFile()
+        {
+            if (FileList?.Count > 0)
+            {
+                //  ★ここでファイルリストの自動サーチを一時停止
+
+                int afterIndex = _index;
+                if (afterIndex >= FileList.Count)
+                {
+                    afterIndex -= 1;
+                }
+
+                string source = Item.BindingParam.Images.Current.FilePath;
+                var destination = FileAction.CreateSafePath(
+                    Path.Combine(Parent, "temp", Item.BindingParam.Images.Current.FileName));
+                FileSystem.MoveFile(source, destination);
+
+                this.FileList.RemoveAt(_index - 1);
+                this.Index = afterIndex;
+                OnPropertyChanged("FileList");
+
+                //  ★ここでファイルリストの自動サーチを再開
             }
         }
 

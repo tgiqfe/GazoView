@@ -22,15 +22,15 @@
         <StackPanel Grid.Row="0" VerticalAlignment="Center">
             <StackPanel Orientation="Horizontal">
                 <Label Content="ファイル名：" Padding="5 5 0 5"/>
-                <Label Content="{Binding Images.Current.FileName}" />
+                <Label Content="{Binding Images.Current.LabelFileName}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="ファイルパス：" Padding="5 5 0 5"/>
-                <Label Content="{Binding Images.Current.FilePath}" />
+                <Label Content="{Binding Images.Current.LabelFilePath}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="拡張子：" Padding="5 5 0 5"/>
-                <Label Content="{Binding Images.Current.FileExtension}" />
+                <Label Content="{Binding Images.Current.LabelFileExtension}" />
             </StackPanel>
             <StackPanel Orientation="Horizontal">
                 <Label Content="ファイルサイズ：" Padding="5 5 0 5"/>

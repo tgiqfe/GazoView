@@ -13,11 +13,17 @@ namespace GazoView.Lib.Config
 {
     internal class BitmapImageItem : IImageItem
     {
-        public string FileName { get; private set; }
+        public string FileName { get; set; }
 
-        public string FilePath { get; private set; }
+        public string FilePath { get; set; }
 
-        public string FileExtension { get; private set; }
+        public string FileExtension { get; set; }
+
+        public string LabelFileName { get; private set; }
+
+        public string LabelFilePath { get; private set; }
+
+        public string LabelFileExtension { get; private set; }
 
         public ImageSource Source { get; private set; }
 
@@ -34,14 +40,13 @@ namespace GazoView.Lib.Config
             this.FileName = Path.GetFileName(path);
             this.FilePath = path;
             this.FileExtension = Path.GetExtension(path);
+            this.LabelFileName = FileName.Contains("_") ? FileName.Replace("_", "__") : FileName;
+            this.LabelFilePath = FilePath.Contains("_") ? FilePath.Replace("_", "__") : FilePath;
+            this.LabelFileExtension = FileExtension.Contains("_") ? FileExtension.Replace("_", "__") : FileExtension;
+
             (this.Source, this.Width, this.Height) = GetImageSource(path);
             this.Size = GetFileSize(path);
             this.LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
-
-            //  ファイル名に「_」を含む場合の対策
-            if (FileName.Contains("_")) { FileName = FileName.Replace("_", "__"); }
-            if (FilePath.Contains("_")) { FilePath = FilePath.Replace("_", "__"); }
-            if (FileExtension.Contains("_")) { FileExtension = FileExtension.Replace("_", "__"); }
         }
 
         private (BitmapImage, double, double) GetImageSource(string path)

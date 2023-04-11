@@ -9,10 +9,14 @@
         Name="MainBase"
         WindowStyle="None"
         UseLayoutRounding="True"
+        AllowDrop="True"
         AllowsTransparency="True"
         PreviewKeyDown="Window_PreviewKeyDown"
         MouseLeftButtonDown="Window_MouseLeftButtonDown"
         MouseWheel="MainBase_MouseWheel"
+        PreviewDragOver="MainBase_PreviewDragOver"
+        PreviewDragLeave="MainBase_PreviewDragLeave"
+        PreviewDrop="MainBase_PreviewDrop"
         SourceInitialized="Window_SourceInitialized"
         StateChanged="MainBase_StateChanged"
         Activated="MainBase_Activated"
@@ -20,6 +24,7 @@
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.LocationX, Mode=TwoWay}"
         Top="{Binding Setting.LocationY, Mode=TwoWay}"
+        Background="DimGray"
         Style="{DynamicResource WindowChromeStyle}" >
     <Window.Resources>
         <ResourceDictionary>
@@ -29,7 +34,7 @@
         </ResourceDictionary>
     </Window.Resources>
 
-    <Grid Background="DimGray">
+    <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Name="MainRow0" Height="*"/>
             <RowDefinition Name="MainRow1" Height="0"/>
