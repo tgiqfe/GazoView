@@ -35,11 +35,12 @@ namespace GazoView
                 Application.Current.Shutdown();
             }
 
+            //  ファイル増減監視
+            Item.FileWatcher = new FileWatcher();
+
             //  画像をセット
-            Item.BindingParam = new BindingParam()
-            {
-                Images = new ImageStore(e.Args)
-            };
+            Item.BindingParam = new BindingParam();
+            Item.BindingParam.Images = new ImageStore(e.Args);
         }
 
         /// <summary>
@@ -49,6 +50,7 @@ namespace GazoView
         /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
+            Item.FileWatcher.StopFileListUpdate();
             Item.BindingParam.Close();
             Item.ProcessManager.Close();
         }

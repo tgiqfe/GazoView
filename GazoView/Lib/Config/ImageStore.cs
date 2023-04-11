@@ -37,17 +37,20 @@ namespace GazoView.Lib.Config
                 _index = value;
                 if (_index <= 0)
                 {
-                    _index = FileList.Count;
+                    _index = FileList?.Count ?? 0;
                 }
-                else if (_index > FileList.Count)
+                else if (_index > FileList?.Count)
                 {
                     _index = 1;
                 }
-                this.Current = new BitmapImageItem(FileList[_index - 1]);
+                if(FileList?.Count > 0)
+                {
+                    this.Current = new BitmapImageItem(FileList[_index - 1]);
 
-                OnPropertyChanged("ImageSource");
-                OnPropertyChanged("Current");
-                OnPropertyChanged();
+                    OnPropertyChanged("ImageSource");
+                    OnPropertyChanged("Current");
+                    OnPropertyChanged();
+                }
             }
         }
 
@@ -58,6 +61,8 @@ namespace GazoView.Lib.Config
             get { return Current?.Source; }
         }
 
+        public bool IsAllFiles { get; set; }
+
         #region Set image
 
         public ImageStore() { }
@@ -65,12 +70,83 @@ namespace GazoView.Lib.Config
         public ImageStore(string[] paths)
         {
             SetFileList(paths);
+
+            //  自動ファイルリストアップデート開始
+            if (FileList?.Count > 0)
+            {
+                Item.FileWatcher.StarFileListUpdate();
+            }
         }
 
+        /// <summary>
+        /// ファイルリストの更新
+        ///   実行ケース1: 別プロセスからパイプ受信で更新
+        ///   実行ケース2: ドラッグ&ドロップで更新
+        /// </summary>
+        /// <param name="paths"></param>
         public void UpdateFileList(string[] paths)
         {
+            //  自動ファイルリストアップデート停止
+            Item.FileWatcher.StopFileListUpdate();
+
             SetFileList(paths);
             OnPropertyChanged("FileList");
+
+            //  自動ファイルリストアップデート再開
+            Item.FileWatcher.StarFileListUpdate();
+        }
+
+        /// <summary>
+        /// ファイルリストの更新
+        ///   実行ケース1: FileWatcherでファイル増減イベント発生時
+        /// </summary>
+        public void UpdateFileList()
+        {
+            if (IsAllFiles)
+            {
+                //  フォルダー内全画像更新
+                string currentPath = Current.FilePath;
+
+                this.FileList = Directory.GetFiles(Parent).
+                    Where(x => _extensions.Any(y => Path.GetExtension(x).Equals(y))).
+                    OrderBy(x => x, new NaturalStringComparer()).
+                    ToList();
+                if(FileList.Count == 0)
+                {
+                    this.Current = null;
+                    OnPropertyChanged("ImageSource");
+                    OnPropertyChanged("Current");
+                }
+                else
+                {
+                    this.Index = FileList.Contains(currentPath) ?
+                        FileList.IndexOf(currentPath) + 1 : 1;
+                }
+                OnPropertyChanged("FileList");
+            }
+            else
+            {
+                //  複数選択時。減った分のみ対応
+                var deletedFiles = FileList.Where(x => !File.Exists(x));
+                if (deletedFiles.Count() > 0)
+                {
+                    string currentPath = Current.FilePath;
+
+                    this.FileList = FileList.Where(x => File.Exists(x)).ToList();
+                    if(FileList.Count == 0)
+                    {
+                        this.Current = null;
+                        OnPropertyChanged("ImageSource");
+                        OnPropertyChanged("Current");
+                    }
+                    else 
+                    {
+                        this.Index = FileList.Contains(currentPath) ?
+                            FileList.IndexOf(currentPath) + 1 : 1;
+                    }
+                    OnPropertyChanged("FileList");
+                }
+            }
         }
 
         /// <summary>
@@ -90,6 +166,7 @@ namespace GazoView.Lib.Config
                         OrderBy(x => x, new NaturalStringComparer()).
                         ToList();
                     this.Index = FileList.IndexOf(paths[0]) + 1;
+                    this.IsAllFiles = true;
                 }
                 else if (Directory.Exists(paths[0]))
                 {
@@ -100,6 +177,7 @@ namespace GazoView.Lib.Config
                         OrderBy(x => x, new NaturalStringComparer()).
                         ToList();
                     this.Index = 1;
+                    this.IsAllFiles = true;
                 }
             }
             else if (paths.Length > 1)
@@ -114,6 +192,7 @@ namespace GazoView.Lib.Config
                         OrderBy(x => x, new NaturalStringComparer()).
                         ToList();
                     this.Index = FileList.IndexOf(paths[0]) + 1;
+                    this.IsAllFiles = false;
                 }
                 else if (Directory.Exists(paths[0]))
                 {
@@ -124,9 +203,13 @@ namespace GazoView.Lib.Config
                         OrderBy(x => x, new NaturalStringComparer()).
                         ToList();
                     this.Index = 1;
+                    this.IsAllFiles = true;
                 }
             }
         }
+
+        #endregion
+        #region Delete,Move
 
         /// <summary>
         /// ファイルの削除
@@ -136,7 +219,8 @@ namespace GazoView.Lib.Config
         {
             if (FileList?.Count > 0)
             {
-                //  ★ここでファイルリストの自動サーチを一時停止
+                //  自動ファイルリストアップデート停止
+                Item.FileWatcher.StopFileListUpdate();
 
                 int afterIndex = _index;
                 if (afterIndex >= FileList.Count)
@@ -160,7 +244,8 @@ namespace GazoView.Lib.Config
                 this.Index = afterIndex;
                 OnPropertyChanged("FileList");
 
-                //  ★ここでファイルリストの自動サーチを再開
+                //  自動ファイルリストアップデート再開
+                Item.FileWatcher.StarFileListUpdate();
             }
         }
 
@@ -171,7 +256,8 @@ namespace GazoView.Lib.Config
         {
             if (FileList?.Count > 0)
             {
-                //  ★ここでファイルリストの自動サーチを一時停止
+                //  自動ファイルリストアップデート停止
+                Item.FileWatcher.StopFileListUpdate();
 
                 int afterIndex = _index;
                 if (afterIndex >= FileList.Count)
@@ -188,7 +274,8 @@ namespace GazoView.Lib.Config
                 this.Index = afterIndex;
                 OnPropertyChanged("FileList");
 
-                //  ★ここでファイルリストの自動サーチを再開
+                //  自動ファイルリストアップデート再開
+                Item.FileWatcher.StarFileListUpdate();
             }
         }
 

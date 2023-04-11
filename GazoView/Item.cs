@@ -24,6 +24,8 @@ namespace GazoView
 
         public static FilePath FilePath = null;
 
+        public static FileWatcher FileWatcher = null;
+
         /// <summary>
         /// 拡縮モードで右クリック移動する場合の開始位置
         /// </summary>
