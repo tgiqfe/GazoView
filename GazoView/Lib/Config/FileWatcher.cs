@@ -58,9 +58,15 @@ namespace GazoView.Lib.Config
 
         private async Task Polling()
         {
+            int interval = Item.BindingParam.Setting.FileListUpdateInterval;
+            if (interval < 1500)
+            {
+                Item.BindingParam.Setting.FileListUpdateInterval = 1500;
+                interval = 1500;
+            }
             while (true)
             {
-                await Task.Delay(Item.BindingParam.Setting.FileListUpdateInterval);
+                await Task.Delay(interval);
                 if (_watching && _onEvent)
                 {
                     Item.BindingParam.Images.UpdateFileList();
