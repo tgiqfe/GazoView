@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -37,6 +38,12 @@ namespace GazoView.Lib
 
             Item.Layer = this;
             this.DataContext = Item.BindingParam;
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+            Item.BindingParam.Setting.Trimming.GrayAreaReload();
         }
 
         /// <summary>
@@ -114,20 +121,44 @@ namespace GazoView.Lib
                 switch (_dragLine)
                 {
                     case DragLine.Top:
-                        var newTop = point.Y;
-                        Item.BindingParam.Setting.Trimming.Top = (int)newTop;
+                        var newTop = (int)point.Y;
+                        if (newTop > Item.BindingParam.Setting.Trimming.Bottom)
+                        {
+                            newTop = Item.BindingParam.Setting.Trimming.Bottom;
+                        }
+                        else if (newTop < 0)
+                        {
+                            newTop = 0;
+                        }
+                        Item.BindingParam.Setting.Trimming.Top = newTop;
                         break;
                     case DragLine.Bottom:
-                        var newBottom = point.Y;
-                        Item.BindingParam.Setting.Trimming.Bottom = (int)newBottom;
+                        var newBottom = (int)point.Y;
+                        if (newBottom < Item.BindingParam.Setting.Trimming.Top)
+                        {
+                            newBottom = Item.BindingParam.Setting.Trimming.Top;
+                        }
+                        Item.BindingParam.Setting.Trimming.Bottom = newBottom;
                         break;
                     case DragLine.Left:
-                        var newLeft = point.X;
-                        Item.BindingParam.Setting.Trimming.Left = (int)newLeft;
+                        var newLeft = (int)point.X;
+                        if (newLeft > Item.BindingParam.Setting.Trimming.Right)
+                        {
+                            newLeft = Item.BindingParam.Setting.Trimming.Right;
+                        }
+                        else if (newLeft < 0)
+                        {
+                            newLeft = 0;
+                        }
+                        Item.BindingParam.Setting.Trimming.Left = newLeft;
                         break;
                     case DragLine.Right:
-                        var newRight = point.X;
-                        Item.BindingParam.Setting.Trimming.Right = (int)newRight;
+                        var newRight = (int)point.X;
+                        if (newRight < Item.BindingParam.Setting.Trimming.Left)
+                        {
+                            newRight = Item.BindingParam.Setting.Trimming.Left;
+                        }
+                        Item.BindingParam.Setting.Trimming.Right = newRight;
                         break;
                 }
             }

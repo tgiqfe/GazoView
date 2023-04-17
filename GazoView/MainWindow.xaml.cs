@@ -38,7 +38,5 @@ namespace GazoView
                 Image.HeightProperty,
                 new Binding("ActualHeight") { ElementName = "MainCanvas" });
         }
-
-
     }
 }

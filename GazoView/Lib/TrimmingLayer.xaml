@@ -11,7 +11,7 @@
     <UserControl.Resources>
         <SolidColorBrush x:Key="BackgroundBrush" 
                          Color="Gray"
-                         Opacity="0.5"/>
+                         Opacity="0.6"/>
         <DrawingBrush x:Key="DiagonalBrush"
                       Viewport="0,0,10,10" ViewportUnits="Absolute"
                       Viewbox="0,0,10,10" ViewboxUnits="Absolute"

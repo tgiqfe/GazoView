@@ -50,8 +50,8 @@ namespace GazoView.Lib.Config
                     {
                         Left = 100,
                         Top = 100,
-                        Right = 100,
-                        Bottom = 100,
+                        Right = 300,
+                        Bottom = 300,
                     });
                 }
                 return TrimmingHistory[0];

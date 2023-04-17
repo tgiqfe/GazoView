@@ -18,8 +18,6 @@ namespace GazoView
     {
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
-            e.Handled = true;
-
             switch (e.Key)
             {
                 case Key.Escape:
@@ -152,14 +150,13 @@ namespace GazoView
             {
                 ToggleTrimmingMode();
                 ToggleScalingMode(Item.BindingParam.State.TrimmingMode);
-
-                if (Item.BindingParam.State.TrimmingMode)
-                {
-                    //  ここでトリミングモードに切り替え時の操作
-                }
             }
         }
 
+        /// <summary>
+        /// キー押下時イベント: G
+        /// トリミング実行
+        /// </summary>
         private void KeyEvent_PressG()
         {
             if (Item.BindingParam.State.TrimmingMode)
@@ -189,6 +186,10 @@ namespace GazoView
             if (!Item.BindingParam.State.TransparentMode)
             {
                 ToggleScalingMode();
+                if (!Item.BindingParam.State.ScalingMode && Item.BindingParam.State.TrimmingMode)
+                {
+                    ToggleTrimmingMode(false);
+                }
             }
         }
 

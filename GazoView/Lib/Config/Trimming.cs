@@ -139,15 +139,13 @@ namespace GazoView.Lib.Config
         [JsonIgnore]
         public int Height { get { return _bottom - _top; } }
 
-        /*
-        public void Init()
+        public void GrayAreaReload()
         {
             OnPropertyChanged(nameof(AreaTop));
             OnPropertyChanged(nameof(AreaBottom));
             OnPropertyChanged(nameof(AreaLeft));
             OnPropertyChanged(nameof(AreaRight));
         }
-        */
 
         #region Inotify change
 
