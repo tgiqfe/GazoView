@@ -19,6 +19,8 @@ namespace GazoView
 
         public ScalingRate ImageSizeRate { get; set; }
 
+        public bool MouseMovingInTrimming { get; set; }
+
         /// <summary>
         /// アプリケーション起動時
         /// </summary>

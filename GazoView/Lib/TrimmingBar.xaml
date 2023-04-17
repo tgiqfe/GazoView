@@ -15,19 +15,36 @@
             <Setter Property="VerticalContentAlignment" Value="Center"/>
         </Style>
     </UserControl.Resources>
+
     <StackPanel Orientation="Horizontal" Background="DimGray">
         <Label Content="Left:" />
-        <TextBox Width="50" />
+        <TextBox Name="TextBoxLeft"
+                 Width="50" 
+                 Text="{Binding Setting.Trimming.Left, Mode=TwoWay}"
+                 PreviewTextInput="TextBox_PreviewTextInput"
+                 TextChanged="TextBox_TextChanged"/>
         <Label Content="Top:" />
-        <TextBox Width="50" />
+        <TextBox Name="TextBoxTop"
+                 Width="50"
+                 Text="{Binding Setting.Trimming.Top, Mode=TwoWay}"
+                 PreviewTextInput="TextBox_PreviewTextInput"
+                 TextChanged="TextBox_TextChanged"/>
         <Label Content="Right:" />
-        <TextBox Width="50" />
+        <TextBox Name="TextBoxRight"
+                 Width="50"
+                 Text="{Binding Setting.Trimming.Right, Mode=TwoWay}"
+                 PreviewTextInput="TextBox_PreviewTextInput"
+                 TextChanged="TextBox_TextChanged"/>
         <Label Content="Bottom:" />
-        <TextBox Width="50" />
+        <TextBox Name="TextBoxBottom"
+                 Width="50"
+                 Text="{Binding Setting.Trimming.Bottom, Mode=TwoWay}"
+                 PreviewTextInput="TextBox_PreviewTextInput"
+                 TextChanged="TextBox_TextChanged"/>
         <Label Content="Size:" Padding="10 5 0 5"/>
-        <Label Content="1028" Padding="5 5 0 5" />
+        <Label Content="{Binding Setting.Trimming.Width}" Padding="5 5 0 5" />
         <Label Content="x" />
-        <Label Content="768" Padding="0 5 15 5" />
+        <Label Content="{Binding Setting.Trimming.Height}" Padding="0 5 15 5" />
         <ComboBox Width="250" />
     </StackPanel>
 </UserControl>

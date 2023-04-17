@@ -1,4 +1,5 @@
-﻿using GazoView.Lib.Config;
+﻿using GazoView.Lib;
+using GazoView.Lib.Config;
 using GazoView.Lib.Functions;
 using System;
 using System.Collections.Generic;
@@ -25,6 +26,8 @@ namespace GazoView
         public static FilePath FilePath = null;
 
         public static FileWatcher FileWatcher = null;
+
+        public static TrimmingLayer Layer = null;
 
         /// <summary>
         /// 拡縮モードで右クリック移動する場合の開始位置

@@ -1,4 +1,5 @@
-﻿using System.IO;
+﻿using System.Collections.Generic;
+using System.IO;
 using System.Text;
 using System.Text.Json;
 using System.Text.Json.Serialization;
@@ -28,6 +29,34 @@ namespace GazoView.Lib.Config
         /// ウィンドウ位置(Y軸)
         /// </summary>
         public double LocationY { get; set; }
+
+        /// <summary>
+        /// トリミング実行履歴
+        /// </summary>
+        public List<Trimming> TrimmingHistory { get; set; }
+
+        /// <summary>
+        /// トリミング作業中のパラメータ
+        /// </summary>
+        [JsonIgnore]
+        public Trimming Trimming
+        {
+            get
+            {
+                if (TrimmingHistory == null || TrimmingHistory.Count == 0)
+                {
+                    TrimmingHistory ??= new();
+                    TrimmingHistory.Add(new Trimming()
+                    {
+                        Left = 100,
+                        Top = 100,
+                        Right = 100,
+                        Bottom = 100,
+                    });
+                }
+                return TrimmingHistory[0];
+            }
+        }
 
         #endregion
         #region Not binging parameter

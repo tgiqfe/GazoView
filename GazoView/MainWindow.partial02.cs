@@ -33,6 +33,8 @@ namespace GazoView
                     KeyEvent_PressD(); break;
                 case Key.T:
                     KeyEvent_PressT(); break;
+                case Key.G:
+                    KeyEvent_PressG(); break;
                 case Key.R:
                     KeyEvent_PressR(); break;
                 case Key.E:
@@ -149,6 +151,32 @@ namespace GazoView
             if (!Item.BindingParam.State.TransparentMode)
             {
                 ToggleTrimmingMode();
+                ToggleScalingMode(Item.BindingParam.State.TrimmingMode);
+
+                if (Item.BindingParam.State.TrimmingMode)
+                {
+                    //  ここでトリミングモードに切り替え時の操作
+                }
+            }
+        }
+
+        private void KeyEvent_PressG()
+        {
+            if (Item.BindingParam.State.TrimmingMode)
+            {
+                var trim = new ImageTrimming(
+                    Item.BindingParam.Images.ImageSource,
+                    Item.BindingParam.Images.Current.FilePath,
+                    Item.BindingParam.Setting.Trimming.Left,
+                    Item.BindingParam.Setting.Trimming.Top,
+                    Item.BindingParam.Setting.Trimming.Width,
+                    Item.BindingParam.Setting.Trimming.Height);
+                trim.Cut();
+                MessageBox.Show("Trim.\r\n" +
+                    "[ " + trim.OutputPath + " ]",
+                    Item.ProcessName,
+                    MessageBoxButton.OK,
+                    MessageBoxImage.Information);
             }
         }
 

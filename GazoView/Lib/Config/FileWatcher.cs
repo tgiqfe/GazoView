@@ -30,20 +30,22 @@ namespace GazoView.Lib.Config
 
         public void StarFileListUpdate()
         {
-            _watcher = new();
-            _watcher.Path = Item.BindingParam.Images.Parent;
-            _watcher.NotifyFilter = NotifyFilters.FileName;
-            _watcher.Created += (souce, e) => { _onEvent = true; };
-            _watcher.Deleted += (souce, e) => { _onEvent = true; };
-            _watcher.EnableRaisingEvents = true;
-
-            if (!_started)
+            if (Item.BindingParam.Images != null)
             {
-                Polling().ConfigureAwait(false);
-                _started = true;
+                _watcher = new();
+                _watcher.Path = Item.BindingParam.Images.Parent;
+                _watcher.NotifyFilter = NotifyFilters.FileName;
+                _watcher.Created += (souce, e) => { _onEvent = true; };
+                _watcher.Deleted += (souce, e) => { _onEvent = true; };
+                _watcher.EnableRaisingEvents = true;
+
+                if (!_started)
+                {
+                    Polling().ConfigureAwait(false);
+                    _started = true;
+                }
             }
             _watching = true;
-
         }
 
         public void StopFileListUpdate()
