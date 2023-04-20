@@ -1,4 +1,5 @@
 ﻿using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.IO;
 using System.Text;
 using System.Text.Json;
@@ -33,7 +34,7 @@ namespace GazoView.Lib.Config
         /// <summary>
         /// トリミング実行履歴
         /// </summary>
-        public List<Trimming> TrimmingHistory { get; set; }
+        public ObservableCollection<Trimming> TrimmingHistory { get; set; }
 
         /// <summary>
         /// トリミング作業中のパラメータ

@@ -147,6 +147,11 @@ namespace GazoView.Lib.Config
             OnPropertyChanged(nameof(AreaRight));
         }
 
+        public override string ToString()
+        {
+            return $"L:{Left}, T:{Top}, R:{Right}, B:{Bottom} ( {Width} x {Height} )";
+        }
+
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;
