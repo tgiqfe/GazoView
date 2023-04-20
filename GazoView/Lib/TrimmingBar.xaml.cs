@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Lib.Config;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -55,6 +56,20 @@ namespace GazoView.Lib
                 case "TextBoxRight":
                     Item.BindingParam.Setting.Trimming.Right = int.Parse(tb.Text);
                     break;
+            }
+        }
+
+        private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
+        {
+            //  ★作業中。
+            //  ★コンボボックスを修正したら、現在の設定を修正する処理を
+            if (Item.BindingParam.State.TrimmingMode)
+            {
+                var trim = (Trimming)((ComboBox)sender).SelectedItem;
+                Item.BindingParam.Setting.Trimming.Top = trim.Top;
+                Item.BindingParam.Setting.Trimming.Bottom = trim.Bottom;
+                Item.BindingParam.Setting.Trimming.Left = trim.Left;
+                Item.BindingParam.Setting.Trimming.Right = trim.Right;
             }
         }
     }

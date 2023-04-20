@@ -36,6 +36,8 @@ namespace GazoView.Lib.Config
         /// </summary>
         public ObservableCollection<Trimming> TrimmingHistory { get; set; }
 
+        private Trimming _trimming = null;
+
         /// <summary>
         /// トリミング作業中のパラメータ
         /// </summary>
@@ -44,18 +46,26 @@ namespace GazoView.Lib.Config
         {
             get
             {
-                if (TrimmingHistory == null || TrimmingHistory.Count == 0)
+                if (_trimming == null)
                 {
-                    TrimmingHistory ??= new();
-                    TrimmingHistory.Add(new Trimming()
+                    if (TrimmingHistory == null || TrimmingHistory.Count == 0)
                     {
-                        Left = 100,
-                        Top = 100,
-                        Right = 300,
-                        Bottom = 300,
-                    });
+                        TrimmingHistory ??= new();
+                        TrimmingHistory.Add(new Trimming()
+                        {
+                            Left = 100,
+                            Top = 100,
+                            Right = 300,
+                            Bottom = 300,
+                        });
+                    }
+                    _trimming = new Trimming(
+                        TrimmingHistory[0].Top,
+                        TrimmingHistory[0].Bottom,
+                        TrimmingHistory[0].Left,
+                        TrimmingHistory[0].Right);
                 }
-                return TrimmingHistory[0];
+                return _trimming;
             }
         }
 

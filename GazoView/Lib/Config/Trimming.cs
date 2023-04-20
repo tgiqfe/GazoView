@@ -152,6 +152,30 @@ namespace GazoView.Lib.Config
             return $"L:{Left}, T:{Top}, R:{Right}, B:{Bottom} ( {Width} x {Height} )";
         }
 
+        public override bool Equals(object obj)
+        {
+            if (obj is Trimming trim)
+            {
+                return this.Top == trim.Top &&
+                    this.Bottom == trim.Bottom &&
+                    this.Left == trim.Left &&
+                    this.Right == trim.Right;
+            }
+            return false;
+        }
+
+        public Trimming() { }
+
+        public Trimming(int top, int bottom, int left, int right)
+        {
+            _top = top;
+            _bottom = bottom;
+            _left = left;
+            _right = right;
+        }
+
+
+
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;

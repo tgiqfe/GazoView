@@ -1,6 +1,8 @@
-﻿using GazoView.Lib.Functions;
+﻿using GazoView.Lib.Config;
+using GazoView.Lib.Functions;
 using System;
 using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -174,6 +176,18 @@ namespace GazoView
                     Item.ProcessName,
                     MessageBoxButton.OK,
                     MessageBoxImage.Information);
+
+                //  トリミングした情報を履歴に保存 (暫定で最大数15に設定)
+                Item.BindingParam.Setting.TrimmingHistory.Insert(
+                    0, Item.BindingParam.Setting.Trimming);
+                if (Item.BindingParam.Setting.TrimmingHistory.Count > 15)
+                {
+                    for (int i = 15; i < Item.BindingParam.Setting.TrimmingHistory.Count; i++)
+                    {
+                        Item.BindingParam.Setting.TrimmingHistory.RemoveAt(i);
+                    }
+                }
+                Item.BindingParam.Setting.Save(Item.FilePath.SettingFile);
             }
         }
 

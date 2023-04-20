@@ -47,6 +47,7 @@
         <Label Content="{Binding Setting.Trimming.Height}" Padding="0 5 15 5" />
         <ComboBox Width="250"
                   SelectedIndex="0"
-                  ItemsSource="{Binding Setting.TrimmingHistory}" />
+                  ItemsSource="{Binding Setting.TrimmingHistory}"
+                  SelectionChanged="ComboBox_SelectionChanged" />
     </StackPanel>
 </UserControl>
