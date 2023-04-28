@@ -43,7 +43,10 @@ namespace GazoView.Lib
         protected override void OnRender(DrawingContext drawingContext)
         {
             base.OnRender(drawingContext);
-            Item.BindingParam.Setting.Trimming.GrayAreaReload();
+            if (Item.BindingParam != null && Item.BindingParam.State.TrimmingMode)
+            {
+                Item.BindingParam.Setting.Trimming.GrayAreaReload();
+            }
         }
 
         /// <summary>

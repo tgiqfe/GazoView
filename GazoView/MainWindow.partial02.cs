@@ -187,6 +187,7 @@ namespace GazoView
                         Item.BindingParam.Setting.TrimmingHistory.RemoveAt(i);
                     }
                 }
+                InfoTrimmingBar.TrimHisttory.SelectedIndex = 0;
                 Item.BindingParam.Setting.Save(Item.FilePath.SettingFile);
             }
         }

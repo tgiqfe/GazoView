@@ -45,7 +45,7 @@
         <Label Content="{Binding Setting.Trimming.Width}" Padding="5 5 0 5" />
         <Label Content="x" />
         <Label Content="{Binding Setting.Trimming.Height}" Padding="0 5 15 5" />
-        <ComboBox Width="250"
+        <ComboBox Name="TrimHisttory" Width="250"
                   SelectedIndex="0"
                   ItemsSource="{Binding Setting.TrimmingHistory}"
                   SelectionChanged="ComboBox_SelectionChanged" />

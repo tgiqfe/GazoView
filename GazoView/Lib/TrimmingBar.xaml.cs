@@ -61,8 +61,6 @@ namespace GazoView.Lib
 
         private void ComboBox_SelectionChanged(object sender, SelectionChangedEventArgs e)
         {
-            //  ★作業中。
-            //  ★コンボボックスを修正したら、現在の設定を修正する処理を
             if (Item.BindingParam.State.TrimmingMode)
             {
                 var trim = (Trimming)((ComboBox)sender).SelectedItem;
