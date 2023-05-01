@@ -1,0 +1,25 @@
+{
+  "help": "https://go.microsoft.com/fwlink/?linkid=866610",
+  "root": true,
+
+  "dependentFileProviders": {
+    "add": {
+      "fileToFile": {
+        "add": {
+          "MainWindow.partial01.cs": [
+            "MainWindow.xaml"
+          ],
+          "MainWindow.partial02.cs": [
+            "MainWindow.xaml"
+          ],
+          "MainWindow.partial03.cs": [
+            "MainWindow.xaml"
+          ],
+          "MainWindow.partial04.cs": [
+            "MainWindow.xaml"
+          ]
+        }
+      }
+    }
+  }
+}

@@ -1,0 +1,103 @@
+﻿<UserControl x:Class="GazoView.Lib.TrimmingLayer"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GazoView.Lib"
+             mc:Ignorable="d"
+             Name="Layer"
+             PreviewMouseDown="Layer_PreviewMouseDown"
+             MouseMove="Layer_MouseMove">
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush" 
+                         Color="Gray"
+                         Opacity="0.6"/>
+        <DrawingBrush x:Key="DiagonalBrush"
+                      Viewport="0,0,10,10" ViewportUnits="Absolute"
+                      Viewbox="0,0,10,10" ViewboxUnits="Absolute"
+                      TileMode="Tile">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <Geometry>M10,0 L0,10 M5,-5 L-5,5 M15,5 L5,15</Geometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+    </UserControl.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition />
+        </Grid.RowDefinitions>
+
+        <DockPanel>
+            <Grid DockPanel.Dock="Top" Name="GrayAreaTop" Height="{Binding Setting.Trimming.AreaTop}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Rectangle Grid.Row="0" Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Grid.Row="0" Fill="{StaticResource DiagonalBrush}" />
+            </Grid>
+            <Grid DockPanel.Dock="Bottom" Name="GrayAreaBottom" Height="{Binding Setting.Trimming.AreaBottom}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Rectangle Grid.Row="0" Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Grid.Row="0" Fill="{StaticResource DiagonalBrush}" />
+            </Grid>
+            <Grid DockPanel.Dock="Left" Name="GrayAreaLeft" Width="{Binding Setting.Trimming.AreaLeft}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Rectangle Grid.Row="0" Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Grid.Row="0" Fill="{StaticResource DiagonalBrush}" />
+            </Grid>
+            <Grid DockPanel.Dock="Right" Name="GrayAreaRight" Width="{Binding Setting.Trimming.AreaRight}">
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                </Grid.RowDefinitions>
+                <Rectangle Grid.Row="0" Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Grid.Row="0" Fill="{StaticResource DiagonalBrush}" />
+            </Grid>
+            <Rectangle Fill="Transparent"/>
+        </DockPanel>
+
+        <Line Name="LineTop"
+              Stroke="Black" StrokeThickness="8"
+              Cursor="SizeNS"
+              MouseLeftButtonDown="Line_MouseLeftButtonDown"
+              X1="0"
+              X2="{Binding ActualWidth, ElementName=Layer}"
+              Y1="{Binding Setting.Trimming.BorderTop}"
+              Y2="{Binding Y1, RelativeSource={RelativeSource Mode=Self}}" />
+        <Line Name="LineBottom"
+              Stroke="Black" StrokeThickness="8"
+              Cursor="SizeNS"
+              MouseLeftButtonDown="Line_MouseLeftButtonDown"
+              X1="0"
+              X2="{Binding ActualWidth, ElementName=Layer}"
+              Y1="{Binding Setting.Trimming.BorderBottom}"
+              Y2="{Binding Y1, RelativeSource={RelativeSource Mode=Self}}" />
+        <Line Name="LineLeft"
+              Stroke="Black" StrokeThickness="8"
+              Cursor="SizeWE"
+              MouseLeftButtonDown="Line_MouseLeftButtonDown"
+              X1="{Binding Setting.Trimming.BorderLeft}"
+              X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
+              Y1="0"
+              Y2="{Binding ActualHeight, ElementName=Layer}" />
+        <Line Name="LineRight"
+              Stroke="Black" StrokeThickness="8"
+              Cursor="SizeWE"
+              MouseLeftButtonDown="Line_MouseLeftButtonDown"
+              X1="{Binding Setting.Trimming.BorderRight}"
+              X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
+              Y1="0"
+              Y2="{Binding ActualHeight, ElementName=Layer}" />
+
+    </Grid>
+</UserControl>

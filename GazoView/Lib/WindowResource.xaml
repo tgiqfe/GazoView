@@ -1,0 +1,17 @@
+﻿<ResourceDictionary xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                    xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                    xmlns:converter="clr-namespace:GazoView.Converter">
+    <Style TargetType="Window" x:Key="WindowChromeStyle">
+        <Setter Property="WindowChrome.WindowChrome">
+            <Setter.Value>
+                <WindowChrome CornerRadius="3" 
+                              GlassFrameThickness="1" 
+                              ResizeBorderThickness="8"
+                              UseAeroCaptionButtons="False"
+                              CaptionHeight="{DynamicResource CaptionHeight}" />
+            </Setter.Value>
+        </Setter>
+    </Style>
+
+    <converter:BoolToVisibilityConverter x:Key="boolToVisibilityConverter" />
+</ResourceDictionary>
