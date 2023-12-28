@@ -1,0 +1,90 @@
+﻿<Window x:Class="GazoView.MainWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GazoView"
+        xmlns:lib="clr-namespace:GazoView.Lib"
+        mc:Ignorable="d"
+        Name="MainBase"
+        WindowStyle="None"
+        UseLayoutRounding="True"
+        AllowDrop="True"
+        AllowsTransparency="True"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        MouseLeftButtonDown="Window_MouseLeftButtonDown"
+        MouseWheel="MainBase_MouseWheel"
+        PreviewDragOver="MainBase_PreviewDragOver"
+        PreviewDragLeave="MainBase_PreviewDragLeave"
+        PreviewDrop="MainBase_PreviewDrop"
+        SourceInitialized="Window_SourceInitialized"
+        StateChanged="MainBase_StateChanged"
+        Activated="MainBase_Activated"
+        Width="{Binding Setting.Width, Mode=TwoWay}"
+        Height="{Binding Setting.Height, Mode=TwoWay}"
+        Left="{Binding Setting.LocationX, Mode=TwoWay}"
+        Top="{Binding Setting.LocationY, Mode=TwoWay}"
+        Background="DimGray"
+        Style="{DynamicResource WindowChromeStyle}" >
+    <Window.Resources>
+        <ResourceDictionary>
+            <ResourceDictionary.MergedDictionaries>
+                <ResourceDictionary Source="/Lib/WindowResource.xaml" />
+            </ResourceDictionary.MergedDictionaries>
+        </ResourceDictionary>
+    </Window.Resources>
+
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Name="MainRow0" Height="*"/>
+            <RowDefinition Name="MainRow1" Height="0"/>
+        </Grid.RowDefinitions>
+
+        <lib:AdvancedScrollViewer Grid.Row="0"
+                                  x:Name="ScrollViewer"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto"
+                                  MouseMove="ScrollViewer_MouseMove"
+                                  PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
+                                  PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
+            <Canvas Name="MainCanvas"
+                    Margin="0"
+                    MouseLeftButtonDown="Window_MouseLeftButtonDown"
+                    MouseWheel="MainBase_MouseWheel">
+                <Image Name="MainImage"
+                       Source ="{Binding Images.ImageSource}"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderOptions.EdgeMode="Aliased"
+                       RenderOptions.BitmapScalingMode="Fant"
+                       SizeChanged="MainImage_SizeChanged"/>
+                <lib:TrimmingLayer
+                    Width="{Binding ActualWidth, ElementName=MainImage}"
+                    Height="{Binding ActualHeight, ElementName=MainImage}"
+                    Visibility="{Binding State.TrimmingMode, Converter={StaticResource boolToVisibilityConverter}}"/>
+            </Canvas>
+        </lib:AdvancedScrollViewer>
+
+        <DockPanel Grid.Row="0">
+            <lib:TitleBar DockPanel.Dock="Top" 
+                            x:Name="InfoTitleBar"
+                            Visibility="{Binding IsMouseOver, ElementName=MainBase, Converter={StaticResource boolToVisibilityConverter}}" />
+            <lib:ImageInfoPanel1 DockPanel.Dock="Left" 
+                                 x:Name="InfoImage1"
+                                 VerticalAlignment="Top"
+                                 Visibility="Hidden"/>
+            <lib:ImageInfoPanel2 DockPanel.Dock="Right"
+                                 x:Name="InfoImage2"
+                                 VerticalAlignment="Top"
+                                 Visibility="Hidden"/>
+            <Rectangle />
+        </DockPanel>
+
+        <lib:CaptionButtons Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
+        
+        <lib:TrimmingBar Grid.Row="1"
+                         x:Name="InfoTrimmingBar"
+                         VerticalAlignment="Bottom"
+                         Visibility="{Binding State.TrimmingMode, Converter={StaticResource boolToVisibilityConverter}}" />
+    </Grid>
+</Window>
