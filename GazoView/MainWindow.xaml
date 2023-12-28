@@ -4,9 +4,29 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GazoView"
+        xmlns:lib="clr-namespace:GazoView.Lib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800">
+        Title="MainWindow" Height="450" Width="800"
+        Name="MainBase">
     <Grid>
-
+        <Grid.RowDefinitions>
+            <RowDefinition Name="MainRow0" Height="*" />
+            <RowDefinition Name="MainRow1" Height="0" />
+        </Grid.RowDefinitions>
+        <lib:AdvancedScrollViewer Grid.Row="0"
+                                  x:Name="ScrollViewer"
+                                  HorizontalScrollBarVisibility="Auto"
+                                  VerticalScrollBarVisibility="Auto"
+                                  MouseMove="ScrollViewer_MouseMove"
+                                  PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
+                                  PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
+            <Canvas Name="MainCanvas"
+                    Margin="0"
+                    MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
+                    MouseWheel="MainCanvas_MouseWheel">
+                
+            </Canvas>
+        </lib:AdvancedScrollViewer>
+                 
     </Grid>
 </Window>

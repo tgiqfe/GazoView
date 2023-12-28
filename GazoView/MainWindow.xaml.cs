@@ -20,5 +20,30 @@ namespace GazoView
         {
             InitializeComponent();
         }
+
+        private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+
+        }
+
+        private void ScrollViewer_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        {
+
+        }
+
+        private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
+        {
+
+        }
     }
 }
