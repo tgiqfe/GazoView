@@ -9,7 +9,7 @@ namespace GazoView.Lib.ImageInfo
 {
     class ImageItemGenerator
     {
-        public static IImageItem Create(string path)
+        public static BaseImageItem Create(string path)
         {
             var extension = System.IO.Path.GetExtension(path).ToLower();
             switch (extension)

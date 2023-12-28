@@ -6,7 +6,8 @@
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
         mc:Ignorable="d"
-        Title="MainWindow" Height="450" Width="800"
+        Height="450"
+        Width="800"
         Name="MainBase">
     <Grid>
         <Grid.RowDefinitions>
@@ -24,7 +25,8 @@
                     Margin="0"
                     MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                     MouseWheel="MainCanvas_MouseWheel">
-                
+                <Image Name="MainImage"
+                       Source="{Binding Images.ImageSource}" />
             </Canvas>
         </lib:AdvancedScrollViewer>
                  

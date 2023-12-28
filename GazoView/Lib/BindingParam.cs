@@ -10,9 +10,16 @@ namespace GazoView.Lib
     class BindingParam
     {
         public Setting Setting { get; set; }
-        
 
         public ImageStore Images { get; set; }
 
+
+
+
+        public BindingParam(string[] targets)
+        {
+            this.Setting = Setting.Load();
+            this.Images = new ImageStore(targets);
+        }
     }
 }

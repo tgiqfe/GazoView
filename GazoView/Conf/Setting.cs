@@ -1,5 +1,6 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Diagnostics;
 using System.IO;
 using System.Linq;
 using System.Security.Permissions;
@@ -43,11 +44,17 @@ namespace GazoView.Conf
 
         #region Save,Load
 
-        public static Setting Load(string path)
+        private static string _settingFilePath = null;
+
+        public static Setting Load()
         {
+            _settingFilePath ??= Path.Combine(
+                Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
+                "Setting.json");
+
             try
             {
-                using (var sr = new StreamReader(path, Encoding.UTF8))
+                using (var sr = new StreamReader(_settingFilePath, Encoding.UTF8))
                 {
                     var setting = JsonSerializer.Deserialize<Setting>(sr.ReadToEnd());
                     return setting;
@@ -61,9 +68,13 @@ namespace GazoView.Conf
             }
         }
 
-        public void Save(string path)
+        public void Save()
         {
-            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+            _settingFilePath ??= Path.Combine(
+                Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName),
+                "Setting.json");
+
+            using (var sw = new StreamWriter(_settingFilePath, false, Encoding.UTF8))
             {
                 var json = JsonSerializer.Serialize(this, new JsonSerializerOptions()
                 {

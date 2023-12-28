@@ -19,6 +19,8 @@ namespace GazoView
         public MainWindow()
         {
             InitializeComponent();
+
+            this.DataContext = Item.BindingParam;
         }
 
         private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
