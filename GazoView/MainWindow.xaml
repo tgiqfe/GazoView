@@ -6,9 +6,13 @@
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
         mc:Ignorable="d"
-        Height="450"
-        Width="800"
-        Name="MainBase">
+        Width="{Binding Setting.Width, Mode=TwoWay}"
+        Height="{Binding Setting.Height, Mode=TwoWay}"
+        Left="{Binding Setting.X, Mode=TwoWay}"
+        Top="{Binding Setting.Y, Mode=TwoWay}"
+        Name="MainBase"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        Background="DimGray">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Name="MainRow0" Height="*" />
@@ -26,7 +30,12 @@
                     MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                     MouseWheel="MainCanvas_MouseWheel">
                 <Image Name="MainImage"
-                       Source="{Binding Images.ImageSource}" />
+                       Source="{Binding Images.ImageSource}"
+                       Stretch="Uniform"
+                       HorizontalAlignment="Center" VerticalAlignment="Center"
+                       RenderOptions.EdgeMode="Aliased"
+                       RenderOptions.BitmapScalingMode="Fant"
+                       SizeChanged="MainImage_SizeChanged"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
                  

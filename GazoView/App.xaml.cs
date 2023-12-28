@@ -18,7 +18,7 @@ namespace GazoView
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-
+            Item.BindingParam.Setting.Save();
         }
     }
 

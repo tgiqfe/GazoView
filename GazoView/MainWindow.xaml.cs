@@ -47,5 +47,12 @@ namespace GazoView
         {
 
         }
+
+        private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+
+        }
+
+
     }
 }
