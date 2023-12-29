@@ -25,20 +25,11 @@ namespace GazoView
         /// <param name="e"></param>
         private void Window_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            if (e.ButtonState == MouseButtonState.Pressed)
-            {
-                this.DragMove();
-            }
-        }
 
-        /// <summary>
-        /// 画像上でドラッグ移動
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (e.ButtonState == MouseButtonState.Pressed)
+            if (e.ButtonState == MouseButtonState.Pressed &&
+                !(e.OriginalSource is System.Windows.Controls.Primitives.Thumb) &&
+                !(e.OriginalSource is System.Windows.Controls.Primitives.ScrollBar) &&
+                !(e.OriginalSource is System.Windows.Controls.Primitives.Track))
             {
                 this.DragMove();
             }
@@ -54,6 +45,8 @@ namespace GazoView
         /// <param name="e"></param>
         private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
+            e.Handled = true;
+
             if (SpecialKeyDown.IsCtrlPressed())
             {
                 if (!Item.BindingParam.State.ScalingMode)
@@ -61,53 +54,35 @@ namespace GazoView
                     SwitchScalingMode(true);
                 }
 
+
+                Point mousePoint = e.GetPosition(ScrollViewer);
+
                 if (e.Delta > 0)
                 {
-                    //Item.BindingParam.ImageSizeRate.Value += 0.1;
-
-
-
+                    Item.BindingParam.Images.Current.TickIndex++;
                 }
                 else
                 {
-                    //Item.BindingParam.ImageSizeRate.Value -= 0.1;
-
-                    /*
-                    var rate = MainImage.ActualHeight / Item.BindingParam.Images.Current.Height;
-
-                    string text = string.Format("{0} - {1}", 
-                        Item.BindingParam.Images.Current.Width, Item.BindingParam.Images.Current.Height);
-
-                    MessageBox.Show(text);
-                    */
-
-                    /*
-                    double scale = 1;
-                    MainCanvas.Width = 1254;
-                    MainCanvas.Height = 1770;
-                    
-                    MainImage.Width = 1254;
-                    MainImage.Height = 1770;
-
-                    Matrix matrix = new();
-                    matrix.Scale(1, 1);
-                    MainCanvas.RenderTransform = new MatrixTransform(matrix);
-                    //Point mousePoint = e.GetPosition(ScrollViewer);
-                    */
-
-
-                    (var width, var height, var rate) = ScalingRate.GetScalingRate(MainBase.ActualWidth, MainBase.ActualHeight, -1);
-                    MainCanvas.Width = width;
-                    MainCanvas.Height = height;
-                    MainImage.Width = width;
-                    MainImage.Height = height;
-                    ScrollViewer.Width = width;
-                    ScrollViewer.Height = height;
-
-                    MessageBox.Show(string.Format("{0} - {1}", width, height));
+                    Item.BindingParam.Images.Current.TickIndex--;
                 }
+                var scale = Item.BindingParam.Images.Current.Scale;
+                MainCanvas.Width = MainBase.ActualWidth * scale;
+                MainCanvas.Height = MainBase.ActualHeight * scale;
 
 
+
+
+                /*
+                double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
+                double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
+                ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
+                ScrollViewer.ScrollToVerticalOffset(y_barOffset);
+                */
+
+                //double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
+                //ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
+                //double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
+                //ScrollViewer.ScrollToVerticalOffset(y_barOffset);
             }
             else if (SpecialKeyDown.IsShiftPressed())
             {
@@ -125,31 +100,6 @@ namespace GazoView
                 }
             }
         }
-
-        private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            if (SpecialKeyDown.IsCtrlPressed())
-            {
-
-            }
-            else if (SpecialKeyDown.IsShiftPressed())
-            {
-
-            }
-            else
-            {
-                if (e.Delta > 0)
-                {
-                    KeyEvent_PressLeft();
-                }
-                else
-                {
-                    KeyEvent_PressRight();
-                }
-            }
-        }
-
-
 
 
 
@@ -158,11 +108,61 @@ namespace GazoView
             /*
             if (Item.BindingParam.State.ScalingMode)
             {
-                MainCanvas.Width = e.NewSize.Width * 1;
-                MainCanvas.Height = e.NewSize.Height * 1;
+                MainCanvas.Width = e.NewSize.Width * 0.9;
+                MainCanvas.Height = e.NewSize.Height * 0.9;
             }
             */
         }
 
+
+        private Point StartPoint;
+        private Point StartPosition;
+
+
+        /// <summary>
+        /// 拡縮モードで、右クリックドラッグで画像移動(開始)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Item.BindingParam.State.ScalingMode)
+            {
+                e.Handled = true;
+                StartPoint = e.GetPosition(ScrollViewer);
+                StartPosition = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
+                ScrollViewer.Cursor = Cursors.ScrollAll;
+            }
+        }
+
+        /// <summary>
+        /// 拡縮モードで、右クリックドラッグで画像移動(移動中)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Item.BindingParam.State.ScalingMode && e.RightButton == MouseButtonState.Pressed)
+            {
+                //e.Handled = true;
+                Point point = e.GetPosition(ScrollViewer);
+                ScrollViewer.ScrollToHorizontalOffset(StartPosition.X - (point.X - StartPoint.X));
+                ScrollViewer.ScrollToVerticalOffset(StartPosition.Y - (point.Y - StartPoint.Y));
+            }
+            else
+            {
+                ScrollViewer.Cursor = Cursors.Arrow;
+            }
+        }
+
+        /// <summary>
+        /// 拡縮モードで、右クリックドラッグで画像移動(終了)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ScrollViewer.Cursor = Cursors.Arrow;
+        }
     }
 }

@@ -21,20 +21,21 @@ namespace GazoView
             if (Item.BindingParam.State.ScalingMode)
             {
                 //  拡縮モードを有効化
-                BindingOperations.ClearBinding(MainImage, Image.WidthProperty);
-                BindingOperations.ClearBinding(MainImage, Image.HeightProperty);
+                //BindingOperations.ClearBinding(MainImage, Image.WidthProperty);
+                //BindingOperations.ClearBinding(MainImage, Image.HeightProperty);
                 //  Item.BindingParam.ImageSizeRate.Enabled = true;
             }
             else
             {
                 //  拡縮モードを無効化
+                /*
                 MainImage.SetBinding(
                     Image.WidthProperty,
                     new Binding("ActualWidth") { ElementName = "MainCanvas" });
                 MainImage.SetBinding(
                     Image.HeightProperty,
                     new Binding("ActualHeight") { ElementName = "MainCanvas" });
-
+                */
 
                 
 

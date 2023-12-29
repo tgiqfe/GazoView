@@ -17,8 +17,6 @@ namespace GazoView.Lib.ImageInfo
         string LabelFilePath { get; }
         string LabelFileExtension { get; }
 
-
-
         ImageSource Source { get; }
 
         double Width { get; }
@@ -26,5 +24,9 @@ namespace GazoView.Lib.ImageInfo
         string Size { get; }
         string LastWriteTime { get; }
         string Hash { get; }
+
+        double Scale { get; }
+        int TickIndex { get; set; }
+
     }
 }

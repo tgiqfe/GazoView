@@ -25,24 +25,14 @@ namespace GazoView
             SwitchScalingMode(false);
 
 
-        }
-
-        private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
-        {
-
-        }
-
-        private void ScrollViewer_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
-        {
+            MainImage.SetBinding(
+                Image.WidthProperty,
+                new Binding("ActualWidth") { ElementName = "MainCanvas" });
+            MainImage.SetBinding(
+                Image.HeightProperty,
+                new Binding("ActualHeight") { ElementName = "MainCanvas" });
 
         }
-
-        private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-
 
 
 
