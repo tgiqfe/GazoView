@@ -13,6 +13,8 @@ namespace GazoView
 
         public static BindingParam BindingParam = null;
 
+        public static MainWindow Mainbase = null;
+
 
         /// <summary>
         /// 許可する拡張子

@@ -19,6 +19,12 @@ namespace GazoView
         {
             switch (e.Key)
             {
+                case Key.Escape:
+                    KeyEvent_PressEscape();
+                    break;
+                case Key.Delete:
+                    KeyEvent_PressDelete();
+                    break;
                 case Key.Left:
                     KeyEvent_PressLeft();
                     break;
@@ -26,6 +32,19 @@ namespace GazoView
                     KeyEvent_PressRight();
                     break;
             }
+        }
+
+        /// <summary>
+        /// キー押下時イベント: Esc
+        /// アプリケーション終了
+        /// </summary>
+        private void KeyEvent_PressEscape()
+        {
+            Application.Current.Shutdown();
+        }
+
+        private void KeyEvent_PressDelete()
+        {
         }
 
         /// <summary>
@@ -44,6 +63,6 @@ namespace GazoView
         public void KeyEvent_PressRight()
         {
             Item.BindingParam.Images.Index++;
-        }   
+        }
     }
 }
