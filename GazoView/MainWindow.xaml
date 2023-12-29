@@ -13,6 +13,7 @@
         Name="MainBase"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
+        PreviewMouseWheel="Window_PreviewMouseWheel"
         Background="DimGray">
     <Grid>
         <Grid.RowDefinitions>
@@ -28,7 +29,7 @@
                                   PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
             <Canvas Name="MainCanvas"
                     Margin="0"
-                    MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown_1"
+                    MouseLeftButtonDown="MainCanvas_MouseLeftButtonDown"
                     MouseWheel="MainCanvas_MouseWheel">
                 <Image Name="MainImage"
                        Source="{Binding Images.ImageSource}"

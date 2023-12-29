@@ -20,17 +20,16 @@ namespace GazoView
             switch (e.Key)
             {
                 case Key.Escape:
-                    KeyEvent_PressEscape();
-                    break;
+                    KeyEvent_PressEscape(); break;
                 case Key.Delete:
-                    KeyEvent_PressDelete();
-                    break;
+                    KeyEvent_PressDelete(); break;
+
+                case Key.R:
+                    KeyEvent_PressR(); break;
                 case Key.Left:
-                    KeyEvent_PressLeft();
-                    break;
+                    KeyEvent_PressLeft(); break;
                 case Key.Right:
-                    KeyEvent_PressRight();
-                    break;
+                    KeyEvent_PressRight(); break;
             }
         }
 
@@ -45,6 +44,16 @@ namespace GazoView
 
         private void KeyEvent_PressDelete()
         {
+        }
+
+
+        /// <summary>
+        /// キー押下時イベント: R
+        /// 拡縮モード切り替え
+        /// </summary>
+        private void KeyEvent_PressR()
+        {
+            SwitchScalingMode();
         }
 
         /// <summary>

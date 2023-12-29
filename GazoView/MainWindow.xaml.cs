@@ -42,15 +42,6 @@ namespace GazoView
 
         }
 
-        private void MainCanvas_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-        }
-
-        private void MainCanvas_MouseWheel(object sender, MouseWheelEventArgs e)
-        {
-
-        }
 
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
