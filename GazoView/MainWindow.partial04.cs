@@ -35,6 +35,9 @@ namespace GazoView
                     Image.HeightProperty,
                     new Binding("ActualHeight") { ElementName = "MainCanvas" });
 
+
+                
+
                 //  Item.BindingParam.ImageSizeRate.Enabled = false;
 
 
