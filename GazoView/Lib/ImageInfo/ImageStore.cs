@@ -35,6 +35,7 @@ namespace GazoView.Lib
 
                     OnPropertyChanged("ImageSource");
                     OnPropertyChanged("Current");
+                    OnPropertyChanged("TitleMessage");
                     OnPropertyChanged();
                 }
             }
@@ -43,6 +44,14 @@ namespace GazoView.Lib
         public BaseImageItem Current { get; private set; }
 
         public ImageSource ImageSource { get { return Current?.Source; } }
+
+        public string TitleMessage
+        {
+            get
+            {
+                return $"[ {Index + 1} / {FileList?.Count} ] {Current?.FileName} ({Current?.FilePath})";
+            }
+        }
 
         public bool IsAllFiles { get; set; }
 
@@ -83,7 +92,7 @@ namespace GazoView.Lib
             }
             else if (targets.Length >= 2)
             {
-                
+
             }
         }
 

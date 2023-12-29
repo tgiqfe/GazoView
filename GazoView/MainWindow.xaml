@@ -11,7 +11,7 @@
         Left="{Binding Setting.X, Mode=TwoWay}"
         Top="{Binding Setting.Y, Mode=TwoWay}"
         Name="MainBase"
-        Title="[1/24] Sample.jpg (D:\Test\Images\Sample.jpg)"
+        Title="{Binding Images.TitleMessage}"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
