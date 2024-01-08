@@ -21,7 +21,6 @@ namespace GazoView.Lib.Actions
             set { _scalingMode = value; OnPropertyChanged(); }
         }
 
-
         //  トリミングモード
 
 

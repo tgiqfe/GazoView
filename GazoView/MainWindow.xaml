@@ -11,14 +11,18 @@
         Left="{Binding Setting.X, Mode=TwoWay}"
         Top="{Binding Setting.Y, Mode=TwoWay}"
         Name="MainBase"
+        AllowDrop="True"
         Title="{Binding Images.TitleMessage}"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
+        PreviewDragOver="Window_PreviewDragOver"
+        PreviewDragLeave="Window_PreviewDragLeave"
+        PreviewDrop="Window_PreviewDrop"
         Background="DimGray">
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Name="MainRow0" Height="*" />
-            <RowDefinition Name="MainRow1" Height="30" />
+            <RowDefinition Name="MainRow1" Height="0" />
         </Grid.RowDefinitions>
         <lib:AdvancedScrollViewer Grid.Row="0"
                                   x:Name="ScrollViewer"
