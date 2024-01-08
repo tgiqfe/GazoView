@@ -24,6 +24,7 @@
             <RowDefinition Name="MainRow0" Height="*" />
             <RowDefinition Name="MainRow1" Height="0" />
         </Grid.RowDefinitions>
+
         <lib:AdvancedScrollViewer Grid.Row="0"
                                   x:Name="ScrollViewer"
                                   HorizontalScrollBarVisibility="Auto"
@@ -44,6 +45,9 @@
                        SizeChanged="MainImage_SizeChanged"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
+
+        <lib:InfoPanel1 Grid.Row="0" />
+
         <Label Name="LabelBar" 
                Grid.Row="1"
                Background="White"/>

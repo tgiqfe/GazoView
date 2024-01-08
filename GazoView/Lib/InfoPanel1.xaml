@@ -1,0 +1,38 @@
+﻿<UserControl x:Class="GazoView.Lib.InfoPanel1"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GazoView.Lib"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Noto Sans JP" />
+            <Setter Property="FontSize" Value="14" />
+        </Style>
+    </UserControl.Resources>
+    <Grid>
+        <Border Grid.Row="0"
+                BorderThickness="0,0,1,0" 
+                BorderBrush="LightGray"
+                Background="White"
+                Opacity="0.85"
+                Width="300"
+                HorizontalAlignment="Left">
+            <Border.Effect>
+                <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" Direction="270" />
+            </Border.Effect>
+        </Border>
+        <StackPanel Grid.Row="0" 
+                    Name="InfoPanel"
+                    Margin="10">
+            <StackPanel Orientation="Horizontal">
+                <TextBlock Text="ファイル名: " />
+                <TextBlock Text="{Binding Images.Current.LabelFileName}" />
+            </StackPanel>
+            <Label Content="aaaaa" />
+            <Label Content="bbbbb" />
+            <Label Content="ccccc" />
+        </StackPanel>
+    </Grid>
+</UserControl>
