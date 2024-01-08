@@ -32,10 +32,9 @@ namespace GazoView
 
             if (SpecialKeyDown.IsCtrlPressed())
             {
-                if (!Item.BindingParam.State.ScalingMode)
-                {
-                    SwitchScalingMode(true);
-                }
+                if (Item.BindingParam.Images.Current.IsMaxScale || Item.BindingParam.Images.Current.IsMinScale) return;
+
+                if (!Item.BindingParam.State.ScalingMode) SwitchScalingMode(true);
 
                 if (e.Delta > 0)
                     Item.BindingParam.Images.Current.TickIndex++;
@@ -61,9 +60,16 @@ namespace GazoView
                         MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
 
                         //  スクロール位置を調整
-                        var previewScale = scale / Item.BindingParam.Images.Current.PreviewScale;
-                        ScrollViewer.ScrollToHorizontalOffset((viewX + mousePoint.X) * previewScale - mousePoint.X);
-                        ScrollViewer.ScrollToVerticalOffset((viewY + mousePoint.Y) * previewScale - mousePoint.Y);
+                        var relateScale = scale / Item.BindingParam.Images.Current.PreviewScale;
+                        ScrollViewer.ScrollToHorizontalOffset((viewX + mousePoint.X) * relateScale - mousePoint.X);
+                        ScrollViewer.ScrollToVerticalOffset((viewY + mousePoint.Y) * relateScale - mousePoint.Y);
+
+                        var xxxx = (viewX + mousePoint.X) * relateScale - mousePoint.X;
+                        var yyyy = (viewY + mousePoint.Y) * relateScale - mousePoint.Y;
+
+
+                        var rrrr = scale / Item.BindingParam.Images.Current.PreviewScale;
+                        LabelBar.Content = $"Scale: {scale} PreviewScale: {Item.BindingParam.Images.Current.PreviewScale} pppp: {rrrr}";
                     }
                     else
                     {

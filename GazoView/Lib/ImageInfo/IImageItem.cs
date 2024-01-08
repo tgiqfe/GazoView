@@ -10,7 +10,7 @@ namespace GazoView.Lib.ImageInfo
 {
     interface IImageItem
     {
-        string FilePath { get;  }
+        string FilePath { get; }
         string FileName { get; }
         string FileExtension { get; }
         string LabelFileName { get; }
@@ -27,6 +27,8 @@ namespace GazoView.Lib.ImageInfo
 
         double Scale { get; }
         double PreviewScale { get; }
+        bool IsMaxScale { get; }
+        bool IsMinScale { get; }
         int TickIndex { get; set; }
 
     }

@@ -42,6 +42,10 @@ namespace GazoView.Lib.ImageInfo
 
         public double PreviewScale { get { return _ticks[_previewtickindex]; } }
 
+        public bool IsMaxScale { get { return _tickindex == _ticks.Length - 1; } }
+
+        public bool IsMinScale { get { return _tickindex == 0; } }
+
         protected static readonly double[] _ticks = new double[]
         {
             0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.8, 5.6, 6.4, 7.2, 8
@@ -56,19 +60,8 @@ namespace GazoView.Lib.ImageInfo
             get { return _tickindex; }
             set
             {
-                if (value < 0)
-                {
-                    _tickindex = value;
-                }
-                else if (value >= _ticks.Length)
-                {
-                    _tickindex = _ticks.Length - 1;
-                }
-                else
-                {
-                    _previewtickindex = _tickindex;
-                    _tickindex = value;
-                }
+                _previewtickindex = _tickindex;
+                _tickindex = value;
             }
         }
 
