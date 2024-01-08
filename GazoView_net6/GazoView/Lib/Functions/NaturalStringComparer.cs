@@ -1,9 +1,14 @@
-﻿using System.Runtime.InteropServices;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using System.Runtime.InteropServices;
+using System.Text;
+using System.Threading.Tasks;
 
 namespace GazoView.Lib.Functions
 {
     /// <summary>
-    /// 自然順ソート
+    /// 自然準ソート用Comparer
     /// </summary>
     internal class NaturalStringComparer :
         System.Collections.IComparer,

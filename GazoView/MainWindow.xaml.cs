@@ -1,9 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using GazoView.Lib;
 using System.Text;
-using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -26,17 +22,28 @@ namespace GazoView
             InitializeComponent();
 
             this.DataContext = Item.BindingParam;
+            Item.Mainbase = this;
+            SwitchScalingMode(false);
 
-            //  自オブジェクトをItemに登録
-            Item.MainBase = this;
 
-            //  ウィンドウサイズ変更用バイディングを初期セット
-            MainImage.SetBinding(
-                Image.WidthProperty,
-                new Binding("ActualWidth") { ElementName = "MainCanvas" });
-            MainImage.SetBinding(
-                Image.HeightProperty,
-                new Binding("ActualHeight") { ElementName = "MainCanvas" });
+
+            
         }
+
+
     }
 }
+
+
+
+/*
+
+後から有効/無効に切り替える必要が出てきたら復旧
+
+MainImage.SetBinding(
+    Image.WidthProperty,
+    new Binding("ActualWidth") { ElementName = "MainCanvas" });
+MainImage.SetBinding(
+    Image.HeightProperty,
+    new Binding("ActualHeight") { ElementName = "MainCanvas" });
+*/

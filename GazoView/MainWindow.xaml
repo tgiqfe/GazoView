@@ -6,38 +6,23 @@
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
         mc:Ignorable="d"
-        Name="MainBase"
-        WindowStyle="None"
-        UseLayoutRounding="True"
-        AllowDrop="True"
-        AllowsTransparency="True"
-        PreviewKeyDown="Window_PreviewKeyDown"
-        MouseLeftButtonDown="Window_MouseLeftButtonDown"
-        MouseWheel="MainBase_MouseWheel"
-        PreviewDragOver="MainBase_PreviewDragOver"
-        PreviewDragLeave="MainBase_PreviewDragLeave"
-        PreviewDrop="MainBase_PreviewDrop"
-        SourceInitialized="Window_SourceInitialized"
-        StateChanged="MainBase_StateChanged"
-        Activated="MainBase_Activated"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
-        Left="{Binding Setting.LocationX, Mode=TwoWay}"
-        Top="{Binding Setting.LocationY, Mode=TwoWay}"
-        Background="DimGray"
-        Style="{DynamicResource WindowChromeStyle}" >
-    <Window.Resources>
-        <ResourceDictionary>
-            <ResourceDictionary.MergedDictionaries>
-                <ResourceDictionary Source="/Lib/WindowResource.xaml" />
-            </ResourceDictionary.MergedDictionaries>
-        </ResourceDictionary>
-    </Window.Resources>
-
+        Left="{Binding Setting.X, Mode=TwoWay}"
+        Top="{Binding Setting.Y, Mode=TwoWay}"
+        Name="MainBase"
+        AllowDrop="True"
+        Title="{Binding Images.TitleMessage}"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewMouseWheel="Window_PreviewMouseWheel"
+        PreviewDragOver="Window_PreviewDragOver"
+        PreviewDragLeave="Window_PreviewDragLeave"
+        PreviewDrop="Window_PreviewDrop"
+        Background="DimGray">
     <Grid>
         <Grid.RowDefinitions>
-            <RowDefinition Name="MainRow0" Height="*"/>
-            <RowDefinition Name="MainRow1" Height="0"/>
+            <RowDefinition Name="MainRow0" Height="*" />
+            <RowDefinition Name="MainRow1" Height="0" />
         </Grid.RowDefinitions>
 
         <lib:AdvancedScrollViewer Grid.Row="0"
@@ -48,43 +33,23 @@
                                   PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
                                   PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
             <Canvas Name="MainCanvas"
-                    Margin="0"
-                    MouseLeftButtonDown="Window_MouseLeftButtonDown"
-                    MouseWheel="MainBase_MouseWheel">
+                    Margin="0">
                 <Image Name="MainImage"
-                       Source ="{Binding Images.ImageSource}"
+                       Source="{Binding Images.ImageSource}"
                        Stretch="Uniform"
+                       Width="{Binding ElementName=MainCanvas, Path=ActualWidth}"
+                       Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        RenderOptions.EdgeMode="Aliased"
-                       RenderOptions.BitmapScalingMode="Fant"
+                       RenderOptions.BitmapScalingMode="LowQuality"
                        SizeChanged="MainImage_SizeChanged"/>
-                <lib:TrimmingLayer
-                    Width="{Binding ActualWidth, ElementName=MainImage}"
-                    Height="{Binding ActualHeight, ElementName=MainImage}"
-                    Visibility="{Binding State.TrimmingMode, Converter={StaticResource boolToVisibilityConverter}}"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
 
-        <DockPanel Grid.Row="0">
-            <lib:TitleBar DockPanel.Dock="Top" 
-                            x:Name="InfoTitleBar"
-                            Visibility="{Binding IsMouseOver, ElementName=MainBase, Converter={StaticResource boolToVisibilityConverter}}" />
-            <lib:ImageInfoPanel1 DockPanel.Dock="Left" 
-                                 x:Name="InfoImage1"
-                                 VerticalAlignment="Top"
-                                 Visibility="Hidden"/>
-            <lib:ImageInfoPanel2 DockPanel.Dock="Right"
-                                 x:Name="InfoImage2"
-                                 VerticalAlignment="Top"
-                                 Visibility="Hidden"/>
-            <Rectangle />
-        </DockPanel>
+        <lib:InfoPanel1 Grid.Row="0" />
 
-        <lib:CaptionButtons Grid.Row="0" HorizontalAlignment="Right" VerticalAlignment="Top"/>
-        
-        <lib:TrimmingBar Grid.Row="1"
-                         x:Name="InfoTrimmingBar"
-                         VerticalAlignment="Bottom"
-                         Visibility="{Binding State.TrimmingMode, Converter={StaticResource boolToVisibilityConverter}}" />
+        <Label Name="LabelBar" 
+               Grid.Row="1"
+               Background="White"/>
     </Grid>
 </Window>

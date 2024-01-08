@@ -1,43 +1,35 @@
 ﻿using GazoView.Lib;
-using GazoView.Lib.Config;
-using GazoView.Lib.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
 
 namespace GazoView
 {
-    /// <summary>
-    /// 静的パラメータを格納
-    /// </summary>
     class Item
     {
         public const string ProcessName = "GazoView";
 
         public static BindingParam BindingParam = null;
 
-        public static MainWindow MainBase = null;
+        public static MainWindow Mainbase = null;
 
-        public static ProcessManager ProcessManager = null;
-
-        public static FilePath FilePath = null;
-
-        public static FileWatcher FileWatcher = null;
-
-        public static TrimmingLayer Layer = null;
 
         /// <summary>
-        /// 拡縮モードで右クリック移動する場合の開始位置
+        /// 許可する拡張子
         /// </summary>
-        public static Point StartPoint_RightButtonMove;
+        public static string[] ValidExtensions = new string[]
+        {
+            ".jpg", ".jpeg", ".png", ".tif", ".tiff",".bmp"
+        };
 
-        /// <summary>
-        /// 拡縮モードで右クリック移動する場合の開始位置
-        /// </summary>
-        public static Point StartPosition_RightButtonMove;
-
+        /*
+         * 将来追加予定
+         * - .svg
+         * - .gif
+         * - .ico
+         * - .webp
+         */
     }
 }

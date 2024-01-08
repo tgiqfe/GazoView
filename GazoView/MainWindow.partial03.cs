@@ -1,6 +1,7 @@
-﻿using System;
+﻿using GazoView.Lib;
+using GazoView.Lib.Functions;
+using System;
 using System.Collections.Generic;
-using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
@@ -8,123 +9,108 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using static System.Runtime.InteropServices.JavaScript.JSType;
 
 namespace GazoView
 {
     /// <summary>
-    /// マウスイベント関連を記述
+    /// マウスイベント関連
     /// </summary>
     public partial class MainWindow : Window
     {
         /// <summary>
-        /// ウィンドウ全体でドラッグ可能にする
+        /// ホイール操作
+        ///   Ctrl押し ⇒ 拡大縮小
+        ///   Shift押し ⇒ 
+        ///   同時押し無し ⇒ 上方向でひとつ前の画像、下方向で次の画像
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
-        private void Window_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-            if (Item.BindingParam.State.TrimmingMode)
-            {
-                return;
-            }
-            this.DragMove();
-        }
-
-        /// <summary>
-        /// マウスホイール上下
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainBase_MouseWheel(object sender, MouseWheelEventArgs e)
+        private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
 
-            if ((Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) == KeyStates.Down ||
-                (Keyboard.GetKeyStates(Key.RightCtrl) & KeyStates.Down) == KeyStates.Down)
+            if (SpecialKeyDown.IsCtrlPressed())
             {
-                //  拡縮モードで拡大/縮小率変更
-                if (!Item.BindingParam.State.ScalingMode)
-                {
-                    ToggleScalingMode(true);
-                }
+                if (!Item.BindingParam.State.ScalingMode) SwitchScalingMode(true);
 
                 if (e.Delta > 0)
                 {
-                    //  ホイール上方向で、拡大率を一段階上げる
-                    Item.BindingParam.ImageSizeRate.Index++;
+                    if (Item.BindingParam.Images.IsMaxScale) return;
+                    Item.BindingParam.Images.TickIndex++;
                 }
-                else if (e.Delta < 0)
+                else
                 {
-                    //  ホイール下方向で、拡大率を一段階下げる
-                    Item.BindingParam.ImageSizeRate.Index--;
+                    if (Item.BindingParam.Images.IsMinScale) return;
+                    Item.BindingParam.Images.TickIndex--;
                 }
 
-                double scale = Item.BindingParam.ImageSizeRate.Value / Item.BindingParam.ImageSizeRate.PrevValue;
-                MainCanvas.Width *= scale;
-                MainCanvas.Height *= scale;
+                var scale = Item.BindingParam.Images.Scale;
+                if (scale == 1)
+                {
+                    MainCanvas.Width = double.NaN;
+                    MainCanvas.Height = double.NaN;
+                }
+                else
+                {
+                    if (scale > 1)
+                    {
+                        //  拡縮前のマウスポインタ、スクロール位置を取得
+                        Point mousePoint = e.GetPosition(ScrollViewer);
+                        (double viewX, double viewY) = (ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
 
-                Matrix matrix = new();
-                matrix.Scale(Item.BindingParam.ImageSizeRate.Value, Item.BindingParam.ImageSizeRate.Value);
-                MainCanvas.RenderTransform = new MatrixTransform(matrix);
+                        //  拡縮
+                        MainCanvas.Width = MainBase.ActualWidth * scale;
+                        MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
 
-                Point mousePoint = e.GetPosition(ScrollViewer);
-                double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
-                ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
-                double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
-                ScrollViewer.ScrollToVerticalOffset(y_barOffset);
-
-                Item.BindingParam.ImageSizeRate.PrevValue = Item.BindingParam.ImageSizeRate.Value;
+                        //  スクロール位置を調整
+                        var relateScale = scale / Item.BindingParam.Images.PreviewScale;
+                        ScrollViewer.ScrollToHorizontalOffset((viewX + mousePoint.X) * relateScale - mousePoint.X);
+                        ScrollViewer.ScrollToVerticalOffset((viewY + mousePoint.Y) * relateScale - mousePoint.Y);
+                    }
+                    else
+                    {
+                        //  拡縮
+                        MainCanvas.Width = MainBase.ActualWidth * scale;
+                        MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
+                    }
+                }
             }
-            else if ((Keyboard.GetKeyStates(Key.LeftShift) & KeyStates.Down) == KeyStates.Down ||
-                (Keyboard.GetKeyStates(Key.RightShift) & KeyStates.Down) == KeyStates.Down)
+            else if (SpecialKeyDown.IsShiftPressed())
             {
-                if (Item.BindingParam.State.TransparentMode)
-                {
-                    //  透明モード時
-                    if (e.Delta > 0)
-                    {
-                        //  ホイール上方向で、不透明度を一段階上げる
-                        Item.BindingParam.WindowOpacity.Index++;
-                    }
-                    else if (e.Delta < 0)
-                    {
-                        //  ホイール下方向で、不透明度を一段階下げる
-                        Item.BindingParam.WindowOpacity.Index--;
-                    }
-                }
+
             }
             else
             {
                 if (e.Delta > 0)
                 {
-                    //  ホイール上方向でひとつ前の画像へ
-                    Item.BindingParam.Images.Index--;
+                    KeyEvent_PressLeft();
                 }
-                else if (e.Delta < 0)
+                else
                 {
-                    //  ホイール下方向で一つ後の画像へ
-                    Item.BindingParam.Images.Index++;
+                    KeyEvent_PressRight();
                 }
             }
         }
 
-        /// <summary>
-        /// Ctrl+ホイールで画像サイズ変更後処理
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            /*
             if (Item.BindingParam.State.ScalingMode)
             {
-                MainCanvas.Width = e.NewSize.Width * Item.BindingParam.ImageSizeRate.Value;
-                MainCanvas.Height = e.NewSize.Height * Item.BindingParam.ImageSizeRate.Value;
+                MainCanvas.Width = e.NewSize.Width * 0.9;
+                MainCanvas.Height = e.NewSize.Height * 0.9;
             }
+            */
         }
 
 
+        private Point StartPoint;
+        private Point StartPosition;
+
+
         /// <summary>
-        /// 拡縮モードで、右クリックで画像移動 (開始)
+        /// 拡縮モードで、右クリックドラッグで画像移動(開始)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -133,14 +119,14 @@ namespace GazoView
             if (Item.BindingParam.State.ScalingMode)
             {
                 e.Handled = true;
-                Item.StartPoint_RightButtonMove = e.GetPosition(ScrollViewer);
-                Item.StartPosition_RightButtonMove = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
+                StartPoint = e.GetPosition(ScrollViewer);
+                StartPosition = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
                 ScrollViewer.Cursor = Cursors.ScrollAll;
             }
         }
 
         /// <summary>
-        /// 拡縮モードで、右クリックで画像移動
+        /// 拡縮モードで、右クリックドラッグで画像移動(移動中)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
@@ -148,11 +134,10 @@ namespace GazoView
         {
             if (Item.BindingParam.State.ScalingMode && e.RightButton == MouseButtonState.Pressed)
             {
-                Point _currentPoint = e.GetPosition(ScrollViewer);
-                double moveX = Item.StartPosition_RightButtonMove.X - (_currentPoint.X - Item.StartPoint_RightButtonMove.X);
-                double moveY = Item.StartPosition_RightButtonMove.Y - (_currentPoint.Y - Item.StartPoint_RightButtonMove.Y);
-                ScrollViewer.ScrollToHorizontalOffset(moveX);
-                ScrollViewer.ScrollToVerticalOffset(moveY);
+                //e.Handled = true;
+                Point point = e.GetPosition(ScrollViewer);
+                ScrollViewer.ScrollToHorizontalOffset(StartPosition.X - (point.X - StartPoint.X));
+                ScrollViewer.ScrollToVerticalOffset(StartPosition.Y - (point.Y - StartPoint.Y));
             }
             else
             {
@@ -161,62 +146,13 @@ namespace GazoView
         }
 
         /// <summary>
-        /// 拡縮モードで、右クリックで画像移動 (終了)
+        /// 拡縮モードで、右クリックドラッグで画像移動(終了)
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
         private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
         {
             ScrollViewer.Cursor = Cursors.Arrow;
-        }
-
-        /// <summary>
-        /// ファイルをDragOver
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainBase_PreviewDragOver(object sender, DragEventArgs e)
-        {
-            if (e.Data.GetData(DataFormats.FileDrop) is string[] dropFiles)
-            {
-                if (File.Exists(dropFiles[0]) || Directory.Exists(dropFiles[0]))
-                {
-                    e.Effects = DragDropEffects.Copy;
-                    MainImage.Opacity = 0.6;
-                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3187F0"));
-                }
-                else
-                {
-                    e.Effects = DragDropEffects.None;
-                }
-                e.Handled = true;
-            }
-        }
-
-        /// <summary>
-        /// DragOverしていたファイルをLeave
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainBase_PreviewDragLeave(object sender, DragEventArgs e)
-        {
-            MainImage.Opacity = 1;
-            this.Background = Brushes.DimGray;
-        }
-
-        /// <summary>
-        /// ファイルをDropIn
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void MainBase_PreviewDrop(object sender, DragEventArgs e)
-        {
-            MainImage.Opacity = 1;
-            this.Background = Brushes.DimGray;
-            if (e.Data.GetData(DataFormats.FileDrop) is string[] dropFiles)
-            {
-                Item.BindingParam.Images.UpdateFileList(dropFiles);
-            }
         }
     }
 }

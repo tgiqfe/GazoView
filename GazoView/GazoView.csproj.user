@@ -7,48 +7,15 @@
     </ApplicationDefinition>
   </ItemGroup>
   <ItemGroup>
-    <Compile Update="Lib\CaptionButtons.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Lib\ImageInfoPanel1.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Lib\ImageInfoPanel2.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Lib\TitleBar.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Lib\TrimmingBar.xaml.cs">
-      <SubType>Code</SubType>
-    </Compile>
-    <Compile Update="Lib\TrimmingLayer.xaml.cs">
+    <Compile Update="Lib\InfoPanel1.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
   </ItemGroup>
   <ItemGroup>
-    <Page Update="Lib\CaptionButtons.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Lib\ImageInfoPanel1.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Lib\ImageInfoPanel2.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Lib\TitleBar.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Lib\TrimmingBar.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Lib\TrimmingLayer.xaml">
+    <Page Update="Lib\InfoPanel1.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
-      <SubType>Designer</SubType>
-    </Page>
-    <Page Update="Lib\WindowResource.xaml">
       <SubType>Designer</SubType>
     </Page>
   </ItemGroup>
