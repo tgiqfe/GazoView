@@ -33,7 +33,9 @@ namespace GazoView
                 Image.HeightProperty,
                 new Binding("ActualHeight") { ElementName = "MainCanvas" });
 
-
+            LabelBar.Content = $"Width: {MainCanvas.Width} Height: {MainCanvas.Height}";
         }
+
+
     }
 }

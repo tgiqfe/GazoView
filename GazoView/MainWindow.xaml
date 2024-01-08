@@ -18,7 +18,7 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Name="MainRow0" Height="*" />
-            <RowDefinition Name="MainRow1" Height="0" />
+            <RowDefinition Name="MainRow1" Height="30" />
         </Grid.RowDefinitions>
         <lib:AdvancedScrollViewer Grid.Row="0"
                                   x:Name="ScrollViewer"
@@ -28,8 +28,7 @@
                                   PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
                                   PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
             <Canvas Name="MainCanvas"
-                    Margin="0"
-                    MouseWheel="MainCanvas_MouseWheel">
+                    Margin="0">
                 <Image Name="MainImage"
                        Source="{Binding Images.ImageSource}"
                        Stretch="Uniform"
@@ -39,6 +38,8 @@
                        SizeChanged="MainImage_SizeChanged"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
-
+        <Label Name="LabelBar" 
+               Grid.Row="1"
+               Background="White"/>
     </Grid>
 </Window>

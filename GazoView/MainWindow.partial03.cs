@@ -37,35 +37,35 @@ namespace GazoView
                     SwitchScalingMode(true);
                 }
 
-
-                Point mousePoint = e.GetPosition(ScrollViewer);
-
                 if (e.Delta > 0)
-                {
                     Item.BindingParam.Images.Current.TickIndex++;
+                else
+                    Item.BindingParam.Images.Current.TickIndex--;
+
+                var scale = Item.BindingParam.Images.Current.Scale;
+                if (scale == 1)
+                {
+                    MainCanvas.Width = double.NaN;
+                    MainCanvas.Height = double.NaN;
                 }
                 else
                 {
-                    Item.BindingParam.Images.Current.TickIndex--;
+                    MainCanvas.Width = MainBase.ActualWidth * scale;
+                    MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
                 }
-                var scale = Item.BindingParam.Images.Current.Scale;
-                MainCanvas.Width = MainBase.ActualWidth * scale;
-                MainCanvas.Height = MainBase.ActualHeight * scale;
-
+                LabelBar.Content = $"Width: {MainCanvas.Width} Height: {MainCanvas.Height}";
 
 
 
                 /*
+                //  拡縮したとき、マウスポインタの位置を中心にする 
+                Point mousePoint = e.GetPosition(ScrollViewer);
                 double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
                 double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
                 ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
                 ScrollViewer.ScrollToVerticalOffset(y_barOffset);
                 */
 
-                //double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
-                //ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
-                //double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
-                //ScrollViewer.ScrollToVerticalOffset(y_barOffset);
             }
             else if (SpecialKeyDown.IsShiftPressed())
             {
@@ -83,8 +83,6 @@ namespace GazoView
                 }
             }
         }
-
-
 
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
