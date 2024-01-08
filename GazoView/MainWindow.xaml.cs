@@ -1,4 +1,5 @@
-﻿using System.Text;
+﻿using GazoView.Lib;
+using System.Text;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -32,9 +33,7 @@ namespace GazoView
                 Image.HeightProperty,
                 new Binding("ActualHeight") { ElementName = "MainCanvas" });
 
+
         }
-
-
-
     }
 }

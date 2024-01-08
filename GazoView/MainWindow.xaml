@@ -14,7 +14,6 @@
         Title="{Binding Images.TitleMessage}"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
-        PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
         Background="DimGray">
     <Grid>
         <Grid.RowDefinitions>
@@ -29,7 +28,8 @@
                                   PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
                                   PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
             <Canvas Name="MainCanvas"
-                    Margin="0">
+                    Margin="0"
+                    MouseWheel="MainCanvas_MouseWheel">
                 <Image Name="MainImage"
                        Source="{Binding Images.ImageSource}"
                        Stretch="Uniform"
@@ -39,6 +39,6 @@
                        SizeChanged="MainImage_SizeChanged"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
-                 
+
     </Grid>
 </Window>

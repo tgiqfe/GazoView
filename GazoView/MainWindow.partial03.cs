@@ -19,23 +19,6 @@ namespace GazoView
     public partial class MainWindow : Window
     {
         /// <summary>
-        /// メインウィンドウ(背景部分)でドラッグ移動
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
-        {
-
-            if (e.ButtonState == MouseButtonState.Pressed &&
-                !(e.OriginalSource is System.Windows.Controls.Primitives.Thumb) &&
-                !(e.OriginalSource is System.Windows.Controls.Primitives.ScrollBar) &&
-                !(e.OriginalSource is System.Windows.Controls.Primitives.Track))
-            {
-                this.DragMove();
-            }
-        }
-
-        /// <summary>
         /// ホイール操作
         ///   Ctrl押し ⇒ 拡大縮小
         ///   Shift押し ⇒ 
