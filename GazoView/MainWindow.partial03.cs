@@ -50,22 +50,28 @@ namespace GazoView
                 }
                 else
                 {
-                    MainCanvas.Width = MainBase.ActualWidth * scale;
-                    MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
+                    if (scale > 1)
+                    {
+                        //  拡縮前のマウスポインタ、スクロール位置を取得
+                        Point mousePoint = e.GetPosition(ScrollViewer);
+                        (double viewX, double viewY) = (ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
+
+                        //  拡縮
+                        MainCanvas.Width = MainBase.ActualWidth * scale;
+                        MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
+
+                        //  スクロール位置を調整
+                        var previewScale = scale / Item.BindingParam.Images.Current.PreviewScale;
+                        ScrollViewer.ScrollToHorizontalOffset((viewX + mousePoint.X) * previewScale - mousePoint.X);
+                        ScrollViewer.ScrollToVerticalOffset((viewY + mousePoint.Y) * previewScale - mousePoint.Y);
+                    }
+                    else
+                    {
+                        //  拡縮
+                        MainCanvas.Width = MainBase.ActualWidth * scale;
+                        MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
+                    }
                 }
-                LabelBar.Content = $"Width: {MainCanvas.Width} Height: {MainCanvas.Height}";
-
-
-
-                /*
-                //  拡縮したとき、マウスポインタの位置を中心にする 
-                Point mousePoint = e.GetPosition(ScrollViewer);
-                double x_barOffset = (ScrollViewer.HorizontalOffset + mousePoint.X) * scale - mousePoint.X;
-                double y_barOffset = (ScrollViewer.VerticalOffset + mousePoint.Y) * scale - mousePoint.Y;
-                ScrollViewer.ScrollToHorizontalOffset(x_barOffset);
-                ScrollViewer.ScrollToVerticalOffset(y_barOffset);
-                */
-
             }
             else if (SpecialKeyDown.IsShiftPressed())
             {

@@ -7,6 +7,7 @@ using System.Windows.Media;
 using System.IO;
 using System.Security.Cryptography;
 using System.Security.Permissions;
+using System.Diagnostics.Eventing.Reader;
 
 namespace GazoView.Lib.ImageInfo
 {
@@ -36,9 +37,10 @@ namespace GazoView.Lib.ImageInfo
 
         public double Height { get; protected set; }
 
-        public double Scale { get { return _ticks[TickIndex]; } }
 
+        public double Scale { get { return _ticks[_tickindex]; } }
 
+        public double PreviewScale { get { return _ticks[_previewtickindex]; } }
 
         protected static readonly double[] _ticks = new double[]
         {
@@ -47,14 +49,26 @@ namespace GazoView.Lib.ImageInfo
 
         private int _tickindex = 8;
 
+        private int _previewtickindex = 8;
+
         public int TickIndex
         {
             get { return _tickindex; }
             set
             {
-                _tickindex = value;
-                if (_tickindex < 0) _tickindex = 0;
-                if (_tickindex >= _ticks.Length) _tickindex = _ticks.Length - 1;
+                if (value < 0)
+                {
+                    _tickindex = value;
+                }
+                else if (value >= _ticks.Length)
+                {
+                    _tickindex = _ticks.Length - 1;
+                }
+                else
+                {
+                    _previewtickindex = _tickindex;
+                    _tickindex = value;
+                }
             }
         }
 

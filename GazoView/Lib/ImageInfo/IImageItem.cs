@@ -26,6 +26,7 @@ namespace GazoView.Lib.ImageInfo
         string Hash { get; }
 
         double Scale { get; }
+        double PreviewScale { get; }
         int TickIndex { get; set; }
 
     }
