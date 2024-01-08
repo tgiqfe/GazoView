@@ -4,12 +4,19 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GazoView.Lib"
-             mc:Ignorable="d">
+             xmlns:converter="clr-namespace:GazoView.Lib.Converter"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Noto Sans JP" />
             <Setter Property="FontSize" Value="14" />
         </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="VerticalAlignment" Value="Center" />
+            <Setter Property="HorizontalAlignment" Value="Center" />
+            <Setter Property="Margin" Value="0,0,5,0" />
+        </Style>
+        <converter:SizeTextConverter x:Key="SizeTextConverter" />
     </UserControl.Resources>
     <Grid>
         <Border Grid.Row="0"
@@ -26,13 +33,35 @@
         <StackPanel Grid.Row="0" 
                     Name="InfoPanel"
                     Margin="10">
-            <StackPanel Orientation="Horizontal">
-                <TextBlock Text="ファイル名: " />
-                <TextBlock Text="{Binding Images.Current.LabelFileName}" />
+            <StackPanel Orientation="Horizontal" Height="42">
+                <materialDesign:PackIcon Kind="FileMultipleOutline" Width="25" Height="20"/>
+                <StackPanel>
+                    <TextBlock Text="ファイル名: " />
+                    <TextBlock Text="{Binding Images.Current.FileName}" TextTrimming="CharacterEllipsis" Width="230"/>
+                </StackPanel>
             </StackPanel>
-            <Label Content="aaaaa" />
-            <Label Content="bbbbb" />
-            <Label Content="ccccc" />
+            <StackPanel Orientation="Horizontal" Height="42">
+                <materialDesign:PackIcon Kind="FileSearchOutline" Width="25" Height="23" />
+                <StackPanel>
+                    <TextBlock Text="ファイルパス: "/>
+                    <TextBlock Text="{Binding Images.Current.FilePath}" TextTrimming="CharacterEllipsis" Width="230"/>
+                </StackPanel>
+            </StackPanel>
+            <StackPanel Orientation="Horizontal" Height="42">
+                <materialDesign:PackIcon Kind="ImageSizeSelectLarge" Width="25" Height="23" />
+                <StackPanel>
+                    <TextBlock Text="サイズ: " />
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource SizeTextConverter}">
+                                <Binding Path="Images.Current.Width" />
+                                <Binding Path="Images.Current.Height" />
+                            </MultiBinding>
+                        </TextBlock.Text>
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+
         </StackPanel>
     </Grid>
 </UserControl>
