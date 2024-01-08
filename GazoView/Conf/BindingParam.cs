@@ -1,4 +1,4 @@
-﻿using GazoView.Conf;
+﻿using GazoView.Lib;
 using GazoView.Lib.Actions;
 using System;
 using System.Collections.Generic;
@@ -6,7 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView.Lib
+namespace GazoView.Conf
 {
     class BindingParam
     {
@@ -19,9 +19,9 @@ namespace GazoView.Lib
 
         public BindingParam(string[] targets)
         {
-            this.Setting = Setting.Load();
-            this.Images = new ImageStore(targets);
-            this.State = new State();
+            Setting = Setting.Load();
+            Images = new ImageStore(targets);
+            State = new State();
         }
     }
 }

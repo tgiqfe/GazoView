@@ -1,11 +1,10 @@
-﻿using GazoView.Lib;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView
+namespace GazoView.Conf
 {
     class Item
     {

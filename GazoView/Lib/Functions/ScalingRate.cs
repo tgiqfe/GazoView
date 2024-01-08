@@ -7,6 +7,7 @@ using System.Threading.Tasks;
 
 namespace GazoView.Lib.Functions
 {
+    /*
     internal class ScalingRate
     {
         private static readonly double[] _ticks2 = new double[]
@@ -50,4 +51,5 @@ namespace GazoView.Lib.Functions
 
 
     }
+    */
 }

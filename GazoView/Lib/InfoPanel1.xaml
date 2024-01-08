@@ -29,12 +29,13 @@
                 Width="300"
                 HorizontalAlignment="Left">
             <Border.Effect>
-                <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" Direction="270" />
+                <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" />
             </Border.Effect>
         </Border>
         <StackPanel Grid.Row="0" 
-                    Name="InfoPanel"
-                    Margin="10">
+                    Name="TextPanel1"
+                    Margin="10"
+                    HorizontalAlignment="Left">
 
             <!-- ファイル名 -->
             <StackPanel Orientation="Horizontal" Height="42">

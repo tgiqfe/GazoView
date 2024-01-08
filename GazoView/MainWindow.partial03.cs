@@ -1,4 +1,5 @@
-﻿using GazoView.Lib;
+﻿using GazoView.Conf;
+using GazoView.Lib;
 using GazoView.Lib.Functions;
 using System;
 using System.Collections.Generic;
@@ -48,8 +49,11 @@ namespace GazoView
                 var scale = Item.BindingParam.Images.Scale;
                 if (scale == 1)
                 {
+                    /*
                     MainCanvas.Width = double.NaN;
                     MainCanvas.Height = double.NaN;
+                    */
+                    SwitchScalingMode(false);
                 }
                 else
                 {

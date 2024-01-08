@@ -23,7 +23,7 @@
     <Window.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
     </Window.Resources>
-    
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Name="MainRow0" Height="*" />
@@ -52,6 +52,9 @@
         </lib:AdvancedScrollViewer>
 
         <lib:InfoPanel1 Grid.Row="0" 
+                        Visibility="{Binding State.ShowInfoPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+        <lib:InfoPanel2 Grid.Row="0"
                         Visibility="{Binding State.ShowInfoPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
         <Label Name="LabelBar" 

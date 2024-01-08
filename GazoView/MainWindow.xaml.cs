@@ -1,4 +1,5 @@
-﻿using GazoView.Lib;
+﻿using GazoView.Conf;
+using GazoView.Lib;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;

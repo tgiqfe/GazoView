@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using GazoView.Lib.Functions;
+using GazoView.Conf;
 
 namespace GazoView.Lib
 {
