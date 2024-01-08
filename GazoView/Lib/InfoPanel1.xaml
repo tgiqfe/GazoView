@@ -4,12 +4,14 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GazoView.Lib"
+             xmlns:main="clr-namespace:GazoView"
              xmlns:converter="clr-namespace:GazoView.Lib.Converter"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <UserControl.Resources>
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Noto Sans JP" />
             <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="0,0,0,-3" />
         </Style>
         <Style TargetType="materialDesign:PackIcon">
             <Setter Property="VerticalAlignment" Value="Center" />
@@ -33,24 +35,52 @@
         <StackPanel Grid.Row="0" 
                     Name="InfoPanel"
                     Margin="10">
+
+            <!-- ファイル名 -->
             <StackPanel Orientation="Horizontal" Height="42">
                 <materialDesign:PackIcon Kind="FileMultipleOutline" Width="25" Height="20"/>
                 <StackPanel>
                     <TextBlock Text="ファイル名: " />
-                    <TextBlock Text="{Binding Images.Current.FileName}" TextTrimming="CharacterEllipsis" Width="230"/>
+                    <TextBlock Text="{Binding Images.Current.FileName}"
+                               TextTrimming="CharacterEllipsis"
+                               Width="230"/>
                 </StackPanel>
             </StackPanel>
+
+            <!-- ファイルパス -->
             <StackPanel Orientation="Horizontal" Height="42">
                 <materialDesign:PackIcon Kind="FileSearchOutline" Width="25" Height="23" />
                 <StackPanel>
                     <TextBlock Text="ファイルパス: "/>
-                    <TextBlock Text="{Binding Images.Current.FilePath}" TextTrimming="CharacterEllipsis" Width="230"/>
+                    <TextBlock Text="{Binding Images.Current.FilePath}"
+                               TextTrimming="CharacterEllipsis"
+                               Width="230"/>
                 </StackPanel>
             </StackPanel>
+
+            <!-- 拡張子 -->
+            <StackPanel Orientation="Horizontal" Height="42">
+                <materialDesign:PackIcon Kind="PuzzleOutline" Width="25" Height="23" />
+                <StackPanel>
+                    <TextBlock Text="拡張子: " />
+                    <TextBlock Text="{Binding Images.Current.FileExtension}" />
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- ファイルサイズ -->
+            <StackPanel Orientation="Horizontal" Height="42">
+                <materialDesign:PackIcon Kind="MicroSd" Width="25" Height="22" />
+                <StackPanel>
+                    <TextBlock Text="ファイルサイズ: " />
+                    <TextBlock Text="{Binding Images.Current.Size}" />
+                </StackPanel>
+            </StackPanel>
+
+            <!-- 画像サイズ(横x縦) -->
             <StackPanel Orientation="Horizontal" Height="42">
                 <materialDesign:PackIcon Kind="ImageSizeSelectLarge" Width="25" Height="23" />
                 <StackPanel>
-                    <TextBlock Text="サイズ: " />
+                    <TextBlock Text="画像サイズ: " />
                     <TextBlock>
                         <TextBlock.Text>
                             <MultiBinding Converter="{StaticResource SizeTextConverter}">
@@ -59,6 +89,25 @@
                             </MultiBinding>
                         </TextBlock.Text>
                     </TextBlock>
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- 表示サイズ(横x縦) -->
+            <StackPanel Orientation="Horizontal" Height="42">
+                <materialDesign:PackIcon Kind="Resize" Width="25" Height="22" />
+                <StackPanel>
+                    <TextBlock Text="表示サイズ: " />
+                    <TextBlock Text="検討中(一旦保留)">
+                    </TextBlock>
+                </StackPanel>
+            </StackPanel>
+            
+            <!-- 更新日時 -->
+            <StackPanel Orientation="Horizontal" Height="42">
+                <materialDesign:PackIcon Kind="CalendarClock" Width="25" Height="23" />
+                <StackPanel>
+                    <TextBlock Text="更新日時: " />
+                    <TextBlock Text="{Binding Images.Current.LastWriteTime}" />
                 </StackPanel>
             </StackPanel>
 
