@@ -6,6 +6,7 @@ using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
+using System.Windows.Media;
 
 namespace GazoView
 {
@@ -36,6 +37,22 @@ namespace GazoView
             }
         }
 
+        private void BitmapScalingMode(bool? toNearestNeighbor = null)
+        {
+            Item.BindingParam.State.NearestNeighbor =
+                toNearestNeighbor ?? !Item.BindingParam.State.NearestNeighbor;
+
+            if (Item.BindingParam.State.NearestNeighbor)
+            {
+                //  BitmapScalingModeをNearestNeighborに変更
+                RenderOptions.SetBitmapScalingMode(MainImage, System.Windows.Media.BitmapScalingMode.NearestNeighbor);
+            }
+            else
+            {
+                //  BitmapScalingModeをFantに変更
+                RenderOptions.SetBitmapScalingMode(MainImage, System.Windows.Media.BitmapScalingMode.Fant);
+            }
+        }
 
     }
 }

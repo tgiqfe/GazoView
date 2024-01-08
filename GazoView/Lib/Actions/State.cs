@@ -28,6 +28,19 @@ namespace GazoView.Lib.Actions
         //  透明化モード
 
 
+        /// <summary>
+        /// Bitmapスケーリングモード
+        /// true ⇒ NearestNeighbor
+        /// false ⇒ Fant
+        /// </summary>
+        private bool _neirestNeighbor = false;
+
+        public bool NearestNeighbor
+        {
+            get { return _neirestNeighbor; }
+            set { _neirestNeighbor = value; OnPropertyChanged(); }
+        }
+
 
 
         #region Inotify change

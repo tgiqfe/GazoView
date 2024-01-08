@@ -25,6 +25,8 @@ namespace GazoView
                     KeyEvent_PressDelete(); break;
                 case Key.R:
                     KeyEvent_PressR(); break;
+                case Key.N:
+                    KeyEvent_PressN();break;
                 case Key.Left:
                     KeyEvent_PressLeft(); break;
                 case Key.Right:
@@ -53,6 +55,14 @@ namespace GazoView
         private void KeyEvent_PressR()
         {
             SwitchScalingMode();
+        }
+
+        /// <summary>
+        /// Bitmapスケーリングモードを NearestNeighbor⇔Fnat で切り替える
+        /// </summary>
+        private void KeyEvent_PressN()
+        {
+            BitmapScalingMode();
         }
 
         /// <summary>
