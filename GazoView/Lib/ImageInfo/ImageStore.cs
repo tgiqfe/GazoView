@@ -97,6 +97,61 @@ namespace GazoView.Lib
         }
 
 
+        #region Scaling parameter
+
+        /// <summary>
+        /// 変更後の拡大率
+        /// </summary>
+        public double Scale { get { return _ticks[_tickindex]; } }
+
+        /// <summary>
+        /// ひとつ前の拡大率
+        /// </summary>
+        public double PreviewScale { get { return _ticks[_previewtickindex]; } }
+
+        /// <summary>
+        /// 最大拡大率かどうか
+        /// </summary>
+        public bool IsMaxScale { get { return _tickindex == _ticks.Length - 1; } }
+
+        /// <summary>
+        /// 最小拡大率かどうか
+        /// </summary>
+        public bool IsMinScale { get { return _tickindex == 0; } }
+
+        /// <summary>
+        /// 拡大率の目盛り
+        /// </summary>
+        protected static readonly double[] _ticks = new double[]
+        {
+            0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.8, 5.6, 6.4, 7.2, 8
+        };
+
+        /// <summary>
+        /// 拡大率の目盛りのインデックス
+        /// </summary>
+        private int _tickindex = 8;
+
+        /// <summary>
+        /// ひとつ前の拡大率の目盛りのインデックス
+        /// </summary>
+        private int _previewtickindex = 8;
+
+        /// <summary>
+        /// 拡大率の目盛りのインデックス(外部からの操作用)
+        /// </summary>
+        public int TickIndex
+        {
+            get { return _tickindex; }
+            set
+            {
+                _previewtickindex = _tickindex;
+                _tickindex = value;
+            }
+        }
+
+        #endregion
+
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;

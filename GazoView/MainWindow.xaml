@@ -32,6 +32,8 @@
                 <Image Name="MainImage"
                        Source="{Binding Images.ImageSource}"
                        Stretch="Uniform"
+                       Width="{Binding ElementName=MainCanvas, Path=ActualWidth}"
+                       Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        RenderOptions.EdgeMode="Aliased"
                        RenderOptions.BitmapScalingMode="Fant"

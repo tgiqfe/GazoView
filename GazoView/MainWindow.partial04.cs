@@ -12,7 +12,10 @@ namespace GazoView
     public partial class MainWindow : Window
     {
 
-
+        /// <summary>
+        /// 拡縮モードのON/OFF
+        /// </summary>
+        /// <param name="toScaling"></param>
         private void SwitchScalingMode(bool? toScaling = null)
         {
             Item.BindingParam.State.ScalingMode =
@@ -21,33 +24,16 @@ namespace GazoView
             if (Item.BindingParam.State.ScalingMode)
             {
                 //  拡縮モードを有効化
-                //BindingOperations.ClearBinding(MainImage, Image.WidthProperty);
-                //BindingOperations.ClearBinding(MainImage, Image.HeightProperty);
-                //  Item.BindingParam.ImageSizeRate.Enabled = true;
+                var scale = Item.BindingParam.Images.Scale;
+                MainCanvas.Width = MainBase.ActualWidth * scale;
+                MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
             }
             else
             {
                 //  拡縮モードを無効化
-                /*
-                MainImage.SetBinding(
-                    Image.WidthProperty,
-                    new Binding("ActualWidth") { ElementName = "MainCanvas" });
-                MainImage.SetBinding(
-                    Image.HeightProperty,
-                    new Binding("ActualHeight") { ElementName = "MainCanvas" });
-                */
-
-                
-
-                //  Item.BindingParam.ImageSizeRate.Enabled = false;
-
-
-                //  拡縮モードから戻したときに、Setting内のWidthとHeightに相違がある場合の処理
-
-
+                MainCanvas.Width = double.NaN;
+                MainCanvas.Height = double.NaN;
             }
-
-
         }
 
 

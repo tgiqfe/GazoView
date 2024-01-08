@@ -32,16 +32,20 @@ namespace GazoView
 
             if (SpecialKeyDown.IsCtrlPressed())
             {
-                if (Item.BindingParam.Images.Current.IsMaxScale || Item.BindingParam.Images.Current.IsMinScale) return;
-
                 if (!Item.BindingParam.State.ScalingMode) SwitchScalingMode(true);
 
                 if (e.Delta > 0)
-                    Item.BindingParam.Images.Current.TickIndex++;
+                {
+                    if (Item.BindingParam.Images.IsMaxScale) return;
+                    Item.BindingParam.Images.TickIndex++;
+                }
                 else
-                    Item.BindingParam.Images.Current.TickIndex--;
+                {
+                    if (Item.BindingParam.Images.IsMinScale) return;
+                    Item.BindingParam.Images.TickIndex--;
+                }
 
-                var scale = Item.BindingParam.Images.Current.Scale;
+                var scale = Item.BindingParam.Images.Scale;
                 if (scale == 1)
                 {
                     MainCanvas.Width = double.NaN;
@@ -60,16 +64,9 @@ namespace GazoView
                         MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
 
                         //  スクロール位置を調整
-                        var relateScale = scale / Item.BindingParam.Images.Current.PreviewScale;
+                        var relateScale = scale / Item.BindingParam.Images.PreviewScale;
                         ScrollViewer.ScrollToHorizontalOffset((viewX + mousePoint.X) * relateScale - mousePoint.X);
                         ScrollViewer.ScrollToVerticalOffset((viewY + mousePoint.Y) * relateScale - mousePoint.Y);
-
-                        var xxxx = (viewX + mousePoint.X) * relateScale - mousePoint.X;
-                        var yyyy = (viewY + mousePoint.Y) * relateScale - mousePoint.Y;
-
-
-                        var rrrr = scale / Item.BindingParam.Images.Current.PreviewScale;
-                        LabelBar.Content = $"Scale: {scale} PreviewScale: {Item.BindingParam.Images.Current.PreviewScale} pppp: {rrrr}";
                     }
                     else
                     {

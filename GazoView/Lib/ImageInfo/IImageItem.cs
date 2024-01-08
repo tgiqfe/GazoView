@@ -24,12 +24,5 @@ namespace GazoView.Lib.ImageInfo
         string Size { get; }
         string LastWriteTime { get; }
         string Hash { get; }
-
-        double Scale { get; }
-        double PreviewScale { get; }
-        bool IsMaxScale { get; }
-        bool IsMinScale { get; }
-        int TickIndex { get; set; }
-
     }
 }

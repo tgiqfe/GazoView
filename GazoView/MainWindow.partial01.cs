@@ -23,7 +23,6 @@ namespace GazoView
                     KeyEvent_PressEscape(); break;
                 case Key.Delete:
                     KeyEvent_PressDelete(); break;
-
                 case Key.R:
                     KeyEvent_PressR(); break;
                 case Key.Left:

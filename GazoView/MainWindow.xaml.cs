@@ -26,16 +26,24 @@ namespace GazoView
             SwitchScalingMode(false);
 
 
-            MainImage.SetBinding(
-                Image.WidthProperty,
-                new Binding("ActualWidth") { ElementName = "MainCanvas" });
-            MainImage.SetBinding(
-                Image.HeightProperty,
-                new Binding("ActualHeight") { ElementName = "MainCanvas" });
 
-            //LabelBar.Content = $"Width: {MainCanvas.Width} Height: {MainCanvas.Height}";
+            
         }
 
 
     }
 }
+
+
+
+/*
+
+後から有効/無効に切り替える必要が出てきたら復旧
+
+MainImage.SetBinding(
+    Image.WidthProperty,
+    new Binding("ActualWidth") { ElementName = "MainCanvas" });
+MainImage.SetBinding(
+    Image.HeightProperty,
+    new Binding("ActualHeight") { ElementName = "MainCanvas" });
+*/
