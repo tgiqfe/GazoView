@@ -54,5 +54,11 @@ namespace GazoView
             }
         }
 
+        private void SwitchShowInfoPanel(bool? toShow = null)
+        {
+            Item.BindingParam.State.ShowInfoPanel =
+                toShow ?? !Item.BindingParam.State.ShowInfoPanel;
+        }
+
     }
 }

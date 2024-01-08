@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
+        xmlns:converter="clr-namespace:GazoView.Lib.Converter"
         mc:Ignorable="d"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
@@ -19,6 +20,10 @@
         PreviewDragLeave="Window_PreviewDragLeave"
         PreviewDrop="Window_PreviewDrop"
         Background="DimGray">
+    <Window.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Name="MainRow0" Height="*" />
@@ -46,7 +51,8 @@
             </Canvas>
         </lib:AdvancedScrollViewer>
 
-        <lib:InfoPanel1 Grid.Row="0" />
+        <lib:InfoPanel1 Grid.Row="0" 
+                        Visibility="{Binding State.ShowInfoPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
         <Label Name="LabelBar" 
                Grid.Row="1"

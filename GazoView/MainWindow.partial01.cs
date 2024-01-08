@@ -25,6 +25,9 @@ namespace GazoView
                     KeyEvent_PressDelete(); break;
                 case Key.R:
                     KeyEvent_PressR(); break;
+                case Key.Tab:
+                case Key.D:
+                    KeyEvent_PressTab(); break;
                 case Key.N:
                     KeyEvent_PressN();break;
                 case Key.Left:
@@ -55,6 +58,15 @@ namespace GazoView
         private void KeyEvent_PressR()
         {
             SwitchScalingMode();
+        }
+
+        /// <summary>
+        /// キー押下時イベント: Tab or D
+        /// Infoパネル表示切り替え
+        /// </summary>
+        private void KeyEvent_PressTab()
+        {
+            SwitchShowInfoPanel();
         }
 
         /// <summary>

@@ -41,6 +41,17 @@ namespace GazoView.Lib.Actions
         }
 
 
+        /// <summary>
+        /// Infoパネルの表示/非表示
+        /// </summary>
+        private bool _showInfoPanel = false;
+
+        public bool ShowInfoPanel
+        {
+            get { return _showInfoPanel; }
+            set { _showInfoPanel = value; OnPropertyChanged(); }
+        }
+
 
         #region Inotify change
 

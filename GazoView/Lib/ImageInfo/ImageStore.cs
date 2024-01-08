@@ -41,6 +41,33 @@ namespace GazoView.Lib
             }
         }
 
+        #region ViewSize
+
+        private double _viewwidth = 0;
+        private double _viewheight = 0;
+
+        public double ViewWidth
+        {
+            get { return _viewwidth; }
+            set
+            {
+                _viewwidth = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double ViewHeight
+        {
+            get { return _viewheight; }
+            set
+            {
+                _viewheight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #endregion
+
         public BaseImageItem Current { get; private set; }
 
         public ImageSource ImageSource { get { return Current?.Source; } }

@@ -4,7 +4,6 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GazoView.Lib"
-             xmlns:main="clr-namespace:GazoView"
              xmlns:converter="clr-namespace:GazoView.Lib.Converter"
              xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes">
     <UserControl.Resources>
@@ -20,6 +19,7 @@
         </Style>
         <converter:SizeTextConverter x:Key="SizeTextConverter" />
     </UserControl.Resources>
+    
     <Grid>
         <Border Grid.Row="0"
                 BorderThickness="0,0,1,0" 
@@ -97,7 +97,13 @@
                 <materialDesign:PackIcon Kind="Resize" Width="25" Height="22" />
                 <StackPanel>
                     <TextBlock Text="表示サイズ: " />
-                    <TextBlock Text="検討中(一旦保留)">
+                    <TextBlock>
+                        <TextBlock.Text>
+                            <MultiBinding Converter="{StaticResource SizeTextConverter}">
+                                <Binding Path="Images.ViewWidth" />
+                                <Binding Path="Images.ViewHeight" />
+                            </MultiBinding>
+                        </TextBlock.Text>
                     </TextBlock>
                 </StackPanel>
             </StackPanel>

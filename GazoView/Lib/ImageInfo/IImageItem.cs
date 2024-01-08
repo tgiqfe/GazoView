@@ -13,9 +13,12 @@ namespace GazoView.Lib.ImageInfo
         string FilePath { get; }
         string FileName { get; }
         string FileExtension { get; }
+
+        /*
         string LabelFileName { get; }
         string LabelFilePath { get; }
         string LabelFileExtension { get; }
+        */
 
         ImageSource Source { get; }
 
