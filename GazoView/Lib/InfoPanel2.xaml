@@ -11,7 +11,7 @@
         <Style TargetType="TextBlock">
             <Setter Property="FontFamily" Value="Noto Sans JP" />
             <Setter Property="FontSize" Value="14" />
-            <Setter Property="Margin" Value="10, 0" />
+            <Setter Property="Margin" Value="5, 0" />
         </Style>
     </UserControl.Resources>
 
@@ -21,23 +21,68 @@
                 BorderBrush="LightGray"
                 Background="White"
                 Opacity="0.85"
-                Width="200" Height="100" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                Width="250" Height="175" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" />
             </Border.Effect>
         </Border>
         <StackPanel Grid.Row="0"
                     Name="TextPanel2"
-                    Margin="-10,0"
-                    Width="200" Height="100" HorizontalAlignment="Right" VerticalAlignment="Bottom">
-            
+                    Margin="-10,-10"
+                    Width="250" Height="175" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+
             <!-- 拡縮モード -->
-            <StackPanel Orientation="Horizontal" Height="42">
+            <StackPanel Orientation="Horizontal" Height="25">
                 <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}"
                               IsChecked="{Binding State.ScalingMode}"
-                              IsEnabled="False" />
+                              IsEnabled="False" 
+                              Width="25" Height="25" />
                 <TextBlock Text="拡縮モード" VerticalAlignment="Center"/>
             </StackPanel>
+
+            <!-- トリミングモード -->
+            <StackPanel Orientation="Horizontal" Height="25">
+                <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}"
+                              IsChecked="{Binding State.TrimmingMode}"
+                              IsEnabled="False" 
+                              Width="25" Height="25" />
+                <TextBlock Text="トリミングモード" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- 透明化モード -->
+            <StackPanel Orientation="Horizontal" Height="25">
+                <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}"
+                              IsChecked="{Binding State.TransparentMode}"
+                              IsEnabled="False" 
+                              Width="25" Height="25" />
+                <TextBlock Text="透明化モード" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- Bitmapスケーリング (NearestNeighbor or Fant) -->
+            <StackPanel Orientation="Horizontal" Height="25">
+                <ToggleButton Style="{StaticResource MaterialDesignActionAccentToggleButton}"
+                              IsChecked="{Binding State.NearestNeighbor}"
+                              IsEnabled="False" 
+                              Width="25" Height="25" />
+                <TextBlock Text="NearestNeighbor / Fant" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- 拡大率 -->
+            <StackPanel Orientation="Horizontal" Height="25">
+                <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="25"/>
+                <TextBlock Text="拡大率: " VerticalAlignment="Center" Width="60"/>
+                <TextBlock Text="100 %" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- 不透明度 -->
+            <StackPanel Orientation="Horizontal" Height="25">
+                <materialDesign:PackIcon Kind="SquareOpacity" Width="25" Height="23"/>
+                <TextBlock Text="不透明度: " VerticalAlignment="Center" Width="60"/>
+                <TextBlock Text="100 %" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- ★★★ Bindingを検討中 ★★★-->
+            
         </StackPanel>
     </Grid>
 </UserControl>

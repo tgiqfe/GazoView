@@ -22,10 +22,10 @@ namespace GazoView.Lib.Actions
         }
 
         //  トリミングモード
-
+        public bool TrimmingMode { get; set; }
 
         //  透明化モード
-
+        public bool TransparentMode { get; set; }
 
         /// <summary>
         /// Bitmapスケーリングモード

@@ -46,7 +46,7 @@
                        Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"
                        HorizontalAlignment="Center" VerticalAlignment="Center"
                        RenderOptions.EdgeMode="Aliased"
-                       RenderOptions.BitmapScalingMode="LowQuality"
+                       RenderOptions.BitmapScalingMode="Fant"
                        SizeChanged="MainImage_SizeChanged"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
