@@ -13,6 +13,7 @@
             <Setter Property="FontSize" Value="14" />
             <Setter Property="Margin" Value="5, 0" />
         </Style>
+        <converter:DoubleToPercentConverter x:Key="DoubleToPercentConverter" />
     </UserControl.Resources>
 
     <Grid>
@@ -21,7 +22,7 @@
                 BorderBrush="LightGray"
                 Background="White"
                 Opacity="0.85"
-                Width="250" Height="175" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                Width="250" Height="195" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" />
             </Border.Effect>
@@ -29,7 +30,7 @@
         <StackPanel Grid.Row="0"
                     Name="TextPanel2"
                     Margin="-10,-10"
-                    Width="250" Height="175" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    Width="250" Height="195" HorizontalAlignment="Right" VerticalAlignment="Bottom">
 
             <!-- 拡縮モード -->
             <StackPanel Orientation="Horizontal" Height="25">
@@ -67,17 +68,24 @@
                 <TextBlock Text="NearestNeighbor / Fant" VerticalAlignment="Center"/>
             </StackPanel>
 
-            <!-- 拡大率 -->
+            <!-- 画像拡大率 -->
             <StackPanel Orientation="Horizontal" Height="25">
                 <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="25"/>
-                <TextBlock Text="拡大率: " VerticalAlignment="Center" Width="60"/>
+                <TextBlock Text="画像拡大率: " VerticalAlignment="Center" Width="80"/>
                 <TextBlock Text="100 %" VerticalAlignment="Center"/>
+            </StackPanel>
+
+            <!-- 表示拡大率 -->
+            <StackPanel Orientation="Horizontal" Height="25">
+                <materialDesign:PackIcon Kind="MoveResizeVariant" Width="25" Height="20"/>
+                <TextBlock Text="表示拡大率: " VerticalAlignment="Center" Width="80"/>
+                <TextBlock Text="{Binding Images.Scale, Converter={StaticResource DoubleToPercentConverter}}" VerticalAlignment="Center"/>
             </StackPanel>
 
             <!-- 不透明度 -->
             <StackPanel Orientation="Horizontal" Height="25">
                 <materialDesign:PackIcon Kind="SquareOpacity" Width="25" Height="23"/>
-                <TextBlock Text="不透明度: " VerticalAlignment="Center" Width="60"/>
+                <TextBlock Text="不透明度: " VerticalAlignment="Center" Width="80"/>
                 <TextBlock Text="100 %" VerticalAlignment="Center"/>
             </StackPanel>
 

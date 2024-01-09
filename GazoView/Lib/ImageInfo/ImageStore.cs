@@ -174,6 +174,7 @@ namespace GazoView.Lib
             {
                 _previewtickindex = _tickindex;
                 _tickindex = value;
+                OnPropertyChanged("Scale");
             }
         }
 
