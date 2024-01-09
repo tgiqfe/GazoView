@@ -11,7 +11,7 @@ namespace GazoView.Conf
     internal class State : INotifyPropertyChanged
     {
         /// <summary>
-        /// 拡縮モード(private)
+        /// 拡縮モード
         /// </summary>
         private bool _scalingMode = false;
 
@@ -21,8 +21,16 @@ namespace GazoView.Conf
             set { _scalingMode = value; OnPropertyChanged(); }
         }
 
-        //  トリミングモード
-        public bool TrimmingMode { get; set; }
+        /// <summary>
+        /// トリミングモード
+        /// </summary>
+        private bool _trimmingMode = false;
+
+        public bool TrimmingMode
+        {
+            get { return _trimmingMode; }
+            set { _trimmingMode = value; OnPropertyChanged(); }
+        }
 
         /// <summary>
         /// Bitmapスケーリングモード

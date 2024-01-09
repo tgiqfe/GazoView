@@ -22,7 +22,7 @@
                 BorderBrush="LightGray"
                 Background="White"
                 Opacity="0.85"
-                Width="250" Height="155" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                Width="250" Height="150" HorizontalAlignment="Right" VerticalAlignment="Bottom">
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" />
             </Border.Effect>
@@ -30,7 +30,7 @@
         <StackPanel Grid.Row="0"
                     Name="TextPanel2"
                     Margin="-10,-10"
-                    Width="250" Height="155" HorizontalAlignment="Right" VerticalAlignment="Bottom">
+                    Width="250" Height="150" HorizontalAlignment="Right" VerticalAlignment="Bottom">
 
             <!-- 拡縮モード -->
             <StackPanel Orientation="Horizontal" Height="25">

@@ -17,14 +17,14 @@ namespace GazoView.Conf
 
         public State State { get; set; }
 
-        public OpacityRate OpacityRate { get; set; }
+        public Trimming Trimming { get; set; }
 
         public BindingParam(string[] targets)
         {
             this.Setting = Setting.Load();
             this.Images = new(targets);
             this.State = new();
-            this.OpacityRate = new();
+            this.Trimming = new();
         }
     }
 }

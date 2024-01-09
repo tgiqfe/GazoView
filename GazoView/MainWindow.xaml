@@ -28,9 +28,9 @@
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Name="MainRow0" Height="*" />
-            <RowDefinition Name="MainRow1" Height="0" />
+            <RowDefinition Name="MainRow1" Height="30" />
         </Grid.RowDefinitions>
-
+        
         <lib:AdvancedScrollViewer Grid.Row="0"
                                   x:Name="ScrollViewer"
                                   HorizontalScrollBarVisibility="Auto"
@@ -49,6 +49,9 @@
                        RenderOptions.EdgeMode="Aliased"
                        RenderOptions.BitmapScalingMode="Fant"
                        SizeChanged="MainImage_SizeChanged"/>
+                <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=MainImage}"
+                                   Height="{Binding ActualHeight, ElementName=MainImage}"
+                                   Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
 

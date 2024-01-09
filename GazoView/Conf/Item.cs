@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Lib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -14,6 +15,7 @@ namespace GazoView.Conf
 
         public static MainWindow Mainbase = null;
 
+        public static TrimmingLayer TrimLayer = null;
 
         /// <summary>
         /// 許可する拡張子

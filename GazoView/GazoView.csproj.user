@@ -13,12 +13,18 @@
     <Compile Update="Lib\InfoPanel2.xaml.cs">
       <SubType>Code</SubType>
     </Compile>
+    <Compile Update="Lib\TrimmingLayer.xaml.cs">
+      <SubType>Code</SubType>
+    </Compile>
   </ItemGroup>
   <ItemGroup>
     <Page Update="Lib\InfoPanel1.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="Lib\InfoPanel2.xaml">
+      <SubType>Designer</SubType>
+    </Page>
+    <Page Update="Lib\TrimmingLayer.xaml">
       <SubType>Designer</SubType>
     </Page>
     <Page Update="MainWindow.xaml">
