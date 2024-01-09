@@ -157,15 +157,24 @@ namespace GazoView.Lib
             0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.8, 5.6, 6.4, 7.2, 8, 9, 10
         };
 
+        const int DEF_TICK_INDEX = 8;
+
         /// <summary>
         /// 拡大率の目盛りのインデックス
         /// </summary>
-        private int _tickindex = 8;
+        private int _tickindex = DEF_TICK_INDEX;
 
         /// <summary>
         /// ひとつ前の拡大率の目盛りのインデックス
         /// </summary>
-        private int _previewtickindex = 8;
+        private int _previewtickindex = DEF_TICK_INDEX;
+
+        public void SetDefaultScale()
+        {
+            _tickindex = DEF_TICK_INDEX;
+            _previewtickindex = DEF_TICK_INDEX;
+            OnPropertyChanged("Scale");
+        }
 
         /// <summary>
         /// 拡大率の目盛りのインデックス(外部からの操作用)

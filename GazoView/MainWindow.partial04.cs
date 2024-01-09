@@ -38,7 +38,7 @@ namespace GazoView
             else
             {
                 //  拡縮モードを無効化
-                Item.BindingParam.Images.TickIndex = 1;
+                Item.BindingParam.Images.SetDefaultScale();
                 MainCanvas.Width = double.NaN;
                 MainCanvas.Height = double.NaN;
             }
