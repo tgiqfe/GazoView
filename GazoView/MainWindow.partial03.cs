@@ -33,7 +33,8 @@ namespace GazoView
 
             if (SpecialKeyDown.IsCtrlPressed())
             {
-                if (!Item.BindingParam.State.ScalingMode) SwitchScalingMode(true);
+                //  Ctrl + ホイール
+                Item.BindingParam.State.ScalingMode = true;
 
                 if (e.Delta > 0)
                 {
@@ -49,10 +50,6 @@ namespace GazoView
                 var scale = Item.BindingParam.Images.Scale;
                 if (scale == 1)
                 {
-                    /*
-                    MainCanvas.Width = double.NaN;
-                    MainCanvas.Height = double.NaN;
-                    */
                     SwitchScalingMode(false);
                 }
                 else
@@ -82,7 +79,7 @@ namespace GazoView
             }
             else if (SpecialKeyDown.IsShiftPressed())
             {
-
+                //  Shift + ホイール
             }
             else
             {

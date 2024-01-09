@@ -44,7 +44,7 @@
                     <TextBlock Text="ファイル名: " />
                     <TextBlock Text="{Binding Images.Current.FileName}"
                                TextTrimming="CharacterEllipsis"
-                               Width="230"/>
+                               Width="240"/>
                 </StackPanel>
             </StackPanel>
 
@@ -55,7 +55,7 @@
                     <TextBlock Text="ファイルパス: "/>
                     <TextBlock Text="{Binding Images.Current.FilePath}"
                                TextTrimming="CharacterEllipsis"
-                               Width="230"/>
+                               Width="240"/>
                 </StackPanel>
             </StackPanel>
 

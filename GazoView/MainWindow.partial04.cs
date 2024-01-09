@@ -26,13 +26,19 @@ namespace GazoView
             if (Item.BindingParam.State.ScalingMode)
             {
                 //  拡縮モードを有効化
+                /*
                 var scale = Item.BindingParam.Images.Scale;
-                MainCanvas.Width = MainBase.ActualWidth * scale;
-                MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
+                if (scale != 1)
+                {
+                    MainCanvas.Width = MainBase.ActualWidth * scale;
+                    MainCanvas.Height = (MainBase.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
+                }
+                */
             }
             else
             {
                 //  拡縮モードを無効化
+                Item.BindingParam.Images.TickIndex = 1;
                 MainCanvas.Width = double.NaN;
                 MainCanvas.Height = double.NaN;
             }
@@ -60,6 +66,5 @@ namespace GazoView
             Item.BindingParam.State.ShowInfoPanel =
                 toShow ?? !Item.BindingParam.State.ShowInfoPanel;
         }
-
     }
 }

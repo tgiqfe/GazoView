@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView.Lib.Actions
+namespace GazoView.Conf
 {
     internal class State : INotifyPropertyChanged
     {
@@ -24,9 +24,6 @@ namespace GazoView.Lib.Actions
         //  トリミングモード
         public bool TrimmingMode { get; set; }
 
-        //  透明化モード
-        public bool TransparentMode { get; set; }
-
         /// <summary>
         /// Bitmapスケーリングモード
         /// true ⇒ NearestNeighbor
@@ -39,7 +36,6 @@ namespace GazoView.Lib.Actions
             get { return _neirestNeighbor; }
             set { _neirestNeighbor = value; OnPropertyChanged(); }
         }
-
 
         /// <summary>
         /// Infoパネルの表示/非表示

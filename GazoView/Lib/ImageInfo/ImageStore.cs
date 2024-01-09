@@ -34,7 +34,6 @@ namespace GazoView.Lib
                 {
                     this.Current = ImageItemGenerator.Create(FileList[_index]);
 
-                    OnPropertyChanged("ImageSource");
                     OnPropertyChanged("Current");
                     OnPropertyChanged("TitleMessage");
                     OnPropertyChanged();
@@ -53,6 +52,7 @@ namespace GazoView.Lib
             set
             {
                 _viewwidth = value;
+                OnPropertyChanged("ImageScalePercent");
                 OnPropertyChanged();
             }
         }
@@ -67,11 +67,14 @@ namespace GazoView.Lib
             }
         }
 
+        public double ImageScalePercent
+        {
+            get { return _viewwidth / this.Current.Width; }
+        }
+
         #endregion
 
         public BaseImageItem Current { get; private set; }
-
-        public ImageSource ImageSource { get { return Current?.Source; } }
 
         public string TitleMessage
         {

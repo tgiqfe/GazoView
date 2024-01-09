@@ -1,10 +1,11 @@
 ﻿using GazoView.Lib;
-using GazoView.Lib.Actions;
+using GazoView.Lib.ImageInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using GazoView.Lib.Functions;
 
 namespace GazoView.Conf
 {
@@ -16,12 +17,14 @@ namespace GazoView.Conf
 
         public State State { get; set; }
 
+        public OpacityRate OpacityRate { get; set; }
 
         public BindingParam(string[] targets)
         {
-            Setting = Setting.Load();
-            Images = new ImageStore(targets);
-            State = new State();
+            this.Setting = Setting.Load();
+            this.Images = new(targets);
+            this.State = new();
+            this.OpacityRate = new();
         }
     }
 }
