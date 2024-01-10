@@ -5,6 +5,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using GazoView.Conf;
 
 namespace GazoView
 {
@@ -25,6 +26,11 @@ namespace GazoView
                     KeyEvent_PressDelete(); break;
                 case Key.R:
                     KeyEvent_PressR(); break;
+                case Key.T:
+                    KeyEvent_PressT(); break;
+                case Key.Tab:
+                case Key.D:
+                    KeyEvent_PressTab(); break;
                 case Key.N:
                     KeyEvent_PressN();break;
                 case Key.Left:
@@ -55,6 +61,24 @@ namespace GazoView
         private void KeyEvent_PressR()
         {
             SwitchScalingMode();
+        }
+
+        /// <summary>
+        /// キー押下時イベント: T
+        /// トリミングモード切り替え
+        /// </summary>
+        private void KeyEvent_PressT()
+        {
+            SwitchTrimmingMode();
+        }
+
+        /// <summary>
+        /// キー押下時イベント: Tab or D
+        /// Infoパネル表示切り替え
+        /// </summary>
+        private void KeyEvent_PressTab()
+        {
+            SwitchShowInfoPanel();
         }
 
         /// <summary>

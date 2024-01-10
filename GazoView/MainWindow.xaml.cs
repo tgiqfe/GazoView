@@ -1,4 +1,5 @@
-﻿using GazoView.Lib;
+﻿using GazoView.Conf;
+using GazoView.Lib;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -35,15 +36,3 @@ namespace GazoView
 }
 
 
-
-/*
-
-後から有効/無効に切り替える必要が出てきたら復旧
-
-MainImage.SetBinding(
-    Image.WidthProperty,
-    new Binding("ActualWidth") { ElementName = "MainCanvas" });
-MainImage.SetBinding(
-    Image.HeightProperty,
-    new Binding("ActualHeight") { ElementName = "MainCanvas" });
-*/

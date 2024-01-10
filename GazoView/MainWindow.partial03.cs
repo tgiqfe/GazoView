@@ -1,4 +1,5 @@
-﻿using GazoView.Lib;
+﻿using GazoView.Conf;
+using GazoView.Lib;
 using GazoView.Lib.Functions;
 using System;
 using System.Collections.Generic;
@@ -32,7 +33,8 @@ namespace GazoView
 
             if (SpecialKeyDown.IsCtrlPressed())
             {
-                if (!Item.BindingParam.State.ScalingMode) SwitchScalingMode(true);
+                //  Ctrl + ホイール
+                Item.BindingParam.State.ScalingMode = true;
 
                 if (e.Delta > 0)
                 {
@@ -48,8 +50,7 @@ namespace GazoView
                 var scale = Item.BindingParam.Images.Scale;
                 if (scale == 1)
                 {
-                    MainCanvas.Width = double.NaN;
-                    MainCanvas.Height = double.NaN;
+                    SwitchScalingMode(false);
                 }
                 else
                 {
@@ -78,7 +79,7 @@ namespace GazoView
             }
             else if (SpecialKeyDown.IsShiftPressed())
             {
-
+                //  Shift + ホイール
             }
             else
             {
@@ -93,21 +94,22 @@ namespace GazoView
             }
         }
 
+        /// <summary>
+        /// MainImageの表示サイズ変更時イベント
+        /// BindingParamに表示サイズを送る
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
-            /*
-            if (Item.BindingParam.State.ScalingMode)
-            {
-                MainCanvas.Width = e.NewSize.Width * 0.9;
-                MainCanvas.Height = e.NewSize.Height * 0.9;
-            }
-            */
+            Item.BindingParam.Images.ViewWidth = Math.Round(e.NewSize.Width, 2);
+            Item.BindingParam.Images.ViewHeight = Math.Round(e.NewSize.Height, 2);
         }
 
+        #region Move right drag from ScalingMode.
 
-        private Point StartPoint;
-        private Point StartPosition;
-
+        private Point _startPoint;
+        private Point _startPosition;
 
         /// <summary>
         /// 拡縮モードで、右クリックドラッグで画像移動(開始)
@@ -119,8 +121,8 @@ namespace GazoView
             if (Item.BindingParam.State.ScalingMode)
             {
                 e.Handled = true;
-                StartPoint = e.GetPosition(ScrollViewer);
-                StartPosition = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
+                _startPoint = e.GetPosition(ScrollViewer);
+                _startPosition = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
                 ScrollViewer.Cursor = Cursors.ScrollAll;
             }
         }
@@ -136,8 +138,8 @@ namespace GazoView
             {
                 //e.Handled = true;
                 Point point = e.GetPosition(ScrollViewer);
-                ScrollViewer.ScrollToHorizontalOffset(StartPosition.X - (point.X - StartPoint.X));
-                ScrollViewer.ScrollToVerticalOffset(StartPosition.Y - (point.Y - StartPoint.Y));
+                ScrollViewer.ScrollToHorizontalOffset(_startPosition.X - (point.X - _startPoint.X));
+                ScrollViewer.ScrollToVerticalOffset(_startPosition.Y - (point.Y - _startPoint.Y));
             }
             else
             {
@@ -154,5 +156,7 @@ namespace GazoView
         {
             ScrollViewer.Cursor = Cursors.Arrow;
         }
+
+        #endregion
     }
 }

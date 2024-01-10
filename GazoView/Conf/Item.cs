@@ -5,7 +5,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView
+namespace GazoView.Conf
 {
     class Item
     {
@@ -15,6 +15,7 @@ namespace GazoView
 
         public static MainWindow Mainbase = null;
 
+        public static TrimmingLayer TrimLayer = null;
 
         /// <summary>
         /// 許可する拡張子

@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
+        xmlns:converter="clr-namespace:GazoView.Lib.Converter"
         mc:Ignorable="d"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
@@ -12,6 +13,7 @@
         Top="{Binding Setting.Y, Mode=TwoWay}"
         Name="MainBase"
         AllowDrop="True"
+        Opacity="{Binding OpacityRate.Value}"
         Title="{Binding Images.TitleMessage}"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
@@ -19,12 +21,16 @@
         PreviewDragLeave="Window_PreviewDragLeave"
         PreviewDrop="Window_PreviewDrop"
         Background="DimGray">
+    <Window.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+
     <Grid>
         <Grid.RowDefinitions>
             <RowDefinition Name="MainRow0" Height="*" />
-            <RowDefinition Name="MainRow1" Height="0" />
+            <RowDefinition Name="MainRow1" Height="30" />
         </Grid.RowDefinitions>
-
+        
         <lib:AdvancedScrollViewer Grid.Row="0"
                                   x:Name="ScrollViewer"
                                   HorizontalScrollBarVisibility="Auto"
@@ -32,21 +38,26 @@
                                   MouseMove="ScrollViewer_MouseMove"
                                   PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
                                   PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
-            <Canvas Name="MainCanvas"
-                    Margin="0">
+            <Canvas Name="MainCanvas">
                 <Image Name="MainImage"
-                       Source="{Binding Images.ImageSource}"
+                       Source="{Binding Images.Current.Source}"
                        Stretch="Uniform"
                        Width="{Binding ElementName=MainCanvas, Path=ActualWidth}"
                        Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
                        RenderOptions.EdgeMode="Aliased"
-                       RenderOptions.BitmapScalingMode="LowQuality"
+                       RenderOptions.BitmapScalingMode="Fant"
                        SizeChanged="MainImage_SizeChanged"/>
+                <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=MainImage}"
+                                   Height="{Binding ActualHeight, ElementName=MainImage}"
+                                   Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Canvas>
         </lib:AdvancedScrollViewer>
 
-        <lib:InfoPanel1 Grid.Row="0" />
+        <lib:InfoPanel1 Grid.Row="0" 
+                        Visibility="{Binding State.ShowInfoPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
+
+        <lib:InfoPanel2 Grid.Row="0"
+                        Visibility="{Binding State.ShowInfoPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
 
         <Label Name="LabelBar" 
                Grid.Row="1"

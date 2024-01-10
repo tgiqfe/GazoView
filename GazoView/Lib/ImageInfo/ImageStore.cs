@@ -4,6 +4,7 @@ using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows.Media;
 using GazoView.Lib.Functions;
+using GazoView.Conf;
 
 namespace GazoView.Lib
 {
@@ -33,7 +34,6 @@ namespace GazoView.Lib
                 {
                     this.Current = ImageItemGenerator.Create(FileList[_index]);
 
-                    OnPropertyChanged("ImageSource");
                     OnPropertyChanged("Current");
                     OnPropertyChanged("TitleMessage");
                     OnPropertyChanged();
@@ -41,9 +41,40 @@ namespace GazoView.Lib
             }
         }
 
-        public BaseImageItem Current { get; private set; }
+        #region ViewSize
 
-        public ImageSource ImageSource { get { return Current?.Source; } }
+        private double _viewwidth = 0;
+        private double _viewheight = 0;
+
+        public double ViewWidth
+        {
+            get { return _viewwidth; }
+            set
+            {
+                _viewwidth = value;
+                OnPropertyChanged("ImageScalePercent");
+                OnPropertyChanged();
+            }
+        }
+
+        public double ViewHeight
+        {
+            get { return _viewheight; }
+            set
+            {
+                _viewheight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double ImageScalePercent
+        {
+            get { return _viewwidth / this.Current.Width; }
+        }
+
+        #endregion
+
+        public BaseImageItem Current { get; private set; }
 
         public string TitleMessage
         {
@@ -126,15 +157,24 @@ namespace GazoView.Lib
             0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.8, 5.6, 6.4, 7.2, 8, 9, 10
         };
 
+        const int DEF_TICK_INDEX = 8;
+
         /// <summary>
         /// 拡大率の目盛りのインデックス
         /// </summary>
-        private int _tickindex = 8;
+        private int _tickindex = DEF_TICK_INDEX;
 
         /// <summary>
         /// ひとつ前の拡大率の目盛りのインデックス
         /// </summary>
-        private int _previewtickindex = 8;
+        private int _previewtickindex = DEF_TICK_INDEX;
+
+        public void SetDefaultScale()
+        {
+            _tickindex = DEF_TICK_INDEX;
+            _previewtickindex = DEF_TICK_INDEX;
+            OnPropertyChanged("Scale");
+        }
 
         /// <summary>
         /// 拡大率の目盛りのインデックス(外部からの操作用)
@@ -146,6 +186,7 @@ namespace GazoView.Lib
             {
                 _previewtickindex = _tickindex;
                 _tickindex = value;
+                OnPropertyChanged("Scale");
             }
         }
 

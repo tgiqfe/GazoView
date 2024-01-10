@@ -6,12 +6,12 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView.Lib.Actions
+namespace GazoView.Conf
 {
     internal class State : INotifyPropertyChanged
     {
         /// <summary>
-        /// 拡縮モード(private)
+        /// 拡縮モード
         /// </summary>
         private bool _scalingMode = false;
 
@@ -21,11 +21,16 @@ namespace GazoView.Lib.Actions
             set { _scalingMode = value; OnPropertyChanged(); }
         }
 
-        //  トリミングモード
+        /// <summary>
+        /// トリミングモード
+        /// </summary>
+        private bool _trimmingMode = false;
 
-
-        //  透明化モード
-
+        public bool TrimmingMode
+        {
+            get { return _trimmingMode; }
+            set { _trimmingMode = value; OnPropertyChanged(); }
+        }
 
         /// <summary>
         /// Bitmapスケーリングモード
@@ -40,6 +45,16 @@ namespace GazoView.Lib.Actions
             set { _neirestNeighbor = value; OnPropertyChanged(); }
         }
 
+        /// <summary>
+        /// Infoパネルの表示/非表示
+        /// </summary>
+        private bool _showInfoPanel = false;
+
+        public bool ShowInfoPanel
+        {
+            get { return _showInfoPanel; }
+            set { _showInfoPanel = value; OnPropertyChanged(); }
+        }
 
 
         #region Inotify change

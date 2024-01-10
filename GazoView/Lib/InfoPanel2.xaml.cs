@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Conf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,16 +13,15 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GazoView.Conf;
 
 namespace GazoView.Lib
 {
     /// <summary>
-    /// InfoPanel1.xaml の相互作用ロジック
+    /// InfoPanel2.xaml の相互作用ロジック
     /// </summary>
-    public partial class InfoPanel1 : UserControl
+    public partial class InfoPanel2 : UserControl
     {
-        public InfoPanel1()
+        public InfoPanel2()
         {
             InitializeComponent();
             this.DataContext = Item.BindingParam;

@@ -19,11 +19,13 @@ namespace GazoView.Lib.ImageInfo
 
         public string FileExtension { get; private set; }
 
+        /*
         public string LabelFileName { get; private set; }
 
         public string LabelFilePath { get; private set; }
 
         public string LabelFileExtension { get; private set; }
+        */
 
         public string Size { get; private set; }
 
@@ -42,9 +44,11 @@ namespace GazoView.Lib.ImageInfo
             this.FilePath = path;
             this.FileName = Path.GetFileName(path);
             this.FileExtension = Path.GetExtension(path).ToLower();
+            /*
             this.LabelFileName = FileName.Contains("_") ? FileName.Replace("_", "__") : FileName;
             this.LabelFilePath = FilePath.Contains("_") ? FilePath.Replace("_", "__") : FilePath;
             this.LabelFileExtension = FileExtension.Contains("_") ? FileExtension.Replace("_", "__") : FileExtension;
+            */
             this.Size = GetFileSize(path);
             this.LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
             this.Hash = GetHash(path);

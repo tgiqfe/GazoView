@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Conf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -12,19 +13,29 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Navigation;
 using System.Windows.Shapes;
-using GazoView.Conf;
 
 namespace GazoView.Lib
 {
     /// <summary>
-    /// InfoPanel1.xaml の相互作用ロジック
+    /// TrimmingLayer.xaml の相互作用ロジック
     /// </summary>
-    public partial class InfoPanel1 : UserControl
+    public partial class TrimmingLayer : UserControl
     {
-        public InfoPanel1()
+        public TrimmingLayer()
         {
             InitializeComponent();
+
+            Item.TrimLayer = this;
             this.DataContext = Item.BindingParam;
+        }
+
+        protected override void OnRender(DrawingContext drawingContext)
+        {
+            base.OnRender(drawingContext);
+            if (Item.BindingParam?.State.TrimmingMode ?? false)
+            {
+                Item.BindingParam.Trimming.GrayAreaReload();
+            }
         }
     }
 }
