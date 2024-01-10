@@ -52,10 +52,12 @@ namespace GazoView
             if (Item.BindingParam.State.TrimmingMode)
             {
                 //  トリミングモードを有効化
+                MainRow1.Height = new GridLength(30);
             }
             else
             {
                 //  トリミングモードを無効化
+                MainRow1.Height = new GridLength(0);
             }
         }   
 

@@ -28,9 +28,6 @@
     </UserControl.Resources>
 
     <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition />
-        </Grid.RowDefinitions>
         <DockPanel>
             <Grid DockPanel.Dock="Top" Name="GrayAreaTop" Height="{Binding Trimming.AreaTop}">
                 <Rectangle Fill="{StaticResource BackgroundBrush}" />

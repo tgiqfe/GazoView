@@ -38,14 +38,12 @@
                                   MouseMove="ScrollViewer_MouseMove"
                                   PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
                                   PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
-            <Canvas Name="MainCanvas"
-                    Margin="0">
+            <Canvas Name="MainCanvas">
                 <Image Name="MainImage"
                        Source="{Binding Images.Current.Source}"
                        Stretch="Uniform"
                        Width="{Binding ElementName=MainCanvas, Path=ActualWidth}"
                        Height="{Binding ElementName=MainCanvas, Path=ActualHeight}"
-                       HorizontalAlignment="Center" VerticalAlignment="Center"
                        RenderOptions.EdgeMode="Aliased"
                        RenderOptions.BitmapScalingMode="Fant"
                        SizeChanged="MainImage_SizeChanged"/>

@@ -70,7 +70,6 @@ namespace GazoView.Conf
             OnPropertyChanged(nameof(AreaRight));
         }
 
-
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;
