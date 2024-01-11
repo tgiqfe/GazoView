@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView.Lib.Image
+namespace GazoView.Lib.ImageInfo
 {
     internal class Generator
     {

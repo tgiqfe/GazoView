@@ -6,6 +6,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 using System.Windows.Input;
+using GazoView.Lib;
+using System.Windows.Controls;
 
 namespace GazoView
 {
@@ -20,6 +22,10 @@ namespace GazoView
                     break;
                 case Key.T:
                     Item.BindingParam.State.TrimmingMode = !Item.BindingParam.State.TrimmingMode;
+                    break;
+                case Key.D:
+                case Key.Tab:
+                    Item.BindingParam.State.ShowInfoPanel = !Item.BindingParam.State.ShowInfoPanel;
                     break;
                 case Key.Left:
                     //  1つ前の画像を表示

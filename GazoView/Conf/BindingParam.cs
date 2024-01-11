@@ -1,4 +1,4 @@
-﻿using GazoView.Lib.Image;
+﻿using GazoView.Lib.ImageInfo;
 using System;
 using System.Collections.Generic;
 using System.Linq;

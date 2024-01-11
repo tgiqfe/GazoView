@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView.Lib.Image
+namespace GazoView.Lib.ImageInfo
 {
     internal class ImageStore : INotifyPropertyChanged
     {

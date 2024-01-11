@@ -19,12 +19,8 @@
     <Window.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
     </Window.Resources>
-    
-    <Grid>
-        <Grid.RowDefinitions>
-            <RowDefinition Height="*"/>
-            <RowDefinition Height="30"/>
-        </Grid.RowDefinitions>
+
+    <Grid Name="GlobalGrid">
         <lib:AdvancedScrollViewer x:Name="ScrollViewer"
                                   HorizontalScrollBarVisibility="Auto"
                                   VerticalScrollBarVisibility="Auto"
@@ -45,11 +41,9 @@
                 <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=MainImage}"
                                    Height="{Binding ActualHeight, ElementName=MainImage}"
                                    Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
-
-
             </Grid>
         </lib:AdvancedScrollViewer>
-
-        <Label Grid.Row="1" Background="White" Name="LabelBar"/>
+        <lib:InfoPanel1 x:Name="InfoPanel1"
+                        Visibility="{Binding State.ShowInfoPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </Window>

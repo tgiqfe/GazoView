@@ -7,7 +7,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 
-namespace GazoView.Lib.Image
+namespace GazoView.Lib.ImageInfo
 {
     internal class ImageItem
     {
