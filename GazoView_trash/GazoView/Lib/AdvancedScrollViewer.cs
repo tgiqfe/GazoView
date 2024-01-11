@@ -1,5 +1,4 @@
-﻿using GazoView.Conf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -8,10 +7,11 @@ using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Media;
+using GazoView.Conf;
 
 namespace GazoView.Lib
 {
-    internal class AdvancedScrollViewer : ScrollViewer
+    class AdvancedScrollViewer : ScrollViewer
     {
         protected override GeometryHitTestResult HitTestCore(GeometryHitTestParameters hitTestParameters)
         {

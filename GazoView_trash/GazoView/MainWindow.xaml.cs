@@ -1,4 +1,5 @@
 ﻿using GazoView.Conf;
+using GazoView.Lib;
 using System.Text;
 using System.Windows;
 using System.Windows.Controls;
@@ -21,10 +22,17 @@ namespace GazoView
         {
             InitializeComponent();
 
-            Item.Mainbase = this;
             this.DataContext = Item.BindingParam;
+            Item.Mainbase = this;
+            SwitchScalingMode(false);
+
+
+
+            
         }
 
 
     }
 }
+
+

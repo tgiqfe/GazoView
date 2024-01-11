@@ -18,11 +18,7 @@ namespace GazoView.Conf
         public bool ScalingMode
         {
             get { return _scalingMode; }
-            set
-            {
-                _scalingMode = value;
-                OnPropertyChanged();
-            }
+            set { _scalingMode = value; OnPropertyChanged(); }
         }
 
         /// <summary>
@@ -33,26 +29,20 @@ namespace GazoView.Conf
         public bool TrimmingMode
         {
             get { return _trimmingMode; }
-            set
-            {
-                _trimmingMode = value;
-                OnPropertyChanged();
-            }
+            set { _trimmingMode = value; OnPropertyChanged(); }
         }
-        
+
         /// <summary>
-        /// Bitmapの拡大縮小時に最近傍法を使用するか
+        /// Bitmapスケーリングモード
+        /// true ⇒ NearestNeighbor
+        /// false ⇒ Fant
         /// </summary>
-        private bool _nearestNeighbor = false;
+        private bool _neirestNeighbor = false;
 
         public bool NearestNeighbor
         {
-            get { return _nearestNeighbor; }
-            set
-            {
-                _nearestNeighbor = value;
-                OnPropertyChanged();
-            }
+            get { return _neirestNeighbor; }
+            set { _neirestNeighbor = value; OnPropertyChanged(); }
         }
 
         /// <summary>
@@ -63,17 +53,14 @@ namespace GazoView.Conf
         public bool ShowInfoPanel
         {
             get { return _showInfoPanel; }
-            set
-            {
-                _showInfoPanel = value;
-                OnPropertyChanged();
-            }
+            set { _showInfoPanel = value; OnPropertyChanged(); }
         }
 
 
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;
+
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {
