@@ -92,6 +92,8 @@ namespace GazoView.Lib
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _dragLine = DragLine.None;
+            Debug.WriteLine($"Top: {Item.BindingParam.Trimming.Top}, Bottom: {Item.BindingParam.Trimming.Bottom}, Left: {Item.BindingParam.Trimming.Left}, Right: {Item.BindingParam.Trimming.Right}");
+            Debug.WriteLine($"ActualWidth: {this.ActualWidth}, ActualHeight: {this.ActualHeight}");
         }
 
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
@@ -108,11 +110,11 @@ namespace GazoView.Lib
                         {
                             newLocation = Item.BindingParam.Trimming.ViewBottom;
                         }
-                        else if (newLocation < 0)
+                        else if (newLocation < 1)
                         {
                             newLocation = 0;
                         }
-                        Item.BindingParam.Trimming.Top = newLocation / Item.BindingParam.Trimming.Scale;
+                        Item.BindingParam.Trimming.Top = (int)Math.Round(newLocation / Item.BindingParam.Trimming.Scale);
                         break;
                     case DragLine.Bottom:
                         newLocation = point.Y;
@@ -120,11 +122,11 @@ namespace GazoView.Lib
                         {
                             newLocation = Item.BindingParam.Trimming.ViewTop;
                         }
-                        else if (newLocation > this.ActualHeight)
+                        else if (newLocation > this.ActualHeight - 1)
                         {
                             newLocation = this.ActualHeight;
                         }
-                        Item.BindingParam.Trimming.Bottom = newLocation / Item.BindingParam.Trimming.Scale;
+                        Item.BindingParam.Trimming.Bottom = (int)Math.Round(newLocation / Item.BindingParam.Trimming.Scale);
                         break;
                     case DragLine.Left:
                         newLocation = point.X;
@@ -132,11 +134,11 @@ namespace GazoView.Lib
                         {
                             newLocation = Item.BindingParam.Trimming.ViewRight;
                         }
-                        else if (newLocation < 0)
+                        else if (newLocation < 1)
                         {
                             newLocation = 0;
                         }
-                        Item.BindingParam.Trimming.Left = newLocation / Item.BindingParam.Trimming.Scale;
+                        Item.BindingParam.Trimming.Left = (int)Math.Round(newLocation / Item.BindingParam.Trimming.Scale);
                         break;
                     case DragLine.Right:
                         newLocation = point.X;
@@ -144,11 +146,11 @@ namespace GazoView.Lib
                         {
                             newLocation = Item.BindingParam.Trimming.ViewLeft;
                         }
-                        else if (newLocation > this.ActualWidth)
+                        else if (newLocation > this.ActualWidth - 1)
                         {
                             newLocation = this.ActualWidth;
                         }
-                        Item.BindingParam.Trimming.Right = newLocation / Item.BindingParam.Trimming.Scale;
+                        Item.BindingParam.Trimming.Right = (int)Math.Round(newLocation / Item.BindingParam.Trimming.Scale);
                         break;
                     default:
                         break;

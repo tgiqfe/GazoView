@@ -32,27 +32,27 @@ namespace GazoView.Conf
 
         #region Rar size
 
-        private double _top = 100;
-        private double _bottom = 300;
-        private double _left = 100;
-        private double _right = 300;
+        private int _top = 100;
+        private int _bottom = 300;
+        private int _left = 100;
+        private int _right = 300;
 
-        public double Top
+        public int Top
         {
             get { return _top; }
             set { _top = value; OnPropertyChanged(nameof(ViewTop)); }
         }
-        public double Bottom
+        public int Bottom
         {
             get { return _bottom; }
             set { _bottom = value; OnPropertyChanged(nameof(ViewBottom)); }
         }
-        public double Left
+        public int Left
         {
             get { return _left; }
             set { _left = value; OnPropertyChanged(nameof(ViewLeft)); }
         }
-        public double Right
+        public int Right
         {
             get { return _right; }
             set { _right = value; OnPropertyChanged(nameof(ViewRight)); }
