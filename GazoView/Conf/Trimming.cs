@@ -30,10 +30,31 @@ namespace GazoView.Conf
 
         const int BORDER_HALF_WIDTH = 4;
 
-        public double Top { get; set; } = 100;
-        public double Bottom { get; set; } = 300;
-        public double Left { get; set; } = 100;
-        public double Right { get; set; } = 300;
+        private double _top = 100;
+        private double _bottom = 300;
+        private double _left = 100;
+        private double _right = 300;
+
+        public double Top
+        {
+            get { return _top; }
+            set { _top = value; OnPropertyChanged(nameof(ViewTop)); }
+        }
+        public double Bottom
+        {
+            get { return _bottom; }
+            set { _bottom = value; OnPropertyChanged(nameof(ViewBottom)); }
+        }
+        public double Left
+        {
+            get { return _left; }
+            set { _left = value; OnPropertyChanged(nameof(ViewLeft)); }
+        }
+        public double Right
+        {
+            get { return _right; }
+            set { _right = value; OnPropertyChanged(nameof(ViewRight)); }
+        }
 
         public double ViewTop { get { return this.Top * this.Scale; } }
         public double ViewBottom { get { return this.Bottom * this.Scale; } }
