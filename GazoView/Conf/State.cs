@@ -71,6 +71,8 @@ namespace GazoView.Conf
         }
 
 
+        public bool MouseMoveTrimming { get; set; }
+
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;

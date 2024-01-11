@@ -43,6 +43,7 @@
                                    Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </lib:AdvancedScrollViewer>
+        
         <lib:InfoPanel1 x:Name="InfoPanel1"
                         Visibility="{Binding State.ShowInfoPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
