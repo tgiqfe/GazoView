@@ -24,6 +24,8 @@ namespace GazoView.Lib
         public TrimmingLayer()
         {
             InitializeComponent();
+
+            Item.TrimLayer = this;
             this.DataContext = Item.BindingParam;
         }
 
@@ -32,7 +34,7 @@ namespace GazoView.Lib
             base.OnRender(drawingContext);
             if (Item.BindingParam?.State.TrimmingMode ?? false)
             {
-                //  描画時の処理
+                Item.BindingParam.Trimming.GrayAreaReload();
             }
         }
     }

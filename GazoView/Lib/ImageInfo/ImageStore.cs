@@ -1,20 +1,34 @@
-﻿using GazoView.Lib.ImageInfo;
+﻿using GazoView.Lib.Function;
+using System;
+using System.Collections.Generic;
+using System.Collections.ObjectModel;
 using System.ComponentModel;
 using System.IO;
+using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Windows.Media;
-using GazoView.Lib.Functions;
-using GazoView.Conf;
+using System.Text;
+using System.Threading.Tasks;
 
-namespace GazoView.Lib
+namespace GazoView.Lib.ImageInfo
 {
     internal class ImageStore : INotifyPropertyChanged
     {
-        public string Parent { get; private set; }
+        /// <summary>
+        /// 使用許可する拡張子
+        /// </summary>
+        private static readonly string[] _validExtensions = new string[]
+        {
+            ".jpg",
+            ".jpeg",
+            ".png",
+            ".tif",
+            ".tiff",
+            ".bmp",
+        };
 
-        public List<string> FileList { get; private set; }
+        public ObservableCollection<string> FileList { get; private set; }
 
-        public int _index = 0;
+        private int _index = 0;
 
         public int Index
         {
@@ -32,170 +46,104 @@ namespace GazoView.Lib
                 }
                 if (FileList?.Count > 0)
                 {
-                    this.Current = ImageItemGenerator.Create(FileList[_index]);
+                    this.Current = Generator.Create(FileList[_index]);
 
-                    OnPropertyChanged("Current");
-                    OnPropertyChanged("TitleMessage");
+                    OnPropertyChanged(nameof(Current));
+                    OnPropertyChanged(nameof(Title));
                     OnPropertyChanged();
                 }
             }
         }
 
-        #region ViewSize
+        public string Title
+        {
+            get
+            {
+                return $"[ {this.Index + 1} / {FileList?.Count} ] {Current?.FileName} ({Current?.FilePath})";
+            }
+        }
 
-        private double _viewwidth = 0;
-        private double _viewheight = 0;
+        public ImageItem Current { get; private set; }
+
+        public ScaleRate ScaleRate { get; set; }
+
+
+
+
+        private double _viewWidth = 0;
+        private double _viewHeight = 0;
 
         public double ViewWidth
         {
-            get { return _viewwidth; }
+            get { return _viewWidth; }
             set
             {
-                _viewwidth = value;
-                OnPropertyChanged("ImageScalePercent");
+                _viewWidth = value;
+                //OnPropertyChanged(nameof(ImageScalePercent));
                 OnPropertyChanged();
             }
         }
 
         public double ViewHeight
         {
-            get { return _viewheight; }
+            get { return _viewHeight; }
             set
             {
-                _viewheight = value;
+                _viewHeight = value;
                 OnPropertyChanged();
             }
         }
 
+
+        /*
+        #region ViewSize
+
+
+
         public double ImageScalePercent
-        {
-            get { return _viewwidth / this.Current.Width; }
-        }
-
-        #endregion
-
-        public BaseImageItem Current { get; private set; }
-
-        public string TitleMessage
         {
             get
             {
-                return $"[ {Index + 1} / {FileList?.Count} ] {Current?.FileName} ({Current?.FilePath})";
+                if (Current == null) return 0;
+                return _viewWidth / Current.Width;
             }
         }
 
-        public bool IsAllFiles { get; set; }
-
+        #endregion
+        */
 
         public ImageStore(string[] targets)
         {
-            SetFileList(targets);
-        }
-
-        public void SetFileList(string[] targets)
-        {
             if (targets.Length == 1)
             {
-                //  ファイルを1つだけ指定
                 if (File.Exists(targets[0]))
                 {
-                    this.Parent = Path.GetDirectoryName(targets[0]);
-                    this.FileList = Directory.GetFiles(Parent).
-                        Where(x => Item.ValidExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
-                        OrderBy(x => x, new NaturalStringComparer()).
-                        ToList();
-
-                    this.FileList = new List<string>(Directory.GetFiles(Parent));
-                    this.Index = FileList.IndexOf(targets[0]);
-                    this.IsAllFiles = true;
+                    //  ファイルを1つだけ指定
                 }
                 else if (Directory.Exists(targets[0]))
                 {
                     //  フォルダーを1つだけ指定
-                    this.Parent = targets[0];
-                    this.FileList = Directory.GetFiles(Parent).
-                        Where(x => Item.ValidExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
-                        OrderBy(x => x, new NaturalStringComparer()).
-                        ToList();
+                    string parent = targets[0];
+                    var collection = Directory.GetFiles(parent).
+                        Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
+                        OrderBy(x => x, new NaturalStringComparer());
+                    this.FileList = new ObservableCollection<string>(collection);
                     this.Index = 0;
-                    this.IsAllFiles = true;
                 }
             }
-            else if (targets.Length >= 2)
+            else if (targets.Length > 1)
             {
 
             }
+            this.ScaleRate = new ScaleRate();
         }
 
-        #region Scaling parameter
 
-        /// <summary>
-        /// 変更後の拡大率
-        /// </summary>
-        public double Scale { get { return _ticks[_tickindex]; } }
 
-        /// <summary>
-        /// ひとつ前の拡大率
-        /// </summary>
-        public double PreviewScale { get { return _ticks[_previewtickindex]; } }
-
-        /// <summary>
-        /// 最大拡大率かどうか
-        /// </summary>
-        public bool IsMaxScale { get { return _tickindex == _ticks.Length - 1; } }
-
-        /// <summary>
-        /// 最小拡大率かどうか
-        /// </summary>
-        public bool IsMinScale { get { return _tickindex == 0; } }
-
-        /// <summary>
-        /// 拡大率の目盛り
-        /// </summary>
-        protected static readonly double[] _ticks = new double[]
-        {
-            0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.8, 5.6, 6.4, 7.2, 8, 9, 10
-        };
-
-        const int DEF_TICK_INDEX = 8;
-
-        /// <summary>
-        /// 拡大率の目盛りのインデックス
-        /// </summary>
-        private int _tickindex = DEF_TICK_INDEX;
-
-        /// <summary>
-        /// ひとつ前の拡大率の目盛りのインデックス
-        /// </summary>
-        private int _previewtickindex = DEF_TICK_INDEX;
-
-        public void SetDefaultScale()
-        {
-            _tickindex = DEF_TICK_INDEX;
-            _previewtickindex = DEF_TICK_INDEX;
-            OnPropertyChanged("Scale");
-        }
-
-        /// <summary>
-        /// 拡大率の目盛りのインデックス(外部からの操作用)
-        /// </summary>
-        public int TickIndex
-        {
-            get { return _tickindex; }
-            set
-            {
-                _previewtickindex = _tickindex;
-                _tickindex = value;
-                OnPropertyChanged("Scale");
-            }
-        }
-
-        #endregion
 
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;
-
 
         protected void OnPropertyChanged([CallerMemberName] string name = null)
         {

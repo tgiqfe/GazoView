@@ -3,7 +3,7 @@ Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34330.188
 MinimumVisualStudioVersion = 10.0.40219.1
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazoView", "GazoView\GazoView.csproj", "{29CD7298-B0E2-4B31-BAFC-3119281C688F}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "GazoView", "GazoView\GazoView.csproj", "{76443882-DFD2-4B3C-93C9-8D9218131D0C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -11,15 +11,15 @@ Global
 		Release|Any CPU = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(ProjectConfigurationPlatforms) = postSolution
-		{29CD7298-B0E2-4B31-BAFC-3119281C688F}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{29CD7298-B0E2-4B31-BAFC-3119281C688F}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{29CD7298-B0E2-4B31-BAFC-3119281C688F}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{29CD7298-B0E2-4B31-BAFC-3119281C688F}.Release|Any CPU.Build.0 = Release|Any CPU
+		{76443882-DFD2-4B3C-93C9-8D9218131D0C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{76443882-DFD2-4B3C-93C9-8D9218131D0C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{76443882-DFD2-4B3C-93C9-8D9218131D0C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{76443882-DFD2-4B3C-93C9-8D9218131D0C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
-		SolutionGuid = {B8CF4076-635A-469E-9956-700C8B1A3467}
+		SolutionGuid = {C8CC4A76-3755-4C70-AF55-E0C3DA42AEC0}
 	EndGlobalSection
 EndGlobal

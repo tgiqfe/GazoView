@@ -1,13 +1,11 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.Collections.Specialized;
 using System.ComponentModel;
 using System.Linq;
 using System.Runtime.CompilerServices;
-using System.Security.Permissions;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
 
 namespace GazoView.Conf
 {
@@ -24,58 +22,52 @@ namespace GazoView.Conf
             set
             {
                 _top = value;
-                OnPropertyChanged(nameof(ViewTop));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(AreaTop));
             }
         }
-
         public double Bottom
         {
             get { return _bottom; }
             set
             {
                 _bottom = value;
-                OnPropertyChanged(nameof(ViewBottom));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(AreaBottom));
             }
         }
-
         public double Left
         {
             get { return _left; }
             set
             {
                 _left = value;
-                OnPropertyChanged(nameof(ViewLeft));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(AreaLeft));
             }
         }
-
         public double Right
         {
             get { return _right; }
             set
             {
                 _right = value;
-                OnPropertyChanged(nameof(ViewRight));
+                OnPropertyChanged();
+                OnPropertyChanged(nameof(AreaRight));
             }
         }
 
-        public double ViewTop { get { return this.Top * this.Scale; } }
-        public double ViewBottom { get { return this.Bottom * this.Scale; } }
-        public double ViewLeft { get { return this.Left * this.Scale; } }
-        public double ViewRight { get { return this.Right * this.Scale; } }
+        public double AreaTop { get { return _top; } }
+        public double AreaBottom { get { return Item.Mainbase.MainImage.ActualHeight - _bottom; } }
+        public double AreaLeft { get { return _left; } }
+        public double AreaRight { get { return Item.Mainbase.MainImage.ActualWidth - _right; } }
 
-        public double _scale = 1;
-
-        public double Scale
+        public void GrayAreaReload()
         {
-            get { return _scale; }
-            set
-            {
-                _scale = value;
-                OnPropertyChanged(nameof(ViewTop));
-                OnPropertyChanged(nameof(ViewBottom));
-                OnPropertyChanged(nameof(ViewLeft));
-                OnPropertyChanged(nameof(ViewRight));
-            }
+            OnPropertyChanged(nameof(AreaTop));
+            OnPropertyChanged(nameof(AreaBottom));
+            OnPropertyChanged(nameof(AreaLeft));
+            OnPropertyChanged(nameof(AreaRight));
         }
 
         #region Inotify change
