@@ -17,7 +17,8 @@
         PreviewMouseWheel="Window_PreviewMouseWheel"
         Background="DimGray">
     <Window.Resources>
-        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter"/>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+        <converter:MultiToVisibilityConverter x:Key="MultiToVisibilityConverter" />
     </Window.Resources>
 
     <Grid Name="GlobalGrid">
@@ -25,7 +26,7 @@
             <ColumnDefinition Width="0" Name="Column0"/>
             <ColumnDefinition Width="*" Name="Column1"/>
         </Grid.ColumnDefinitions>
-        
+
         <lib:AdvancedScrollViewer x:Name="ScrollViewer"
                                   Grid.Column="1"
                                   HorizontalScrollBarVisibility="Auto"
@@ -49,5 +50,16 @@
                                    Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </lib:AdvancedScrollViewer>
+
+        <lib:InfoPanel2 x:Name="InfoPanel2"
+                        Grid.Column="1">
+            <lib:InfoPanel2.Visibility>
+                <MultiBinding Converter="{StaticResource MultiToVisibilityConverter}">
+                    <Binding Path="IsMouseOver" ElementName="MainBase" />
+                    <Binding Path="State.InfoPanelIndex" />
+                </MultiBinding>
+            </lib:InfoPanel2.Visibility>
+        </lib:InfoPanel2>
+            
     </Grid>
 </Window>

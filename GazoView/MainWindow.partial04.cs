@@ -12,21 +12,19 @@ namespace GazoView
 {
     public partial class MainWindow : Window
     {
-        private int _infoPanelIndex = 0;
-
         private void ChangeInfoPanel()
         {
             //Item.BindingParam.State.ShowInfoPanel = !Item.BindingParam.State.ShowInfoPanel;
 
-            _infoPanelIndex++;
-            if (_infoPanelIndex > 2)
+            Item.BindingParam.State.InfoPanelIndex++;
+            if (Item.BindingParam.State.InfoPanelIndex > 2)
             {
-                _infoPanelIndex = 0;
+                Item.BindingParam.State.InfoPanelIndex = 0;
             }
 
             Item.InfoPanel1 ??= new InfoPanel1();
 
-            switch (_infoPanelIndex)
+            switch (Item.BindingParam.State.InfoPanelIndex)
             {
                 case 0:
                     GlobalGrid.Children.Remove(Item.InfoPanel1);
