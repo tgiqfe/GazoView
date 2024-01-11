@@ -30,6 +30,8 @@ namespace GazoView.Conf
 
         const int BORDER_HALF_WIDTH = 4;
 
+        #region Rar size
+
         private double _top = 100;
         private double _bottom = 300;
         private double _left = 100;
@@ -56,17 +58,23 @@ namespace GazoView.Conf
             set { _right = value; OnPropertyChanged(nameof(ViewRight)); }
         }
 
+        #endregion
+        #region View size
+
         public double ViewTop { get { return this.Top * this.Scale; } }
         public double ViewBottom { get { return this.Bottom * this.Scale; } }
         public double ViewLeft { get { return this.Left * this.Scale; } }
         public double ViewRight { get { return this.Right * this.Scale; } }
+
+        #endregion
+        #region border location size
 
         public double BorderTop { get { return this.ViewTop + BORDER_HALF_WIDTH; } }
         public double BorderBottom { get { return this.ViewBottom - BORDER_HALF_WIDTH; } }
         public double BorderLeft { get { return this.ViewLeft + BORDER_HALF_WIDTH; } }
         public double BorderRight { get { return this.ViewRight - BORDER_HALF_WIDTH; } }
 
-
+        #endregion
 
         #region Inotify change
 
