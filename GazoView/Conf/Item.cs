@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Lib;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -13,5 +14,9 @@ namespace GazoView.Conf
         public static MainWindow Mainbase = null;
 
         public static BindingParam BindingParam = null;
+
+        public static InfoPanel1 InfoPanel1 = null;
+
+
     }
 }

@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Conf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -23,6 +24,7 @@ namespace GazoView.Lib
         public InfoPanel1()
         {
             InitializeComponent();
+            this.DataContext = Item.BindingParam;
         }
     }
 }

@@ -25,7 +25,7 @@ namespace GazoView
                     break;
                 case Key.D:
                 case Key.Tab:
-                    Item.BindingParam.State.ShowInfoPanel = !Item.BindingParam.State.ShowInfoPanel;
+                    ChangeInfoPanel();
                     break;
                 case Key.Left:
                     //  1つ前の画像を表示

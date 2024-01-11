@@ -50,6 +50,11 @@ namespace GazoView.Lib
 
         private DragLine _dragLine = DragLine.None;
 
+        /// <summary>
+        /// トリミング領域のドラッグ開始
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var point = e.GetPosition(TrimLayer);
@@ -84,18 +89,26 @@ namespace GazoView.Lib
             }
             else
             {
-                //  GreaArea (Center)
+                //  GreaArea (Other)
                 _dragLine = DragLine.None;
             }
         }
 
+        /// <summary>
+        /// トリミング領域のドラッグ終了
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _dragLine = DragLine.None;
-            Debug.WriteLine($"Top: {Item.BindingParam.Trimming.Top}, Bottom: {Item.BindingParam.Trimming.Bottom}, Left: {Item.BindingParam.Trimming.Left}, Right: {Item.BindingParam.Trimming.Right}");
-            Debug.WriteLine($"ActualWidth: {this.ActualWidth}, ActualHeight: {this.ActualHeight}");
         }
 
+        /// <summary>
+        /// トリミング領域の範囲指定中
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
