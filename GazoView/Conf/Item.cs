@@ -15,7 +15,7 @@ namespace GazoView.Conf
 
         public static BindingParam BindingParam = null;
 
-        public static InfoPanel1 InfoPanel1 = null;
+        public static InfoPanel InfoPanel = null;
 
 
     }
