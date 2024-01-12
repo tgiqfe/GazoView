@@ -42,7 +42,7 @@
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="FileMultipleOutline" Width="25" Height="20"/>
                     <StackPanel>
-                        <TextBlock Text="ファイル名: " />
+                        <TextBlock Text="ファイル名:" />
                         <TextBlock Text="{Binding Images.Current.FileName}" />
                     </StackPanel>
                 </StackPanel>
@@ -51,7 +51,7 @@
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="FileSearchOutline" Width="25" Height="23" />
                     <StackPanel>
-                        <TextBlock Text="ファイルパス: "/>
+                        <TextBlock Text="ファイルパス:"/>
                         <TextBlock Text="{Binding Images.Current.FilePath}" />
                     </StackPanel>
                 </StackPanel>
@@ -60,7 +60,7 @@
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="PuzzleOutline" Width="25" Height="23" />
                     <StackPanel>
-                        <TextBlock Text="拡張子: " />
+                        <TextBlock Text="拡張子:" />
                         <TextBlock Text="{Binding Images.Current.FileExtension}" />
                     </StackPanel>
                 </StackPanel>
@@ -69,7 +69,7 @@
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="MicroSd" Width="25" Height="22" />
                     <StackPanel>
-                        <TextBlock Text="ファイルサイズ: " />
+                        <TextBlock Text="ファイルサイズ:" />
                         <TextBlock Text="{Binding Images.Current.Size}" />
                     </StackPanel>
                 </StackPanel>
@@ -78,7 +78,7 @@
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="ImageSizeSelectLarge" Width="25" Height="23" />
                     <StackPanel>
-                        <TextBlock Text="画像サイズ: " />
+                        <TextBlock Text="画像サイズ:" />
                         <TextBlock>
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource SizeTextConverter}">
@@ -94,7 +94,7 @@
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="Resize" Width="25" Height="22" />
                     <StackPanel>
-                        <TextBlock Text="表示サイズ: " />
+                        <TextBlock Text="表示サイズ:" />
                         <TextBlock>
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
@@ -106,29 +106,11 @@
                     </StackPanel>
                 </StackPanel>
 
-                <!-- 更新日時 -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="CalendarClock" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="更新日時: " />
-                        <TextBlock Text="{Binding Images.Current.LastWriteTime}" />
-                    </StackPanel>
-                </StackPanel>
-
-                <!-- ファイルハッシュ(MD5) -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="ZipBoxOutline" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="ハッシュ(MD5): " />
-                        <TextBlock Text="{Binding Images.Current.Hash}" />
-                    </StackPanel>
-                </StackPanel>
-
                 <!-- 画像拡大率 -->
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="23" />
                     <StackPanel>
-                        <TextBlock Text="画像拡大率: " />
+                        <TextBlock Text="画像拡大率:" />
                         <TextBlock Text="{Binding Images.ImageScalePercent, Converter={StaticResource DoubleToPercentConverter}}" />
                     </StackPanel>
                 </StackPanel>
@@ -137,8 +119,26 @@
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="23" />
                     <StackPanel>
-                        <TextBlock Text="表示拡大率: " />
+                        <TextBlock Text="表示拡大率:" />
                         <TextBlock Text="{Binding Images.ScaleRate.Scale, Converter={StaticResource DoubleToPercentConverter}}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 更新日時 -->
+                <StackPanel Orientation="Horizontal" Height="42">
+                    <materialDesign:PackIcon Kind="CalendarClock" Width="25" Height="23" />
+                    <StackPanel>
+                        <TextBlock Text="更新日時:" />
+                        <TextBlock Text="{Binding Images.Current.LastWriteTime}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- ファイルハッシュ(MD5) -->
+                <StackPanel Orientation="Horizontal" Height="42">
+                    <materialDesign:PackIcon Kind="ZipBoxOutline" Width="25" Height="23" />
+                    <StackPanel>
+                        <TextBlock Text="ハッシュ(MD5):" />
+                        <TextBlock Text="{Binding Images.Current.Hash}" />
                     </StackPanel>
                 </StackPanel>
 
