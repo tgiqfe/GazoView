@@ -54,6 +54,7 @@
                             HorizontalAlignment="Center">
                     <TextBox PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding Trimming.Top, Mode=TwoWay}"
+                             IsEnabled="{Binding State.TrimmingMode}"
                              CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
                     <materialDesign:PackIcon Kind="BorderBottomVariant" Width="25" Height="25"/>
                 </StackPanel>
@@ -62,6 +63,7 @@
                             HorizontalAlignment="Right">
                     <TextBox PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding Trimming.Left, Mode=TwoWay}"
+                             IsEnabled="{Binding State.TrimmingMode}"
                              CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
                     <materialDesign:PackIcon Kind="BorderRightVariant" Width="25" Height="25" />
                 </StackPanel>
@@ -71,6 +73,7 @@
                     <materialDesign:PackIcon Kind="BorderRight" Width="25" Height="25" />
                     <TextBox PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding Trimming.Right, Mode=TwoWay}"
+                             IsEnabled="{Binding State.TrimmingMode}"
                              CommandManager.PreviewExecuted="TextBox_PreviewExecuted"
                              Margin="-5,0,0,0"/>
                 </StackPanel>
@@ -79,6 +82,7 @@
                     <materialDesign:PackIcon Kind="BorderBottom" Width="25" Height="25"/>
                     <TextBox PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding Trimming.Bottom, Mode=TwoWay}"
+                             IsEnabled="{Binding State.TrimmingMode}"
                              CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
                 </StackPanel>
 
