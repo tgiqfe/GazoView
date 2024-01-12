@@ -1,5 +1,4 @@
-﻿using GazoView.Conf;
-using System;
+﻿using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -17,14 +16,13 @@ using System.Windows.Shapes;
 namespace GazoView.Lib
 {
     /// <summary>
-    /// InfoPanel2.xaml の相互作用ロジック
+    /// TrimmingPanel.xaml の相互作用ロジック
     /// </summary>
-    public partial class InfoPanel2 : UserControl
+    public partial class TrimmingPanel : UserControl
     {
-        public InfoPanel2()
+        public TrimmingPanel()
         {
             InitializeComponent();
-            this.DataContext = Item.BindingParam;
         }
     }
 }

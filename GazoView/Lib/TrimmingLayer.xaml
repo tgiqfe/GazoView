@@ -140,6 +140,9 @@
               X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
               Y1="{Binding Trimming.ViewTop}"
               Y2="{Binding Trimming.ViewBottom}" />
-        
+
+        <lib:TrimmingPanel x:Name="TrimPanel" 
+                           Width="200"
+                           Height="200" />
     </Grid>
 </UserControl>

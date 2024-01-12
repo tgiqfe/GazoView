@@ -28,17 +28,6 @@ namespace GazoView.Lib
             this.DataContext = Item.BindingParam;
         }
 
-        //  前バージョンは必要とした処理だけど、今バージョンでは不要かもしれない。
-        protected override void OnRender(DrawingContext drawingContext)
-        {
-            base.OnRender(drawingContext);
-            if (Item.BindingParam?.State.TrimmingMode ?? false)
-            {
-                //  描画時の処理
-                //  GreayAreaReload()
-            }
-        }
-
         enum DragLine
         {
             None,

@@ -130,9 +130,6 @@ namespace GazoView.Lib.ImageInfo
             this.ScaleRate = new ScaleRate();
         }
 
-
-
-
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;
