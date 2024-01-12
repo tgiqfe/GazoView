@@ -55,6 +55,7 @@ namespace GazoView.Conf
             }
         }
 
+        /*
         /// <summary>
         /// Infoパネルの表示/非表示
         /// </summary>
@@ -66,6 +67,25 @@ namespace GazoView.Conf
             set
             {
                 _showInfoPanel = value;
+                OnPropertyChanged();
+            }
+        }
+        */
+
+        /// <summary>
+        /// Infoパネルの表示状態
+        /// 0 ⇒ 非表示
+        /// 1 ⇒ 左側に表示(重ねて表示)
+        /// 2 ⇒ 左側に表示
+        /// </summary>
+        private int _infoPanelIndex = 0;
+
+        public int InfoPanelIndex
+        {
+            get { return _infoPanelIndex; }
+            set
+            {
+                _infoPanelIndex = value;
                 OnPropertyChanged();
             }
         }

@@ -31,6 +31,7 @@ namespace GazoView.Lib.ImageInfo
             this.FileName = Path.GetFileName(path);
             this.FileExtension = Path.GetExtension(path);
             this.Size = GetFileSize(path);
+            this.LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
             this.Hash = GetHash(path);
         }
 
@@ -72,7 +73,7 @@ namespace GazoView.Lib.ImageInfo
             {
                 var md5 = MD5.Create();
                 byte[] bytes = md5.ComputeHash(fs);
-                ret = BitConverter.ToString(bytes);
+                ret = BitConverter.ToString(bytes).Replace("-", "");
                 md5.Clear();
             }
             return ret;

@@ -67,8 +67,7 @@ namespace GazoView.Lib.ImageInfo
 
         public ScaleRate ScaleRate { get; set; }
 
-
-
+        #region View image size
 
         private double _viewWidth = 0;
         private double _viewHeight = 0;
@@ -79,7 +78,7 @@ namespace GazoView.Lib.ImageInfo
             set
             {
                 _viewWidth = value;
-                //OnPropertyChanged(nameof(ImageScalePercent));
+                OnPropertyChanged(nameof(ImageScalePercent));
                 OnPropertyChanged();
             }
         }
@@ -94,12 +93,6 @@ namespace GazoView.Lib.ImageInfo
             }
         }
 
-
-        /*
-        #region ViewSize
-
-
-
         public double ImageScalePercent
         {
             get
@@ -110,7 +103,6 @@ namespace GazoView.Lib.ImageInfo
         }
 
         #endregion
-        */
 
         public ImageStore(string[] targets)
         {
@@ -137,9 +129,6 @@ namespace GazoView.Lib.ImageInfo
             }
             this.ScaleRate = new ScaleRate();
         }
-
-
-
 
         #region Inotify change
 

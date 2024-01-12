@@ -6,6 +6,9 @@
              xmlns:lib="clr-namespace:GazoView.Lib"
              xmlns:converter="clr-namespace:GazoView.Lib.Converter"
              Name="TrimLayer"
+             PreviewMouseLeftButtonDown="UserControl_PreviewMouseLeftButtonDown"
+             PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp"
+             MouseMove="UserControl_MouseMove"
              mc:Ignorable="d">
     <UserControl.Resources>
         <SolidColorBrush x:Key="BackgroundBrush"
@@ -137,6 +140,9 @@
               X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
               Y1="{Binding Trimming.ViewTop}"
               Y2="{Binding Trimming.ViewBottom}" />
-        
+
+        <lib:TrimmingPanel x:Name="TrimPanel" 
+                           Width="200"
+                           Height="200" />
     </Grid>
 </UserControl>

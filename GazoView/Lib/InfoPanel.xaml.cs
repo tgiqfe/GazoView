@@ -17,11 +17,11 @@ using System.Windows.Shapes;
 namespace GazoView.Lib
 {
     /// <summary>
-    /// InfoPanel2.xaml の相互作用ロジック
+    /// InfoPanel.xaml の相互作用ロジック
     /// </summary>
-    public partial class InfoPanel2 : UserControl
+    public partial class InfoPanel : UserControl
     {
-        public InfoPanel2()
+        public InfoPanel()
         {
             InitializeComponent();
             this.DataContext = Item.BindingParam;
