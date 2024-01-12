@@ -55,6 +55,7 @@ namespace GazoView.Conf
             }
         }
 
+        /*
         /// <summary>
         /// Infoパネルの表示/非表示
         /// </summary>
@@ -69,6 +70,7 @@ namespace GazoView.Conf
                 OnPropertyChanged();
             }
         }
+        */
 
         /// <summary>
         /// Infoパネルの表示状態

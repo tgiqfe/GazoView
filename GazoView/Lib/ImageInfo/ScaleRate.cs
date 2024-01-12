@@ -1,12 +1,14 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
 namespace GazoView.Lib.ImageInfo
 {
-    internal class ScaleRate
+    internal class ScaleRate : INotifyPropertyChanged
     {
         private static readonly double[] _ticks = new double[]
         {
@@ -30,6 +32,7 @@ namespace GazoView.Lib.ImageInfo
             {
                 _preview = _index;
                 _index = value;
+                OnPropertyChanged(nameof(Scale));
             }
         }
 
@@ -43,5 +46,16 @@ namespace GazoView.Lib.ImageInfo
             _index = DEF_INDEX;
             _preview = DEF_INDEX;
         }
+
+        #region Inotify change
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        #endregion
     }
 }

@@ -21,8 +21,9 @@
             <Setter Property="Margin" Value="0,0,5,0" />
         </Style>
         <converter:SizeTextConverter x:Key="SizeTextConverter" />
+        <converter:DoubleToPercentConverter x:Key="DoubleToPercentConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Border BorderThickness="0,0,1,0"
                 BorderBrush="LightGray"
@@ -35,7 +36,7 @@
             </Border.Effect>
             <StackPanel HorizontalAlignment="Left"
                         Margin="10">
-                
+
                 <!-- ファイル名 -->
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="FileMultipleOutline" Width="25" Height="20"/>
@@ -112,13 +113,31 @@
                         <TextBlock Text="{Binding Images.Current.LastWriteTime}" />
                     </StackPanel>
                 </StackPanel>
-                
+
                 <!-- ファイルハッシュ(MD5) -->
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="ZipBoxOutline" Width="25" Height="23" />
                     <StackPanel>
                         <TextBlock Text="ハッシュ(MD5): " />
                         <TextBlock Text="{Binding Images.Current.Hash}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 画像拡大率 -->
+                <StackPanel Orientation="Horizontal" Height="42">
+                    <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="23" />
+                    <StackPanel>
+                        <TextBlock Text="画像拡大率: " />
+                        <TextBlock Text="{Binding Images.ImageScalePercent, Converter={StaticResource DoubleToPercentConverter}}" />
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- 表示拡大率 -->
+                <StackPanel Orientation="Horizontal" Height="42">
+                    <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="23" />
+                    <StackPanel>
+                        <TextBlock Text="表示拡大率: " />
+                        <TextBlock Text="{Binding Images.ScaleRate.Scale, Converter={StaticResource DoubleToPercentConverter}}" />
                     </StackPanel>
                 </StackPanel>
 
