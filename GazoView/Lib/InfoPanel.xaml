@@ -142,6 +142,8 @@
                     </StackPanel>
                 </StackPanel>
 
+                <lib:TrimmingPanel />
+
             </StackPanel>
         </Border>
     </Grid>

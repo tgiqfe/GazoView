@@ -55,23 +55,6 @@ namespace GazoView.Conf
             }
         }
 
-        /*
-        /// <summary>
-        /// Infoパネルの表示/非表示
-        /// </summary>
-        private bool _showInfoPanel = false;
-
-        public bool ShowInfoPanel
-        {
-            get { return _showInfoPanel; }
-            set
-            {
-                _showInfoPanel = value;
-                OnPropertyChanged();
-            }
-        }
-        */
-
         /// <summary>
         /// Infoパネルの表示状態
         /// 0 ⇒ 非表示
