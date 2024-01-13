@@ -27,7 +27,7 @@ namespace GazoView
                     SwitchScalingMode(false);
                     break;
                 case Key.T:
-                    Item.BindingParam.State.TrimmingMode = !Item.BindingParam.State.TrimmingMode;
+                    SwitchTrimmingMode();
                     break;
                 case Key.D:
                 case Key.Tab:

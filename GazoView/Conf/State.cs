@@ -59,7 +59,9 @@ namespace GazoView.Conf
         /// Infoパネルの表示状態
         /// 0 ⇒ 非表示
         /// 1 ⇒ 左側に表示(重ねて表示)
-        /// 2 ⇒ 左側に表示
+        /// 2 ⇒ 右側に表示(重ねて表示)
+        /// 3 ⇒ 左側に表示(重ねずに表示)
+        /// 4 ⇒ 右側に表示(重ねずに表示)
         /// </summary>
         private int _infoPanelIndex = 0;
 

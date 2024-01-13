@@ -18,6 +18,9 @@ namespace GazoView
         private void ChangeImage(int direction)
         {
             Item.BindingParam.Images.Index += direction;
+
+            //  画像拡大率 300% 以上で、NearestNeighborを有効
+            SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
         }
     }
 }

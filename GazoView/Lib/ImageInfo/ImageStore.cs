@@ -93,6 +93,9 @@ namespace GazoView.Lib.ImageInfo
             }
         }
 
+        /// <summary>
+        /// 画像拡大率 (表示サイズ ÷ 画像サイズ)
+        /// </summary>
         public double ImageScalePercent
         {
             get

@@ -13,6 +13,10 @@ namespace GazoView
 {
     public partial class MainWindow : Window
     {
+        /// <summary>
+        /// 拡縮モードの切り替え
+        /// </summary>
+        /// <param name="toEnable"></param>
         private void SwitchScalingMode(bool? toEnable = null)
         {
             Item.BindingParam.State.ScalingMode =
@@ -29,6 +33,16 @@ namespace GazoView
                 MainImage.Width = ScrollViewer.ActualWidth;
                 MainImage.Height = ScrollViewer.ActualHeight;
             }
+        }
+
+        /// <summary>
+        /// トリミングモードの切り替え
+        /// </summary>
+        /// <param name="toEnable"></param>
+        private void SwitchTrimmingMode(bool? toEnable = null)
+        {
+            Item.BindingParam.State.TrimmingMode =
+                toEnable ?? !Item.BindingParam.State.TrimmingMode;
         }
 
         /// <summary>
@@ -80,17 +94,18 @@ namespace GazoView
         /// <param name="toEnable"></param>
         private void SwitchNearestNeighbor(bool? toEnable = null)
         {
-            Item.BindingParam.State.NearestNeighbor = 
-                toEnable ?? !Item.BindingParam.State.NearestNeighbor;
-
-
-            if (Item.BindingParam.State.NearestNeighbor)
+            bool nextState = toEnable ?? !Item.BindingParam.State.NearestNeighbor;
+            if (Item.BindingParam.State.NearestNeighbor != nextState)
             {
-                RenderOptions.SetBitmapScalingMode(MainImage, BitmapScalingMode.NearestNeighbor);
-            }
-            else
-            {
-                RenderOptions.SetBitmapScalingMode(MainImage, BitmapScalingMode.Fant);
+                Item.BindingParam.State.NearestNeighbor = nextState;
+                if (nextState)
+                {
+                    RenderOptions.SetBitmapScalingMode(MainImage, BitmapScalingMode.NearestNeighbor);
+                }
+                else
+                {
+                    RenderOptions.SetBitmapScalingMode(MainImage, BitmapScalingMode.Fant);
+                }
             }
         }
     }
