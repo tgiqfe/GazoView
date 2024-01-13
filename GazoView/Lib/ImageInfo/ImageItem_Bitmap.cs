@@ -4,12 +4,15 @@ using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
 namespace GazoView.Lib.ImageInfo
 {
     internal class ImageItem_Bitmap : ImageItem
     {
+        const int DPI_96 = 96;
+
         public ImageItem_Bitmap(string path) : base(path)
         {
             using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
@@ -22,9 +25,25 @@ namespace GazoView.Lib.ImageInfo
                 bitmap.EndInit();
                 bitmap.Freeze();
 
-                this.Source = bitmap;
                 this.Width = bitmap.PixelWidth;
                 this.Height = bitmap.PixelHeight;
+                this.DpiX = bitmap.DpiX;
+                this.DpiY = bitmap.DpiY;
+
+                if (DpiX == DPI_96 && DpiY == DPI_96)
+                {
+                    this.Source = bitmap;
+                }
+                else
+                {
+                    //  DPIが96x96以外の場合は、96x96に変換する
+                    int w = bitmap.PixelWidth;
+                    int h = bitmap.PixelHeight;
+                    int stride = w * (bitmap.Format.BitsPerPixel / 8);
+                    byte[] pixels = new byte[h * stride];
+                    bitmap.CopyPixels(pixels, stride, 0);
+                    this.Source = BitmapSource.Create(w, h, DPI_96, DPI_96, PixelFormats.Pbgra32, null, pixels, stride);
+                }
             }
         }
     }

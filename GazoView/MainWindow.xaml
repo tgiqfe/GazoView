@@ -44,6 +44,7 @@
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}"
                        RenderOptions.EdgeMode="Aliased"
                        RenderOptions.BitmapScalingMode="Fant"
+                       UseLayoutRounding="True"
                        SizeChanged="MainImage_SizeChanged"/>
                 <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=MainImage}"
                                    Height="{Binding ActualHeight, ElementName=MainImage}"
