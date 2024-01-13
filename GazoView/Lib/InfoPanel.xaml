@@ -23,7 +23,7 @@
         <converter:SizeTextConverter x:Key="SizeTextConverter" />
         <converter:DoubleToPercentConverter x:Key="DoubleToPercentConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Border BorderThickness="0,0,1,0"
             BorderBrush="LightGray"
@@ -34,13 +34,13 @@
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" />
             </Border.Effect>
-            
+
             <StackPanel HorizontalAlignment="Left"
                     Margin="10">
 
                 <!-- ファイル名 -->
                 <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="FileMultipleOutline" Width="25" Height="20"/>
+                    <materialDesign:PackIcon Kind="FileImageOutline" Width="25" Height="25"/>
                     <StackPanel>
                         <TextBlock Text="ファイル名:" />
                         <TextBlock Text="{Binding Images.Current.FileName}" />
@@ -100,6 +100,22 @@
                                 <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
                                     <Binding Path="Images.ViewWidth" />
                                     <Binding Path="Images.ViewHeight" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+
+                <!-- DPI(横x縦) -->
+                <StackPanel Orientation="Horizontal" Height="42">
+                    <materialDesign:PackIcon Kind="TooltipImageOutline" Width="25" Height="23" />
+                    <StackPanel>
+                        <TextBlock Text="DPI:" />
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource SizeTextConverter}">
+                                    <Binding Path="Images.Current.DpiX" />
+                                    <Binding Path="Images.Current.DpiY" />
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>

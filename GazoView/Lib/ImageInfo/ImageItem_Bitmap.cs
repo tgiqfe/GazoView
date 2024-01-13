@@ -11,7 +11,7 @@ namespace GazoView.Lib.ImageInfo
 {
     internal class ImageItem_Bitmap : ImageItem
     {
-        const int DPI_96 = 96;
+        const double DPI_96 = 96;
 
         public ImageItem_Bitmap(string path) : base(path)
         {
@@ -37,12 +37,10 @@ namespace GazoView.Lib.ImageInfo
                 else
                 {
                     //  DPIが96x96以外の場合は、96x96に変換する
-                    int w = bitmap.PixelWidth;
-                    int h = bitmap.PixelHeight;
-                    int stride = w * (bitmap.Format.BitsPerPixel / 8);
-                    byte[] pixels = new byte[h * stride];
+                    int stride = Width * (bitmap.Format.BitsPerPixel / 8);
+                    byte[] pixels = new byte[Height * stride];
                     bitmap.CopyPixels(pixels, stride, 0);
-                    this.Source = BitmapSource.Create(w, h, DPI_96, DPI_96, PixelFormats.Pbgra32, null, pixels, stride);
+                    this.Source = BitmapSource.Create(Width, Height, DPI_96, DPI_96, PixelFormats.Pbgra32, null, pixels, stride);
                 }
             }
         }

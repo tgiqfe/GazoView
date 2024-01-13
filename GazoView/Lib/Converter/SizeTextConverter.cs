@@ -21,7 +21,7 @@ namespace GazoView.Lib.Converter
             return param switch
             {
                 "Round" => $"{Math.Round((double)values[0], 2)} x {Math.Round((double)values[1], 2)}",
-                _ => $"{(double)values[0]} x {(double)values[1]}"
+                _ => $"{values[0]} x {values[1]}"
             };
         }
 
