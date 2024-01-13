@@ -110,6 +110,12 @@ namespace GazoView.Lib.ImageInfo
 
         public ImageStore(string[] targets)
         {
+            LoadFiles(targets);
+            this.ScaleRate = new ScaleRate();
+        }
+
+        public void LoadFiles(string[] targets)
+        {
             if (targets.Length == 1)
             {
                 if (File.Exists(targets[0]))
@@ -129,9 +135,8 @@ namespace GazoView.Lib.ImageInfo
             }
             else if (targets.Length > 1)
             {
-
+                //  複数のファイルを指定
             }
-            this.ScaleRate = new ScaleRate();
         }
 
         #region Inotify change

@@ -2,10 +2,12 @@
 using GazoView.Lib.Function;
 using System;
 using System.Collections.Generic;
+using System.IO;
 using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Media;
 
 namespace GazoView
 {
@@ -26,6 +28,59 @@ namespace GazoView
             //  画像拡大率 300% 以上で、NearestNeighborを有効
             SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
         }
+
+        #region File drag and drop
+
+        /// <summary>
+        /// ファイルDragOver
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            if (e.Data.GetData(DataFormats.FileDrop) is string[] targets)
+            {
+                if (File.Exists(targets[0]) || Directory.Exists(targets[0]))
+                {
+                    e.Effects = DragDropEffects.Copy;
+                    MainImage.Opacity = 0.6;
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3395FF"));
+                }
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        /// <summary>
+        /// ファイルをDragLeave
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_PreviewDragLeave(object sender, DragEventArgs e)
+        {
+            MainImage.Opacity = 1;
+            this.Background = Brushes.DimGray;
+        }
+
+        /// <summary>
+        /// ファイルをDropIn
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_PreviewDrop(object sender, DragEventArgs e)
+        {
+            MainImage.Opacity = 1;
+            this.Background = Brushes.DimGray;
+            if(e.Data.GetData(DataFormats.FileDrop) is string[] targets)
+            {
+                Item.BindingParam.Images.LoadFiles(targets);
+            }
+        }
+
+        #endregion
 
         /// <summary>
         /// トリミング実行

@@ -13,8 +13,12 @@
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.X, Mode=TwoWay}"
         Top="{Binding Setting.Y, Mode=TwoWay}"
+        PreviewDragOver="Window_PreviewDragOver"
+        PreviewDragLeave="Window_PreviewDragLeave"
+        PreviewDrop="Window_PreviewDrop"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
+        AllowDrop="True"
         Background="DimGray">
     <Window.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
