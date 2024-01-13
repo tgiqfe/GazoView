@@ -39,6 +39,8 @@ namespace GazoView.Conf
                 OnPropertyChanged();
             }
         }
+
+        public bool IsTrimmingSizeChanging { get; set; }
         
         /// <summary>
         /// Bitmapの拡大縮小時に最近傍法を使用するか
@@ -75,7 +77,7 @@ namespace GazoView.Conf
             }
         }
 
-
+        
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;

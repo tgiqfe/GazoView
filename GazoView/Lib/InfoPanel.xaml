@@ -43,7 +43,10 @@
                     <materialDesign:PackIcon Kind="FileImageOutline" Width="25" Height="25"/>
                     <StackPanel>
                         <TextBlock Text="ファイル名:" />
-                        <TextBlock Text="{Binding Images.Current.FileName}" />
+                        <TextBlock Text="{Binding Images.Current.FileName}"
+                                   ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
+                                   ToolTipService.BetweenShowDelay="100"
+                                   ToolTipService.InitialShowDelay="100"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -52,7 +55,10 @@
                     <materialDesign:PackIcon Kind="FileSearchOutline" Width="25" Height="23" />
                     <StackPanel>
                         <TextBlock Text="ファイルパス:"/>
-                        <TextBlock Text="{Binding Images.Current.FilePath}" />
+                        <TextBlock Text="{Binding Images.Current.FilePath}"
+                                   ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
+                                   ToolTipService.BetweenShowDelay="100"
+                                   ToolTipService.InitialShowDelay="100"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -154,7 +160,8 @@
                     <materialDesign:PackIcon Kind="ZipBoxOutline" Width="25" Height="23" />
                     <StackPanel>
                         <TextBlock Text="ハッシュ(MD5):" />
-                        <TextBlock Text="{Binding Images.Current.Hash}" />
+                        <TextBlock Text="{Binding Images.Current.Hash}"
+                                   FontSize="12" />
                     </StackPanel>
                 </StackPanel>
 

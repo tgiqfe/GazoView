@@ -37,7 +37,7 @@
                 <Grid.RowDefinitions>
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
-                    <RowDefinition Height="10" />
+                    <RowDefinition Height="2" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="30" />
                     <RowDefinition Height="35" />
@@ -54,6 +54,7 @@
                             HorizontalAlignment="Center">
                     <TextBox PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding Trimming.Top, Mode=TwoWay}"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
                              IsEnabled="{Binding State.TrimmingMode}"
                              CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
                     <materialDesign:PackIcon Kind="BorderBottomVariant" Width="25" Height="25"/>
@@ -63,6 +64,7 @@
                             HorizontalAlignment="Right">
                     <TextBox PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding Trimming.Left, Mode=TwoWay}"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
                              IsEnabled="{Binding State.TrimmingMode}"
                              CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
                     <materialDesign:PackIcon Kind="BorderRightVariant" Width="25" Height="25" />
@@ -73,6 +75,7 @@
                     <materialDesign:PackIcon Kind="BorderRight" Width="25" Height="25" />
                     <TextBox PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding Trimming.Right, Mode=TwoWay}"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
                              IsEnabled="{Binding State.TrimmingMode}"
                              CommandManager.PreviewExecuted="TextBox_PreviewExecuted"
                              Margin="-5,0,0,0"/>
@@ -82,6 +85,7 @@
                     <materialDesign:PackIcon Kind="BorderBottom" Width="25" Height="25"/>
                     <TextBox PreviewTextInput="TextBox_PreviewTextInput"
                              Text="{Binding Trimming.Bottom, Mode=TwoWay}"
+                             GotFocus="TextBox_GotFocus" LostFocus="TextBox_LostFocus"
                              IsEnabled="{Binding State.TrimmingMode}"
                              CommandManager.PreviewExecuted="TextBox_PreviewExecuted"/>
                 </StackPanel>
