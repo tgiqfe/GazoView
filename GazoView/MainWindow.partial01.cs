@@ -9,6 +9,7 @@ using System.Windows.Input;
 using GazoView.Lib;
 using System.Windows.Controls;
 using System.Windows.Media;
+using System.Diagnostics;
 
 namespace GazoView
 {
@@ -48,6 +49,10 @@ namespace GazoView
                     //  1つ後の画像を表示
                     if (Item.BindingParam.State.IsTrimmingSizeChanging) break;
                     ChangeImage(1);
+                    break;
+                case Key.LeftCtrl:
+                case Key.RightCtrl:
+                    //Debug.WriteLine("Ctrl");
                     break;
             }
         }
