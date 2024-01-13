@@ -1,4 +1,5 @@
 ﻿using GazoView.Conf;
+using GazoView.Lib.Function;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -19,11 +20,36 @@ namespace GazoView
         {
             Item.BindingParam.Images.Index += direction;
 
-            Item.BindingParam.Trimming.Scale = 
+            Item.BindingParam.Trimming.Scale =
                 MainImage.ActualWidth / Item.BindingParam.Images.Current.Source.Width;
 
             //  画像拡大率 300% 以上で、NearestNeighborを有効
             SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
+        }
+
+        /// <summary>
+        /// トリミング実行
+        /// </summary>
+        private void StartTrimming()
+        {
+            string output = FileAction.CreateSafePath(Item.BindingParam.Images.Current.FilePath);
+
+            var ret = MessageBox.Show($"Trim.\r\n[ {output} ]",
+                Item.ProcessName,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Information,
+                MessageBoxResult.Yes);
+            if (ret != MessageBoxResult.Yes) return;
+
+            ImageTrimming.Cut(
+                Item.BindingParam.Images.Current.Source,
+                Item.BindingParam.Images.Current.FilePath,
+                output,
+                Item.BindingParam.Images.Current.FileExtension,
+                Item.BindingParam.Trimming.Left,
+                Item.BindingParam.Trimming.Top,
+                Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
+                Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
         }
     }
 }

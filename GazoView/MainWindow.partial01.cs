@@ -30,6 +30,10 @@ namespace GazoView
                 case Key.T:
                     SwitchTrimmingMode();
                     break;
+                case Key.G:
+                    //  トリミング実行
+                    StartTrimming();
+                    break;
                 case Key.D:
                 case Key.Tab:
                     //  Infoパネルの表示/非表示
