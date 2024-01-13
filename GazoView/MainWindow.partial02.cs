@@ -19,6 +19,9 @@ namespace GazoView
         {
             Item.BindingParam.Images.Index += direction;
 
+            Item.BindingParam.Trimming.Scale = 
+                MainImage.ActualWidth / Item.BindingParam.Images.Current.Source.Width;
+
             //  画像拡大率 300% 以上で、NearestNeighborを有効
             SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
         }

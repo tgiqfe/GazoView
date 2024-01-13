@@ -50,6 +50,7 @@ namespace GazoView.Lib.ImageInfo
 
                     OnPropertyChanged(nameof(Current));
                     OnPropertyChanged(nameof(Title));
+                    OnPropertyChanged(nameof(ImageScalePercent));
                     OnPropertyChanged();
                 }
             }

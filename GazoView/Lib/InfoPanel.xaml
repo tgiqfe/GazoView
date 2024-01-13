@@ -119,7 +119,7 @@
                         <TextBlock Text="DPI:" />
                         <TextBlock>
                             <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource SizeTextConverter}">
+                                <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
                                     <Binding Path="Images.Current.DpiX" />
                                     <Binding Path="Images.Current.DpiY" />
                                 </MultiBinding>
