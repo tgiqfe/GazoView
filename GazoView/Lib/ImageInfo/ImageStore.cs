@@ -121,6 +121,12 @@ namespace GazoView.Lib.ImageInfo
                 if (File.Exists(targets[0]))
                 {
                     //  ファイルを1つだけ指定
+                    string parent = Path.GetDirectoryName(targets[0]);
+                    var collection = Directory.GetFiles(parent).
+                        Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
+                        OrderBy(x => x, new NaturalStringComparer());
+                    this.FileList = new ObservableCollection<string>(collection);
+                    this.Index = collection.ToList().IndexOf(targets[0]);
                 }
                 else if (Directory.Exists(targets[0]))
                 {
