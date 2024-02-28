@@ -142,6 +142,21 @@ namespace GazoView.Lib.ImageInfo
             else if (targets.Length > 1)
             {
                 //  複数のファイルを指定
+                if (File.Exists(targets[0]))
+                {
+                    //  選択の1番最初がファイルの場合のみ複数選択
+                    string parent = Path.GetDirectoryName(targets[0]);
+                    var collection = targets.
+                        Where(x =>
+                        {
+                            return File.Exists(x) &&
+                            Path.GetDirectoryName(x) == parent &&
+                            _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y);
+                        }).
+                        OrderBy(x => x, new NaturalStringComparer());
+                    this.FileList = new ObservableCollection<string>(collection);
+                    this.Index = 0;
+                }
             }
         }
 
