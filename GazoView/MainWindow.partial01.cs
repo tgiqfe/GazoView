@@ -49,6 +49,14 @@ namespace GazoView
                     if (Item.BindingParam.State.IsTrimmingSizeChanging) break;
                     ChangeImage(-1);
                     break;
+                case Key.Home:
+                    //  最初の画像に移動
+                    ChangeImage(Item.BindingParam.Images.FileList.Count());
+                    break;
+                case Key.End:
+                    //  最後の画像に移動
+                    ChangeImage(-1 * Item.BindingParam.Images.FileList.Count());
+                    break;
                 case Key.Right:
                     //  1つ後の画像を表示
                     if (Item.BindingParam.State.IsTrimmingSizeChanging) break;
@@ -59,6 +67,7 @@ namespace GazoView
                     //Debug.WriteLine("Ctrl");
                     break;
                 case Key.Delete:
+                    //  画像削除
                     Item.BindingParam.Images.Delete();
                     break;
             }
