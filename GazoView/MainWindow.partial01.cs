@@ -58,6 +58,9 @@ namespace GazoView
                 case Key.RightCtrl:
                     //Debug.WriteLine("Ctrl");
                     break;
+                case Key.Delete:
+                    Item.BindingParam.Images.Delete();
+                    break;
             }
         }
     }

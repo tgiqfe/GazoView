@@ -1,4 +1,6 @@
 ﻿using GazoView.Lib.Function;
+using Microsoft.VisualBasic;
+using Microsoft.VisualBasic.FileIO;
 using System;
 using System.Collections.Generic;
 using System.Collections.ObjectModel;
@@ -8,6 +10,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GazoView.Lib.ImageInfo
 {
@@ -156,6 +159,35 @@ namespace GazoView.Lib.ImageInfo
                         OrderBy(x => x, new NaturalStringComparer());
                     this.FileList = new ObservableCollection<string>(collection);
                     this.Index = 0;
+                }
+            }
+        }
+
+        public void Delete()
+        {
+            if (FileList.Count == 0) return;
+
+            int index = this.Index;
+            var ret = MessageBox.Show($"Delete: {FileList[index]}",
+                "GazoView",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.None,
+                MessageBoxResult.OK);
+            if (ret == MessageBoxResult.OK)
+            {
+                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
+                FileList[index],
+                UIOption.OnlyErrorDialogs,
+                RecycleOption.SendToRecycleBin);
+                FileList.RemoveAt(index);
+
+                if (FileList.Count == 0)
+                {
+                    this.Current = null;
+                }
+                else
+                {
+                    this.Index = index == FileList.Count ? index - 1 : index;
                 }
             }
         }
