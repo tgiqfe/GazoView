@@ -23,7 +23,7 @@
         <converter:SizeTextConverter x:Key="SizeTextConverter" />
         <converter:DoubleToPercentConverter x:Key="DoubleToPercentConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <Border BorderThickness="0,0,1,0"
             BorderBrush="LightGray"
@@ -34,16 +34,19 @@
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" />
             </Border.Effect>
-            
+
             <StackPanel HorizontalAlignment="Left"
                     Margin="10">
 
                 <!-- ファイル名 -->
                 <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="FileMultipleOutline" Width="25" Height="20"/>
+                    <materialDesign:PackIcon Kind="FileImageOutline" Width="25" Height="25"/>
                     <StackPanel>
                         <TextBlock Text="ファイル名:" />
-                        <TextBlock Text="{Binding Images.Current.FileName}" />
+                        <TextBlock Text="{Binding Images.Current.FileName}"
+                                   ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
+                                   ToolTipService.BetweenShowDelay="100"
+                                   ToolTipService.InitialShowDelay="100"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -52,7 +55,10 @@
                     <materialDesign:PackIcon Kind="FileSearchOutline" Width="25" Height="23" />
                     <StackPanel>
                         <TextBlock Text="ファイルパス:"/>
-                        <TextBlock Text="{Binding Images.Current.FilePath}" />
+                        <TextBlock Text="{Binding Images.Current.FilePath}"
+                                   ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
+                                   ToolTipService.BetweenShowDelay="100"
+                                   ToolTipService.InitialShowDelay="100"/>
                     </StackPanel>
                 </StackPanel>
 
@@ -106,6 +112,22 @@
                     </StackPanel>
                 </StackPanel>
 
+                <!-- DPI(横x縦) -->
+                <StackPanel Orientation="Horizontal" Height="42">
+                    <materialDesign:PackIcon Kind="TooltipImageOutline" Width="25" Height="23" />
+                    <StackPanel>
+                        <TextBlock Text="DPI:" />
+                        <TextBlock>
+                            <TextBlock.Text>
+                                <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
+                                    <Binding Path="Images.Current.DpiX" />
+                                    <Binding Path="Images.Current.DpiY" />
+                                </MultiBinding>
+                            </TextBlock.Text>
+                        </TextBlock>
+                    </StackPanel>
+                </StackPanel>
+
                 <!-- 画像拡大率 -->
                 <StackPanel Orientation="Horizontal" Height="42">
                     <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="23" />
@@ -138,9 +160,12 @@
                     <materialDesign:PackIcon Kind="ZipBoxOutline" Width="25" Height="23" />
                     <StackPanel>
                         <TextBlock Text="ハッシュ(MD5):" />
-                        <TextBlock Text="{Binding Images.Current.Hash}" />
+                        <TextBlock Text="{Binding Images.Current.Hash}"
+                                   FontSize="12" />
                     </StackPanel>
                 </StackPanel>
+
+                <lib:TrimmingPanel />
 
             </StackPanel>
         </Border>

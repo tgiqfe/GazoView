@@ -72,6 +72,9 @@ namespace GazoView
                         MainImage.Height = (this.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
                     }
                 }
+
+                //  画像拡大率 300% 以上で、NearestNeighborを有効
+                SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
             }
             else if (SpecialKeyStatus.IsShiftPressed())
             {
@@ -111,7 +114,7 @@ namespace GazoView
             {
                 e.Handled = true;
                 _startPoint = e.GetPosition(ScrollViewer);
-                _startPosition =  new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
+                _startPosition = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
                 ScrollViewer.Cursor = Cursors.ScrollAll;
             }
         }
@@ -123,7 +126,7 @@ namespace GazoView
         /// <param name="e"></param>
         private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
         {
-            if(Item.BindingParam.State.ScalingMode && e.RightButton == MouseButtonState.Pressed)
+            if (Item.BindingParam.State.ScalingMode && e.RightButton == MouseButtonState.Pressed)
             {
                 var point = e.GetPosition(ScrollViewer);
                 ScrollViewer.ScrollToHorizontalOffset(_startPosition.X - (point.X - _startPoint.X));

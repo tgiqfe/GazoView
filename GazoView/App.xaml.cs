@@ -12,8 +12,8 @@ namespace GazoView
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            //Item.BindingParam = new(e.Args);
-            Item.BindingParam = new(new string[] { @"D:\Test\Images" });
+            Item.BindingParam = new(e.Args);
+            //Item.BindingParam = new(new string[] { @"D:\Test\Images" });
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

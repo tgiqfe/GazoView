@@ -20,8 +20,11 @@ namespace GazoView.Lib.ImageInfo
         public string Hash { get; private set; }
 
         public ImageSource Source { get; protected set; }
-        public double Width { get; protected set; }
-        public double Height { get; protected set; }
+        public int Width { get; protected set; }
+        public int Height { get; protected set; }
+        public double DpiX { get; protected set; }
+        public double DpiY { get; protected set; }
+
         public double ViewWidth { get; protected set; }
         public double ViewHeight { get; protected set; }
 

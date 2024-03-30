@@ -40,22 +40,39 @@ namespace GazoView.Conf
         public int Top
         {
             get { return _top; }
-            set { _top = value; OnPropertyChanged(nameof(ViewTop)); }
+            set
+            {
+                _top = value;
+                OnPropertyChanged(nameof(ViewTop));
+                OnPropertyChanged();
+            }
         }
         public int Bottom
         {
             get { return _bottom; }
-            set { _bottom = value; OnPropertyChanged(nameof(ViewBottom)); }
+            set
+            {
+                _bottom = value; OnPropertyChanged(nameof(ViewBottom));
+                OnPropertyChanged();
+            }
         }
         public int Left
         {
             get { return _left; }
-            set { _left = value; OnPropertyChanged(nameof(ViewLeft)); }
+            set
+            {
+                _left = value; OnPropertyChanged(nameof(ViewLeft));
+                OnPropertyChanged();
+            }
         }
         public int Right
         {
             get { return _right; }
-            set { _right = value; OnPropertyChanged(nameof(ViewRight)); }
+            set
+            {
+                _right = value; OnPropertyChanged(nameof(ViewRight));
+                OnPropertyChanged();
+            }
         }
 
         #endregion

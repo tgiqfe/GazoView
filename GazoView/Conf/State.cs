@@ -39,6 +39,8 @@ namespace GazoView.Conf
                 OnPropertyChanged();
             }
         }
+
+        public bool IsTrimmingSizeChanging { get; set; }
         
         /// <summary>
         /// Bitmapの拡大縮小時に最近傍法を使用するか
@@ -55,28 +57,13 @@ namespace GazoView.Conf
             }
         }
 
-        /*
-        /// <summary>
-        /// Infoパネルの表示/非表示
-        /// </summary>
-        private bool _showInfoPanel = false;
-
-        public bool ShowInfoPanel
-        {
-            get { return _showInfoPanel; }
-            set
-            {
-                _showInfoPanel = value;
-                OnPropertyChanged();
-            }
-        }
-        */
-
         /// <summary>
         /// Infoパネルの表示状態
         /// 0 ⇒ 非表示
         /// 1 ⇒ 左側に表示(重ねて表示)
-        /// 2 ⇒ 左側に表示
+        /// 2 ⇒ 右側に表示(重ねて表示)
+        /// 3 ⇒ 左側に表示(重ねずに表示)
+        /// 4 ⇒ 右側に表示(重ねずに表示)
         /// </summary>
         private int _infoPanelIndex = 0;
 
@@ -90,7 +77,7 @@ namespace GazoView.Conf
             }
         }
 
-
+        
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;

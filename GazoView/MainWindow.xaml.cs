@@ -23,8 +23,16 @@ namespace GazoView
 
             Item.Mainbase = this;
             this.DataContext = Item.BindingParam;
+
+            //  画像拡大率 300% 以上で、NearestNeighborを有効
+            SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
         }
-
-
     }
 }
+
+/*
+ * NearestNeighbor変更のタイミング
+ * - 最初に画像を開いたとき (MainIndowのInitializeComponent()メソッドの中)
+ * - 画像を切り替えたとき (ChangeImage()メソッドの中)
+ * - 画像拡大率を変更したとき (Window_PreviewMouseWheel()メソッドの中)
+ */

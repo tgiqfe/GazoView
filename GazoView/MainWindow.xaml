@@ -13,8 +13,12 @@
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.X, Mode=TwoWay}"
         Top="{Binding Setting.Y, Mode=TwoWay}"
+        PreviewDragOver="Window_PreviewDragOver"
+        PreviewDragLeave="Window_PreviewDragLeave"
+        PreviewDrop="Window_PreviewDrop"
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
+        AllowDrop="True"
         Background="DimGray">
     <Window.Resources>
         <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
@@ -24,6 +28,7 @@
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0" Name="Column0"/>
             <ColumnDefinition Width="*" Name="Column1"/>
+            <ColumnDefinition Width="0" Name="Column2"/>
         </Grid.ColumnDefinitions>
 
         <lib:AdvancedScrollViewer x:Name="ScrollViewer"
@@ -43,6 +48,7 @@
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}"
                        RenderOptions.EdgeMode="Aliased"
                        RenderOptions.BitmapScalingMode="Fant"
+                       UseLayoutRounding="True"
                        SizeChanged="MainImage_SizeChanged"/>
                 <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=MainImage}"
                                    Height="{Binding ActualHeight, ElementName=MainImage}"
