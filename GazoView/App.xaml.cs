@@ -16,6 +16,7 @@ namespace GazoView
             {
                 Setting = Setting.Load(),
                 Images = new(new string[] { @"D:\Test\Images\001.png" }),
+                State = new(),
             };
         }
 

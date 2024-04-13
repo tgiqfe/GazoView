@@ -10,8 +10,10 @@ namespace GazoView.Lib.Conf
         public static readonly string WorkingDirectory = Path.Combine(
             Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
 
-        public static BindingParam BindingParam { get; set; }
+        public static BindingParam BindingParam = null;
 
-        public static MainWindow MainBase { get; set; }
+        public static MainWindow MainBase = null;
+
+        public static InfoPanel InfoPanel = null;
     }
 }
