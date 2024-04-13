@@ -12,6 +12,6 @@ namespace GazoView.Lib.Conf
 
         public Images Images { get; set; }
 
-        
+        public State State { get; set; }
     }
 }

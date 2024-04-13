@@ -1,4 +1,5 @@
-﻿using GazoView.Lib.Functions;
+﻿using GazoView.Lib.Conf;
+using GazoView.Lib.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -34,6 +35,12 @@ namespace GazoView
                 //  次の画像/前の画像を表示
                 ChangeImage(e.Delta > 0 ? -1 : 1);
             }
+        }
+
+        private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Item.BindingParam.Images.ViewWidth = e.NewSize.Width;
+            Item.BindingParam.Images.ViewHeight = e.NewSize.Height;
         }
     }
 }

@@ -25,6 +25,8 @@ namespace GazoView.Lib
 
         public ObservableCollection<string> FileList { get; private set; }
 
+        public int Length { get { return FileList?.Count ?? 0; } }
+
         public ImageItem Current { get; private set; }
 
         public string Title
@@ -64,9 +66,48 @@ namespace GazoView.Lib
             }
         }
 
+        public ScaleRate ScaleRate { get; set; }
+
+        #region View image size
+
+        private double _viewWidth = 0;
+        private double _viewHeight = 0;
+
+        public double ViewWidth
+        {
+            get { return _viewWidth; }
+            set
+            {
+                _viewWidth = value;
+                OnPropertyChanged(nameof(ImageScalePercent));
+                OnPropertyChanged();
+            }
+        }
+        public double ViewHeight
+        {
+            get { return _viewHeight; }
+            set
+            {
+                _viewHeight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double ImageScalePercent
+        {
+            get
+            {
+                if (Current == null) { return 0; }
+                return _viewWidth / Current.Width;
+            }
+        }
+
+        #endregion
+
         public Images(string[] targets)
         {
             LoadFiles(targets);
+            this.ScaleRate = new();
         }
 
         public void LoadFiles(string[] targets)

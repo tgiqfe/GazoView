@@ -38,7 +38,8 @@
                        RenderOptions.BitmapScalingMode="Fant"
                        UseLayoutRounding="True"
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
-                       Height="{Binding ActualHeight, ElementName=ScrollViewer}" />
+                       Height="{Binding ActualHeight, ElementName=ScrollViewer}"
+                       SizeChanged="MainImage_SizeChanged"/>
             </Grid>
         </lib:AdvancedScrollViewer>
     </Grid>

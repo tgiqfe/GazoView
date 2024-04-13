@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Lib.Conf;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -25,6 +26,19 @@ namespace GazoView
                 case Key.Right:
                     //  1つ後の画像を表示
                     ChangeImage(1);
+                    break;
+                case Key.Home:
+                    //  最初の画像を表示
+                    ChangeImage(Item.BindingParam.Images.Length);
+                    break;
+                case Key.End:
+                    //  最後の画像を表示
+                    ChangeImage(-1 * Item.BindingParam.Images.Length);
+                    break;
+                case Key.D:
+                case Key.Tab:
+                    //  Infoパネルの表示/非表示
+                    ChangeInfoPanel();
                     break;
             }
         }
