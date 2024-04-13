@@ -1,4 +1,5 @@
-﻿using GazoView.Lib.Conf;
+﻿using GazoView.Conf;
+using GazoView.Lib.Function;
 using System;
 using System.Collections.Generic;
 using System.IO;
@@ -14,12 +15,18 @@ namespace GazoView
     {
         /// <summary>
         /// 画像を変更
-        /// direction => 1: 次の画像, -1: 前の画像, 5: 5つ次の画像, -5: 5つ前の画像
+        /// direction ⇒ -1:前の画像, 1:次の画像
         /// </summary>
         /// <param name="direction"></param>
         private void ChangeImage(int direction)
         {
             Item.BindingParam.Images.Index += direction;
+
+            Item.BindingParam.Trimming.Scale =
+                MainImage.ActualWidth / Item.BindingParam.Images.Current.Source.Width;
+
+            //  画像拡大率 300% 以上で、NearestNeighborを有効
+            SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
         }
 
         #region File drag and drop
@@ -67,12 +74,37 @@ namespace GazoView
         {
             MainImage.Opacity = 1;
             this.Background = Brushes.DimGray;
-            if (e.Data.GetData(DataFormats.FileDrop) is string[] targets)
+            if(e.Data.GetData(DataFormats.FileDrop) is string[] targets)
             {
                 Item.BindingParam.Images.LoadFiles(targets);
             }
         }
 
         #endregion
+
+        /// <summary>
+        /// トリミング実行
+        /// </summary>
+        private void StartTrimming()
+        {
+            string output = FileAction.CreateSafePath(Item.BindingParam.Images.Current.FilePath);
+
+            var ret = MessageBox.Show($"Trim.\r\n[ {output} ]",
+                Item.ProcessName,
+                MessageBoxButton.YesNo,
+                MessageBoxImage.Information,
+                MessageBoxResult.Yes);
+            if (ret != MessageBoxResult.Yes) return;
+
+            ImageTrimming.Cut(
+                Item.BindingParam.Images.Current.Source,
+                Item.BindingParam.Images.Current.FilePath,
+                output,
+                Item.BindingParam.Images.Current.FileExtension,
+                Item.BindingParam.Trimming.Left,
+                Item.BindingParam.Trimming.Top,
+                Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
+                Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
+        }
     }
 }

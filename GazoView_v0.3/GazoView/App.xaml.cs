@@ -1,4 +1,4 @@
-﻿using GazoView.Lib.Conf;
+﻿using GazoView.Conf;
 using System.Configuration;
 using System.Data;
 using System.Windows;
@@ -12,11 +12,8 @@ namespace GazoView
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Item.BindingParam = new()
-            {
-                Setting = Setting.Load(),
-                Images = new(new string[] { @"D:\Test\Images\001.png" }),
-            };
+            Item.BindingParam = new(e.Args);
+            //Item.BindingParam = new(new string[] { @"D:\Test\Images" });
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)

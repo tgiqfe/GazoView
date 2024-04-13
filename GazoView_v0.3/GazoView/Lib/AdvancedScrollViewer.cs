@@ -1,7 +1,8 @@
-﻿using GazoView.Lib.Conf;
+﻿using GazoView.Conf;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Security.Cryptography.X509Certificates;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -27,10 +28,15 @@ namespace GazoView.Lib
             EventManager.RegisterClassHandler(
                 typeof(AdvancedScrollViewer),
                 FrameworkElement.MouseLeftButtonDownEvent,
-                new MouseButtonEventHandler((sender, e) =>
-                    {
-                        Item.MainBase.DragMove();
-                    }));
+                new MouseButtonEventHandler(UserControl_MouseMove));
+        }
+
+        private void UserControl_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (!Item.BindingParam.State.TrimmingMode)
+            {
+                Item.Mainbase.DragMove();
+            }
         }
     }
 }
