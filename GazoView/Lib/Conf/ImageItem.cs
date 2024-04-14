@@ -3,7 +3,7 @@ using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
 
-namespace GazoView.Lib
+namespace GazoView.Lib.Conf
 {
     internal class ImageItem
     {
@@ -23,11 +23,11 @@ namespace GazoView.Lib
 
         public ImageItem(string path)
         {
-            this.FilePath = path;
-            this.FileName = Path.GetFileName(path);
-            this.FileExtension = Path.GetExtension(path);
-            this.Parent = Path.GetDirectoryName(path);
-            this.Size = new FileInfo(path).Length switch
+            FilePath = path;
+            FileName = Path.GetFileName(path);
+            FileExtension = Path.GetExtension(path);
+            Parent = Path.GetDirectoryName(path);
+            Size = new FileInfo(path).Length switch
             {
                 long s when s < 1024 =>
                     $"{s} Byte",
@@ -41,8 +41,8 @@ namespace GazoView.Lib
                     $"{Math.Round(s / 1024D / 1024D / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} TB",
                 _ => "",
             };
-            this.LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
-            this.Hash = new Func<string, string>(_path =>
+            LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
+            Hash = new Func<string, string>(_path =>
             {
                 using (var fs = new FileStream(_path, FileMode.Open, FileAccess.Read))
                 {
@@ -69,7 +69,7 @@ namespace GazoView.Lib
         private void SetBitmapSource()
         {
             double DPI_96 = 96.0;
-            using (var fs = new System.IO.FileStream(FilePath, System.IO.FileMode.Open, System.IO.FileAccess.Read))
+            using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
             {
                 var bitmap = new BitmapImage();
                 bitmap.BeginInit();
@@ -79,11 +79,11 @@ namespace GazoView.Lib
                 bitmap.EndInit();
                 bitmap.Freeze();
 
-                this.Width = bitmap.PixelWidth;
-                this.Height = bitmap.PixelHeight;
-                this.DpiX = bitmap.DpiX;
-                this.DpiY = bitmap.DpiY;
-                this.Source = DpiX == DPI_96 && DpiY == DPI_96 ?
+                Width = bitmap.PixelWidth;
+                Height = bitmap.PixelHeight;
+                DpiX = bitmap.DpiX;
+                DpiY = bitmap.DpiY;
+                Source = DpiX == DPI_96 && DpiY == DPI_96 ?
                     bitmap :
                     new Func<BitmapSource>(() =>
                     {

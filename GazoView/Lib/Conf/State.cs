@@ -1,13 +1,15 @@
 ﻿using System;
 using System.Collections.Generic;
+using System.ComponentModel;
 using System.Linq;
+using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
 
 namespace GazoView.Lib.Conf
 {
-    internal class State
+    internal class State : INotifyPropertyChanged
     {
         private InfoPanelStatus _infopanelStatus = InfoPanelStatus.None;
 
@@ -35,5 +37,28 @@ namespace GazoView.Lib.Conf
                 }
             }
         }
+
+        private bool _trimmingMode = false;
+
+        public bool TrimmingMode
+        {
+            get { return _trimmingMode; }
+            set
+            {
+                _trimmingMode = value;
+                OnPropertyChanged();
+            }
+        }
+
+        #region Inotify change
+
+        public event PropertyChangedEventHandler PropertyChanged;
+
+        protected void OnPropertyChanged([CallerMemberName] string name = null)
+        {
+            PropertyChanged?.Invoke(this, new PropertyChangedEventArgs(name));
+        }
+
+        #endregion
     }
 }

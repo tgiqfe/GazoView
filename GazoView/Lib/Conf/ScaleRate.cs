@@ -6,7 +6,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView.Lib
+namespace GazoView.Lib.Conf
 {
     internal class ScaleRate : INotifyPropertyChanged
     {
