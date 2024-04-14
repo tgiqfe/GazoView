@@ -162,6 +162,9 @@
                     </StackPanel>
                 </StackPanel>
 
+                <!-- トリミング情報(別のユーザーコントロール) -->
+                <lib:TrimmingPanel />
+                
             </StackPanel>
         </Border>
     </Grid>
