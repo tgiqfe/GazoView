@@ -5,6 +5,7 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
+        xmlns:converter="clr-namespace:GazoView.Lib.Converter"
         mc:Ignorable="d"
         Name="MainBase"
         Title="{Binding Images.Title}"
@@ -19,6 +20,9 @@
         PreviewMouseWheel="Window_PreviewMouseWheel"
         AllowDrop="True"
         Background="DimGray">
+    <Window.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
     <Grid Name="GlobalGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0" Name="Column0"/>
@@ -40,6 +44,9 @@
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}"
                        SizeChanged="MainImage_SizeChanged"/>
+                <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=MainImage}"
+                                   Height="{Binding ActualHeight, ElementName=MainImage}"
+                                   Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </lib:AdvancedScrollViewer>
     </Grid>

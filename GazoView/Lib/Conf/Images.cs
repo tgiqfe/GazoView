@@ -9,7 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace GazoView.Lib
+namespace GazoView.Lib.Conf
 {
     internal class Images : INotifyPropertyChanged
     {
@@ -107,7 +107,7 @@ namespace GazoView.Lib
         public Images(string[] targets)
         {
             LoadFiles(targets);
-            this.ScaleRate = new();
+            ScaleRate = new();
         }
 
         public void LoadFiles(string[] targets)
@@ -121,8 +121,8 @@ namespace GazoView.Lib
                     var collection = Directory.GetFiles(parent).
                         Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
                         OrderBy(x => x, new NaturalStringComparer());
-                    this.FileList = new ObservableCollection<string>(collection);
-                    this.Index = collection.ToList().IndexOf(targets[0]);
+                    FileList = new ObservableCollection<string>(collection);
+                    Index = collection.ToList().IndexOf(targets[0]);
                 }
                 else if (Directory.Exists(targets[0]))
                 {
@@ -131,8 +131,8 @@ namespace GazoView.Lib
                     var collection = Directory.GetFiles(parent).
                         Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
                         OrderBy(x => x, new NaturalStringComparer());
-                    this.FileList = new ObservableCollection<string>(collection);
-                    this.Index = 0;
+                    FileList = new ObservableCollection<string>(collection);
+                    Index = 0;
                 }
             }
             else if (targets.Length > 1)
@@ -149,8 +149,8 @@ namespace GazoView.Lib
                                 _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y);
                         }).
                         OrderBy(x => x, new NaturalStringComparer());
-                    this.FileList = new ObservableCollection<string>(collection);
-                    this.Index = 0;
+                    FileList = new ObservableCollection<string>(collection);
+                    Index = 0;
                 }
             }
         }

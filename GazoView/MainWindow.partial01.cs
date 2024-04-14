@@ -40,6 +40,9 @@ namespace GazoView
                     //  Infoパネルの表示/非表示
                     ChangeInfoPanel();
                     break;
+                case Key.T:
+                    SwitchTrimmingMode();
+                    break;
             }
         }
     }

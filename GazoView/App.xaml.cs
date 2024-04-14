@@ -15,8 +15,10 @@ namespace GazoView
             Item.BindingParam = new()
             {
                 Setting = Setting.Load(),
-                Images = new(new string[] { @"D:\Test\Images\001.png" }),
+                //Images = new(new string[] { @"D:\Test\Images\001.png" }),
+                Images = new(e.Args),
                 State = new(),
+                Trimming = new(),
             };
         }
 

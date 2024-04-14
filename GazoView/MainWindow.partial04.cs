@@ -35,5 +35,11 @@ namespace GazoView
                     break;
             }
         }
+
+        private void SwitchTrimmingMode(bool? toEnable = null)
+        {
+            Item.BindingParam.State.TrimmingMode =
+                toEnable ?? !Item.BindingParam.State.TrimmingMode;
+        }
     }
 }
