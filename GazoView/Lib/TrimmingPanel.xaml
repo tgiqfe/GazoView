@@ -134,6 +134,9 @@
                                              Width="23" Height="23" />
                     <TextBox Grid.Row="6" Grid.Column="1" Grid.ColumnSpan="4"
                              Width="210"
+                             HorizontalContentAlignment="Left"
+                             VerticalContentAlignment="Center"
+                             Padding="3"
                              PreviewTextInput="TextBox_PreviewTextInput2" />
                 </StackPanel>
 
