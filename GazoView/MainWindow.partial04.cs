@@ -15,34 +15,10 @@ namespace GazoView
     {
         private void ChangeInfoPanel()
         {
-            /*
-            Item.BindingParam.State.InfoPanel++;
             Item.InfoPanel ??= new();
+            Item.BindingParam.State.InfoPanel ^= true;
 
-            switch (Item.BindingParam.State.InfoPanel)
-            {
-                case State.InfoPanelStatus.None:
-                    GlobalGrid.Children.Remove(Item.InfoPanel);
-                    Column0.Width = new GridLength(0);
-                    break;
-                case State.InfoPanelStatus.OverlapLeft:
-                    Grid.SetColumn(Item.InfoPanel, 1);
-                    GlobalGrid.Children.Add(Item.InfoPanel);
-                    Item.InfoPanel.HorizontalAlignment = HorizontalAlignment.Left;
-                    break;
-                case State.InfoPanelStatus.ViewLeft:
-                    GlobalGrid.Children.Remove(Item.InfoPanel);
-                    Grid.SetColumn(Item.InfoPanel, 0);
-                    GlobalGrid.Children.Add(Item.InfoPanel);
-                    Column0.Width = new GridLength(300);
-                    break;
-            }
-            */
-
-            Item.InfoPanel ??= new();
-            Item.BindingParam.State.InfoPanel2 ^= true;
-
-            if (Item.BindingParam.State.InfoPanel2)
+            if (Item.BindingParam.State.InfoPanel)
             {
                 if (SpecialKeyStatus.IsShiftPressed())
                 {

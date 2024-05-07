@@ -13,34 +13,7 @@ namespace GazoView.Lib.Conf
     {
         #region InfoPanel state
 
-        private InfoPanelStatus _infopanelStatus = InfoPanelStatus.None;
-
-        public enum InfoPanelStatus
-        {
-            None = 0,
-            OverlapLeft = 1,
-            ViewLeft = 2,
-            Last = 3,
-        }
-
-        public InfoPanelStatus InfoPanel
-        {
-            get { return _infopanelStatus; }
-            set
-            {
-                _infopanelStatus = value;
-                if (_infopanelStatus < 0)
-                {
-                    _infopanelStatus = InfoPanelStatus.Last - 1;
-                }
-                else if (_infopanelStatus >= InfoPanelStatus.Last)
-                {
-                    _infopanelStatus = InfoPanelStatus.None;
-                }
-            }
-        }
-
-        public bool InfoPanel2 { get; set; }
+        public bool InfoPanel { get; set; }
 
         #endregion
         #region TrimmingMode state
