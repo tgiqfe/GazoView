@@ -11,6 +11,8 @@ namespace GazoView.Lib.Conf
 {
     internal class State : INotifyPropertyChanged
     {
+        #region InfoPanel state
+
         private InfoPanelStatus _infopanelStatus = InfoPanelStatus.None;
 
         public enum InfoPanelStatus
@@ -38,6 +40,11 @@ namespace GazoView.Lib.Conf
             }
         }
 
+        public bool InfoPanel2 { get; set; }
+
+        #endregion
+        #region TrimmingMode state
+
         private bool _trimmingMode = false;
 
         public bool TrimmingMode
@@ -49,6 +56,8 @@ namespace GazoView.Lib.Conf
                 OnPropertyChanged();
             }
         }
+
+        #endregion
 
         #region Inotify change
 

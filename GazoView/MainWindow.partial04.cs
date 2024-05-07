@@ -1,7 +1,9 @@
 ﻿using GazoView.Lib.Conf;
+using GazoView.Lib.Functions;
 using System;
 using System.Collections.Generic;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -13,6 +15,7 @@ namespace GazoView
     {
         private void ChangeInfoPanel()
         {
+            /*
             Item.BindingParam.State.InfoPanel++;
             Item.InfoPanel ??= new();
 
@@ -33,6 +36,33 @@ namespace GazoView
                     GlobalGrid.Children.Add(Item.InfoPanel);
                     Column0.Width = new GridLength(300);
                     break;
+            }
+            */
+
+            Item.InfoPanel ??= new();
+            Item.BindingParam.State.InfoPanel2 ^= true;
+
+            if (Item.BindingParam.State.InfoPanel2)
+            {
+                if (SpecialKeyStatus.IsShiftPressed())
+                {
+                    //  Shiftを押しながら
+                    Grid.SetColumn(Item.InfoPanel, 0);
+                    GlobalGrid.Children.Add(Item.InfoPanel);
+                    Column0.Width = new GridLength(300);
+                }
+                else
+                {
+                    //  Shiftを押さないで
+                    Grid.SetColumn(Item.InfoPanel, 1);
+                    GlobalGrid.Children.Add(Item.InfoPanel);
+                    Item.InfoPanel.HorizontalAlignment = HorizontalAlignment.Left;
+                }
+            }
+            else
+            {
+                GlobalGrid.Children.Remove(Item.InfoPanel);
+                Column0.Width = new GridLength(0);
             }
         }
 
