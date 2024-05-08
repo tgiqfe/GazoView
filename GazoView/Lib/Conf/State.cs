@@ -13,6 +13,9 @@ namespace GazoView.Lib.Conf
     {
         #region InfoPanel state
 
+        /// <summary>
+        /// Infoパネルの表示状態
+        /// </summary>
         public bool InfoPanel { get; set; }
 
         #endregion
