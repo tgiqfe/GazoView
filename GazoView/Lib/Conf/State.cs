@@ -1,6 +1,7 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.ComponentModel;
+using System.Diagnostics.Eventing.Reader;
 using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
@@ -11,15 +12,24 @@ namespace GazoView.Lib.Conf
 {
     internal class State : INotifyPropertyChanged
     {
-        #region InfoPanel state
-
         /// <summary>
         /// Infoパネルの表示状態
         /// </summary>
         public bool InfoPanel { get; set; }
 
-        #endregion
-        #region TrimmingMode state
+        /// <summary>
+        /// 拡縮モード
+        /// </summary>
+        private bool _scalingMode = false;
+        public bool ScalingMode
+        {
+            get { return _scalingMode; }
+            set
+            {
+                _scalingMode = value;
+                OnPropertyChanged();
+            }
+        }
 
         private bool _trimmingMode = false;
 
@@ -33,7 +43,21 @@ namespace GazoView.Lib.Conf
             }
         }
 
-        #endregion
+        /// <summary>
+        /// Bitmapの拡大縮小時の最近傍法を使用するかどうか
+        /// </summary>
+        private bool _nearestNeighbor = false;
+        public bool NearestNeighbor
+        {
+            get { return _nearestNeighbor; }
+            set
+            {
+                _nearestNeighbor = value;
+                OnPropertyChanged();
+            }
+        }
+
+
 
         #region Inotify change
 

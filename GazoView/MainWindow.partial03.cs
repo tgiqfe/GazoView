@@ -18,17 +18,10 @@ namespace GazoView
 
             if(SpecialKeyStatus.IsCtrlPressed())
             {
-                //  Ctrlキーが押されている場合
-                if(e.Delta > 0)
-                {
-                    //  拡大
-                    //ZoomImage(1.1);
-                }
-                else
-                {
-                    //  縮小
-                    //ZoomImage(0.9);
-                }
+                Item.BindingParam.State.ScalingMode = true;
+
+                //  Ctrlキーが押されている場合、拡大/縮小
+                ZoomImage(e);
             }
             else
             {
