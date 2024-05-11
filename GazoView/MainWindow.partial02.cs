@@ -1,8 +1,10 @@
 ﻿using GazoView.Lib.Conf;
+using GazoView.Lib.Functions;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
+using System.Numerics;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
@@ -76,6 +78,8 @@ namespace GazoView
 
         #endregion
 
+        #region Delete and Restore
+
         /// <summary>
         /// 現在選択中のファイルを削除
         /// </summary>
@@ -91,10 +95,24 @@ namespace GazoView
                 if (ret == MessageBoxResult.OK)
                 {
                     Item.DeletedStore ??= new();
-                    Item.DeletedStore.ToDeletedStore(Item.BindingParam.Images.Current.FilePath);
+                    Item.DeletedStore.CopyToDeletedStore(Item.BindingParam.Images.Current.FilePath);
                     Item.BindingParam.Images.Delete();
                 }
             }
         }
+
+        /// <summary>
+        /// 削除したファイルを復元
+        /// </summary>
+        private void RestoreFile()
+        {
+            if (SpecialKeyStatus.IsCtrlPressed() && Item.DeletedStore != null)
+            {
+                Item.DeletedStore.RestoreFromDeletedStore(Item.BindingParam.Images.Current.Parent);
+                Item.BindingParam.Images.ReloadFiles();
+            }
+        }
+
+        #endregion
     }
 }

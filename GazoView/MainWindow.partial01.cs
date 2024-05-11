@@ -46,8 +46,11 @@ namespace GazoView
                     break;
                 case Key.Delete:
                     //  画像を削除
-                    //Item.BindingParam.Images.Delete();
                     DeleteFile();
+                    break;
+                case Key.Z:
+                    //  削除した画像を復元
+                    RestoreFile();
                     break;
             }
         }

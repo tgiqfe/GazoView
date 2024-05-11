@@ -8,6 +8,9 @@ using System.Threading.Tasks;
 
 namespace GazoView.Lib.Conf
 {
+    /// <summary>
+    /// 削除したファイルを一時保管/管理するクラス
+    /// </summary>
     internal class DeletedStore
     {
         const string CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-+[]()@.,";
@@ -32,14 +35,38 @@ namespace GazoView.Lib.Conf
             this.DeletedList = new();
         }
 
-        public void ToDeletedStore(string path)
+        /// <summary>
+        /// 削除後一時保管フォルダーへコピー
+        /// </summary>
+        /// <param name="imageFilePath"></param>
+        public void CopyToDeletedStore(string imageFilePath)
         {
-            var fileName = Path.GetFileName(path);
-            var destPath = Path.Combine(this.DeletedPath, fileName);
-            File.Copy(path, destPath);
-            this.DeletedList.Add(destPath);
+            var fileName = Path.GetFileName(imageFilePath);
+            var dstPath = Path.Combine(this.DeletedPath, fileName);
+            File.Copy(imageFilePath, dstPath);
+            this.DeletedList.Add(dstPath);
         }
 
+        /// <summary>
+        /// 一時保管フォルダーから復元
+        /// </summary>
+        /// <param name="imageFileParent"></param>
+        public void RestoreFromDeletedStore(string imageFileParent)
+        {
+            if (DeletedList?.Count > 0)
+            {
+                var fileName = Path.GetFileName(this.DeletedList.Last());
+                var srcPath = Path.Combine(this.DeletedPath, fileName);
+                var dstPath = Path.Combine(imageFileParent, fileName);
+                File.Move(srcPath, dstPath);
+                DeletedList.RemoveAt(DeletedList.Count - 1);
+            }
+        }
+
+        /// <summary>
+        /// 終了時処理
+        /// ※アプリケーション終了時に実行。
+        /// </summary>
         public void Close()
         {
             if (Directory.Exists(this.DeletedPath))
