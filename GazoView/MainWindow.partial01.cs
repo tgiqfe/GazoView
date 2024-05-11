@@ -41,7 +41,12 @@ namespace GazoView
                     ChangeInfoPanel();
                     break;
                 case Key.T:
+                    //  トリミングモードの切り替え
                     SwitchTrimmingMode();
+                    break;
+                case Key.Delete:
+                    //  画像を削除
+                    Item.BindingParam.Images.Delete();
                     break;
             }
         }

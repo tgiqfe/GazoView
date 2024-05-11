@@ -16,19 +16,12 @@ namespace GazoView
         {
             e.Handled = true;
 
-            if(SpecialKeyStatus.IsCtrlPressed())
+            if (SpecialKeyStatus.IsCtrlPressed())
             {
-                //  Ctrlキーが押されている場合
-                if(e.Delta > 0)
-                {
-                    //  拡大
-                    //ZoomImage(1.1);
-                }
-                else
-                {
-                    //  縮小
-                    //ZoomImage(0.9);
-                }
+                Item.BindingParam.State.ScalingMode = true;
+
+                //  Ctrlキーが押されている場合、拡大/縮小
+                ZoomImage(e);
             }
             else
             {
@@ -42,5 +35,53 @@ namespace GazoView
             Item.BindingParam.Images.ViewWidth = e.NewSize.Width;
             Item.BindingParam.Images.ViewHeight = e.NewSize.Height;
         }
+
+        #region Move right drag
+
+        private Point _startPoint;
+        private Point _startPosition;
+
+        /// <summary>
+        /// 拡縮モードで、右クリックドラッグで画像を移動(開始)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Item.BindingParam.State.ScalingMode)
+            {
+                e.Handled = true;
+                _startPoint = e.GetPosition(ScrollViewer);
+                _startPosition = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
+                ScrollViewer.Cursor = Cursors.ScrollAll;
+            }
+        }
+
+        /// <summary>
+        /// 拡縮モードで、右クリックドラッグで画像を移動
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(Item.BindingParam.State.ScalingMode&& e.RightButton == MouseButtonState.Pressed)
+            {
+                var point = e.GetPosition(ScrollViewer);
+                ScrollViewer.ScrollToHorizontalOffset(_startPosition.X - (point.X - _startPoint.X));
+                ScrollViewer.ScrollToVerticalOffset(_startPosition.Y - (point.Y - _startPoint.Y));
+            }
+        }
+
+        /// <summary>
+        /// 拡縮モードで、右クリックドラッグで画像を移動(終了)
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ScrollViewer.Cursor = Cursors.Arrow;
+        }
+
+        #endregion
     }
 }
