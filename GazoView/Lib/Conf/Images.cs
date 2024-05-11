@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows;
 
 namespace GazoView.Lib.Conf
 {
@@ -155,6 +156,33 @@ namespace GazoView.Lib.Conf
             }
         }
 
+        public void Delete()
+        {
+            if (FileList.Count == 0) return;
+
+            int index = this.Index;
+            var ret = MessageBox.Show($"Delete: {FileList[index]}",
+                "GazoView",
+                MessageBoxButton.OKCancel,
+                MessageBoxImage.None,
+                MessageBoxResult.OK);
+            if (ret == MessageBoxResult.OK)
+            {
+                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
+                    FileList[index],
+                    Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
+                    Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+                FileList.RemoveAt(index);
+                if (FileList.Count == 0)
+                {
+                    this.Current = null;
+                }
+                else
+                {
+                    this.Index = index == FileList.Count ? index - 1 : index;
+                }
+            }
+        }
 
         #region Inotify change
 
