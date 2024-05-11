@@ -6,6 +6,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows;
+using System.Windows.Interop;
 using System.Windows.Media;
 
 namespace GazoView
@@ -74,5 +75,26 @@ namespace GazoView
         }
 
         #endregion
+
+        /// <summary>
+        /// 現在選択中のファイルを削除
+        /// </summary>
+        private void DeleteFile()
+        {
+            if (Item.BindingParam.Images.FileList.Count > 0)
+            {
+                var ret = MessageBox.Show($"Delete: {Item.BindingParam.Images.Current.FilePath}",
+                    Item.ProcessName,
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.None,
+                    MessageBoxResult.OK);
+                if (ret == MessageBoxResult.OK)
+                {
+                    Item.DeletedStore ??= new();
+                    Item.DeletedStore.ToDeletedStore(Item.BindingParam.Images.Current.FilePath);
+                    Item.BindingParam.Images.Delete();
+                }
+            }
+        }
     }
 }

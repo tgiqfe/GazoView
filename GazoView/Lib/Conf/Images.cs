@@ -158,6 +158,7 @@ namespace GazoView.Lib.Conf
 
         public void Delete()
         {
+            /*
             if (FileList.Count == 0) return;
 
             int index = this.Index;
@@ -181,6 +182,21 @@ namespace GazoView.Lib.Conf
                 {
                     this.Index = index == FileList.Count ? index - 1 : index;
                 }
+            }
+            */
+            int index = this.Index;
+            Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
+                FileList[index],
+                Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
+                Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+            FileList.RemoveAt(index);
+            if (FileList.Count == 0)
+            {
+                this.Current = null;
+            }
+            else
+            {
+                this.Index = index == FileList.Count ? index - 1 : index;
             }
         }
 
