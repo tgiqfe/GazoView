@@ -19,18 +19,26 @@ namespace GazoView.Lib.Conf
 
         public string DeletedPath { get; private set; }
         public string Serial { get; private set; }
-        public List<string> DeletedList { get; private set; }
+        public List<DeletedItem> DeletedList { get; set; }
 
-
-        private List<DeletedItem> DeletedList2 { get; set; }
-
-        private class DeletedItem
+        public class DeletedItem
         {
             public string TrueName { get; set; }
             public string ManagedName { get; set; }
         }
 
+        /// <summary>
+        /// これから復元が可能なファイルの名前
+        /// </summary>
+        public string RestorableFileName
+        {
+            get { return DeletedList.Last().TrueName; }
+        }
 
+        /// <summary>
+        /// 復元したファイルのパス
+        /// </summary>
+        public string RestoredFilePath { get; private set; }
 
         public DeletedStore()
         {
@@ -45,7 +53,6 @@ namespace GazoView.Lib.Conf
                 this.Serial);
             Directory.CreateDirectory(this.DeletedPath);
             this.DeletedList = new();
-            this.DeletedList2 = new();
         }
 
         /// <summary>
@@ -54,13 +61,6 @@ namespace GazoView.Lib.Conf
         /// <param name="imageFilePath"></param>
         public void CopyToDeletedStore(string imageFilePath)
         {
-            /*
-            //  一時保管フォルダーへコピーする際、名前が重複しない前提の処理
-            var fileName = Path.GetFileName(imageFilePath);
-            var dstPath = Path.Combine(this.DeletedPath, fileName);
-            File.Copy(imageFilePath, dstPath);
-            this.DeletedList.Add(dstPath);
-            */
             var fileName = Path.GetFileName(imageFilePath);
             var deletedItem = new DeletedItem()
             {
@@ -68,7 +68,7 @@ namespace GazoView.Lib.Conf
                 ManagedName = FilePaths.Deduplicate(DeletedPath, fileName),
             };
             File.Copy(imageFilePath, Path.Combine(DeletedPath, deletedItem.ManagedName));
-            this.DeletedList2.Add(deletedItem);
+            this.DeletedList.Add(deletedItem);
         }
 
         /// <summary>
@@ -77,24 +77,14 @@ namespace GazoView.Lib.Conf
         /// <param name="imageFileParent"></param>
         public void RestoreFromDeletedStore(string imageFileParent)
         {
-            /*
-            //  一時保管フォルダーへコピーする際、名前が重複しない前提の処理
             if (DeletedList?.Count > 0)
             {
-                var fileName = Path.GetFileName(this.DeletedList.Last());
-                var srcPath = Path.Combine(this.DeletedPath, fileName);
-                var dstPath = Path.Combine(imageFileParent, fileName);
-                File.Move(srcPath, dstPath);
-                DeletedList.RemoveAt(DeletedList.Count - 1);
-            }
-            */
-            if (DeletedList2?.Count > 0)
-            {
-                var deletedItem = this.DeletedList2.Last();
+                var deletedItem = this.DeletedList.Last();
                 var srcPath = Path.Combine(this.DeletedPath, deletedItem.ManagedName);
                 var dstPath = Path.Combine(imageFileParent, deletedItem.TrueName);
                 File.Move(srcPath, dstPath);
-                DeletedList2.RemoveAt(DeletedList2.Count - 1);
+                DeletedList.RemoveAt(DeletedList.Count - 1);
+                RestoredFilePath = dstPath;
             }
         }
 

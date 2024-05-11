@@ -163,16 +163,18 @@ namespace GazoView.Lib.Conf
         /// <summary>
         /// 対象フォルダー配下の画像ファイルを再読み込み
         /// </summary>
-        public void ReloadFiles()
+        public void ReloadFiles(string movePath = null)
         {
             string parent = this.Current.Parent;
-            string selectedFile = this.Current.FilePath;
+            string moveToPath = movePath == null ?
+                this.Current.FilePath :
+                movePath;
             var collection = Directory.GetFiles(parent).
                 Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
                 OrderBy(x => x, new NaturalStringComparer());
             FileList = new ObservableCollection<string>(collection);
 
-            var index = FileList.IndexOf(selectedFile);
+            var index = FileList.IndexOf(moveToPath);
             if (index < 0) index = 0;
             Index = index;
         }

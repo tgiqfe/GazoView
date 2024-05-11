@@ -1,9 +1,5 @@
 ﻿using GazoView.Lib.Conf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GazoView.Lib.Functions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -50,7 +46,10 @@ namespace GazoView
                     break;
                 case Key.Z:
                     //  削除した画像を復元
-                    RestoreFile();
+                    if (SpecialKeyStatus.IsCtrlPressed())
+                    {
+                        RestoreFile();
+                    }
                     break;
             }
         }

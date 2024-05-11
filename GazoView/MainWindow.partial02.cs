@@ -87,7 +87,7 @@ namespace GazoView
         {
             if (Item.BindingParam.Images.FileList.Count > 0)
             {
-                var ret = MessageBox.Show($"Delete: {Item.BindingParam.Images.Current.FilePath}",
+                var ret = MessageBox.Show($"Delete?\n{Item.BindingParam.Images.Current.FileName}",
                     Item.ProcessName,
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.None,
@@ -106,10 +106,18 @@ namespace GazoView
         /// </summary>
         private void RestoreFile()
         {
-            if (SpecialKeyStatus.IsCtrlPressed() && Item.DeletedStore != null)
+            if (Item.DeletedStore?.DeletedList?.Count > 0)
             {
-                Item.DeletedStore.RestoreFromDeletedStore(Item.BindingParam.Images.Current.Parent);
-                Item.BindingParam.Images.ReloadFiles();
+                var ret = MessageBox.Show($"Restore?\n{Item.DeletedStore.RestorableFileName}",
+                    Item.ProcessName,
+                    MessageBoxButton.OKCancel,
+                    MessageBoxImage.None,
+                    MessageBoxResult.OK);
+                if (ret == MessageBoxResult.OK)
+                {
+                    Item.DeletedStore.RestoreFromDeletedStore(Item.BindingParam.Images.Current.Parent);
+                    Item.BindingParam.Images.ReloadFiles(Item.DeletedStore.RestoredFilePath);
+                }
             }
         }
 
