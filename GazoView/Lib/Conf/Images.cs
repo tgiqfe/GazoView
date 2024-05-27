@@ -111,6 +111,10 @@ namespace GazoView.Lib.Conf
             ScaleRate = new();
         }
 
+        /// <summary>
+        /// 対象フォルダー配下の画像ファイルを読み込み
+        /// </summary>
+        /// <param name="targets"></param>
         public void LoadFiles(string[] targets)
         {
             if (targets.Length == 1)
@@ -156,31 +160,43 @@ namespace GazoView.Lib.Conf
             }
         }
 
+        /// <summary>
+        /// 対象フォルダー配下の画像ファイルを再読み込み
+        /// </summary>
+        public void ReloadFiles(string movePath = null)
+        {
+            string parent = this.Current.Parent;
+            string moveToPath = movePath == null ?
+                this.Current.FilePath :
+                movePath;
+            var collection = Directory.GetFiles(parent).
+                Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
+                OrderBy(x => x, new NaturalStringComparer());
+            FileList = new ObservableCollection<string>(collection);
+
+            var index = FileList.IndexOf(moveToPath);
+            if (index < 0) index = 0;
+            Index = index;
+        }
+
+        /// <summary>
+        /// 現在選択中のファイルを削除
+        /// </summary>
         public void Delete()
         {
-            if (FileList.Count == 0) return;
-
             int index = this.Index;
-            var ret = MessageBox.Show($"Delete: {FileList[index]}",
-                "GazoView",
-                MessageBoxButton.OKCancel,
-                MessageBoxImage.None,
-                MessageBoxResult.OK);
-            if (ret == MessageBoxResult.OK)
+            Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
+                FileList[index],
+                Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
+                Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+            FileList.RemoveAt(index);
+            if (FileList.Count == 0)
             {
-                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
-                    FileList[index],
-                    Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
-                    Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
-                FileList.RemoveAt(index);
-                if (FileList.Count == 0)
-                {
-                    this.Current = null;
-                }
-                else
-                {
-                    this.Index = index == FileList.Count ? index - 1 : index;
-                }
+                this.Current = null;
+            }
+            else
+            {
+                this.Index = index == FileList.Count ? index - 1 : index;
             }
         }
 

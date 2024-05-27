@@ -15,5 +15,7 @@ namespace GazoView.Lib.Conf
         public static MainWindow MainBase = null;
 
         public static InfoPanel InfoPanel = null;
+
+        public static DeletedStore DeletedStore = null;
     }
 }

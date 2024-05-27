@@ -1,9 +1,5 @@
 ﻿using GazoView.Lib.Conf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+using GazoView.Lib.Functions;
 using System.Windows;
 using System.Windows.Input;
 
@@ -46,7 +42,14 @@ namespace GazoView
                     break;
                 case Key.Delete:
                     //  画像を削除
-                    Item.BindingParam.Images.Delete();
+                    DeleteFile();
+                    break;
+                case Key.Z:
+                    //  削除した画像を復元
+                    if (SpecialKeyStatus.IsCtrlPressed())
+                    {
+                        RestoreFile();
+                    }
                     break;
             }
         }
