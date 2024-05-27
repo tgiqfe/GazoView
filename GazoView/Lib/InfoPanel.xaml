@@ -23,7 +23,7 @@
         <converter:DoubleToPercentConverter x:Key="DoubleToPercentConverter"/>
         <converter:SizeTextConverter x:Key="SizeTextConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid Name="InfoPanelGrid">
         <Border BorderThickness="0,0,1,0"  
                   BorderBrush="LightGray"
                   Background="White"
@@ -43,7 +43,8 @@
                         <TextBlock Text="{Binding Images.Current.FileName}"
                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
                                    ToolTipService.BetweenShowDelay="100"
-                                   ToolTipService.InitialShowDelay="100" />
+                                   ToolTipService.InitialShowDelay="100"
+                                   MouseDown="TextBlock_MouseDown" />
                     </StackPanel>
                 </StackPanel>
 
