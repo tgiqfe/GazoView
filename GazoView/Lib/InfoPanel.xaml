@@ -56,7 +56,8 @@
                         <TextBlock Text="{Binding Images.Current.FilePath}"
                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
                                    ToolTipService.BetweenShowDelay="100"
-                                   ToolTipService.InitialShowDelay="100"/>
+                                   ToolTipService.InitialShowDelay="100"
+                                   MouseDown="TextBlock_MouseDown" />
                     </StackPanel>
                 </StackPanel>
 
@@ -65,7 +66,8 @@
                     <materialDesign:PackIcon Kind="PuzzleOutline" Width="25" Height="23" />
                     <StackPanel>
                         <TextBlock Text="拡張子:" />
-                        <TextBlock Text="{Binding Images.Current.FileExtension}" />
+                        <TextBlock Text="{Binding Images.Current.FileExtension}"
+                                   MouseDown="TextBlock_MouseDown" />
                     </StackPanel>
                 </StackPanel>
 

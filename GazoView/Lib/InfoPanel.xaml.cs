@@ -18,12 +18,32 @@ namespace GazoView.Lib
             this.DataContext = Item.BindingParam;
         }
 
+        #region Copy to clipboard
+
+        private bool _isViewCopiedMessage = false;
+
+        /// <summary>
+        /// テキストブロック部分をクリックしたときに、内容をクリップボードにコピー
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void TextBlock_MouseDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
         {
-            ViewCopiedMessage();
+            if (!_isViewCopiedMessage)
+            {
+                _isViewCopiedMessage = true;
+                var point = e.GetPosition(InfoPanelGrid);
+                ViewCopiedMessage(point.X, point.Y);
+
+                var tbox = (TextBlock)sender;
+                Clipboard.SetText(tbox.Text);
+            }
         }
 
-        private void ViewCopiedMessage()
+        /// <summary>
+        /// 「Copied!」メッセージを表示する
+        /// </summary>
+        private void ViewCopiedMessage(double pointX, double pointY)
         {
             PackIcon packIcon = new()
             {
@@ -52,7 +72,9 @@ namespace GazoView.Lib
             StackPanel stackPanel = new()
             {
                 Orientation = Orientation.Horizontal,
-                Margin = new Thickness(20, 150, 0, 0),
+                Margin = new Thickness(pointX, pointY, 0, 0),
+                HorizontalAlignment = HorizontalAlignment.Left,
+                VerticalAlignment = VerticalAlignment.Top,
                 Width = 100,
                 Height = 28,
                 Background = Brushes.DimGray,
@@ -66,8 +88,11 @@ namespace GazoView.Lib
                 this.Dispatcher.Invoke(() =>
                 {
                     InfoPanelGrid.Children.Remove(stackPanel);
+                    _isViewCopiedMessage = false;
                 });
             });
         }
+
+        #endregion
     }
 }
