@@ -29,7 +29,7 @@ namespace GazoView.Lib
                 FrameworkElement.MouseLeftButtonDownEvent,
                 new MouseButtonEventHandler((sender, e) =>
                     {
-                        Item.MainBase.DragMove();
+                        if (!Item.BindingParam.State.TrimmingMode) Item.MainBase.DragMove();
                     }));
         }
     }
