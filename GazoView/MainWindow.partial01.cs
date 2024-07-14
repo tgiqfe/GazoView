@@ -40,6 +40,10 @@ namespace GazoView
                     //  トリミングモードの切り替え
                     SwitchTrimmingMode();
                     break;
+                case Key.G:
+                    //  トリミング実行
+                    StartTrimming();
+                    break;
                 case Key.Delete:
                     //  画像を削除
                     DeleteFile();

@@ -30,8 +30,14 @@ namespace GazoView
             }
         }
 
+        /// <summary>
+        /// 画像の表示錠のサイズ変更時イベント
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            Item.BindingParam.Trimming.Scale = e.NewSize.Width / Item.BindingParam.Images.Current.Source.Width;
             Item.BindingParam.Images.ViewWidth = e.NewSize.Width;
             Item.BindingParam.Images.ViewHeight = e.NewSize.Height;
         }
