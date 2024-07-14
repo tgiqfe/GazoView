@@ -23,7 +23,7 @@
         <converter:DoubleToPercentConverter x:Key="DoubleToPercentConverter"/>
         <converter:SizeTextConverter x:Key="SizeTextConverter" />
     </UserControl.Resources>
-    <Grid>
+    <Grid Name="InfoPanelGrid">
         <Border BorderThickness="0,0,1,0"  
                   BorderBrush="LightGray"
                   Background="White"
@@ -43,7 +43,8 @@
                         <TextBlock Text="{Binding Images.Current.FileName}"
                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
                                    ToolTipService.BetweenShowDelay="100"
-                                   ToolTipService.InitialShowDelay="100" />
+                                   ToolTipService.InitialShowDelay="100"
+                                   MouseDown="TextBlock_MouseDown" />
                     </StackPanel>
                 </StackPanel>
 
@@ -55,7 +56,8 @@
                         <TextBlock Text="{Binding Images.Current.FilePath}"
                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
                                    ToolTipService.BetweenShowDelay="100"
-                                   ToolTipService.InitialShowDelay="100"/>
+                                   ToolTipService.InitialShowDelay="100"
+                                   MouseDown="TextBlock_MouseDown" />
                     </StackPanel>
                 </StackPanel>
 
@@ -64,7 +66,8 @@
                     <materialDesign:PackIcon Kind="PuzzleOutline" Width="25" Height="23" />
                     <StackPanel>
                         <TextBlock Text="拡張子:" />
-                        <TextBlock Text="{Binding Images.Current.FileExtension}" />
+                        <TextBlock Text="{Binding Images.Current.FileExtension}"
+                                   MouseDown="TextBlock_MouseDown" />
                     </StackPanel>
                 </StackPanel>
 
@@ -77,12 +80,33 @@
                     </StackPanel>
                 </StackPanel>
 
-                <!-- 画像サイズ(横x縦) -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="ImageSizeSelectLarge" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="画像サイズ:" />
-                        <TextBlock>
+                <!-- 画像/表示 のサイズや拡大率 -->
+                <Border Padding="10"
+                        BorderThickness="1.5"
+                        BorderBrush="LightGray"
+                        CornerRadius="3"
+                        Margin="3">
+                    <Grid>
+                        <Grid.RowDefinitions>
+                            <RowDefinition Height="20"/>
+                            <RowDefinition Height="*"/>
+                            <RowDefinition Height="*"/>
+                        </Grid.RowDefinitions>
+                        <Grid.ColumnDefinitions>
+                            <ColumnDefinition Width="Auto" />
+                            <ColumnDefinition Width="40" />
+                            <ColumnDefinition Width="*" />
+                            <ColumnDefinition Width="*" />
+                        </Grid.ColumnDefinitions>
+
+                        <TextBlock Grid.Row="0" Grid.Column="2" Text="サイズ" />
+                        <TextBlock Grid.Row="0" Grid.Column="3" Text="拡大率" />
+                        <TextBlock Grid.Row="1" Grid.Column="1" Text="画像"/>
+                        <TextBlock Grid.Row="2" Grid.Column="1" Text="表示"/>
+                        <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="ImageSizeSelectLarge" Width="25" Height="23" />
+                        <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Resize" Width="25" Height="22" />
+
+                        <TextBlock Grid.Row="1" Grid.Column="2">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource SizeTextConverter}">
                                     <Binding Path="Images.Current.Width" />
@@ -90,15 +114,7 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                    </StackPanel>
-                </StackPanel>
-
-                <!-- 表示サイズ(横x縦) -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="Resize" Width="25" Height="22" />
-                    <StackPanel>
-                        <TextBlock Text="表示サイズ:" />
-                        <TextBlock>
+                        <TextBlock Grid.Row="2" Grid.Column="2">
                             <TextBlock.Text>
                                 <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
                                     <Binding Path="Images.ViewWidth" />
@@ -106,8 +122,12 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                    </StackPanel>
-                </StackPanel>
+                        <TextBlock Grid.Row="1" Grid.Column="3"
+                                   Text="{Binding Images.ImageScalePercent, Converter={StaticResource DoubleToPercentConverter}}" />
+                        <TextBlock Grid.Row="2" Grid.Column="3"
+                                   Text="{Binding Images.ScaleRate.Scale, Converter={StaticResource DoubleToPercentConverter}}" />
+                    </Grid>
+                </Border>
 
                 <!-- DPI(横x縦) -->
                 <StackPanel Orientation="Horizontal" Height="42">
@@ -122,24 +142,6 @@
                                 </MultiBinding>
                             </TextBlock.Text>
                         </TextBlock>
-                    </StackPanel>
-                </StackPanel>
-
-                <!-- 画像拡大率 -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="画像拡大率:" />
-                        <TextBlock Text="{Binding Images.ImageScalePercent, Converter={StaticResource DoubleToPercentConverter}}" />
-                    </StackPanel>
-                </StackPanel>
-
-                <!-- 表示拡大率 -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="TableSplitCell" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="表示拡大率:" />
-                        <TextBlock Text="{Binding Images.ScaleRate.Scale, Converter={StaticResource DoubleToPercentConverter}}" />
                     </StackPanel>
                 </StackPanel>
 
