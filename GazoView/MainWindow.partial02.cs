@@ -126,6 +126,27 @@ namespace GazoView
             }
         }
 
+        /// <summary>
+        /// 現在のファイルをクリップボードにコピー
+        /// </summary>
+        private void CopyImageFile(bool isText = false)
+        {
+            if (Item.BindingParam.Images.FileList.Count > 0)
+            {
+                if (isText)
+                {
+                    string text = Item.BindingParam.Images.Current.FilePath;
+                    Clipboard.SetText(text);
+                }
+                else
+                {
+                    var targets = new System.Collections.Specialized.StringCollection();
+                    targets.Add(Item.BindingParam.Images.Current.FilePath);
+                    Clipboard.SetFileDropList(targets);
+                }
+            }
+        }
+
         #endregion
 
         private void StartTrimming()

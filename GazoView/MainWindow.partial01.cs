@@ -55,6 +55,20 @@ namespace GazoView
                         RestoreFile();
                     }
                     break;
+                case Key.C:
+                    //  画像をコピー (Ctrl+Cでファイルをコピー。Ctrl+Shift+Cでファイルパスをコピー)
+                    if (SpecialKeyStatus.IsCtrlPressed())
+                    {
+                        if(SpecialKeyStatus.IsShiftPressed())
+                        {
+                            CopyImageFile(true);
+                        }
+                        else
+                        {
+                            CopyImageFile();
+                        }
+                    }
+                    break;
             }
         }
     }
