@@ -100,25 +100,6 @@ namespace GazoView
         /// <param name="toEnable"></param>
         private void SwitchTrimmingMode(bool? toEnable = null)
         {
-            /*
-            if (Item.BindingParam.Setting.Trimming == null)
-            {
-                Item.BindingParam.Setting.Trimming = new TrimmingSetting()
-                {
-                    MaxHistory = 10,
-                    Histories = new List<TrimmingHistory>()
-                    {
-                        new TrimmingHistory()
-                        {
-                            Top = 100,
-                            Bottom = 300,
-                            Left = 100,
-                            Right = 300,
-                        }
-                    }
-                };
-            }
-            */
             if (Item.BindingParam.Setting.Histories == null || Item.BindingParam.Setting.Histories.Count == 0)
             {
                 Item.BindingParam.Setting.Histories = new List<string>() { "100,300,100,300" };

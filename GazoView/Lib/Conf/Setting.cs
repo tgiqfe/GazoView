@@ -48,21 +48,6 @@ namespace GazoView.Lib.Conf
                     Y = 100,
                     MaxHistory = 10,
                     Histories = new List<string>() { "100,300,100,300" },
-                    /*
-                    Trimming = new TrimmingSetting()
-                    {
-                        MaxHistory = 10,
-                        Histories = new List<TrimmingHistory>()
-                        {
-                            new TrimmingHistory()
-                            {
-                                Top = 100,
-                                Bottom = 300,
-                                Left = 100,
-                                Right = 300,
-                            }
-                        }
-                    }*/
                 };
             }
         }
