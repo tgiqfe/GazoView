@@ -93,8 +93,47 @@ namespace GazoView
             SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
         }
 
+        /// <summary>
+        /// トリミングモードに切り替え
+        /// 切り替え前の下準備も
+        /// </summary>
+        /// <param name="toEnable"></param>
         private void SwitchTrimmingMode(bool? toEnable = null)
         {
+            if (Item.BindingParam.Setting.Trimming == null)
+            {
+                Item.BindingParam.Setting.Trimming = new TrimmingSetting()
+                {
+                    MaxHistory = 10,
+                    Histories = new List<TrimmingHistory>()
+                    {
+                        new TrimmingHistory()
+                        {
+                            Top = 100,
+                            Bottom = 300,
+                            Left = 100,
+                            Right = 300,
+                        }
+                    }
+                };
+            }
+            if (Item.BindingParam.Trimming.Top < 0)
+            {
+                Item.BindingParam.Trimming.Top = Item.BindingParam.Setting.Trimming.Histories[0].Top;
+            }
+            if (Item.BindingParam.Trimming.Bottom < 0)
+            {
+                Item.BindingParam.Trimming.Bottom = Item.BindingParam.Setting.Trimming.Histories[0].Bottom;
+            }
+            if (Item.BindingParam.Trimming.Left < 0)
+            {
+                Item.BindingParam.Trimming.Left = Item.BindingParam.Setting.Trimming.Histories[0].Left;
+            }
+            if (Item.BindingParam.Trimming.Right < 0)
+            {
+                Item.BindingParam.Trimming.Right = Item.BindingParam.Setting.Trimming.Histories[0].Right;
+            }
+
             Item.BindingParam.State.TrimmingMode =
                 toEnable ?? !Item.BindingParam.State.TrimmingMode;
         }

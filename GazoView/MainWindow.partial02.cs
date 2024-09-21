@@ -160,6 +160,12 @@ namespace GazoView
                 MessageBoxResult.Yes);
             if (ret != MessageBoxResult.Yes) return;
 
+            var (left, top, width, height) = (
+                Item.BindingParam.Trimming.Left,
+                Item.BindingParam.Trimming.Top,
+                Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
+                Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
+            /*
             ImageTrimming.Cut(
                 Item.BindingParam.Images.Current.Source,
                 Item.BindingParam.Images.Current.FilePath,
@@ -169,6 +175,14 @@ namespace GazoView
                 Item.BindingParam.Trimming.Top,
                 Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
                 Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
+            */
+            ImageTrimming.Cut(
+                Item.BindingParam.Images.Current.Source,
+                Item.BindingParam.Images.Current.FilePath,
+                output,
+                Item.BindingParam.Images.Current.FileExtension,
+                left, top, width, height);
+            Item.BindingParam.Setting.Trimming.AddHistory(left, top, width, height);
         }
     }
 }

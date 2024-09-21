@@ -12,9 +12,10 @@ namespace GazoView
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
+            var setting = Setting.Load();
             Item.BindingParam = new()
             {
-                Setting = Setting.Load(),
+                Setting = setting,
                 Images = new(e.Args),
                 State = new(),
                 Trimming = new(),
