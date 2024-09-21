@@ -28,12 +28,12 @@ namespace GazoView.Lib.Conf
 
         const int BORDER_HALF_WIDTH = 4;
 
-        #region Rar size
+        #region Raw size
 
-        private int _top = 100;
-        private int _bottom = 300;
-        private int _left = 100;
-        private int _right = 300;
+        private int _top = -1;
+        private int _bottom = -1;
+        private int _left = -1;
+        private int _right = -1;
 
         public int Top
         {
@@ -74,6 +74,34 @@ namespace GazoView.Lib.Conf
         }
 
         #endregion
+
+        /*
+        public Trimming(TrimmingSetting trimmingSetting)
+        {
+            if (trimmingSetting == null)
+            {
+                trimmingSetting = new TrimmingSetting()
+                {
+                    MaxHistory = 10,
+                    Histories = new List<TrimmingHistory>()
+                    {
+                        new TrimmingHistory()
+                        {
+                            Top = 100,
+                            Bottom = 300,
+                            Left = 100,
+                            Right = 300,
+                        }
+                    }
+                };
+            }
+            this.Top = trimmingSetting.Histories[0].Top;
+            this.Bottom = trimmingSetting.Histories[0].Bottom;
+            this.Left = trimmingSetting.Histories[0].Left;
+            this.Right = trimmingSetting.Histories[0].Right;
+        }
+        */
+
         #region View size
 
         public double ViewTop { get { return this.Top * this.Scale; } }
