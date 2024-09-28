@@ -22,12 +22,15 @@ namespace GazoView
         /// <param name="direction"></param>
         private void ChangeImage(int direction)
         {
-            Item.BindingParam.Images.Index += direction;
-            Item.BindingParam.Trimming.Scale =
-                MainImage.ActualWidth / Item.BindingParam.Images.Current.Source.Width;
+            if (!Item.BindingParam.State.IsTrimmingSizeChanging)
+            {
+                Item.BindingParam.Images.Index += direction;
+                Item.BindingParam.Trimming.Scale =
+                    MainImage.ActualWidth / Item.BindingParam.Images.Current.Source.Width;
 
-            //  画像拡大率 300% 以上で、NearestNeighborを有効
-            SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
+                //  画像拡大率 300% 以上で、NearestNeighborを有効
+                SwitchNearestNeighbor(Item.BindingParam.Images.ImageScalePercent >= 3);
+            }
         }
 
         #region File drag and drop
@@ -151,35 +154,38 @@ namespace GazoView
 
         private void StartTrimming()
         {
-            string output = FilePaths.Deduplicate(Item.BindingParam.Images.Current.FilePath);
-
-            var ret = MessageBox.Show($"Trim.\r\n[ {output} ]",
-                Item.ProcessName,
-                MessageBoxButton.YesNo,
-                MessageBoxImage.Information,
-                MessageBoxResult.Yes);
-            if (ret != MessageBoxResult.Yes) return;
-
-            var (left, top, width, height) = (
-                Item.BindingParam.Trimming.Left,
-                Item.BindingParam.Trimming.Top,
-                Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
-                Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
-            ImageTrimming.Cut(
-                Item.BindingParam.Images.Current.Source,
-                Item.BindingParam.Images.Current.FilePath,
-                output,
-                Item.BindingParam.Images.Current.FileExtension,
-                left, top, width, height);
-
-            string lastHistroyText = $"{top},{top + height},{left},{left + width}";
-            if(lastHistroyText != Item.BindingParam.Setting.Histories[0])
+            if (Item.BindingParam.State.TrimmingMode)
             {
-                Item.BindingParam.Setting.Histories.Insert(0, lastHistroyText);
-            }
-            if (Item.BindingParam.Setting.Histories.Count > Item.BindingParam.Setting.MaxHistory)
-            {
-                Item.BindingParam.Setting.Histories.RemoveAt(Item.BindingParam.Setting.Histories.Count - 1);
+                string output = FilePaths.Deduplicate(Item.BindingParam.Images.Current.FilePath);
+
+                var ret = MessageBox.Show($"Trim.\r\n[ {output} ]",
+                    Item.ProcessName,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information,
+                    MessageBoxResult.Yes);
+                if (ret != MessageBoxResult.Yes) return;
+
+                var (left, top, width, height) = (
+                    Item.BindingParam.Trimming.Left,
+                    Item.BindingParam.Trimming.Top,
+                    Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
+                    Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
+                ImageTrimming.Cut(
+                    Item.BindingParam.Images.Current.Source,
+                    Item.BindingParam.Images.Current.FilePath,
+                    output,
+                    Item.BindingParam.Images.Current.FileExtension,
+                    left, top, width, height);
+
+                string lastHistroyText = $"{top},{top + height},{left},{left + width}";
+                if (lastHistroyText != Item.BindingParam.Setting.Histories[0])
+                {
+                    Item.BindingParam.Setting.Histories.Insert(0, lastHistroyText);
+                }
+                if (Item.BindingParam.Setting.Histories.Count > Item.BindingParam.Setting.MaxHistory)
+                {
+                    Item.BindingParam.Setting.Histories.RemoveAt(Item.BindingParam.Setting.Histories.Count - 1);
+                }
             }
         }
     }

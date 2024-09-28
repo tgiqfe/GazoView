@@ -60,7 +60,7 @@ namespace GazoView.Lib
         /// <param name="e"></param>
         private void TextBox_GotFocus(object sender, RoutedEventArgs e)
         {
-            //Item.BindingParam.State.IsTrimmingSizeChanging = true;
+            Item.BindingParam.State.IsTrimmingSizeChanging = true;
 
             //  選択時に全選択
             var target = (TextBox)sender;
@@ -74,7 +74,7 @@ namespace GazoView.Lib
         /// <param name="e"></param>
         private void TextBox_LostFocus(object sender, RoutedEventArgs e)
         {
-            //Item.BindingParam.State.IsTrimmingSizeChanging = false;
+            Item.BindingParam.State.IsTrimmingSizeChanging = false;
         }
 
         #endregion

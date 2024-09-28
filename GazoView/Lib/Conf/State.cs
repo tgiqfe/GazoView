@@ -57,7 +57,10 @@ namespace GazoView.Lib.Conf
             }
         }
 
-
+        /// <summary>
+        /// TrimmingパネルのTextBoxにフォーカスが当たっているかどうか
+        /// </summary>
+        public bool IsTrimmingSizeChanging { get; set; }
 
         #region Inotify change
 

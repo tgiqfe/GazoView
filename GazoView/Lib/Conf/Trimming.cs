@@ -74,34 +74,6 @@ namespace GazoView.Lib.Conf
         }
 
         #endregion
-
-        /*
-        public Trimming(TrimmingSetting trimmingSetting)
-        {
-            if (trimmingSetting == null)
-            {
-                trimmingSetting = new TrimmingSetting()
-                {
-                    MaxHistory = 10,
-                    Histories = new List<TrimmingHistory>()
-                    {
-                        new TrimmingHistory()
-                        {
-                            Top = 100,
-                            Bottom = 300,
-                            Left = 100,
-                            Right = 300,
-                        }
-                    }
-                };
-            }
-            this.Top = trimmingSetting.Histories[0].Top;
-            this.Bottom = trimmingSetting.Histories[0].Bottom;
-            this.Left = trimmingSetting.Histories[0].Left;
-            this.Right = trimmingSetting.Histories[0].Right;
-        }
-        */
-
         #region View size
 
         public double ViewTop { get { return this.Top * this.Scale; } }

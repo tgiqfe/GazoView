@@ -1,6 +1,7 @@
 ﻿using GazoView.Lib.Conf;
 using GazoView.Lib.Functions;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 
 namespace GazoView
@@ -59,7 +60,7 @@ namespace GazoView
                     //  画像をコピー (Ctrl+Cでファイルをコピー。Ctrl+Shift+Cでファイルパスをコピー)
                     if (SpecialKeyStatus.IsCtrlPressed())
                     {
-                        if(SpecialKeyStatus.IsShiftPressed())
+                        if (SpecialKeyStatus.IsShiftPressed())
                         {
                             CopyImageFile(true);
                         }
