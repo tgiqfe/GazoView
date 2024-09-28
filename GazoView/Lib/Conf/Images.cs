@@ -185,10 +185,19 @@ namespace GazoView.Lib.Conf
         public void Delete()
         {
             int index = this.Index;
-            Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
+            if (FileList[index].StartsWith("\\\\"))
+            {
+                //  ネットワークパスの場合は直接削除
+                File.Delete(FileList[index]);
+            }
+            else
+            {
+                //  ローカルファイルの場合はゴミ箱へ
+                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
                 FileList[index],
                 Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
                 Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
+            }
             FileList.RemoveAt(index);
             if (FileList.Count == 0)
             {
