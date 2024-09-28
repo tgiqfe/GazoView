@@ -33,141 +33,157 @@
             <Border.Effect>
                 <DropShadowEffect ShadowDepth="0" Color="Gray" Opacity="0.85" BlurRadius="30" />
             </Border.Effect>
-            <StackPanel HorizontalAlignment="Left" Margin="10">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition />
+                    <RowDefinition Height="30"/>
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" HorizontalAlignment="Left" Margin="10">
 
-                <!-- ファイル名 -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="FileImageoutline" Width="25" Height="25" />
-                    <StackPanel>
-                        <TextBlock Text="ファイル名:" />
-                        <TextBlock Text="{Binding Images.Current.FileName}"
+                    <!-- ファイル名 -->
+                    <StackPanel Orientation="Horizontal" Height="42">
+                        <materialDesign:PackIcon Kind="FileImageoutline" Width="25" Height="25" />
+                        <StackPanel>
+                            <TextBlock Text="ファイル名:" />
+                            <TextBlock Text="{Binding Images.Current.FileName}"
                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
                                    ToolTipService.BetweenShowDelay="100"
                                    ToolTipService.InitialShowDelay="100"
                                    MouseDown="TextBlock_MouseDown" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <!-- ファイルパス -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="FileSearchOutline" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="ファイルパス:"/>
-                        <TextBlock Text="{Binding Images.Current.FilePath}"
+                    <!-- ファイルパス -->
+                    <StackPanel Orientation="Horizontal" Height="42">
+                        <materialDesign:PackIcon Kind="FileSearchOutline" Width="25" Height="23" />
+                        <StackPanel>
+                            <TextBlock Text="ファイルパス:"/>
+                            <TextBlock Text="{Binding Images.Current.FilePath}"
                                    ToolTip="{Binding Text, RelativeSource={RelativeSource Mode=Self}}"
                                    ToolTipService.BetweenShowDelay="100"
                                    ToolTipService.InitialShowDelay="100"
                                    MouseDown="TextBlock_MouseDown" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <!-- 拡張子 -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="PuzzleOutline" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="拡張子:" />
-                        <TextBlock Text="{Binding Images.Current.FileExtension}"
+                    <!-- 拡張子 -->
+                    <StackPanel Orientation="Horizontal" Height="42">
+                        <materialDesign:PackIcon Kind="PuzzleOutline" Width="25" Height="23" />
+                        <StackPanel>
+                            <TextBlock Text="拡張子:" />
+                            <TextBlock Text="{Binding Images.Current.FileExtension}"
                                    MouseDown="TextBlock_MouseDown" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <!-- ファイルサイズ -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="MicroSd" Width="25" Height="22" />
-                    <StackPanel>
-                        <TextBlock Text="ファイルサイズ:" />
-                        <TextBlock Text="{Binding Images.Current.Size}" />
+                    <!-- ファイルサイズ -->
+                    <StackPanel Orientation="Horizontal" Height="42">
+                        <materialDesign:PackIcon Kind="MicroSd" Width="25" Height="22" />
+                        <StackPanel>
+                            <TextBlock Text="ファイルサイズ:" />
+                            <TextBlock Text="{Binding Images.Current.Size}" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <!-- 画像/表示 のサイズや拡大率 -->
-                <Border Padding="10"
+                    <!-- 画像/表示 のサイズや拡大率 -->
+                    <Border Padding="10"
                         BorderThickness="1.5"
                         BorderBrush="LightGray"
                         CornerRadius="3"
                         Margin="3">
-                    <Grid>
-                        <Grid.RowDefinitions>
-                            <RowDefinition Height="20"/>
-                            <RowDefinition Height="*"/>
-                            <RowDefinition Height="*"/>
-                        </Grid.RowDefinitions>
-                        <Grid.ColumnDefinitions>
-                            <ColumnDefinition Width="Auto" />
-                            <ColumnDefinition Width="40" />
-                            <ColumnDefinition Width="*" />
-                            <ColumnDefinition Width="*" />
-                        </Grid.ColumnDefinitions>
+                        <Grid>
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="20"/>
+                                <RowDefinition Height="*"/>
+                                <RowDefinition Height="*"/>
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="40" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
 
-                        <TextBlock Grid.Row="0" Grid.Column="2" Text="サイズ" />
-                        <TextBlock Grid.Row="0" Grid.Column="3" Text="拡大率" />
-                        <TextBlock Grid.Row="1" Grid.Column="1" Text="画像"/>
-                        <TextBlock Grid.Row="2" Grid.Column="1" Text="表示"/>
-                        <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="ImageSizeSelectLarge" Width="25" Height="23" />
-                        <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Resize" Width="25" Height="22" />
+                            <TextBlock Grid.Row="0" Grid.Column="2" Text="サイズ" />
+                            <TextBlock Grid.Row="0" Grid.Column="3" Text="拡大率" />
+                            <TextBlock Grid.Row="1" Grid.Column="1" Text="画像"/>
+                            <TextBlock Grid.Row="2" Grid.Column="1" Text="表示"/>
+                            <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="ImageSizeSelectLarge" Width="25" Height="23" />
+                            <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="Resize" Width="25" Height="22" />
 
-                        <TextBlock Grid.Row="1" Grid.Column="2">
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource SizeTextConverter}">
-                                    <Binding Path="Images.Current.Width" />
-                                    <Binding Path="Images.Current.Height" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <TextBlock Grid.Row="2" Grid.Column="2">
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
-                                    <Binding Path="Images.ViewWidth" />
-                                    <Binding Path="Images.ViewHeight" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
-                        <TextBlock Grid.Row="1" Grid.Column="3"
+                            <TextBlock Grid.Row="1" Grid.Column="2">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource SizeTextConverter}">
+                                        <Binding Path="Images.Current.Width" />
+                                        <Binding Path="Images.Current.Height" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Row="2" Grid.Column="2">
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
+                                        <Binding Path="Images.ViewWidth" />
+                                        <Binding Path="Images.ViewHeight" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                            <TextBlock Grid.Row="1" Grid.Column="3"
                                    Text="{Binding Images.ImageScalePercent, Converter={StaticResource DoubleToPercentConverter}}" />
-                        <TextBlock Grid.Row="2" Grid.Column="3"
+                            <TextBlock Grid.Row="2" Grid.Column="3"
                                    Text="{Binding Images.ScaleRate.Scale, Converter={StaticResource DoubleToPercentConverter}}" />
-                    </Grid>
-                </Border>
+                        </Grid>
+                    </Border>
 
-                <!-- DPI(横x縦) -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="TooltipImageOutline" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="DPI:" />
-                        <TextBlock>
-                            <TextBlock.Text>
-                                <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
-                                    <Binding Path="Images.Current.DpiX" />
-                                    <Binding Path="Images.Current.DpiY" />
-                                </MultiBinding>
-                            </TextBlock.Text>
-                        </TextBlock>
+                    <!-- DPI(横x縦) -->
+                    <StackPanel Orientation="Horizontal" Height="42">
+                        <materialDesign:PackIcon Kind="TooltipImageOutline" Width="25" Height="23" />
+                        <StackPanel>
+                            <TextBlock Text="DPI:" />
+                            <TextBlock>
+                                <TextBlock.Text>
+                                    <MultiBinding Converter="{StaticResource SizeTextConverter}" ConverterParameter="Round">
+                                        <Binding Path="Images.Current.DpiX" />
+                                        <Binding Path="Images.Current.DpiY" />
+                                    </MultiBinding>
+                                </TextBlock.Text>
+                            </TextBlock>
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <!-- 更新日時 -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="CalendarClock" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="更新日時:" />
-                        <TextBlock Text="{Binding Images.Current.LastWriteTime}" />
+                    <!-- 更新日時 -->
+                    <StackPanel Orientation="Horizontal" Height="42">
+                        <materialDesign:PackIcon Kind="CalendarClock" Width="25" Height="23" />
+                        <StackPanel>
+                            <TextBlock Text="更新日時:" />
+                            <TextBlock Text="{Binding Images.Current.LastWriteTime}" />
+                        </StackPanel>
                     </StackPanel>
-                </StackPanel>
 
-                <!-- ファイルハッシュ(MD5) -->
-                <StackPanel Orientation="Horizontal" Height="42">
-                    <materialDesign:PackIcon Kind="ZipBoxOutline" Width="25" Height="23" />
-                    <StackPanel>
-                        <TextBlock Text="ハッシュ(MD5):" />
-                        <TextBlock Text="{Binding Images.Current.Hash}"
+                    <!-- ファイルハッシュ(MD5) -->
+                    <StackPanel Orientation="Horizontal" Height="42">
+                        <materialDesign:PackIcon Kind="ZipBoxOutline" Width="25" Height="23" />
+                        <StackPanel>
+                            <TextBlock Text="ハッシュ(MD5):" />
+                            <TextBlock Text="{Binding Images.Current.Hash}"
                                    FontSize="12" />
+                        </StackPanel>
                     </StackPanel>
+
+                    <!-- トリミング情報(別のユーザーコントロール) -->
+                    <lib:TrimmingPanel />
+
+                </StackPanel>
+                
+                <!-- バージョン表記 -->
+                <StackPanel Grid.Row="1"
+                            Orientation="Horizontal"
+                            VerticalAlignment="Bottom"
+                            Margin="10 0 0 10">
+                    <TextBlock Text="Ver. " Width="Auto" />
+                    <TextBlock Text="{Binding State.Version, Mode=OneWay}" />
                 </StackPanel>
 
-                <!-- トリミング情報(別のユーザーコントロール) -->
-                <lib:TrimmingPanel />
-                
-            </StackPanel>
+            </Grid>
         </Border>
     </Grid>
 </UserControl>
