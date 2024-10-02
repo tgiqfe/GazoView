@@ -100,38 +100,27 @@ namespace GazoView
         /// <param name="toEnable"></param>
         private void SwitchTrimmingMode(bool? toEnable = null)
         {
-            if (Item.BindingParam.Setting.Trimming == null)
+            if (Item.BindingParam.Setting.Histories == null || Item.BindingParam.Setting.Histories.Count == 0)
             {
-                Item.BindingParam.Setting.Trimming = new TrimmingSetting()
-                {
-                    MaxHistory = 10,
-                    Histories = new List<TrimmingHistory>()
-                    {
-                        new TrimmingHistory()
-                        {
-                            Top = 100,
-                            Bottom = 300,
-                            Left = 100,
-                            Right = 300,
-                        }
-                    }
-                };
+                Item.BindingParam.Setting.Histories = new List<string>() { "100,300,100,300" };
             }
+            var history = Item.BindingParam.Setting.Histories[0].Split(',').Select(x => int.Parse(x)).ToArray();
+
             if (Item.BindingParam.Trimming.Top < 0)
             {
-                Item.BindingParam.Trimming.Top = Item.BindingParam.Setting.Trimming.Histories[0].Top;
+                Item.BindingParam.Trimming.Top = history[0];
             }
             if (Item.BindingParam.Trimming.Bottom < 0)
             {
-                Item.BindingParam.Trimming.Bottom = Item.BindingParam.Setting.Trimming.Histories[0].Bottom;
+                Item.BindingParam.Trimming.Bottom = history[1];
             }
             if (Item.BindingParam.Trimming.Left < 0)
             {
-                Item.BindingParam.Trimming.Left = Item.BindingParam.Setting.Trimming.Histories[0].Left;
+                Item.BindingParam.Trimming.Left = history[2];
             }
             if (Item.BindingParam.Trimming.Right < 0)
             {
-                Item.BindingParam.Trimming.Right = Item.BindingParam.Setting.Trimming.Histories[0].Right;
+                Item.BindingParam.Trimming.Right = history[3];
             }
 
             Item.BindingParam.State.TrimmingMode =

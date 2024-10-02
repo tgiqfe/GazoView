@@ -165,24 +165,22 @@ namespace GazoView
                 Item.BindingParam.Trimming.Top,
                 Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
                 Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
-            /*
-            ImageTrimming.Cut(
-                Item.BindingParam.Images.Current.Source,
-                Item.BindingParam.Images.Current.FilePath,
-                output,
-                Item.BindingParam.Images.Current.FileExtension,
-                Item.BindingParam.Trimming.Left,
-                Item.BindingParam.Trimming.Top,
-                Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
-                Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
-            */
             ImageTrimming.Cut(
                 Item.BindingParam.Images.Current.Source,
                 Item.BindingParam.Images.Current.FilePath,
                 output,
                 Item.BindingParam.Images.Current.FileExtension,
                 left, top, width, height);
-            Item.BindingParam.Setting.Trimming.AddHistory(left, top, width, height);
+
+            string lastHistroyText = $"{top},{top + height},{left},{left + width}";
+            if(lastHistroyText != Item.BindingParam.Setting.Histories[0])
+            {
+                Item.BindingParam.Setting.Histories.Insert(0, lastHistroyText);
+            }
+            if (Item.BindingParam.Setting.Histories.Count > Item.BindingParam.Setting.MaxHistory)
+            {
+                Item.BindingParam.Setting.Histories.RemoveAt(Item.BindingParam.Setting.Histories.Count - 1);
+            }
         }
     }
 }

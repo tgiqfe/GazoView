@@ -14,7 +14,12 @@ namespace GazoView.Lib.Conf
         public double Height { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
-        public TrimmingSetting Trimming { get; set; }
+
+        public int MaxHistory { get; set; }
+        public List<string> Histories { get; set; }
+
+
+        //public TrimmingSetting Trimming { get; set; }
 
         const string _fileName = "setting.json";
 
@@ -41,20 +46,8 @@ namespace GazoView.Lib.Conf
                     Height = 600,
                     X = 100,
                     Y = 100,
-                    Trimming = new TrimmingSetting()
-                    {
-                        MaxHistory = 10,
-                        Histories = new List<TrimmingHistory>()
-                        {
-                            new TrimmingHistory()
-                            {
-                                Top = 100,
-                                Bottom = 300,
-                                Left = 100,
-                                Right = 300,
-                            }
-                        }
-                    }
+                    MaxHistory = 10,
+                    Histories = new List<string>() { "100,300,100,300" },
                 };
             }
         }
