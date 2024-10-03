@@ -16,7 +16,5 @@ namespace GazoView
             Item.MainBase = this;
             this.DataContext = Item.BindingParam;
         }
-
-
     }
 }

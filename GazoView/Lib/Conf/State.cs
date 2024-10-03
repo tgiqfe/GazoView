@@ -3,6 +3,7 @@ using System.Collections.Generic;
 using System.ComponentModel;
 using System.Diagnostics.Eventing.Reader;
 using System.Linq;
+using System.Reflection;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
@@ -12,6 +13,15 @@ namespace GazoView.Lib.Conf
 {
     internal class State : INotifyPropertyChanged
     {
+        public string Version
+        {
+            get
+            {
+                var version = Assembly.GetExecutingAssembly().GetName().Version;
+                return $"{version.Major}.{version.Minor}.{version.Build}.{version.Revision}";
+            }
+        }
+
         /// <summary>
         /// Infoパネルの表示状態
         /// </summary>
@@ -57,7 +67,10 @@ namespace GazoView.Lib.Conf
             }
         }
 
-
+        /// <summary>
+        /// TrimmingパネルのTextBoxにフォーカスが当たっているかどうか
+        /// </summary>
+        public bool IsTrimmingSizeChanging { get; set; }
 
         #region Inotify change
 
