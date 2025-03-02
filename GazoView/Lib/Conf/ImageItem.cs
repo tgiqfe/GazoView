@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace GazoView.Lib.Conf
 {
@@ -20,6 +21,9 @@ namespace GazoView.Lib.Conf
         public int Height { get; private set; }
         public double DpiX { get; private set; }
         public double DpiY { get; private set; }
+
+        private static Regex pattern_starFile = new Regex(@"★\.[^\.]+$");
+        public bool IsStar { get; private set; }
 
         public ImageItem(string path)
         {
@@ -52,6 +56,7 @@ namespace GazoView.Lib.Conf
                     return BitConverter.ToString(bytes).Replace("-", "");
                 }
             })(path);
+            this.IsStar = pattern_starFile.IsMatch(FileName);
 
             switch (FileExtension.ToLower())
             {

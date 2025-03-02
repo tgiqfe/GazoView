@@ -52,5 +52,13 @@
                                    Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </lib:AdvancedScrollViewer>
+        <Border Grid.Column="1"
+                x:Name="StartBorder"
+                BorderThickness="10"
+                BorderBrush="#25A5FF"
+                Opacity="0.5"
+                Width="{Binding ActualWidth, ElementName=ScrollViewer}"
+                Height="{Binding ActualHeight, ElementName=ScrollViewer}"
+                Visibility="{Binding Images.Current.IsStar, Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Window>
