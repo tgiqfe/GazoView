@@ -152,6 +152,25 @@ namespace GazoView
 
         #endregion
 
+        /// <summary>
+        /// ファイル名に★フラグを付与/剥奪
+        /// </summary>
+        private void ToggleStarFile()
+        {
+            if(Item.BindingParam.Images.FileList.Count > 0)
+            {
+                var newName = Item.BindingParam.Images.Current.IsStar ?
+                    Path.GetFileNameWithoutExtension(Item.BindingParam.Images.Current.FileName).TrimEnd('★'):
+                    Path.GetFileNameWithoutExtension(Item.BindingParam.Images.Current.FileName) + "★";
+                var newPath = Path.Combine(
+                    Item.BindingParam.Images.Current.Parent,
+                    newName + Item.BindingParam.Images.Current.FileExtension);
+
+                File.Move(Item.BindingParam.Images.Current.FilePath, newPath);
+                Item.BindingParam.Images.ReloadFiles(newPath);
+            }
+        }
+
         private void StartTrimming()
         {
             if (Item.BindingParam.State.TrimmingMode)

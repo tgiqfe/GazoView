@@ -27,11 +27,11 @@ namespace GazoView.Lib.Conf
 
         public ImageItem(string path)
         {
-            FilePath = path;
-            FileName = Path.GetFileName(path);
-            FileExtension = Path.GetExtension(path);
-            Parent = Path.GetDirectoryName(path);
-            Size = new FileInfo(path).Length switch
+            this.FilePath = path;
+            this.FileName = Path.GetFileName(path);
+            this.FileExtension = Path.GetExtension(path);
+            this.Parent = Path.GetDirectoryName(path);
+            this.Size = new FileInfo(path).Length switch
             {
                 long s when s < 1024 =>
                     $"{s} Byte",
@@ -45,8 +45,8 @@ namespace GazoView.Lib.Conf
                     $"{Math.Round(s / 1024D / 1024D / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} TB",
                 _ => "",
             };
-            LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
-            Hash = new Func<string, string>(_path =>
+            this.LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
+            this.Hash = new Func<string, string>(_path =>
             {
                 using (var fs = new FileStream(_path, FileMode.Open, FileAccess.Read))
                 {

@@ -70,6 +70,9 @@ namespace GazoView
                         }
                     }
                     break;
+                case Key.OemBackslash:
+                    ToggleStarFile();
+                    break;
             }
         }
     }
