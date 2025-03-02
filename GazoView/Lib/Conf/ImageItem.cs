@@ -2,6 +2,7 @@
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.IO;
+using System.Text.RegularExpressions;
 
 namespace GazoView.Lib.Conf
 {
@@ -21,13 +22,16 @@ namespace GazoView.Lib.Conf
         public double DpiX { get; private set; }
         public double DpiY { get; private set; }
 
+        private static Regex pattern_starFile = new Regex(@"★\.[^\.]+$");
+        public bool IsStar { get; private set; }
+
         public ImageItem(string path)
         {
-            FilePath = path;
-            FileName = Path.GetFileName(path);
-            FileExtension = Path.GetExtension(path);
-            Parent = Path.GetDirectoryName(path);
-            Size = new FileInfo(path).Length switch
+            this.FilePath = path;
+            this.FileName = Path.GetFileName(path);
+            this.FileExtension = Path.GetExtension(path);
+            this.Parent = Path.GetDirectoryName(path);
+            this.Size = new FileInfo(path).Length switch
             {
                 long s when s < 1024 =>
                     $"{s} Byte",
@@ -41,8 +45,8 @@ namespace GazoView.Lib.Conf
                     $"{Math.Round(s / 1024D / 1024D / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} TB",
                 _ => "",
             };
-            LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
-            Hash = new Func<string, string>(_path =>
+            this.LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
+            this.Hash = new Func<string, string>(_path =>
             {
                 using (var fs = new FileStream(_path, FileMode.Open, FileAccess.Read))
                 {
@@ -52,6 +56,7 @@ namespace GazoView.Lib.Conf
                     return BitConverter.ToString(bytes).Replace("-", "");
                 }
             })(path);
+            this.IsStar = pattern_starFile.IsMatch(FileName);
 
             switch (FileExtension.ToLower())
             {
