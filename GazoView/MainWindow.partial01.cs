@@ -1,5 +1,6 @@
 ﻿using GazoView.Lib.Conf;
 using GazoView.Lib.Functions;
+using GazoView.Lib.Other;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Input;
@@ -69,6 +70,12 @@ namespace GazoView
                             CopyImageFile();
                         }
                     }
+                    break;
+                case Key.O:
+                    //  画像のフォルダーを開く
+                    FolderWindow.Open(
+                        Item.BindingParam.Images.Current.Parent,
+                        Item.BindingParam.Images.Current.FileName);
                     break;
                 case Key.OemBackslash:
                     ToggleStarFile();
