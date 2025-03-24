@@ -94,6 +94,17 @@ namespace GazoView
         }
 
         /// <summary>
+        /// 画像拡大率、表示拡大率を100%にリセット
+        /// </summary>
+        private void ResetZoomScale()
+        {
+            Item.BindingParam.Images.ScaleRate.Index = ScaleRate.DEF_INDEX;
+            Item.BindingParam.State.ScalingMode = false;
+            MainImage.Width = ScrollViewer.ActualWidth;
+            MainImage.Height = ScrollViewer.ActualHeight;
+        }
+
+        /// <summary>
         /// トリミングモードに切り替え
         /// 切り替え前の下準備も
         /// </summary>
