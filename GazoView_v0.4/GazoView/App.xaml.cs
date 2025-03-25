@@ -12,13 +12,20 @@ namespace GazoView
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            Item.BindingParam = new();
-            Item.BindingParam.Setting = Setting.Load();
+            var setting = Setting.Load();
+            Item.BindingParam = new()
+            {
+                Setting = setting,
+                Images = new(e.Args),
+                State = new(),
+                Trimming = new(),
+            };
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             Item.BindingParam.Setting.Save();
+            Item.DeletedStore?.Close();
         }
     }
 

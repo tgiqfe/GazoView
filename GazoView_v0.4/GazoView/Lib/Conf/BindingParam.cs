@@ -6,8 +6,14 @@ using System.Threading.Tasks;
 
 namespace GazoView.Lib.Conf
 {
-    class BindingParam
+    internal class BindingParam
     {
         public Setting Setting { get; set; }
+
+        public Images Images { get; set; }
+
+        public State State { get; set; }
+
+        public Trimming Trimming { get; set; }
     }
 }

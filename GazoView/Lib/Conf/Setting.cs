@@ -1,27 +1,24 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
-using System.Linq;
+﻿using System.IO;
 using System.Text;
 using System.Text.Json;
-using System.Threading.Tasks;
 
 namespace GazoView.Lib.Conf
 {
-    internal class Setting
+    class Setting
     {
+        public string ApplicationVersion { get; set; }
         public double Width { get; set; }
         public double Height { get; set; }
         public double X { get; set; }
         public double Y { get; set; }
 
-        public int MaxHistory { get; set; }
-        public List<string> Histories { get; set; }
+        const string FILE_NAME = "setting.json";
+        const string APPLICATION_VERSION = "0.5.*";
 
-
-        //public TrimmingSetting Trimming { get; set; }
-
-        const string _fileName = "setting.json";
+        public Setting()
+        {
+            this.ApplicationVersion = APPLICATION_VERSION;
+        }
 
         /// <summary>
         /// Load setting file.
@@ -29,14 +26,12 @@ namespace GazoView.Lib.Conf
         /// <returns></returns>
         public static Setting Load()
         {
-            var path = Path.Combine(Item.WorkingDirectory, _fileName);
             try
             {
-                using (var sr = new StreamReader(path, Encoding.UTF8))
-                {
-                    var setting = JsonSerializer.Deserialize<Setting>(sr.ReadToEnd());
-                    return setting;
-                }
+                string json = File.ReadAllText(
+                    Path.Combine(Item.WorkingDirectory, FILE_NAME), 
+                    Encoding.UTF8);
+                return JsonSerializer.Deserialize(json, typeof(Setting)) as Setting;
             }
             catch
             {
@@ -45,9 +40,7 @@ namespace GazoView.Lib.Conf
                     Width = 800,
                     Height = 600,
                     X = 100,
-                    Y = 100,
-                    MaxHistory = 10,
-                    Histories = new List<string>() { "100,300,100,300" },
+                    Y = 100
                 };
             }
         }
@@ -57,15 +50,14 @@ namespace GazoView.Lib.Conf
         /// </summary>
         public void Save()
         {
-            var path = Path.Combine(Item.WorkingDirectory, _fileName);
-            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+            string json = JsonSerializer.Serialize(this, new JsonSerializerOptions()
             {
-                var json = JsonSerializer.Serialize(this, new JsonSerializerOptions()
-                {
-                    WriteIndented = true,
-                });
-                sw.Write(json);
-            }
+                WriteIndented = true
+            });
+            File.WriteAllText(
+                Path.Combine(Item.WorkingDirectory, FILE_NAME),
+                json,
+                Encoding.UTF8);
         }
     }
 }
