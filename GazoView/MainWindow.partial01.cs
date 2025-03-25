@@ -18,10 +18,12 @@ namespace GazoView
                     Application.Current.Shutdown();
                     break;
                 case Key.Left:
+                case Key.BrowserBack:
                     //  1つ前の画像を表示
                     ChangeImage(-1);
                     break;
                 case Key.Right:
+                case Key.BrowserForward:
                     //  1つ後の画像を表示
                     ChangeImage(1);
                     break;
@@ -77,7 +79,14 @@ namespace GazoView
                         Item.BindingParam.Images.Current.Parent,
                         Item.BindingParam.Images.Current.FileName);
                     break;
+                case Key.R:
+                    //  表示拡大率を100%に戻す
+                    //  ⇒ウィンドウサイズと表示拡大率を連動する機能を実装予定。
+                    //    ※現在は無理・・・
+                    ResetZoomScale();
+                    break;
                 case Key.OemBackslash:
+                    //  スターの付け外し
                     ToggleStarFile();
                     break;
             }

@@ -31,7 +31,7 @@ namespace GazoView
         }
 
         /// <summary>
-        /// 画像の表示錠のサイズ変更時イベント
+        /// 画像の表示上のサイズ変更時イベント
         /// </summary>
         /// <param name="sender"></param>
         /// <param name="e"></param>
