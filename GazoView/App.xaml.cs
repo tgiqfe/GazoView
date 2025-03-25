@@ -21,5 +21,4 @@ namespace GazoView
             Item.BindingParam.Setting.Save();
         }
     }
-
 }

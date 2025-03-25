@@ -4,14 +4,16 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GazoView"
+        xmlns:view="clr-namespace:GazoView.Lib.View"
         mc:Ignorable="d"
         Name="MainBase"
         Title="MainWindow"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.X, Mode=TwoWay}"
-        Top="{Binding Setting.Y, Mode=TwoWay}">
+        Top="{Binding Setting.Y, Mode=TwoWay}"
+        Background="DimGray">
     <Grid>
-
+        <view:GlobalGrid />
     </Grid>
 </Window>

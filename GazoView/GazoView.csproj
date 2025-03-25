@@ -9,8 +9,4 @@
 	  <FileVersion>0.5.0.1</FileVersion>
   </PropertyGroup>
 
-  <ItemGroup>
-    <Folder Include="Lib\View\" />
-  </ItemGroup>
-
 </Project>
