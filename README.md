@@ -4,5 +4,5 @@
 
 .NET 8対応版
 
-Version: 0.4
+Version: 0.5
 
