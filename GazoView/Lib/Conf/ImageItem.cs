@@ -6,8 +6,8 @@ using System.Threading.Tasks;
 
 namespace GazoView.Lib.Conf
 {
-    internal class BindingParam
+    internal class ImageItem
     {
-        public Setting Setting { get; set; }
+        public ScaleRate ScaleRate { get; set; }
     }
 }
