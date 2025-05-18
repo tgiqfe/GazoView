@@ -1,10 +1,4 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace GazoView.Lib.Conf
+﻿namespace GazoView.Lib.Conf
 {
     internal class ScaleRate
     {
@@ -13,8 +7,7 @@ namespace GazoView.Lib.Conf
             0.2, 0.3, 0.4, 0.5, 0.6, 0.7, 0.8, 0.9, 1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.8, 2, 2.4, 2.8, 3.2, 3.6, 4, 4.8, 5.6, 6.4, 7.2, 8, 9, 10, 11, 12, 13, 14, 15, 16
         };
 
-        public const int DEF_INDEX = 8;
-        public readonly double DefaultScale = _ticks[DEF_INDEX];
+        const int DEF_INDEX = 8;
 
         private int _index = DEF_INDEX;
         private int _preview = DEF_INDEX;
@@ -35,5 +28,10 @@ namespace GazoView.Lib.Conf
             }
         }
 
+        public void Reset()
+        {
+            _index = DEF_INDEX;
+            _preview = DEF_INDEX;
+        }
     }
 }

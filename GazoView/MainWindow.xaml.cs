@@ -1,16 +1,8 @@
-﻿using GazoView.Lib;
-using GazoView.Lib.Conf;
-using GazoView.Lib.Functions;
-using System.Text;
+﻿using GazoView.Lib.Functions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GazoView
 {
@@ -32,6 +24,9 @@ namespace GazoView
             {
                 case Key.Escape:
                     Application.Current.Shutdown();
+                    break;
+                case Key.R:
+                    ZoomImage();
                     break;
             }
 
@@ -56,7 +51,7 @@ namespace GazoView
         {
             if (e == null)
             {
-                Item.ScaleRate.Index = ScaleRate.DEF_INDEX;
+                Item.ScaleRate.Reset();
             }
             else
             {
@@ -65,37 +60,38 @@ namespace GazoView
             }
 
             var scale = Item.ScaleRate.Scale;
-
             if (scale == 1)
             {
                 MainImage.SetBinding(Image.WidthProperty, new Binding("ActualWidth") { Source = ScrollViewer });
                 MainImage.SetBinding(Image.HeightProperty, new Binding("ActualHeight") { Source = ScrollViewer });
             }
-            else if (scale > 1)
+            else
             {
                 BindingOperations.ClearBinding(MainImage, Image.WidthProperty);
                 BindingOperations.ClearBinding(MainImage, Image.HeightProperty);
+                var newWidth = this.ActualWidth * scale;
+                var newHeight = (this.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
+                if (scale > 1)
+                {
+                    //  Before scaling, get pointer location.
+                    Point mousePoint = e.GetPosition(ScrollViewer);
+                    double viewX = ScrollViewer.HorizontalOffset;
+                    double viewY = ScrollViewer.VerticalOffset;
 
-                //  Before scaling, get pointer location.
-                Point mousePoint = e.GetPosition(ScrollViewer);
-                double viewX = ScrollViewer.HorizontalOffset;
-                double viewY = ScrollViewer.VerticalOffset;
+                    MainImage.Width = newWidth;
+                    MainImage.Height = newHeight;
 
-                //  Set the new size of the ScrollViewer. and move mouse pointer.
-                MainImage.Width = this.ActualWidth * scale;
-                MainImage.Height = (this.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
-
-                var relateScale = scale / Item.ScaleRate.PreviewScale;
-                ScrollViewer.ScrollToHorizontalOffset((mousePoint.X + viewX) * relateScale - mousePoint.X);
-                ScrollViewer.ScrollToVerticalOffset((mousePoint.Y + viewY) * relateScale - mousePoint.Y);
-            }
-            else if (scale < 1)
-            {
-                MainImage.Width = this.ActualWidth * scale;
-                MainImage.Height = (this.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
+                    //  Set the new size of the ScrollViewer. and move mouse pointer.
+                    var relateScale = scale / Item.ScaleRate.PreviewScale;
+                    ScrollViewer.ScrollToHorizontalOffset((mousePoint.X + viewX) * relateScale - mousePoint.X);
+                    ScrollViewer.ScrollToVerticalOffset((mousePoint.Y + viewY) * relateScale - mousePoint.Y);
+                }
+                else if (scale < 1)
+                {
+                    MainImage.Width = newWidth;
+                    MainImage.Height = newHeight;
+                }
             }
         }
-
-
     }
 }

@@ -27,7 +27,7 @@
                   Width="{Binding ActualWidth, ElementName=MainImage}"
                   Height="{Binding ActualHeight, ElementName=MainImage}">
                 <Image Name="MainImage"
-                       Source="D:\Test\Images\Image002.png"
+                       Source="D:\Test\Images\Image003.png"
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}" />
             </Grid>
