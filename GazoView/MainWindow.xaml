@@ -5,6 +5,8 @@
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
+        xmlns:converter="clr-namespace:GazoView.Lib.Converter"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="{Binding Images.Title}"
         Width="{Binding Setting.Width, Mode=TwoWay}"
@@ -14,6 +16,9 @@
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
         Background="DimGray">
+    <Window.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
     <Grid Name="GlobalGrid">
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0" Name="Column0" />
@@ -31,7 +36,13 @@
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}" />
             </Grid>
-
         </lib:AdvancedScrollViewer>
+        <materialDesign:PackIcon Grid.Column="1"
+                                 Kind="StarBoxOutline"
+                                 Width="60" Height="60"
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Bottom"
+                                 Foreground="Gold"
+                                 Visibility="{Binding Images.Current.IsStar, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </Window>

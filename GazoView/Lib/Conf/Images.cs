@@ -117,7 +117,21 @@ namespace GazoView.Lib.Conf
             }
         }
 
+        public void ReloadFiles(string movePath = null)
+        {
+            string moveToPath = movePath == null ?
+                this.Current.FilePath :
+                movePath;
+            var collection = Directory.GetFiles(this.Current.Parent).
+                Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
+                OrderBy(x => x, new NaturalStringComparer());
+            this.FileList = new ObservableCollection<string>(collection);
 
+            var index = FileList.IndexOf(moveToPath);
+            if (index < 0) index = 0;
+
+            this.Index = index;
+        }
 
 
 

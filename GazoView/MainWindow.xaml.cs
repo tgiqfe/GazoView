@@ -19,7 +19,6 @@ namespace GazoView
             Item.MainBase = this;
             this.DataContext = Item.BindingParam;
 
-
             //  Add event (for drag move).
             EventManager.RegisterClassHandler(
                 typeof(AdvancedScrollViewer),
@@ -39,14 +38,23 @@ namespace GazoView
                     break;
                 case Key.Left:
                 case Key.BrowserBack:
-                    ChangeImage(-1);
+                    ImageFunction.ChangeImage(-1);
                     break;
                 case Key.Right:
                 case Key.BrowserForward:
-                    ChangeImage(1);
+                    ImageFunction.ChangeImage(1);
                     break;
                 case Key.R:
-                    ZoomImage();
+                    ImageFunction.ZoomImage(this, MainImage, ScrollViewer);
+                    break;
+                case Key.C:
+                    if (SpecialKeyStatus.IsCtrPressed())
+                    {
+                        FileFunction.CopyImageFile(Item.BindingParam.Images, SpecialKeyStatus.IsShiftPressed());
+                    }
+                    break;
+                case Key.OemBackslash:
+                    FileFunction.ToggleStarFile(Item.BindingParam.Images);
                     break;
             }
         }
@@ -63,65 +71,11 @@ namespace GazoView
             e.Handled = true;
             if (SpecialKeyStatus.IsCtrPressed())
             {
-                ZoomImage(e);
+                ImageFunction.ZoomImage(this, MainImage, ScrollViewer, e);
             }
             else
             {
-                ChangeImage(e.Delta > 0 ? -1 : 1);
-            }
-        }
-
-
-        private void ChangeImage(int direction)
-        {
-            Item.BindingParam.Images.Index += direction;
-        }
-
-
-        private void ZoomImage(MouseWheelEventArgs e = null)
-        {
-            if (e == null)
-            {
-                Item.ScaleRate.Reset();
-            }
-            else
-            {
-                int direction = e.Delta > 0 ? 1 : -1;
-                Item.ScaleRate.Index += direction;
-            }
-
-            var scale = Item.ScaleRate.Scale;
-            if (scale == 1)
-            {
-                MainImage.SetBinding(Image.WidthProperty, new Binding("ActualWidth") { Source = ScrollViewer });
-                MainImage.SetBinding(Image.HeightProperty, new Binding("ActualHeight") { Source = ScrollViewer });
-            }
-            else
-            {
-                BindingOperations.ClearBinding(MainImage, Image.WidthProperty);
-                BindingOperations.ClearBinding(MainImage, Image.HeightProperty);
-                var newWidth = this.ActualWidth * scale;
-                var newHeight = (this.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
-                if (scale > 1)
-                {
-                    //  Before scaling, get pointer location.
-                    Point mousePoint = e.GetPosition(ScrollViewer);
-                    double viewX = ScrollViewer.HorizontalOffset;
-                    double viewY = ScrollViewer.VerticalOffset;
-
-                    MainImage.Width = newWidth;
-                    MainImage.Height = newHeight;
-
-                    //  Set the new size of the ScrollViewer. and move mouse pointer.
-                    var relateScale = scale / Item.ScaleRate.PreviewScale;
-                    ScrollViewer.ScrollToHorizontalOffset((mousePoint.X + viewX) * relateScale - mousePoint.X);
-                    ScrollViewer.ScrollToVerticalOffset((mousePoint.Y + viewY) * relateScale - mousePoint.Y);
-                }
-                else if (scale < 1)
-                {
-                    MainImage.Width = newWidth;
-                    MainImage.Height = newHeight;
-                }
+                ImageFunction.ChangeImage(e.Delta > 0 ? -1 : 1);
             }
         }
     }
