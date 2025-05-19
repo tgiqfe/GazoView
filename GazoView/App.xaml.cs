@@ -15,7 +15,8 @@ namespace GazoView
             var setting = Setting.Load();
             Item.BindingParam = new BindingParam()
             {
-                Setting = setting
+                Setting = setting,
+                Images = new(e.Args),
             };
             Item.ScaleRate = new ScaleRate();
         }

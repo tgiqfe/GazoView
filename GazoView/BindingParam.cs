@@ -10,5 +10,7 @@ namespace GazoView
     internal class BindingParam
     {
         public Setting Setting { get; set; }
+
+        public Images Images { get; set; }
     }
 }

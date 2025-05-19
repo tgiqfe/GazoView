@@ -6,7 +6,7 @@
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="{Binding Images.Title}"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.Left, Mode=TwoWay}"
@@ -27,7 +27,7 @@
                   Width="{Binding ActualWidth, ElementName=MainImage}"
                   Height="{Binding ActualHeight, ElementName=MainImage}">
                 <Image Name="MainImage"
-                       Source="D:\Test\Images\Image003.png"
+                       Source="{Binding Images.Current.Source}"
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}" />
             </Grid>

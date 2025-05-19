@@ -25,13 +25,27 @@ namespace GazoView
                 case Key.Escape:
                     Application.Current.Shutdown();
                     break;
+                case Key.Left:
+                case Key.BrowserBack:
+                    ChangeImage(-1);
+                    break;
+                case Key.Right:
+                case Key.BrowserForward:
+                    ChangeImage(1);
+                    break;
                 case Key.R:
                     ZoomImage();
                     break;
             }
-
         }
 
+        /// <summary>
+        /// Wheel event
+        ///     ctrl + wheel -> zoom in/out.
+        ///     wheel -> next/prev image.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
@@ -41,10 +55,15 @@ namespace GazoView
             }
             else
             {
-
+                ChangeImage(e.Delta > 0 ? -1 : 1);
             }
         }
 
+
+        private void ChangeImage(int direction)
+        {
+            Item.BindingParam.Images.Index += direction;
+        }
 
 
         private void ZoomImage(MouseWheelEventArgs e = null)
