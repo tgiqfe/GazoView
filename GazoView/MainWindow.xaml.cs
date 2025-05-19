@@ -1,4 +1,5 @@
-﻿using GazoView.Lib.Functions;
+﻿using GazoView.Lib;
+using GazoView.Lib.Functions;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -15,7 +16,18 @@ namespace GazoView
         {
             InitializeComponent();
 
+            Item.MainBase = this;
             this.DataContext = Item.BindingParam;
+
+
+            //  Add event (for drag move).
+            EventManager.RegisterClassHandler(
+                typeof(AdvancedScrollViewer),
+                FrameworkElement.MouseLeftButtonDownEvent,
+                new MouseButtonEventHandler((sender, e) =>
+                {
+                    this.DragMove();
+                }));
         }
 
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)

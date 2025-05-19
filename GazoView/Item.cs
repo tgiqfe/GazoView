@@ -19,6 +19,8 @@ namespace GazoView
 
         public static BindingParam BindingParam = null;
 
+        public static MainWindow MainBase = null;
+
         public static ScaleRate ScaleRate = null;
     }
 }
