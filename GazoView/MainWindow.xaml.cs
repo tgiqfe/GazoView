@@ -53,6 +53,16 @@ namespace GazoView
                         FileFunction.CopyImageFile(Item.BindingParam.Images, SpecialKeyStatus.IsShiftPressed());
                     }
                     break;
+                case Key.O:
+                    if (SpecialKeyStatus.IsCtrPressed())
+                    {
+                        FolderWindow.Close(Item.BindingParam.Images.Current.Parent);
+                    }
+                    else
+                    {
+                        FolderWindow.Open(Item.BindingParam.Images.Current.Parent, Item.BindingParam.Images.Current.FileName);
+                    }
+                    break;
                 case Key.OemBackslash:
                     FileFunction.ToggleStarFile(Item.BindingParam.Images);
                     break;
