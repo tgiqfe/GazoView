@@ -8,6 +8,7 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
+using System.Windows.Media;
 
 namespace GazoView.Lib.Conf
 {
@@ -68,7 +69,6 @@ namespace GazoView.Lib.Conf
                 OnPropertyChanged();
             }
         }
-
 
         public Images(string[] targets)
         {
@@ -133,6 +133,12 @@ namespace GazoView.Lib.Conf
             this.Index = index;
         }
 
+        public void TempChangeImage(ImageSource source)
+        {
+            string path = this.Current.FilePath;
+            this.Current = new ImageItem(path, source);
+            OnPropertyChanged(nameof(Current));
+        }
 
 
 

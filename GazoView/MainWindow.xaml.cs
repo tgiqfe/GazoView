@@ -44,6 +44,12 @@ namespace GazoView
                 case Key.BrowserForward:
                     ImageFunction.ChangeImage(1);
                     break;
+                case Key.Home:
+                    ImageFunction.ChangeImage(Item.BindingParam.Images.Length);
+                    break;
+                case Key.End:
+                    ImageFunction.ChangeImage(-1 * Item.BindingParam.Images.Length);
+                    break;
                 case Key.R:
                     ImageFunction.ZoomImage(this, MainImage, ScrollViewer);
                     break;
@@ -65,6 +71,18 @@ namespace GazoView
                     break;
                 case Key.OemBackslash:
                     FileFunction.ToggleStarFile(Item.BindingParam.Images);
+                    break;
+                case Key.OemOpenBrackets:
+                    //  Flip vertical
+                    ImageFunction.ImageFlip(Item.BindingParam.Images, false);
+                    break;
+                case Key.OemCloseBrackets:
+                    //  Flip horizontal
+                    ImageFunction.ImageFlip(Item.BindingParam.Images, true);
+                    break;
+                case Key.Oem1:
+                    //  Rotate right ([colon]key for Japanese keyboard)
+                    ImageFunction.ImageRotate(Item.BindingParam.Images);
                     break;
             }
         }

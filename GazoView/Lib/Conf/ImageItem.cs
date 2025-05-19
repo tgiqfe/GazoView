@@ -32,7 +32,7 @@ namespace GazoView.Lib.Conf
         public double DpiX { get; private set; }
         public double DpiY { get; private set; }
 
-        public ImageItem(string path)
+        public ImageItem(string path, ImageSource source = null)
         {
             this.FilePath = path;
             this.FileName = Path.GetFileName(path);
@@ -65,16 +65,23 @@ namespace GazoView.Lib.Conf
             })(path);
             this.IsStar = pattern_starFile.IsMatch(FileName);
 
-            switch (FileExtension.ToLower())
+            if(source == null)
             {
-                case ".jpg":
-                case ".jpeg":
-                case ".png":
-                case ".tif":
-                case ".tiff":
-                case ".bmp":
-                    SetBitmapSource();
-                    break;
+                switch (FileExtension.ToLower())
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                    case ".png":
+                    case ".tif":
+                    case ".tiff":
+                    case ".bmp":
+                        SetBitmapSource();
+                        break;
+                }
+            }
+            else
+            {
+                this.Source = source;
             }
         }
 

@@ -1,7 +1,10 @@
-﻿using System.Windows;
+﻿using GazoView.Lib.Conf;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GazoView.Lib.Functions
 {
@@ -57,6 +60,28 @@ namespace GazoView.Lib.Functions
                     mainImage.Height = newHeight;
                 }
             }
+        }
+
+        public static void ImageFlip(Images images, bool isHorizontal)
+        {
+            var transform = isHorizontal ?
+                new ScaleTransform(-1, 1, 0, 0) :
+                new ScaleTransform(1, -1, 0, 0);
+            var tb = images.Current.Source is TransformedBitmap ?
+                new TransformedBitmap(images.Current.Source as TransformedBitmap, transform) :
+                new TransformedBitmap(images.Current.Source as BitmapImage, transform);
+            images.TempChangeImage(tb);
+            tb.Freeze();
+        }
+
+        public static void ImageRotate(Images images)
+        {
+            var transform = new RotateTransform(90);
+            var tb = images.Current.Source is TransformedBitmap ?
+                new TransformedBitmap(images.Current.Source as TransformedBitmap, transform) :
+                new TransformedBitmap(images.Current.Source as BitmapImage, transform);
+            images.TempChangeImage(tb);
+            tb.Freeze();
         }
     }
 }
