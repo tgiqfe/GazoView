@@ -15,7 +15,7 @@ using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Xml;
 using System.Xml.Linq;
-using WpfAnimatedGif;
+using XamlAnimatedGif;
 
 namespace GazoView.Lib.Conf
 {
@@ -88,10 +88,11 @@ namespace GazoView.Lib.Conf
                     case ".svg":
                         SetVectorSource();
                         break;
+                        /*
                     case ".gif":
                         SetAnimationSource();
-                        //SetAnimationSourceAsync().Wait();
                         break;
+                        */
                 }
             }
             else
@@ -102,11 +103,16 @@ namespace GazoView.Lib.Conf
 
         private void SetBitmapSource()
         {
+            /*
             if (Item.BindingParam != null)
             {
-                if (Item.BindingParam.State.IsGifFile) ImageBehavior.SetAnimatedSource(Item.MainBase.MainImage, null);
-                Item.BindingParam.State.IsGifFile = false;
+                if (Item.BindingParam.State.IsGifFile)
+                {
+                    AnimationBehavior.SetSourceUri(Item.MainBase.MainImage, null);
+                    
+                }
             }
+            */
 
             double DPI_96 = 96.0;
             using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
@@ -137,11 +143,23 @@ namespace GazoView.Lib.Conf
 
         private void SetVectorSource()
         {
+            /*
             if (Item.BindingParam != null)
             {
                 if (Item.BindingParam.State.IsGifFile) ImageBehavior.SetAnimatedSource(Item.MainBase.MainImage, null);
                 Item.BindingParam.State.IsGifFile = false;
             }
+            */
+            /*
+            if (Item.BindingParam != null)
+            {
+                if (Item.BindingParam.State.IsGifFile)
+                {
+                    AnimationBehavior.SetSourceUri(Item.MainBase.MainImage, null);
+                }
+            }
+            */
+
 
             var xml = XElement.Load(this.FilePath);
             var xmLWidth = xml.Attributes().FirstOrDefault(x =>
@@ -174,6 +192,35 @@ namespace GazoView.Lib.Conf
 
         private void SetAnimationSource()
         {
+            //this.Source = null;
+            Item.BindingParam.State.IsGifFile = true;
+
+            using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+            {
+                /*
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.CreateOptions = BitmapCreateOptions.None;
+                bitmap.StreamSource = fs;
+                bitmap.EndInit();
+                bitmap.Freeze();
+
+                this.Width = bitmap.PixelWidth;
+                this.Height = bitmap.PixelHeight;
+                this.DpiX = -1;
+                this.DpiY = -1;
+                */
+
+                //AnimationBehavior.SetSourceStream(Item.MainBase.MainImage, fs);
+            }
+            AnimationBehavior.SetSourceUri(Item.MainBase.MainImage, new Uri(FilePath));
+            
+        }
+
+        /*
+        private void SetAnimationSource()
+        {
             this.Source = null;
             Item.BindingParam.State.IsGifFile = true;
 
@@ -195,5 +242,6 @@ namespace GazoView.Lib.Conf
                 ImageBehavior.SetAnimatedSource(Item.MainBase.MainImage, bitmap);
             }
         }
+        */
     }
 }

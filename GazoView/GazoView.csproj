@@ -12,7 +12,7 @@
 	<ItemGroup>
 		<PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
 		<PackageReference Include="SharpVectors" Version="1.8.4.2" />
-		<PackageReference Include="WpfAnimatedGif" Version="2.0.2" />
+		<PackageReference Include="XamlAnimatedGif" Version="2.3.0" />
 	</ItemGroup>
 
 </Project>
