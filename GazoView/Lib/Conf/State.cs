@@ -23,7 +23,7 @@ namespace GazoView.Lib.Conf
         }
 
 
-
+        public bool IsGifFile { get; set; }
 
 
 

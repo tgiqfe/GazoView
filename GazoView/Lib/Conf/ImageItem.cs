@@ -9,11 +9,13 @@ using System.Security.Cryptography;
 using System.Text;
 using System.Text.RegularExpressions;
 using System.Threading.Tasks;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
 using System.Xml;
 using System.Xml.Linq;
+using WpfAnimatedGif;
 
 namespace GazoView.Lib.Conf
 {
@@ -86,6 +88,10 @@ namespace GazoView.Lib.Conf
                     case ".svg":
                         SetVectorSource();
                         break;
+                    case ".gif":
+                        SetAnimationSource();
+                        //SetAnimationSourceAsync().Wait();
+                        break;
                 }
             }
             else
@@ -96,6 +102,12 @@ namespace GazoView.Lib.Conf
 
         private void SetBitmapSource()
         {
+            if (Item.BindingParam != null)
+            {
+                if (Item.BindingParam.State.IsGifFile) ImageBehavior.SetAnimatedSource(Item.MainBase.MainImage, null);
+                Item.BindingParam.State.IsGifFile = false;
+            }
+
             double DPI_96 = 96.0;
             using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
             {
@@ -125,6 +137,12 @@ namespace GazoView.Lib.Conf
 
         private void SetVectorSource()
         {
+            if (Item.BindingParam != null)
+            {
+                if (Item.BindingParam.State.IsGifFile) ImageBehavior.SetAnimatedSource(Item.MainBase.MainImage, null);
+                Item.BindingParam.State.IsGifFile = false;
+            }
+
             var xml = XElement.Load(this.FilePath);
             var xmLWidth = xml.Attributes().FirstOrDefault(x =>
                 x.Name.ToString().Equals("Width", StringComparison.OrdinalIgnoreCase));
@@ -132,7 +150,6 @@ namespace GazoView.Lib.Conf
             var xmLHeight = xml.Attributes().FirstOrDefault(x =>
                 x.Name.ToString().Equals("Height", StringComparison.OrdinalIgnoreCase));
             this.Height = int.TryParse(xmLHeight?.Value, out int height) ? height : -1;
-
             this.DpiX = -1;
             this.DpiY = -1;
 
@@ -153,7 +170,30 @@ namespace GazoView.Lib.Conf
                     this.Source = bitmap;
                 }
             }
+        }
 
+        private void SetAnimationSource()
+        {
+            this.Source = null;
+            Item.BindingParam.State.IsGifFile = true;
+
+            using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
+            {
+                var bitmap = new BitmapImage();
+                bitmap.BeginInit();
+                bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                bitmap.CreateOptions = BitmapCreateOptions.None;
+                bitmap.StreamSource = fs;
+                bitmap.EndInit();
+                bitmap.Freeze();
+
+                this.Width = bitmap.PixelWidth;
+                this.Height = bitmap.PixelHeight;
+                this.DpiX = -1;
+                this.DpiY = -1;
+
+                ImageBehavior.SetAnimatedSource(Item.MainBase.MainImage, bitmap);
+            }
         }
     }
 }

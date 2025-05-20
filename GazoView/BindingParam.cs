@@ -12,5 +12,7 @@ namespace GazoView
         public Setting Setting { get; set; }
 
         public Images Images { get; set; }
+
+        public State State { get; set; }
     }
 }

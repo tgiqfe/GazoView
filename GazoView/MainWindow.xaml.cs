@@ -1,5 +1,6 @@
 ﻿using GazoView.Lib;
 using GazoView.Lib.Functions;
+using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;

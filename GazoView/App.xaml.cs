@@ -8,7 +8,7 @@ namespace GazoView
     /// <summary>
     /// Interaction logic for App.xaml
     /// </summary>
-    public partial class App : System.Windows.Application
+    public partial class App : Application
     {
         private void Application_Startup(object sender, StartupEventArgs e)
         {
@@ -17,6 +17,7 @@ namespace GazoView
             {
                 Setting = setting,
                 Images = new(e.Args),
+                State = new()
             };
             Item.ScaleRate = new ScaleRate();
         }
