@@ -21,6 +21,8 @@ namespace GazoView.Lib
         System.Windows.Point m_point;
         System.Drawing.Brush m_brush;
 
+        public AnimatedImageControl() { }
+
         public AnimatedImageControl(Window p_window, Bitmap p_bitmap, System.Drawing.Brush p_brush)
         {
             m_animatedImage = p_bitmap;
