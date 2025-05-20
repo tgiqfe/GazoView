@@ -23,7 +23,8 @@ namespace GazoView.Lib.Conf
             ".tiff",
             ".tif",
             ".gif",
-            ".webp"
+            ".webp",
+            ".svg",
         };
 
         public ObservableCollection<string> FileList { get; private set; }

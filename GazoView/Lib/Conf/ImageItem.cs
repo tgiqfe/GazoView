@@ -1,4 +1,7 @@
-﻿using System;
+﻿using SharpVectors.Converters;
+using SharpVectors.Renderers;
+using SharpVectors.Renderers.Wpf;
+using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
@@ -9,6 +12,8 @@ using System.Threading.Tasks;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 using System.Windows.Media.Media3D;
+using System.Xml;
+using System.Xml.Linq;
 
 namespace GazoView.Lib.Conf
 {
@@ -65,7 +70,7 @@ namespace GazoView.Lib.Conf
             })(path);
             this.IsStar = pattern_starFile.IsMatch(FileName);
 
-            if(source == null)
+            if (source == null)
             {
                 switch (FileExtension.ToLower())
                 {
@@ -76,6 +81,9 @@ namespace GazoView.Lib.Conf
                     case ".tiff":
                     case ".bmp":
                         SetBitmapSource();
+                        break;
+                    case ".svg":
+                        SetVectorSource();
                         break;
                 }
             }
@@ -102,7 +110,7 @@ namespace GazoView.Lib.Conf
                 this.Height = bitmap.PixelHeight;
                 this.DpiX = bitmap.DpiX;
                 this.DpiY = bitmap.DpiY;
-                Source = DpiX == DPI_96 && DpiY == DPI_96 ?
+                this.Source = DpiX == DPI_96 && DpiY == DPI_96 ?
                     bitmap :
                     new Func<BitmapSource>(() =>
                     {
@@ -112,6 +120,39 @@ namespace GazoView.Lib.Conf
                         return BitmapSource.Create(Width, Height, DPI_96, DPI_96, PixelFormats.Pbgra32, null, pixels, stride);
                     })();
             }
+        }
+
+        private void SetVectorSource()
+        {
+            var xml = XElement.Load(this.FilePath);
+            var xmLWidth = xml.Attributes().FirstOrDefault(x =>
+                x.Name.ToString().Equals("Width", StringComparison.OrdinalIgnoreCase));
+            this.Width = int.TryParse(xmLWidth?.Value, out int width) ? width : -1;
+            var xmLHeight = xml.Attributes().FirstOrDefault(x =>
+                x.Name.ToString().Equals("Height", StringComparison.OrdinalIgnoreCase));
+            this.Height = int.TryParse(xmLHeight?.Value, out int height) ? height : -1;
+
+            this.DpiX = -1;
+            this.DpiY = -1;
+
+            WpfDrawingSettings settings = new();
+            settings.IncludeRuntime = true;
+            settings.TextAsGeometry = false;
+            using (var converter = new StreamSvgConverter(settings))
+            using (var ms = new MemoryStream())
+            {
+                if (converter.Convert(this.FilePath, ms))
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+                    this.Source = bitmap;
+                }
+            }
+
         }
     }
 }
