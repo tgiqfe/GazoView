@@ -1,12 +1,6 @@
 ﻿using GazoView.Lib.Conf;
-using System;
-using System.Collections.Generic;
 using System.Collections.Specialized;
 using System.IO;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
 
 namespace GazoView.Lib.Functions
 {
@@ -36,13 +30,13 @@ namespace GazoView.Lib.Functions
                 if (isText)
                 {
                     string text = images.Current.FilePath;
-                    Clipboard.SetText(text);
+                    System.Windows.Clipboard.SetText(text);
                 }
                 else
                 {
                     var targets = new StringCollection();
                     targets.Add(images.Current.FilePath);
-                    Clipboard.SetFileDropList(targets);
+                    System.Windows.Clipboard.SetFileDropList(targets);
                 }
             }
         }

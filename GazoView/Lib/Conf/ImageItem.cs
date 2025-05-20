@@ -80,6 +80,7 @@ namespace GazoView.Lib.Conf
                     case ".tif":
                     case ".tiff":
                     case ".bmp":
+                    case ".webp":
                         SetBitmapSource();
                         break;
                     case ".svg":
