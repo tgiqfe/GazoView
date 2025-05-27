@@ -15,7 +15,7 @@ namespace GazoView.Lib.Functions
             Item.BindingParam.Images.Index += direction;
         }
 
-        public static void ZoomImage(MainWindow mainWindow, System.Windows.Controls.Image mainImage, AdvancedScrollViewer scrollViewer, MouseWheelEventArgs e = null)
+        public static void ZoomImage(MainWindow mainWindow, Image mainImage, AdvancedScrollViewer scrollViewer, MouseWheelEventArgs e = null)
         {
             if (e == null)
             {
@@ -30,19 +30,19 @@ namespace GazoView.Lib.Functions
             var scale = Item.ScaleRate.Scale;
             if (scale == 1)
             {
-                mainImage.SetBinding(System.Windows.Controls.Image.WidthProperty, new System.Windows.Data.Binding("ActualWidth") { Source = scrollViewer });
-                mainImage.SetBinding(System.Windows.Controls.Image.HeightProperty, new System.Windows.Data.Binding("ActualHeight") { Source = scrollViewer });
+                mainImage.SetBinding(Image.WidthProperty, new Binding("ActualWidth") { Source = scrollViewer });
+                mainImage.SetBinding(Image.HeightProperty, new Binding("ActualHeight") { Source = scrollViewer });
             }
             else
             {
-                BindingOperations.ClearBinding(mainImage, System.Windows.Controls.Image.WidthProperty);
-                BindingOperations.ClearBinding(mainImage, System.Windows.Controls.Image.HeightProperty);
+                BindingOperations.ClearBinding(mainImage, Image.WidthProperty);
+                BindingOperations.ClearBinding(mainImage, Image.HeightProperty);
                 var newWidth = mainWindow.ActualWidth * scale;
                 var newHeight = (mainWindow.ActualHeight - SystemParameters.WindowCaptionHeight) * scale;
                 if (scale > 1)
                 {
                     //  Before scaling, get pointer location.
-                    System.Windows.Point mousePoint = e.GetPosition(scrollViewer);
+                    Point mousePoint = e.GetPosition(scrollViewer);
                     double viewX = scrollViewer.HorizontalOffset;
                     double viewY = scrollViewer.VerticalOffset;
 

@@ -30,7 +30,7 @@ namespace GazoView
                 }));
         }
 
-        private void Window_PreviewKeyDown(object sender, System.Windows.Input.KeyEventArgs e)
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
             switch (e.Key)
             {
@@ -71,12 +71,12 @@ namespace GazoView
                     }
                     break;
                 case Key.Delete:
-                    FileFunction.DeleteImageFile();
+                    FileFunction.DeleteImageFile(Item.BindingParam.Images);
                     break;
                 case Key.Z:
                     if (SpecialKeyStatus.IsCtrPressed())
                     {
-                        FileFunction.RestoreImageFile();
+                        FileFunction.RestoreImageFile(Item.BindingParam.Images);
                     }
                     break;
                 case Key.OemBackslash:

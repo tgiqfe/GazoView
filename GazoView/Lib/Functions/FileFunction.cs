@@ -42,11 +42,11 @@ namespace GazoView.Lib.Functions
             }
         }
 
-        public static void DeleteImageFile()
+        public static void DeleteImageFile(Images images)
         {
-            if (Item.BindingParam.Images.FileList.Count > 0)
+            if (images.FileList.Count > 0)
             {
-                var ret = MessageBox.Show($"Delete?\n{Item.BindingParam.Images.Current.FileName}",
+                var ret = MessageBox.Show($"Delete?\n{images.Current.FileName}",
                     Item.ProcessName,
                     MessageBoxButton.OKCancel,
                     MessageBoxImage.Information,
@@ -54,13 +54,13 @@ namespace GazoView.Lib.Functions
                 if (ret == MessageBoxResult.OK)
                 {
                     Item.DeletedStore ??= new();
-                    Item.DeletedStore.CopyToDeletedStore(Item.BindingParam.Images.Current.FilePath);
-                    Item.BindingParam.Images.DeleteCurrentImageFile();
+                    Item.DeletedStore.CopyToDeletedStore(images.Current.FilePath);
+                    images.DeleteCurrentImageFile();
                 }
             }
         }
 
-        public static void RestoreImageFile()
+        public static void RestoreImageFile(Images images)
         {
             if (Item.DeletedStore?.DeletedList?.Count > 0)
             {
@@ -71,8 +71,8 @@ namespace GazoView.Lib.Functions
                     MessageBoxResult.OK);
                 if(ret == MessageBoxResult.OK)
                 {
-                    Item.DeletedStore.RestoreFromDeletedStore(Item.BindingParam.Images.Current.Parent);
-                    Item.BindingParam.Images.ReloadFiles(Item.DeletedStore.RestoredFilePath);
+                    Item.DeletedStore.RestoreFromDeletedStore(images.Current.Parent);
+                    images.ReloadFiles(Item.DeletedStore.RestoredFilePath);
                 }
             }
         }
