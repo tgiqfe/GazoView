@@ -67,9 +67,7 @@ namespace GazoView.Lib.Functions
             var transform = isHorizontal ?
                 new ScaleTransform(-1, 1, 0, 0) :
                 new ScaleTransform(1, -1, 0, 0);
-            var tb = images.Current.Source is TransformedBitmap ?
-                new TransformedBitmap(images.Current.Source as TransformedBitmap, transform) :
-                new TransformedBitmap(images.Current.Source as BitmapImage, transform);
+            var tb = new TransformedBitmap(images.Current.Source as BitmapSource, transform);
             images.TempChangeImage(tb);
             tb.Freeze();
         }
@@ -77,9 +75,7 @@ namespace GazoView.Lib.Functions
         public static void ImageRotate(Images images)
         {
             var transform = new RotateTransform(90);
-            var tb = images.Current.Source is TransformedBitmap ?
-                new TransformedBitmap(images.Current.Source as TransformedBitmap, transform) :
-                new TransformedBitmap(images.Current.Source as BitmapImage, transform);
+            var tb = new TransformedBitmap(images.Current.Source as BitmapSource, transform);
             images.TempChangeImage(tb);
             tb.Freeze();
         }
