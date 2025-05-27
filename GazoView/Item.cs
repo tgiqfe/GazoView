@@ -12,6 +12,8 @@ namespace GazoView
 {
     internal class Item
     {
+        public const string ProcessName = "GazoView";
+
         public static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
         public static readonly string WorkDirectory = Path.Combine(
@@ -22,5 +24,7 @@ namespace GazoView
         public static MainWindow MainBase = null;
 
         public static ScaleRate ScaleRate = null;
+
+        public static DeletedStore DeletedStore = null;
     }
 }

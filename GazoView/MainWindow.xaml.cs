@@ -70,6 +70,15 @@ namespace GazoView
                         FolderWindow.Open(Item.BindingParam.Images.Current.Parent, Item.BindingParam.Images.Current.FileName);
                     }
                     break;
+                case Key.Delete:
+                    FileFunction.DeleteImageFile();
+                    break;
+                case Key.Z:
+                    if (SpecialKeyStatus.IsCtrPressed())
+                    {
+                        FileFunction.RestoreImageFile();
+                    }
+                    break;
                 case Key.OemBackslash:
                     FileFunction.ToggleStarFile(Item.BindingParam.Images);
                     break;

@@ -9,6 +9,7 @@ using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
+using Microsoft.VisualBasic.FileIO;
 
 namespace GazoView.Lib.Conf
 {
@@ -139,6 +140,30 @@ namespace GazoView.Lib.Conf
             string path = this.Current.FilePath;
             this.Current = new ImageItem(path, source);
             OnPropertyChanged(nameof(Current));
+        }
+
+        public void DeleteCurrentImageFile()
+        {
+            int index = this.Index;
+            if (FileList[index].StartsWith("\\\\"))
+            {
+                File.Delete(FileList[index]);
+            }
+            else
+            {
+                FileSystem.DeleteFile(
+                    FileList[index], UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+            }
+
+            this.FileList.RemoveAt(index);
+            if(FileList.Count == 0)
+            {
+                this.Current = null;
+            }
+            else
+            {
+                this.Index = index == FileList.Count ? index - 1 : index;
+            }
         }
 
 
