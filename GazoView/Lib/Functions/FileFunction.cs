@@ -31,13 +31,13 @@ namespace GazoView.Lib.Functions
                 if (isText)
                 {
                     string text = images.Current.FilePath;
-                    System.Windows.Clipboard.SetText(text);
+                    Clipboard.SetText(text);
                 }
                 else
                 {
                     var targets = new StringCollection();
                     targets.Add(images.Current.FilePath);
-                    System.Windows.Clipboard.SetFileDropList(targets);
+                    Clipboard.SetFileDropList(targets);
                 }
             }
         }

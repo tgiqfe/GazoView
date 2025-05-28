@@ -35,32 +35,44 @@ namespace GazoView
             switch (e.Key)
             {
                 case Key.Escape:
-                    System.Windows.Application.Current.Shutdown();
+                    //  Application shutdown
+                    Application.Current.Shutdown();
                     break;
                 case Key.Left:
                 case Key.BrowserBack:
+                    //  Move prev image.
                     ImageFunction.ChangeImage(-1);
                     break;
                 case Key.Right:
                 case Key.BrowserForward:
+                    //  Move next image.
                     ImageFunction.ChangeImage(1);
                     break;
                 case Key.Home:
+                    //  Move first image from same directory.
                     ImageFunction.ChangeImage(Item.BindingParam.Images.Length);
                     break;
                 case Key.End:
+                    //  Move last image from same directory.
                     ImageFunction.ChangeImage(-1 * Item.BindingParam.Images.Length);
                     break;
                 case Key.R:
+                    //  Rest size fit to window.
                     ImageFunction.ZoomImage(this, MainImage, ScrollViewer);
                     break;
                 case Key.C:
+                    //  Copy image file.
+                    //  Ctrl+C -> image data copy (image)
+                    //  Ctrl+Shift+C -> image path copy (string)
                     if (SpecialKeyStatus.IsCtrPressed())
                     {
                         FileFunction.CopyImageFile(Item.BindingParam.Images, SpecialKeyStatus.IsShiftPressed());
                     }
                     break;
                 case Key.O:
+                    //  Open or close folder path
+                    //  O -> Open folder
+                    //  Ctrl+O -> Close folder
                     if (SpecialKeyStatus.IsCtrPressed())
                     {
                         FolderWindow.Close(Item.BindingParam.Images.Current.Parent);
@@ -70,16 +82,23 @@ namespace GazoView
                         FolderWindow.Open(Item.BindingParam.Images.Current.Parent, Item.BindingParam.Images.Current.FileName);
                     }
                     break;
+                case Key.F5:
+                    //  Reload file from same directory.
+                    Item.BindingParam.Images.ReloadFiles();
+                    break;
                 case Key.Delete:
+                    //  Delete image file.
                     FileFunction.DeleteImageFile(Item.BindingParam.Images);
                     break;
                 case Key.Z:
+                    //  Restore image file (deleted file only).
                     if (SpecialKeyStatus.IsCtrPressed())
                     {
                         FileFunction.RestoreImageFile(Item.BindingParam.Images);
                     }
                     break;
                 case Key.OemBackslash:
+                    //  Start on/off
                     FileFunction.ToggleStarFile(Item.BindingParam.Images);
                     break;
                 case Key.OemOpenBrackets:

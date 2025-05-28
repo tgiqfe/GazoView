@@ -143,24 +143,6 @@ namespace GazoView.Lib.Conf
 
         private void SetVectorSource()
         {
-            /*
-            if (Item.BindingParam != null)
-            {
-                if (Item.BindingParam.State.IsGifFile) ImageBehavior.SetAnimatedSource(Item.MainBase.MainImage, null);
-                Item.BindingParam.State.IsGifFile = false;
-            }
-            */
-            /*
-            if (Item.BindingParam != null)
-            {
-                if (Item.BindingParam.State.IsGifFile)
-                {
-                    AnimationBehavior.SetSourceUri(Item.MainBase.MainImage, null);
-                }
-            }
-            */
-
-
             var xml = XElement.Load(this.FilePath);
             var xmLWidth = xml.Attributes().FirstOrDefault(x =>
                 x.Name.ToString().Equals("Width", StringComparison.OrdinalIgnoreCase));
