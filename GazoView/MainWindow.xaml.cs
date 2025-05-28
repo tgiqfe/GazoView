@@ -1,10 +1,12 @@
 ﻿using GazoView.Lib;
 using GazoView.Lib.Functions;
+using System.IO;
 using System.Security.Cryptography.X509Certificates;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
+using System.Windows.Media;
 
 namespace GazoView
 {
@@ -167,5 +169,43 @@ namespace GazoView
         {
             Item.BindingParam.Trimming.Scale = e.NewSize.Width / Item.BindingParam.Images.Current.Source.Width;
         }
+
+        #region Vile drag and drop
+
+        private void Window_PreviewDragOver(object sender, DragEventArgs e)
+        {
+            e.Handled = true;
+            if (e.Data.GetData(DataFormats.FileDrop) is string[] targets)
+            {
+                if (File.Exists(targets[0]) || Directory.Exists(targets[0]))
+                {
+                    e.Effects = DragDropEffects.Copy;
+                    MainImage.Opacity = 0.6;
+                    this.Background = new SolidColorBrush((Color)ColorConverter.ConvertFromString("#3395FF"));
+                }
+            }
+            else
+            {
+                e.Effects = DragDropEffects.None;
+            }
+        }
+
+        private void Window_PreviewDragLeave(object sender, DragEventArgs e)
+        {
+            MainImage.Opacity = 1;
+            this.Background = Brushes.DimGray;
+        }
+
+        private void Window_PreviewDrop(object sender, DragEventArgs e)
+        {
+            MainImage.Opacity = 1;
+            this.Background = Brushes.DimGray;
+            if (e.Data.GetData(DataFormats.FileDrop) is string[] targets)
+            {
+                Item.BindingParam.Images.LoadFiles(targets);
+            }
+        }
+
+        #endregion
     }
 }
