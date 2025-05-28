@@ -34,7 +34,8 @@
                 <Image Name="MainImage"
                        Source="{Binding Images.Current.Source}"
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
-                       Height="{Binding ActualHeight, ElementName=ScrollViewer}" />
+                       Height="{Binding ActualHeight, ElementName=ScrollViewer}"
+                       SizeChanged="MainImage_SizeChanged"/>
                 <lib:GifAnimeLayer x:Name="GifAnimation"
                                    HorizontalAlignment="Center"
                                    VerticalAlignment="Center"

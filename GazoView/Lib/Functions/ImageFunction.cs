@@ -13,6 +13,8 @@ namespace GazoView.Lib.Functions
         public static void ChangeImage(int direction)
         {
             Item.BindingParam.Images.Index += direction;
+            Item.BindingParam.Trimming.Scale =
+                Item.MainBase.MainImage.ActualWidth / Item.BindingParam.Images.Current.Source.Width;
         }
 
         public static void ZoomImage(MainWindow mainWindow, Image mainImage, AdvancedScrollViewer scrollViewer, MouseWheelEventArgs e = null)

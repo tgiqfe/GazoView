@@ -23,14 +23,6 @@ namespace GazoView.Lib.Conf
             }
         }
 
-        #region View size
-
-        public double ViewTop { get { return this.Top * this._scale; } }
-        public double ViewBottom { get { return this.Bottom * this._scale; } }
-        public double ViewLeft { get { return this.Left * this._scale; } }
-        public double ViewRight { get { return this.Right * this._scale; } }
-
-        #endregion
         #region Raw size
 
         private int _top = -1;
@@ -80,6 +72,14 @@ namespace GazoView.Lib.Conf
                 OnPropertyChanged();
             }
         }
+
+        #endregion
+        #region View size
+
+        public double ViewTop { get { return this.Top * this.Scale; } }
+        public double ViewBottom { get { return this.Bottom * this.Scale; } }
+        public double ViewLeft { get { return this.Left * this.Scale; } }
+        public double ViewRight { get { return this.Right * this.Scale; } }
 
         #endregion
         #region border location size

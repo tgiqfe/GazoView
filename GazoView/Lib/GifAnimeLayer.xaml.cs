@@ -28,7 +28,7 @@ namespace GazoView.Lib
                 FrameworkElement.MouseLeftButtonDownEvent,
                 new MouseButtonEventHandler((sender, e) =>
                 {
-                    Item.MainBase.DragMove();
+                    if (!Item.BindingParam.State.TrimmingMode) Item.MainBase.DragMove();
                 }));
         }
 
@@ -37,7 +37,7 @@ namespace GazoView.Lib
             if ((bool)e.NewValue)
             {
                 AnimationBehavior.SetSourceUri(ImageAnime, new Uri(Item.BindingParam.Images.Current.FilePath));
-                
+
             }
             else
             {

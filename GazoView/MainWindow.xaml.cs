@@ -26,7 +26,7 @@ namespace GazoView
                 FrameworkElement.MouseLeftButtonDownEvent,
                 new MouseButtonEventHandler((sender, e) =>
                 {
-                    this.DragMove();
+                    if (!Item.BindingParam.State.TrimmingMode) Item.MainBase.DragMove();
                 }));
         }
 
@@ -157,6 +157,11 @@ namespace GazoView
             {
                 ImageFunction.ChangeImage(e.Delta > 0 ? -1 : 1);
             }
+        }
+
+        private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            Item.BindingParam.Trimming.Scale = e.NewSize.Width / Item.BindingParam.Images.Current.Source.Width;
         }
     }
 }
