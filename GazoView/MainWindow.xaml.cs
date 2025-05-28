@@ -77,6 +77,10 @@ namespace GazoView
                     //  Switch trimming mode.
                     ImageFunction.SwitchTrimmingMoe();
                     break;
+                case Key.G:
+                    //  Start image trimming.
+                    ImageFunction.StartTrimming();
+                    break;
                 case Key.O:
                     //  Open or close folder path
                     //  O -> Open folder

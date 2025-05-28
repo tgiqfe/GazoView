@@ -1,4 +1,5 @@
 ﻿using GazoView.Lib.Conf;
+using System.IO;
 using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
@@ -105,6 +106,47 @@ namespace GazoView.Lib.Functions
 
             Item.BindingParam.State.TrimmingMode =
                 toenable ?? !Item.BindingParam.State.TrimmingMode;
+        }
+
+        public static void StartTrimming()
+        {
+            if (Item.BindingParam.State.TrimmingMode)
+            {
+                string output = FilePaths.Deduplicate(Item.BindingParam.Images.Current.FilePath);
+
+                var ret = MessageBox.Show($"Trim.\r\n[ {output} ]",
+                    Item.ProcessName,
+                    MessageBoxButton.YesNo,
+                    MessageBoxImage.Information,
+                    MessageBoxResult.Yes);
+                if (ret != MessageBoxResult.Yes) return;
+
+                var (left, top, width, height) = (
+                    Item.BindingParam.Trimming.Left,
+                    Item.BindingParam.Trimming.Top,
+                    Item.BindingParam.Trimming.Right - Item.BindingParam.Trimming.Left,
+                    Item.BindingParam.Trimming.Bottom - Item.BindingParam.Trimming.Top);
+                
+                if(Item.BindingParam.Images.Current.Source is BitmapSource imgSrc)
+                {
+                    var bitmap = new CroppedBitmap(imgSrc, new Int32Rect(left, top, width, height));
+                    using(var fs = new FileStream(output, FileMode.Create, FileAccess.Write))
+                    {
+                        BitmapEncoder encoder = Item.BindingParam.Images.Current.FileExtension.ToLower() switch
+                        {
+                            ".jpg" or ".jpeg" => new JpegBitmapEncoder(),
+                            ".png" => new PngBitmapEncoder(),
+                            ".gif" => new GifBitmapEncoder(),
+                            ".tif" or ".tiff" => new TiffBitmapEncoder(),
+                            ".bmp" => new BmpBitmapEncoder(),
+                            _ => null,
+                        };
+                        encoder.Frames.Add(BitmapFrame.Create(bitmap));
+                        encoder.Save(fs);
+                    }
+                    bitmap.Freeze();
+                }
+            }
         }
     }
 }
