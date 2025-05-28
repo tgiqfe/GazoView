@@ -22,8 +22,17 @@ namespace GazoView.Lib.Conf
             }
         }
 
+        private bool _isGifAnimationView = false;
+        public bool IsGifAnimationView
+        {
+            get { return _isGifAnimationView; }
+            set
+            {
+                _isGifAnimationView = value;
+                OnPropertyChanged();
+            }
+        }
 
-        public bool IsGifFile { get; set; }
 
 
 

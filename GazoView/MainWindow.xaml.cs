@@ -41,19 +41,23 @@ namespace GazoView
                 case Key.Left:
                 case Key.BrowserBack:
                     //  Move prev image.
+                    if (Item.BindingParam.State.IsGifAnimationView) return;
                     ImageFunction.ChangeImage(-1);
                     break;
                 case Key.Right:
                 case Key.BrowserForward:
                     //  Move next image.
+                    if (Item.BindingParam.State.IsGifAnimationView) return;
                     ImageFunction.ChangeImage(1);
                     break;
                 case Key.Home:
                     //  Move first image from same directory.
+                    if (Item.BindingParam.State.IsGifAnimationView) return;
                     ImageFunction.ChangeImage(Item.BindingParam.Images.Length);
                     break;
                 case Key.End:
                     //  Move last image from same directory.
+                    if (Item.BindingParam.State.IsGifAnimationView) return;
                     ImageFunction.ChangeImage(-1 * Item.BindingParam.Images.Length);
                     break;
                 case Key.R:
@@ -95,6 +99,19 @@ namespace GazoView
                     if (SpecialKeyStatus.IsCtrPressed())
                     {
                         FileFunction.RestoreImageFile(Item.BindingParam.Images);
+                    }
+                    break;
+                case Key.U:
+                    if (Item.BindingParam.Images.Current.FileExtension == ".gif")
+                    {
+                        if (Item.BindingParam.State.IsGifAnimationView)
+                        {
+                            Item.BindingParam.State.IsGifAnimationView = false;
+                        }
+                        else
+                        {
+                            Item.BindingParam.State.IsGifAnimationView = true;
+                        }
                     }
                     break;
                 case Key.OemBackslash:

@@ -1,21 +1,11 @@
 ﻿using SharpVectors.Converters;
-using SharpVectors.Renderers;
 using SharpVectors.Renderers.Wpf;
-using System;
-using System.Collections.Generic;
 using System.IO;
-using System.Linq;
 using System.Security.Cryptography;
-using System.Text;
 using System.Text.RegularExpressions;
-using System.Threading.Tasks;
-using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.Windows.Media.Media3D;
-using System.Xml;
 using System.Xml.Linq;
-using XamlAnimatedGif;
 
 namespace GazoView.Lib.Conf
 {
@@ -83,16 +73,12 @@ namespace GazoView.Lib.Conf
                     case ".tiff":
                     case ".bmp":
                     case ".webp":
+                    case ".gif":
                         SetBitmapSource();
                         break;
                     case ".svg":
                         SetVectorSource();
                         break;
-                        /*
-                    case ".gif":
-                        SetAnimationSource();
-                        break;
-                        */
                 }
             }
             else
@@ -103,17 +89,6 @@ namespace GazoView.Lib.Conf
 
         private void SetBitmapSource()
         {
-            /*
-            if (Item.BindingParam != null)
-            {
-                if (Item.BindingParam.State.IsGifFile)
-                {
-                    AnimationBehavior.SetSourceUri(Item.MainBase.MainImage, null);
-                    
-                }
-            }
-            */
-
             double DPI_96 = 96.0;
             using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
             {
@@ -171,59 +146,5 @@ namespace GazoView.Lib.Conf
                 }
             }
         }
-
-        private void SetAnimationSource()
-        {
-            //this.Source = null;
-            Item.BindingParam.State.IsGifFile = true;
-
-            using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
-            {
-                /*
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.CreateOptions = BitmapCreateOptions.None;
-                bitmap.StreamSource = fs;
-                bitmap.EndInit();
-                bitmap.Freeze();
-
-                this.Width = bitmap.PixelWidth;
-                this.Height = bitmap.PixelHeight;
-                this.DpiX = -1;
-                this.DpiY = -1;
-                */
-
-                //AnimationBehavior.SetSourceStream(Item.MainBase.MainImage, fs);
-            }
-            AnimationBehavior.SetSourceUri(Item.MainBase.MainImage, new Uri(FilePath));
-            
-        }
-
-        /*
-        private void SetAnimationSource()
-        {
-            this.Source = null;
-            Item.BindingParam.State.IsGifFile = true;
-
-            using (var fs = new FileStream(FilePath, FileMode.Open, FileAccess.Read))
-            {
-                var bitmap = new BitmapImage();
-                bitmap.BeginInit();
-                bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                bitmap.CreateOptions = BitmapCreateOptions.None;
-                bitmap.StreamSource = fs;
-                bitmap.EndInit();
-                bitmap.Freeze();
-
-                this.Width = bitmap.PixelWidth;
-                this.Height = bitmap.PixelHeight;
-                this.DpiX = -1;
-                this.DpiY = -1;
-
-                ImageBehavior.SetAnimatedSource(Item.MainBase.MainImage, bitmap);
-            }
-        }
-        */
     }
 }
