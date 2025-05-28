@@ -73,6 +73,10 @@ namespace GazoView
                         FileFunction.CopyImageFile(Item.BindingParam.Images, SpecialKeyStatus.IsShiftPressed());
                     }
                     break;
+                case Key.T:
+                    //  Switch trimming mode.
+                    ImageFunction.SwitchTrimmingMoe();
+                    break;
                 case Key.O:
                     //  Open or close folder path
                     //  O -> Open folder
@@ -143,6 +147,8 @@ namespace GazoView
         private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
+
+            if (Item.BindingParam.State.IsGifAnimationView) { return; }
             if (SpecialKeyStatus.IsCtrPressed())
             {
                 ImageFunction.ZoomImage(this, MainImage, ScrollViewer, e);

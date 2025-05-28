@@ -79,5 +79,30 @@ namespace GazoView.Lib.Functions
             images.TempChangeImage(tb);
             tb.Freeze();
         }
+
+
+
+        public static void SwitchTrimmingMoe(bool? toenable = null)
+        {
+            if (Item.BindingParam.Trimming.Top < 0)
+            {
+                Item.BindingParam.Trimming.Top = 100;
+            }
+            if (Item.BindingParam.Trimming.Bottom < 0)
+            {
+                Item.BindingParam.Trimming.Bottom = 300;
+            }
+            if (Item.BindingParam.Trimming.Left < 0)
+            {
+                Item.BindingParam.Trimming.Left = 100;
+            }
+            if (Item.BindingParam.Trimming.Right < 0)
+            {
+                Item.BindingParam.Trimming.Right = 300;
+            }
+
+            Item.BindingParam.State.TrimmingMode =
+                toenable ?? !Item.BindingParam.State.TrimmingMode;
+        }
     }
 }

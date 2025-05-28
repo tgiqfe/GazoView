@@ -17,7 +17,8 @@ namespace GazoView
             {
                 Setting = setting,
                 Images = new(e.Args),
-                State = new()
+                State = new(),
+                Trimming = new()
             };
             Item.ScaleRate = new ScaleRate();
         }

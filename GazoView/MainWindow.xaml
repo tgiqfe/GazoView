@@ -35,6 +35,15 @@
                        Source="{Binding Images.Current.Source}"
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}" />
+                <lib:GifAnimeLayer x:Name="GifAnimation"
+                                   HorizontalAlignment="Center"
+                                   VerticalAlignment="Center"
+                                   Width="{Binding ActualWidth, ElementName=ScrollViewer}"
+                                   Height="{Binding ActualHeight, ElementName=ScrollViewer}"
+                                   Visibility="{Binding State.IsGifAnimationView, Converter={StaticResource BoolToVisibilityConverter}}" />
+                <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=ScrollViewer}"
+                                   Height="{Binding ActualHeight, ElementName=ScrollViewer}"
+                                   Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </lib:AdvancedScrollViewer>
         <materialDesign:PackIcon Grid.Column="1"
@@ -44,12 +53,5 @@
                                  VerticalAlignment="Bottom"
                                  Foreground="Gold"
                                  Visibility="{Binding Images.Current.IsStar, Converter={StaticResource BoolToVisibilityConverter}}" />
-        <lib:GifAnimeLayer Grid.Column="1"
-                           x:Name="GifAnimation"
-                           HorizontalAlignment="Center"
-                           VerticalAlignment="Center"
-                           Width="{Binding ActualWidth, ElementName=ScrollViewer}"
-                           Height="{Binding ActualHeight, ElementName=ScrollViewer}"
-                           Visibility="{Binding State.IsGifAnimationView, Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Window>

@@ -33,6 +33,16 @@ namespace GazoView.Lib.Conf
             }
         }
 
+        private bool _trimmingMode = false;
+        public bool TrimmingMode
+        {
+            get { return _trimmingMode; }
+            set
+            {
+                _trimmingMode = value;
+                OnPropertyChanged();
+            }
+        }
 
 
 
