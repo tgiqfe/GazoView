@@ -14,8 +14,15 @@ namespace GazoView.Lib.Functions
         public static void ChangeImage(int direction)
         {
             Item.BindingParam.Images.Index += direction;
+
+            var scale = Item.MainBase.MainImage.ActualWidth / Item.BindingParam.Images.Current.Source.Width;
+            /*
             Item.BindingParam.Trimming.Scale =
                 Item.MainBase.MainImage.ActualWidth / Item.BindingParam.Images.Current.Source.Width;
+            */
+            Item.BindingParam.Trimming.Scale = scale;
+
+            SwitchNearestNeighbor(scale >= 3);
         }
 
         public static void ZoomImage(MainWindow mainWindow, Image mainImage, AdvancedScrollViewer scrollViewer, MouseWheelEventArgs e = null)
@@ -83,9 +90,21 @@ namespace GazoView.Lib.Functions
             tb.Freeze();
         }
 
+        
 
 
-        public static void SwitchTrimmingMoe(bool? toenable = null)
+        public static void SwitchNearestNeighbor(bool? toEnable = null)
+        {
+            var isEnable = RenderOptions.GetBitmapScalingMode(Item.MainBase.MainImage) == BitmapScalingMode.NearestNeighbor;
+            toEnable ??= !isEnable;
+
+            RenderOptions.SetBitmapScalingMode(Item.MainBase.MainImage,
+                toEnable.Value ?
+                    BitmapScalingMode.NearestNeighbor :
+                    BitmapScalingMode.HighQuality);
+        }
+
+        public static void SwitchTrimmingMode(bool? toenable = null)
         {
             if (Item.BindingParam.Trimming.Top < 0)
             {

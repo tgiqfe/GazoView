@@ -77,7 +77,7 @@ namespace GazoView
                     break;
                 case Key.T:
                     //  Switch trimming mode.
-                    ImageFunction.SwitchTrimmingMoe();
+                    ImageFunction.SwitchTrimmingMode();
                     break;
                 case Key.G:
                     //  Start image trimming.
@@ -167,7 +167,11 @@ namespace GazoView
 
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
+            var scale = e.NewSize.Width / Item.BindingParam.Images.Current.Source.Width;
+            /*
             Item.BindingParam.Trimming.Scale = e.NewSize.Width / Item.BindingParam.Images.Current.Source.Width;
+            */
+            ImageFunction.SwitchNearestNeighbor(scale >= 3);
         }
 
         #region Vile drag and drop
