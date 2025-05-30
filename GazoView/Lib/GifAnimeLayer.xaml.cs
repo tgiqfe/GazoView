@@ -34,10 +34,10 @@ namespace GazoView.Lib
 
         private void GifAnimation_IsVisibleChanged(object sender, DependencyPropertyChangedEventArgs e)
         {
+            if (Item.BindingParam.Images.Current?.FilePath == null) return;
             if ((bool)e.NewValue)
-            {
+            {   
                 AnimationBehavior.SetSourceUri(ImageAnime, new Uri(Item.BindingParam.Images.Current.FilePath));
-
             }
             else
             {

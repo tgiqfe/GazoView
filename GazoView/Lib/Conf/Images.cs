@@ -10,6 +10,8 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Media;
 using Microsoft.VisualBasic.FileIO;
+using System.Net.Http;
+using System.Windows;
 
 namespace GazoView.Lib.Conf
 {
@@ -52,7 +54,7 @@ namespace GazoView.Lib.Conf
             set
             {
                 _index = value;
-                int length = Length;
+                int length = this.Length;
                 if (_index < 0)
                 {
                     _index = length - 1;
@@ -63,10 +65,10 @@ namespace GazoView.Lib.Conf
                 }
                 if (length > 0)
                 {
-                    Current = new ImageItem(FileList[_index]);
+                    this.Current = new ImageItem(FileList[_index]);
                 }
 
-                OnPropertyChanged(nameof(Current));
+                    OnPropertyChanged(nameof(Current));
                 OnPropertyChanged(nameof(Title));
                 OnPropertyChanged();
             }
@@ -127,8 +129,8 @@ namespace GazoView.Lib.Conf
             var collection = Directory.GetFiles(this.Current.Parent).
                 Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
                 OrderBy(x => x, new NaturalStringComparer());
-            this.FileList = new ObservableCollection<string>(collection);
 
+            this.FileList = new ObservableCollection<string>(collection);
             var index = FileList.IndexOf(moveToPath);
             if (index < 0) index = 0;
 
@@ -156,7 +158,7 @@ namespace GazoView.Lib.Conf
             }
 
             this.FileList.RemoveAt(index);
-            if(FileList.Count == 0)
+            if (FileList.Count == 0)
             {
                 this.Current = null;
             }
