@@ -33,12 +33,13 @@
     </Window.Resources>
     <Grid>
         <StackPanel VerticalAlignment="Bottom"
-                    Height="50"
+                    Height="48"
                     Background="Gray" />
         <StackPanel Orientation="Horizontal">
             <Grid Margin="10" Width="160" Height="160">
                 <Image Name="MsgWindowImage" Source="{Binding Images.Source}" />
                 <materialDesign:PackIcon Grid.Column="1"
+                                 x:Name="StarIcon"
                                  Kind="StarBoxOutline"
                                  Width="40" Height="40"
                                  HorizontalAlignment="Right"
@@ -46,10 +47,10 @@
                                  Foreground="Gold"
                                  Visibility="{Binding Images.Current.IsStar, Converter={StaticResource BoolToVisibilityConverter}}" />
             </Grid>
-            <Grid Margin="10">
+            <Grid Margin="8">
                 <Grid.RowDefinitions>
                     <RowDefinition Height="Auto" />
-                    <RowDefinition Height="98" />
+                    <RowDefinition Height="100" />
                     <RowDefinition Height="34" />
                 </Grid.RowDefinitions>
                 <StackPanel Grid.Row="0" Orientation="Vertical"
@@ -57,32 +58,33 @@
                             Width="300"
                             HorizontalAlignment="Left">
                     <Label Name="MsgWindowText1" FontSize="14" />
-                    <Label FontSize="14" Content="{Binding Images.Current.FilePath}" />
+                    <Label Name="MsgWindowText_FilePath" FontSize="14" />
                 </StackPanel>
                 <StackPanel Grid.Row="1" Orientation="Vertical">
                     <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
                         <Label Width="80" Content="Name" />
                         <Label Width="12" Content=":" />
-                        <Label Content="{Binding Images.Current.FileName}" />
+                        <Label Name="MsgWindowText_FileName"/>
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
                         <Label Width="80" Content="Extension" />
                         <Label Width="12" Content=":" />
-                        <Label Content="{Binding Images.Current.FileExtension}" />
+                        <Label Name="MsgWindowText_FileExtension" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
                         <Label Width="80" Content="Image Size" />
                         <Label Width="12" Content=":" />
-                        <StackPanel Orientation="Horizontal">
-                            <Label Content="{Binding Images.Current.Width}" />
-                            <Label Content="x" />
-                            <Label Content="{Binding Images.Current.Height}" />
-                        </StackPanel>
+                        <Label Name="MsgWindowText_ImageSize" />
                     </StackPanel>
                     <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
                         <Label Width="80" Content="File Size" />
                         <Label Width="12" Content=":" />
-                        <Label Content="{Binding Images.Current.Size}" />
+                        <Label Name="MsgWindowText_FileSize" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
+                        <Label Width="80" Content="TimeStamp" />
+                        <Label Width="12" Content=":" />
+                        <Label Name="MsgWindowText_TimeStamp" />
                     </StackPanel>
                 </StackPanel>
                 <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">

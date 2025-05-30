@@ -67,6 +67,7 @@ namespace GazoView.Lib.Functions
 
         public static void RestoreImageFile(Images images)
         {
+            /*
             if (Item.DeletedStore?.DeletedList?.Count > 0)
             {
                 var ret = MessageBox.Show($"Restore?\n{Item.DeletedStore.RestorableFileName}",
@@ -80,6 +81,9 @@ namespace GazoView.Lib.Functions
                     images.ReloadFiles(Item.DeletedStore.RestoredFilePath);
                 }
             }
+            */
+            Item.DeletedStore.RestoreFromDeletedStore(images.Current.Parent);
+            images.ReloadFiles(Item.DeletedStore.RestoredFilePath);
         }
     }
 }

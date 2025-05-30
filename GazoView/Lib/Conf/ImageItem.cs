@@ -9,7 +9,7 @@ using System.Xml.Linq;
 
 namespace GazoView.Lib.Conf
 {
-    internal class ImageItem
+    public class ImageItem
     {
         public string FilePath { get; private set; }
         public string FileName { get; private set; }
@@ -19,7 +19,7 @@ namespace GazoView.Lib.Conf
         public string LastWriteTime { get; private set; }
         public string Hash { get; private set; }
 
-        private static Regex pattern_starFile = new Regex(@"★\.[^\.]+$");
+        private static readonly Regex _pattern_StarFile = new Regex(@"★\.[^\.]+$");
         public bool IsStar { get; private set; }
 
         public ImageSource Source { get; private set; }
@@ -35,6 +35,8 @@ namespace GazoView.Lib.Conf
             this.FileName = Path.GetFileName(path);
             this.FileExtension = Path.GetExtension(path);
             this.Parent = Path.GetDirectoryName(path);
+            this.IsStar = _pattern_StarFile.IsMatch(FileName);
+
             this.Size = new FileInfo(path).Length switch
             {
                 long size when size < 1024 =>
@@ -60,8 +62,7 @@ namespace GazoView.Lib.Conf
                     return BitConverter.ToString(bytes).Replace("-", "");
                 }
             })(path);
-            this.IsStar = pattern_starFile.IsMatch(FileName);
-
+            
             if (source == null)
             {
                 switch (FileExtension.ToLower())

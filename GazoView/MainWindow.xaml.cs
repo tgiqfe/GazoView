@@ -1,4 +1,5 @@
 ﻿using GazoView.Lib;
+using GazoView.Lib.Conf;
 using GazoView.Lib.Functions;
 using System.IO;
 using System.Security.Cryptography.X509Certificates;
@@ -105,18 +106,37 @@ namespace GazoView
                 case Key.Delete:
                     //  Delete image file.
                     //FileFunction.DeleteImageFile(Item.BindingParam.Images);
-                    if (_messageWindow == null || _messageWindow.IsClosed) _messageWindow = new MessageWindow();
-                    _messageWindow.Left = this.Left + this.Width / 2 - _messageWindow.Width / 2;
-                    _messageWindow.Top = this.Top + this.Height / 2 - _messageWindow.Height / 2;
-                    _messageWindow.MsgWindowImage.Source = Item.BindingParam.Images.Current.Source;
-                    _messageWindow.MsgWindowText1.Content = "Delete ?";
-                    _messageWindow.ShowDialog();
+                    if (Item.BindingParam.Images.FileList.Count > 0)
+                    {
+                        if (_messageWindow == null || _messageWindow.IsClosed) _messageWindow = new MessageWindow(Item.BindingParam.Images);
+                        //if (_messageWindow == null || _messageWindow.IsClosed) _messageWindow = new MessageWindow();
+                        _messageWindow.Type = MessageWindow.MessageType.Delete;
+                        _messageWindow.Left = this.Left + this.Width / 2 - _messageWindow.Width / 2;
+                        _messageWindow.Top = this.Top + this.Height / 2 - _messageWindow.Height / 2;
+                        _messageWindow.MsgWindowText1.Content = "Delete ?";
+                        _messageWindow.ShowDialog();
+                    }
                     break;
                 case Key.Z:
                     //  Restore image file (deleted file only).
                     if (SpecialKeyStatus.IsCtrPressed())
                     {
-                        FileFunction.RestoreImageFile(Item.BindingParam.Images);
+                        //FileFunction.RestoreImageFile(Item.BindingParam.Images);
+                        if (_messageWindow == null || _messageWindow.IsClosed)
+                        {
+                            var restoreSrcPath = Path.Combine(
+                                Item.DeletedStore.DeletedPath,
+                                Item.DeletedStore.DeletedList.Last().ManagedName);
+                            var restoredDstPath = Path.Combine(
+                                Item.BindingParam.Images.Current.Parent,
+                                Item.DeletedStore.DeletedList.Last().TrueName);
+                            _messageWindow = new MessageWindow(restoreSrcPath, restoredDstPath);
+                        }
+                        _messageWindow.Type = MessageWindow.MessageType.Restore;
+                        _messageWindow.Left = this.Left + this.Width / 2 - _messageWindow.Width / 2;
+                        _messageWindow.Top = this.Top + this.Height / 2 - _messageWindow.Height / 2;
+                        _messageWindow.MsgWindowText1.Content = "Restore ?";
+                        _messageWindow.ShowDialog();
                     }
                     break;
                 case Key.U:
@@ -147,14 +167,6 @@ namespace GazoView
                 case Key.Oem1:
                     //  Rotate right ([colon]key for Japanese keyboard)
                     ImageFunction.ImageRotate(Item.BindingParam.Images);
-                    break;
-                case Key.F1:
-                    if (_messageWindow == null || _messageWindow.IsClosed) _messageWindow = new MessageWindow();
-                    _messageWindow.Left = this.Left + this.Width / 2 - _messageWindow.Width / 2;
-                    _messageWindow.Top = this.Top + this.Height / 2 - _messageWindow.Height / 2;
-                    _messageWindow.MsgWindowImage.Source = Item.BindingParam.Images.Current.Source;
-                    _messageWindow.MsgWindowText1.Content = "Delete ?";
-                    _messageWindow.ShowDialog();
                     break;
             }
         }
