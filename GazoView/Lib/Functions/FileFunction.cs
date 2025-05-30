@@ -44,6 +44,7 @@ namespace GazoView.Lib.Functions
 
         public static void DeleteImageFile(Images images)
         {
+            /*
             if (images.FileList.Count > 0)
             {
                 var ret = MessageBox.Show($"Delete?\n{images.Current.FileName}",
@@ -58,6 +59,10 @@ namespace GazoView.Lib.Functions
                     images.DeleteCurrentImageFile();
                 }
             }
+            */
+            Item.DeletedStore ??= new();
+            Item.DeletedStore.CopyToDeletedStore(images.Current.FilePath);
+            images.DeleteCurrentImageFile();
         }
 
         public static void RestoreImageFile(Images images)

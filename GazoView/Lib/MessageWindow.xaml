@@ -1,0 +1,99 @@
+﻿<Window x:Class="GazoView.Lib.MessageWindow"
+        xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+        xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+        xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
+        xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
+        xmlns:local="clr-namespace:GazoView.Lib"
+        xmlns:converter="clr-namespace:GazoView.Lib.Converter"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        mc:Ignorable="d"
+        Title="{Binding State.ProcessName}"
+        Closed="Window_Closed"
+        ResizeMode="NoResize"
+        Background="LightGray"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
+        Height="240" Width="560">
+    <Window.Resources>
+        <Style TargetType="Label">
+            <Setter Property="FontFamily" Value="Noto Sans JP" />
+            <Setter Property="FontSize" Value="12" />
+            <Setter Property="HorizontalAlignment" Value="Left" />
+            <Setter Property="Padding" Value="0" />
+            <Setter Property="Margin" Value="0" />
+        </Style>
+        <Style TargetType="Button">
+            <Setter Property="Width" Value="75" />
+            <Setter Property="Height" Value="30" />
+            <Setter Property="FontFamily" Value="Noto Sans JP" />
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="2" />
+        </Style>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    <Grid>
+        <StackPanel VerticalAlignment="Bottom"
+                    Height="50"
+                    Background="Gray" />
+        <StackPanel Orientation="Horizontal">
+            <Grid Margin="10" Width="160" Height="160">
+                <Image Name="MsgWindowImage" Source="{Binding Images.Source}" />
+                <materialDesign:PackIcon Grid.Column="1"
+                                 Kind="StarBoxOutline"
+                                 Width="40" Height="40"
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Bottom"
+                                 Foreground="Gold"
+                                 Visibility="{Binding Images.Current.IsStar, Converter={StaticResource BoolToVisibilityConverter}}" />
+            </Grid>
+            <Grid Margin="10">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto" />
+                    <RowDefinition Height="98" />
+                    <RowDefinition Height="34" />
+                </Grid.RowDefinitions>
+                <StackPanel Grid.Row="0" Orientation="Vertical"
+                            Margin="5"
+                            Width="300"
+                            HorizontalAlignment="Left">
+                    <Label Name="MsgWindowText1" FontSize="14" />
+                    <Label FontSize="14" Content="{Binding Images.Current.FilePath}" />
+                </StackPanel>
+                <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
+                        <Label Width="80" Content="Name" />
+                        <Label Width="12" Content=":" />
+                        <Label Content="{Binding Images.Current.FileName}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
+                        <Label Width="80" Content="Extension" />
+                        <Label Width="12" Content=":" />
+                        <Label Content="{Binding Images.Current.FileExtension}" />
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
+                        <Label Width="80" Content="Image Size" />
+                        <Label Width="12" Content=":" />
+                        <StackPanel Orientation="Horizontal">
+                            <Label Content="{Binding Images.Current.Width}" />
+                            <Label Content="x" />
+                            <Label Content="{Binding Images.Current.Height}" />
+                        </StackPanel>
+                    </StackPanel>
+                    <StackPanel Orientation="Horizontal" Margin="15 0 0 0">
+                        <Label Width="80" Content="File Size" />
+                        <Label Width="12" Content=":" />
+                        <Label Content="{Binding Images.Current.Size}" />
+                    </StackPanel>
+                </StackPanel>
+                <StackPanel Grid.Row="2" Orientation="Horizontal" HorizontalAlignment="Center">
+                    <StackPanel Orientation="Horizontal">
+                        <Button Name="Button_OK" Content="OK"
+                                Click="Button_OK_Click" />
+                        <Button Name="Button_Cancel" Content="Cancel"
+                                Click="Button_Cancel_Click" />
+                    </StackPanel>
+                </StackPanel>
+            </Grid>
+        </StackPanel>
+    </Grid>
+</Window>

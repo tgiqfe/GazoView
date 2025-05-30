@@ -15,6 +15,8 @@ namespace GazoView
     /// </summary>
     public partial class MainWindow : Window
     {
+        private MessageWindow _messageWindow = null;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -102,7 +104,13 @@ namespace GazoView
                     break;
                 case Key.Delete:
                     //  Delete image file.
-                    FileFunction.DeleteImageFile(Item.BindingParam.Images);
+                    //FileFunction.DeleteImageFile(Item.BindingParam.Images);
+                    if (_messageWindow == null || _messageWindow.IsClosed) _messageWindow = new MessageWindow();
+                    _messageWindow.Left = this.Left + this.Width / 2 - _messageWindow.Width / 2;
+                    _messageWindow.Top = this.Top + this.Height / 2 - _messageWindow.Height / 2;
+                    _messageWindow.MsgWindowImage.Source = Item.BindingParam.Images.Current.Source;
+                    _messageWindow.MsgWindowText1.Content = "Delete ?";
+                    _messageWindow.ShowDialog();
                     break;
                 case Key.Z:
                     //  Restore image file (deleted file only).
@@ -139,6 +147,14 @@ namespace GazoView
                 case Key.Oem1:
                     //  Rotate right ([colon]key for Japanese keyboard)
                     ImageFunction.ImageRotate(Item.BindingParam.Images);
+                    break;
+                case Key.F1:
+                    if (_messageWindow == null || _messageWindow.IsClosed) _messageWindow = new MessageWindow();
+                    _messageWindow.Left = this.Left + this.Width / 2 - _messageWindow.Width / 2;
+                    _messageWindow.Top = this.Top + this.Height / 2 - _messageWindow.Height / 2;
+                    _messageWindow.MsgWindowImage.Source = Item.BindingParam.Images.Current.Source;
+                    _messageWindow.MsgWindowText1.Content = "Delete ?";
+                    _messageWindow.ShowDialog();
                     break;
             }
         }
@@ -229,7 +245,7 @@ namespace GazoView
 
         private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
         {
-            if(Item.BindingParam.State.ScalingMode && e.RightButton == MouseButtonState.Pressed)
+            if (Item.BindingParam.State.ScalingMode && e.RightButton == MouseButtonState.Pressed)
             {
                 var point = e.GetPosition(ScrollViewer);
                 ScrollViewer.ScrollToHorizontalOffset(_startPosition.X - (point.X - _startPoint.X));
