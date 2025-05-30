@@ -31,7 +31,10 @@
         <lib:AdvancedScrollViewer x:Name="ScrollViewer"
                                   Grid.Column="1"
                                   HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto">
+                                  VerticalScrollBarVisibility="Auto"
+                                  PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
+                                  MouseMove="ScrollViewer_MouseMove"
+                                  PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
             <Grid Name="MainGrid"
                   Width="{Binding ActualWidth, ElementName=MainImage}"
                   Height="{Binding ActualHeight, ElementName=MainImage}">

@@ -42,6 +42,7 @@ namespace GazoView.Lib.Functions
             {
                 mainImage.SetBinding(Image.WidthProperty, new Binding("ActualWidth") { Source = scrollViewer });
                 mainImage.SetBinding(Image.HeightProperty, new Binding("ActualHeight") { Source = scrollViewer });
+                Item.BindingParam.State.ScalingMode = false;
             }
             else
             {

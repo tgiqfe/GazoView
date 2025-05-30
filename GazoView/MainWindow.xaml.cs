@@ -157,6 +157,7 @@ namespace GazoView
             if (Item.BindingParam.State.IsGifAnimationView) { return; }
             if (SpecialKeyStatus.IsCtrPressed())
             {
+                Item.BindingParam.State.ScalingMode = true;
                 ImageFunction.ZoomImage(this, MainImage, ScrollViewer, e);
             }
             else
@@ -168,9 +169,7 @@ namespace GazoView
         private void MainImage_SizeChanged(object sender, SizeChangedEventArgs e)
         {
             var scale = e.NewSize.Width / Item.BindingParam.Images.Current.Source.Width;
-            /*
-            Item.BindingParam.Trimming.Scale = e.NewSize.Width / Item.BindingParam.Images.Current.Source.Width;
-            */
+            Item.BindingParam.Trimming.Scale = scale;
             ImageFunction.SwitchNearestNeighbor(scale >= 3);
         }
 
@@ -208,6 +207,39 @@ namespace GazoView
             {
                 Item.BindingParam.Images.LoadFiles(targets);
             }
+        }
+
+        #endregion
+
+        #region drag move in scaling mode.
+
+        private Point _startPoint;
+        private Point _startPosition;
+
+        private void ScrollViewer_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Item.BindingParam.State.ScalingMode)
+            {
+                e.Handled = true;
+                _startPoint = e.GetPosition(ScrollViewer);
+                _startPosition = new Point(ScrollViewer.HorizontalOffset, ScrollViewer.VerticalOffset);
+                ScrollViewer.Cursor = Cursors.ScrollAll;
+            }
+        }
+
+        private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if(Item.BindingParam.State.ScalingMode && e.RightButton == MouseButtonState.Pressed)
+            {
+                var point = e.GetPosition(ScrollViewer);
+                ScrollViewer.ScrollToHorizontalOffset(_startPosition.X - (point.X - _startPoint.X));
+                ScrollViewer.ScrollToVerticalOffset(_startPosition.Y - (point.Y - _startPoint.Y));
+            }
+        }
+
+        private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            ScrollViewer.Cursor = Cursors.Arrow;
         }
 
         #endregion

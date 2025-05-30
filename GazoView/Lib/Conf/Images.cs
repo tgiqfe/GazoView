@@ -68,7 +68,7 @@ namespace GazoView.Lib.Conf
                     this.Current = new ImageItem(FileList[_index]);
                 }
 
-                    OnPropertyChanged(nameof(Current));
+                OnPropertyChanged(nameof(Current));
                 OnPropertyChanged(nameof(Title));
                 OnPropertyChanged();
             }
