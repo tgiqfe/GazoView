@@ -4,21 +4,13 @@ namespace GazoView.Lib.Functions
 {
     internal class SpecialKeyStatus
     {
-        /// <summary>
-        /// if Ctrl key is pressed.
-        /// </summary>
-        /// <returns></returns>
-        public static bool IsCtrPressed()
+        public static bool IsCtrlPressed()
         {
             return
                 (Keyboard.GetKeyStates(Key.LeftCtrl) & KeyStates.Down) == KeyStates.Down ||
                 (Keyboard.GetKeyStates(Key.RightCtrl) & KeyStates.Down) == KeyStates.Down;
         }
 
-        /// <summary>
-        /// if Shift key is pressed.
-        /// </summary>
-        /// <returns></returns>
         public static bool IsShiftPressed()
         {
             return

@@ -1,8 +1,11 @@
-﻿using System.Security.Cryptography;
+﻿using SharpVectors.Converters;
+using SharpVectors.Renderers.Wpf;
+using System.IO;
+using System.Security.Cryptography;
+using System.Text.RegularExpressions;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
-using System.IO;
-using System.Text.RegularExpressions;
+using System.Xml.Linq;
 
 namespace GazoView.Lib.Conf
 {
@@ -16,16 +19,17 @@ namespace GazoView.Lib.Conf
         public string LastWriteTime { get; private set; }
         public string Hash { get; private set; }
 
+        private static Regex pattern_starFile = new Regex(@"★\.[^\.]+$");
+        public bool IsStar { get; private set; }
+
         public ImageSource Source { get; private set; }
+
         public int Width { get; private set; }
         public int Height { get; private set; }
         public double DpiX { get; private set; }
         public double DpiY { get; private set; }
 
-        private static Regex pattern_starFile = new Regex(@"★\.[^\.]+$");
-        public bool IsStar { get; private set; }
-
-        public ImageItem(string path)
+        public ImageItem(string path, ImageSource source = null)
         {
             this.FilePath = path;
             this.FileName = Path.GetFileName(path);
@@ -33,17 +37,17 @@ namespace GazoView.Lib.Conf
             this.Parent = Path.GetDirectoryName(path);
             this.Size = new FileInfo(path).Length switch
             {
-                long s when s < 1024 =>
-                    $"{s} Byte",
-                long s when s < 1024 * 1024 =>
-                    $"{Math.Round(s / 1024D, 2, MidpointRounding.AwayFromZero)} KB",
-                long s when s < 1024 * 1024 * 1024 =>
-                    $"{Math.Round(s / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} MB",
-                long s when s < 1024L * 1024L * 1024L * 1024L =>
-                    $"{Math.Round(s / 1024D / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} GB",
-                long s when s < 1024L * 1024L * 1024L * 1024L * 1024L =>
-                    $"{Math.Round(s / 1024D / 1024D / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} TB",
-                _ => "",
+                long size when size < 1024 =>
+                    $"{size} Byte",
+                long size when size < 1024 * 1024 =>
+                    $"{Math.Round(size / 1024D, 2, MidpointRounding.AwayFromZero)} KB",
+                long size when size < 1024 * 1024 * 1024 =>
+                    $"{Math.Round(size / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} MB",
+                long size when size < 1024L * 1024L * 1024L * 1024L =>
+                    $"{Math.Round(size / 1024D / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} GB",
+                long size when size < 1024L * 1024L * 1024L * 1024L * 1024L =>
+                    $"{Math.Round(size / 1024D / 1024D / 1024D / 1024D, 2, MidpointRounding.AwayFromZero)} TB",
+                _ => ""
             };
             this.LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
             this.Hash = new Func<string, string>(_path =>
@@ -58,16 +62,28 @@ namespace GazoView.Lib.Conf
             })(path);
             this.IsStar = pattern_starFile.IsMatch(FileName);
 
-            switch (FileExtension.ToLower())
+            if (source == null)
             {
-                case ".jpg":
-                case ".jpeg":
-                case ".png":
-                case ".tif":
-                case ".tiff":
-                case ".bmp":
-                    SetBitmapSource();
-                    break;
+                switch (FileExtension.ToLower())
+                {
+                    case ".jpg":
+                    case ".jpeg":
+                    case ".png":
+                    case ".tif":
+                    case ".tiff":
+                    case ".bmp":
+                    case ".webp":
+                    case ".gif":
+                        SetBitmapSource();
+                        break;
+                    case ".svg":
+                        SetVectorSource();
+                        break;
+                }
+            }
+            else
+            {
+                this.Source = source;
             }
         }
 
@@ -84,11 +100,11 @@ namespace GazoView.Lib.Conf
                 bitmap.EndInit();
                 bitmap.Freeze();
 
-                Width = bitmap.PixelWidth;
-                Height = bitmap.PixelHeight;
-                DpiX = bitmap.DpiX;
-                DpiY = bitmap.DpiY;
-                Source = DpiX == DPI_96 && DpiY == DPI_96 ?
+                this.Width = bitmap.PixelWidth;
+                this.Height = bitmap.PixelHeight;
+                this.DpiX = bitmap.DpiX;
+                this.DpiY = bitmap.DpiY;
+                this.Source = DpiX == DPI_96 && DpiY == DPI_96 ?
                     bitmap :
                     new Func<BitmapSource>(() =>
                     {
@@ -97,6 +113,37 @@ namespace GazoView.Lib.Conf
                         bitmap.CopyPixels(pixels, stride, 0);
                         return BitmapSource.Create(Width, Height, DPI_96, DPI_96, PixelFormats.Pbgra32, null, pixels, stride);
                     })();
+            }
+        }
+
+        private void SetVectorSource()
+        {
+            var xml = XElement.Load(this.FilePath);
+            var xmLWidth = xml.Attributes().FirstOrDefault(x =>
+                x.Name.ToString().Equals("Width", StringComparison.OrdinalIgnoreCase));
+            this.Width = int.TryParse(xmLWidth?.Value, out int width) ? width : -1;
+            var xmLHeight = xml.Attributes().FirstOrDefault(x =>
+                x.Name.ToString().Equals("Height", StringComparison.OrdinalIgnoreCase));
+            this.Height = int.TryParse(xmLHeight?.Value, out int height) ? height : -1;
+            this.DpiX = -1;
+            this.DpiY = -1;
+
+            WpfDrawingSettings settings = new();
+            settings.IncludeRuntime = true;
+            settings.TextAsGeometry = false;
+            using (var converter = new StreamSvgConverter(settings))
+            using (var ms = new MemoryStream())
+            {
+                if (converter.Convert(this.FilePath, ms))
+                {
+                    var bitmap = new BitmapImage();
+                    bitmap.BeginInit();
+                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                    bitmap.StreamSource = ms;
+                    bitmap.EndInit();
+                    bitmap.Freeze();
+                    this.Source = bitmap;
+                }
             }
         }
     }

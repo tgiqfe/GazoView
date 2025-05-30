@@ -13,14 +13,13 @@ namespace GazoView
         private void Application_Startup(object sender, StartupEventArgs e)
         {
             var setting = Setting.Load();
-            Item.BindingParam = new BindingParam()
+            Item.BindingParam = new()
             {
                 Setting = setting,
                 Images = new(e.Args),
                 State = new(),
-                Trimming = new()
+                Trimming = new(),
             };
-            Item.ScaleRate = new ScaleRate();
         }
 
         private void Application_Exit(object sender, ExitEventArgs e)
@@ -29,4 +28,5 @@ namespace GazoView
             Item.DeletedStore?.Close();
         }
     }
+
 }

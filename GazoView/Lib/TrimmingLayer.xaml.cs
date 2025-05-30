@@ -1,18 +1,5 @@
-﻿using GazoView.Lib.Conf;
-using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-using System.Windows;
-using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
+﻿using System.Windows.Controls;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GazoView.Lib
 {
@@ -24,7 +11,6 @@ namespace GazoView.Lib
         public TrimmingLayer()
         {
             InitializeComponent();
-            this.DataContext = Item.BindingParam;
         }
 
         enum DragLine
@@ -33,131 +19,219 @@ namespace GazoView.Lib
             Top,
             Bottom,
             Left,
-            Right
+            Right,
+            TopLeft,
+            TopRight,
+            BottomLeft,
+            BottomRight
         }
 
         private DragLine _dragLine = DragLine.None;
 
-        /// <summary>
-        /// トリミング領域のドラッグ開始
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void TrimLayer_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             var point = e.GetPosition(TrimLayer);
+            var trimming = Item.BindingParam.Trimming;
 
-            if (point.X > Item.BindingParam.Trimming.BorderLeft &&
-                point.X < Item.BindingParam.Trimming.BorderRight &&
-                point.Y < Item.BindingParam.Trimming.BorderTop)
+            if (point.X > trimming.ViewLeft && point.X < trimming.ViewRight && point.Y < trimming.ViewTop)
             {
-                //  GreaArea (Top)
                 _dragLine = DragLine.Top;
+                this.Cursor = Cursors.SizeNS;
             }
-            else if (point.X > Item.BindingParam.Trimming.BorderLeft &&
-                point.X < Item.BindingParam.Trimming.BorderRight &&
-                point.Y > Item.BindingParam.Trimming.BorderBottom)
+            else if (point.X > trimming.ViewLeft && point.X < trimming.ViewRight && point.Y > trimming.ViewBottom)
             {
-                //  GreaArea (Bottom)
                 _dragLine = DragLine.Bottom;
+                this.Cursor = Cursors.SizeNS;
             }
-            else if (point.Y > Item.BindingParam.Trimming.BorderTop &&
-                point.Y < Item.BindingParam.Trimming.BorderBottom &&
-                point.X < Item.BindingParam.Trimming.BorderLeft)
+            else if (point.Y > trimming.ViewTop && point.Y < trimming.ViewBottom && point.X < trimming.ViewLeft)
             {
-                //  GreaArea (Left)
                 _dragLine = DragLine.Left;
+                this.Cursor = Cursors.SizeWE;
             }
-            else if (point.Y > Item.BindingParam.Trimming.BorderTop &&
-                point.Y < Item.BindingParam.Trimming.BorderBottom &&
-                point.X > Item.BindingParam.Trimming.BorderRight)
+            else if (point.Y > trimming.ViewTop && point.Y < trimming.ViewBottom && point.X > trimming.ViewRight)
             {
-                //  GreaArea (Right)
                 _dragLine = DragLine.Right;
+                this.Cursor = Cursors.SizeWE;
+            }
+            else if (point.X < trimming.ViewLeft && point.Y < trimming.ViewTop)
+            {
+                _dragLine = DragLine.TopLeft;
+                this.Cursor = Cursors.SizeNWSE;
+            }
+            else if (point.X > trimming.ViewRight && point.Y < trimming.ViewTop)
+            {
+                _dragLine = DragLine.TopRight;
+                this.Cursor = Cursors.SizeNESW;
+            }
+            else if (point.X < trimming.ViewLeft && point.Y > trimming.ViewBottom)
+            {
+                _dragLine = DragLine.BottomLeft;
+                this.Cursor = Cursors.SizeNESW;
+            }
+            else if (point.X > trimming.ViewRight && point.Y > trimming.ViewBottom)
+            {
+                _dragLine = DragLine.BottomRight;
+                this.Cursor = Cursors.SizeNWSE;
             }
             else
             {
-                //  GreaArea (Other)
                 _dragLine = DragLine.None;
             }
         }
 
-        /// <summary>
-        /// トリミング領域のドラッグ終了
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void TrimLayer_PreviewMouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             _dragLine = DragLine.None;
+            this.Cursor = Cursors.Arrow;
         }
 
-        /// <summary>
-        /// トリミング領域の範囲指定中
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void UserControl_MouseMove(object sender, MouseEventArgs e)
+        private void TrimLayer_MouseMove(object sender, MouseEventArgs e)
         {
             if (e.LeftButton == MouseButtonState.Pressed)
             {
                 var point = e.GetPosition(TrimLayer);
-                double newLocation = -1;
+                double newLocationX = -1;
+                double newLocationY = -1;
                 switch (_dragLine)
                 {
                     case DragLine.Top:
-                        newLocation = point.Y;
-                        if (newLocation >= Item.BindingParam.Trimming.ViewBottom)
+                        newLocationY = point.Y;
+                        if (newLocationY >= Item.BindingParam.Trimming.ViewBottom)
                         {
-                            newLocation = Item.BindingParam.Trimming.ViewBottom;
+                            newLocationY = Item.BindingParam.Trimming.ViewBottom;
                         }
-                        else if (newLocation < 1)
+                        else if (newLocationY < 1)
                         {
-                            newLocation = 0;
+                            newLocationY = 0;
                         }
-                        Item.BindingParam.Trimming.Top = (int)Math.Round(newLocation / Item.BindingParam.Trimming.Scale);
+                        Item.BindingParam.Trimming.Top = (int)Math.Round(newLocationY / Item.BindingParam.Trimming.Scale);
                         break;
                     case DragLine.Bottom:
-                        newLocation = point.Y;
-                        if (newLocation <= Item.BindingParam.Trimming.ViewTop)
+                        newLocationY = point.Y;
+                        if (newLocationY <= Item.BindingParam.Trimming.ViewTop)
                         {
-                            newLocation = Item.BindingParam.Trimming.ViewTop;
+                            newLocationY = Item.BindingParam.Trimming.ViewTop;
                         }
-                        else if (newLocation > this.ActualHeight - 1)
+                        else if (newLocationY > Item.MainBase.MainImage.ActualHeight)
                         {
-                            newLocation = this.ActualHeight;
+                            newLocationY = Item.MainBase.MainImage.ActualHeight;
                         }
-                        Item.BindingParam.Trimming.Bottom = (int)Math.Round(newLocation / Item.BindingParam.Trimming.Scale);
+                        Item.BindingParam.Trimming.Bottom = (int)Math.Round(newLocationY / Item.BindingParam.Trimming.Scale);
                         break;
                     case DragLine.Left:
-                        newLocation = point.X;
-                        if (newLocation >= Item.BindingParam.Trimming.ViewRight)
+                        newLocationX = point.X;
+                        if (newLocationX >= Item.BindingParam.Trimming.ViewRight)
                         {
-                            newLocation = Item.BindingParam.Trimming.ViewRight;
+                            newLocationX = Item.BindingParam.Trimming.ViewRight;
                         }
-                        else if (newLocation < 1)
+                        else if (newLocationX < 1)
                         {
-                            newLocation = 0;
+                            newLocationX = 0;
                         }
-                        Item.BindingParam.Trimming.Left = (int)Math.Round(newLocation / Item.BindingParam.Trimming.Scale);
+                        Item.BindingParam.Trimming.Left = (int)Math.Round(newLocationX / Item.BindingParam.Trimming.Scale);
                         break;
                     case DragLine.Right:
-                        newLocation = point.X;
-                        if (newLocation <= Item.BindingParam.Trimming.ViewLeft)
+                        newLocationX = point.X;
+                        if (newLocationX <= Item.BindingParam.Trimming.ViewLeft)
                         {
-                            newLocation = Item.BindingParam.Trimming.ViewLeft;
+                            newLocationX = Item.BindingParam.Trimming.ViewLeft;
                         }
-                        else if (newLocation > this.ActualWidth - 1)
+                        else if (newLocationX > Item.MainBase.MainImage.ActualWidth)
                         {
-                            newLocation = this.ActualWidth;
+                            newLocationX = Item.MainBase.MainImage.ActualWidth;
                         }
-                        Item.BindingParam.Trimming.Right = (int)Math.Round(newLocation / Item.BindingParam.Trimming.Scale);
+                        Item.BindingParam.Trimming.Right = (int)Math.Round(newLocationX / Item.BindingParam.Trimming.Scale);
                         break;
-                    default:
+                    case DragLine.TopLeft:
+                        newLocationX = point.X;
+                        newLocationY = point.Y;
+                        if (newLocationX >= Item.BindingParam.Trimming.ViewRight)
+                        {
+                            newLocationX = Item.BindingParam.Trimming.ViewRight;
+                        }
+                        else if (newLocationX < 1)
+                        {
+                            newLocationX = 0;
+                        }
+                        if (newLocationY >= Item.BindingParam.Trimming.ViewBottom)
+                        {
+                            newLocationY = Item.BindingParam.Trimming.ViewBottom;
+                        }
+                        else if (newLocationY < 1)
+                        {
+                            newLocationY = 0;
+                        }
+                        Item.BindingParam.Trimming.Left = (int)Math.Round(newLocationX / Item.BindingParam.Trimming.Scale);
+                        Item.BindingParam.Trimming.Top = (int)Math.Round(newLocationY / Item.BindingParam.Trimming.Scale);
+                        break;
+                    case DragLine.TopRight:
+                        newLocationX = point.X;
+                        newLocationY = point.Y;
+                        if (newLocationX <= Item.BindingParam.Trimming.ViewLeft)
+                        {
+                            newLocationX = Item.BindingParam.Trimming.ViewLeft;
+                        }
+                        else if (newLocationX > Item.MainBase.MainImage.ActualWidth)
+                        {
+                            newLocationX = Item.MainBase.MainImage.ActualWidth;
+                        }
+                        if (newLocationY >= Item.BindingParam.Trimming.ViewBottom)
+                        {
+                            newLocationY = Item.BindingParam.Trimming.ViewBottom;
+                        }
+                        else if (newLocationY < 1)
+                        {
+                            newLocationY = 0;
+                        }
+                        Item.BindingParam.Trimming.Right = (int)Math.Round(newLocationX / Item.BindingParam.Trimming.Scale);
+                        Item.BindingParam.Trimming.Top = (int)Math.Round(newLocationY / Item.BindingParam.Trimming.Scale);
+                        break;
+                    case DragLine.BottomLeft:
+                        newLocationX = point.X;
+                        newLocationY = point.Y;
+                        if (newLocationX >= Item.BindingParam.Trimming.ViewRight)
+                        {
+                            newLocationX = Item.BindingParam.Trimming.ViewRight;
+                        }
+                        else if (newLocationX < 1)
+                        {
+                            newLocationX = 0;
+                        }
+                        if (newLocationY <= Item.BindingParam.Trimming.ViewTop)
+                        {
+                            newLocationY = Item.BindingParam.Trimming.ViewTop;
+                        }
+                        else if (newLocationY > Item.MainBase.MainImage.ActualHeight)
+                        {
+                            newLocationY = Item.MainBase.MainImage.ActualHeight;
+                        }
+                        Item.BindingParam.Trimming.Left = (int)Math.Round(newLocationX / Item.BindingParam.Trimming.Scale);
+                        Item.BindingParam.Trimming.Bottom = (int)Math.Round(newLocationY / Item.BindingParam.Trimming.Scale);
+                        break;
+                    case DragLine.BottomRight:
+                        newLocationX = point.X;
+                        newLocationY = point.Y;
+                        if (newLocationX <= Item.BindingParam.Trimming.ViewLeft)
+                        {
+                            newLocationX = Item.BindingParam.Trimming.ViewLeft;
+                        }
+                        else if (newLocationX > Item.MainBase.MainImage.ActualWidth)
+                        {
+                            newLocationX = Item.MainBase.MainImage.ActualWidth;
+                        }
+                        if (newLocationY <= Item.BindingParam.Trimming.ViewTop)
+                        {
+                            newLocationY = Item.BindingParam.Trimming.ViewTop;
+                        }
+                        else if (newLocationY > Item.MainBase.MainImage.ActualHeight)
+                        {
+                            newLocationY = Item.MainBase.MainImage.ActualHeight;
+                        }
+                        Item.BindingParam.Trimming.Right = (int)Math.Round(newLocationX / Item.BindingParam.Trimming.Scale);
+                        Item.BindingParam.Trimming.Bottom = (int)Math.Round(newLocationY / Item.BindingParam.Trimming.Scale);
                         break;
                 }
             }
         }
     }
 }
-

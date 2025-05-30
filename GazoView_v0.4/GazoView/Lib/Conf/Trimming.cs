@@ -1,5 +1,11 @@
-﻿using System.ComponentModel;
+﻿using System;
+using System.Collections.Generic;
+using System.ComponentModel;
+using System.Linq;
 using System.Runtime.CompilerServices;
+using System.Text;
+using System.Threading.Tasks;
+using System.Windows.Controls;
 
 namespace GazoView.Lib.Conf
 {
@@ -12,20 +18,23 @@ namespace GazoView.Lib.Conf
             get { return _scale; }
             set
             {
-                if (_scale != value)
-                {
-                    _scale = value;
-                    OnPropertyChanged(nameof(ViewTop));
-                    OnPropertyChanged(nameof(ViewBottom));
-                    OnPropertyChanged(nameof(ViewLeft));
-                    OnPropertyChanged(nameof(ViewRight));
-                }
+                _scale = value;
+                OnPropertyChanged(nameof(ViewTop));
+                OnPropertyChanged(nameof(ViewBottom));
+                OnPropertyChanged(nameof(ViewLeft));
+                OnPropertyChanged(nameof(ViewRight));
             }
         }
+
+        const int BORDER_HALF_WIDTH = 4;
 
         #region Raw size
 
         private int _top = -1;
+        private int _bottom = -1;
+        private int _left = -1;
+        private int _right = -1;
+
         public int Top
         {
             get { return _top; }
@@ -36,39 +45,30 @@ namespace GazoView.Lib.Conf
                 OnPropertyChanged();
             }
         }
-
-        private int _bottom = -1;
         public int Bottom
         {
             get { return _bottom; }
             set
             {
-                _bottom = value;
-                OnPropertyChanged(nameof(ViewBottom));
+                _bottom = value; OnPropertyChanged(nameof(ViewBottom));
                 OnPropertyChanged();
             }
         }
-
-        private int _left = -1;
         public int Left
         {
             get { return _left; }
             set
             {
-                _left = value;
-                OnPropertyChanged(nameof(ViewLeft));
+                _left = value; OnPropertyChanged(nameof(ViewLeft));
                 OnPropertyChanged();
             }
         }
-
-        private int _right = -1;
         public int Right
         {
             get { return _right; }
             set
             {
-                _right = value;
-                OnPropertyChanged(nameof(ViewRight));
+                _right = value; OnPropertyChanged(nameof(ViewRight));
                 OnPropertyChanged();
             }
         }
@@ -84,14 +84,13 @@ namespace GazoView.Lib.Conf
         #endregion
         #region border location size
 
-        const int BORDER_HALF_WIDTH = 4;
-
         public double BorderTop { get { return this.ViewTop + BORDER_HALF_WIDTH; } }
         public double BorderBottom { get { return this.ViewBottom - BORDER_HALF_WIDTH; } }
         public double BorderLeft { get { return this.ViewLeft + BORDER_HALF_WIDTH; } }
         public double BorderRight { get { return this.ViewRight - BORDER_HALF_WIDTH; } }
 
         #endregion
+
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -1,22 +1,23 @@
 ﻿<Project Sdk="Microsoft.NET.Sdk">
 
-  <PropertyGroup>
-    <OutputType>WinExe</OutputType>
-    <TargetFramework>net8.0-windows</TargetFramework>
-    <ImplicitUsings>enable</ImplicitUsings>
-    <UseWPF>true</UseWPF>
-    <AssemblyVersion>0.4.0.6</AssemblyVersion>
-    <FileVersion>0.4.0.6</FileVersion>
-    <ApplicationIcon>Icon\GazoView.ico</ApplicationIcon>
-  </PropertyGroup>
+	<PropertyGroup>
+		<OutputType>WinExe</OutputType>
+		<TargetFramework>net8.0-windows</TargetFramework>
+		<ImplicitUsings>enable</ImplicitUsings>
+		<UseWPF>true</UseWPF>
+		<AssemblyVersion>0.5.0.3</AssemblyVersion>
+		<FileVersion>0.5.0.3</FileVersion>
+		<ApplicationIcon>Icon\GazoView.ico</ApplicationIcon>
+	</PropertyGroup>
 
-  <ItemGroup>
-    <Content Include="Icon\GazoView.ico" />
-  </ItemGroup>
+	<ItemGroup>
+	  <Content Include="Icon\GazoView.ico" />
+	</ItemGroup>
 
-  <ItemGroup>
-    <PackageReference Include="MaterialDesignThemes" Version="5.1.0" />
-    <PackageReference Include="Microsoft.VisualBasic" Version="10.3.0" />
-  </ItemGroup>
+	<ItemGroup>
+		<PackageReference Include="MaterialDesignThemes" Version="5.2.1" />
+		<PackageReference Include="SharpVectors" Version="1.8.4.2" />
+		<PackageReference Include="XamlAnimatedGif" Version="2.3.0" />
+	</ItemGroup>
 
 </Project>

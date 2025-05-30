@@ -8,9 +8,6 @@ using System.Linq;
 using System.Runtime.CompilerServices;
 using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Media;
-using Microsoft.VisualBasic.FileIO;
-using System.Net.Http;
 using System.Windows;
 
 namespace GazoView.Lib.Conf
@@ -22,12 +19,9 @@ namespace GazoView.Lib.Conf
             ".jpg",
             ".jpeg",
             ".png",
-            ".bmp",
-            ".tiff",
             ".tif",
-            ".gif",
-            ".webp",
-            ".svg",
+            ".tiff",
+            ".bmp",
         };
 
         public ObservableCollection<string> FileList { get; private set; }
@@ -54,18 +48,17 @@ namespace GazoView.Lib.Conf
             set
             {
                 _index = value;
-                int length = this.Length;
                 if (_index < 0)
                 {
-                    _index = length - 1;
+                    _index = FileList?.Count - 1 ?? 0;
                 }
-                else if (_index >= length)
+                else if (_index >= FileList?.Count)
                 {
                     _index = 0;
                 }
-                if (length > 0)
+                if (FileList?.Count > 0)
                 {
-                    this.Current = new ImageItem(FileList[_index]);
+                    Current = new ImageItem(FileList[_index]);
                 }
 
                 OnPropertyChanged(nameof(Current));
@@ -74,36 +67,82 @@ namespace GazoView.Lib.Conf
             }
         }
 
+        public ScaleRate ScaleRate { get; set; }
+
+        #region View image size
+
+        private double _viewWidth = 0;
+        private double _viewHeight = 0;
+
+        public double ViewWidth
+        {
+            get { return _viewWidth; }
+            set
+            {
+                _viewWidth = value;
+                OnPropertyChanged(nameof(ImageScalePercent));
+                OnPropertyChanged();
+            }
+        }
+        public double ViewHeight
+        {
+            get { return _viewHeight; }
+            set
+            {
+                _viewHeight = value;
+                OnPropertyChanged();
+            }
+        }
+
+        public double ImageScalePercent
+        {
+            get
+            {
+                if (Current == null) { return 0; }
+                return _viewWidth / Current.Width;
+            }
+        }
+
+        #endregion
+
         public Images(string[] targets)
         {
             LoadFiles(targets);
+            ScaleRate = new();
         }
 
+        /// <summary>
+        /// 対象フォルダー配下の画像ファイルを読み込み
+        /// </summary>
+        /// <param name="targets"></param>
         public void LoadFiles(string[] targets)
         {
             if (targets.Length == 1)
             {
                 if (File.Exists(targets[0]))
                 {
+                    //  ファイルを一つだけ指定
                     string parent = Path.GetDirectoryName(targets[0]);
                     var collection = Directory.GetFiles(parent).
                         Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
                         OrderBy(x => x, new NaturalStringComparer());
-                    this.FileList = new ObservableCollection<string>(collection);
-                    this.Index = collection.ToList().IndexOf(targets[0]);
+                    FileList = new ObservableCollection<string>(collection);
+                    Index = collection.ToList().IndexOf(targets[0]);
                 }
                 else if (Directory.Exists(targets[0]))
                 {
+                    //  フォルダーを一つだけ指定
                     string parent = targets[0];
                     var collection = Directory.GetFiles(parent).
                         Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
                         OrderBy(x => x, new NaturalStringComparer());
-                    this.FileList = new ObservableCollection<string>(collection);
-                    this.Index = 0;
+                    FileList = new ObservableCollection<string>(collection);
+                    Index = 0;
                 }
             }
             else if (targets.Length > 1)
             {
+                // 複数のファイルを指定
                 if (File.Exists(targets[0]))
                 {
                     string parent = Path.GetDirectoryName(targets[0]);
@@ -115,49 +154,51 @@ namespace GazoView.Lib.Conf
                                 _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y);
                         }).
                         OrderBy(x => x, new NaturalStringComparer());
-                    this.FileList = new ObservableCollection<string>(collection);
-                    this.Index = 0;
+                    FileList = new ObservableCollection<string>(collection);
+                    Index = 0;
                 }
             }
         }
 
+        /// <summary>
+        /// 対象フォルダー配下の画像ファイルを再読み込み
+        /// </summary>
         public void ReloadFiles(string movePath = null)
         {
+            string parent = this.Current.Parent;
             string moveToPath = movePath == null ?
                 this.Current.FilePath :
                 movePath;
-            var collection = Directory.GetFiles(this.Current.Parent).
+            var collection = Directory.GetFiles(parent).
                 Where(x => _validExtensions.Any(y => Path.GetExtension(x).ToLower() == y)).
                 OrderBy(x => x, new NaturalStringComparer());
+            FileList = new ObservableCollection<string>(collection);
 
-            this.FileList = new ObservableCollection<string>(collection);
             var index = FileList.IndexOf(moveToPath);
             if (index < 0) index = 0;
-
-            this.Index = index;
+            Index = index;
         }
 
-        public void TempChangeImage(ImageSource source)
-        {
-            string path = this.Current.FilePath;
-            this.Current = new ImageItem(path, source);
-            OnPropertyChanged(nameof(Current));
-        }
-
-        public void DeleteCurrentImageFile()
+        /// <summary>
+        /// 現在選択中のファイルを削除
+        /// </summary>
+        public void Delete()
         {
             int index = this.Index;
             if (FileList[index].StartsWith("\\\\"))
             {
+                //  ネットワークパスの場合は直接削除
                 File.Delete(FileList[index]);
             }
             else
             {
-                FileSystem.DeleteFile(
-                    FileList[index], UIOption.OnlyErrorDialogs, RecycleOption.SendToRecycleBin);
+                //  ローカルファイルの場合はゴミ箱へ
+                Microsoft.VisualBasic.FileIO.FileSystem.DeleteFile(
+                FileList[index],
+                Microsoft.VisualBasic.FileIO.UIOption.OnlyErrorDialogs,
+                Microsoft.VisualBasic.FileIO.RecycleOption.SendToRecycleBin);
             }
-
-            this.FileList.RemoveAt(index);
+            FileList.RemoveAt(index);
             if (FileList.Count == 0)
             {
                 this.Current = null;
@@ -167,8 +208,6 @@ namespace GazoView.Lib.Conf
                 this.Index = index == FileList.Count ? index - 1 : index;
             }
         }
-
-
 
         #region Inotify change
 

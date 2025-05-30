@@ -6,18 +6,18 @@
         xmlns:local="clr-namespace:GazoView"
         xmlns:lib="clr-namespace:GazoView.Lib"
         xmlns:converter="clr-namespace:GazoView.Lib.Converter"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
+        Name="MainBase"
         Title="{Binding Images.Title}"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
-        Left="{Binding Setting.Left, Mode=TwoWay}"
-        Top="{Binding Setting.Top,Mode=TwoWay}"
-        PreviewKeyDown="Window_PreviewKeyDown"
-        PreviewMouseWheel="Window_PreviewMouseWheel"
+        Left="{Binding Setting.X, Mode=TwoWay}"
+        Top="{Binding Setting.Y, Mode=TwoWay}"
         PreviewDragOver="Window_PreviewDragOver"
         PreviewDragLeave="Window_PreviewDragLeave"
         PreviewDrop="Window_PreviewDrop"
+        PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewMouseWheel="Window_PreviewMouseWheel"
         AllowDrop="True"
         Background="DimGray">
     <Window.Resources>
@@ -25,8 +25,8 @@
     </Window.Resources>
     <Grid Name="GlobalGrid">
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="0" Name="Column0" />
-            <ColumnDefinition Width="*" Name="Column1" />
+            <ColumnDefinition Width="0" Name="Column0"/>
+            <ColumnDefinition Width="*" Name="Column1"/>
         </Grid.ColumnDefinitions>
         <lib:AdvancedScrollViewer x:Name="ScrollViewer"
                                   Grid.Column="1"
@@ -39,27 +39,26 @@
                   Width="{Binding ActualWidth, ElementName=MainImage}"
                   Height="{Binding ActualHeight, ElementName=MainImage}">
                 <Image Name="MainImage"
-                       Source="{Binding Images.Current.Source}"
+                       Source="{Binding Images.Current.Source}" 
+                       Stretch="Uniform"
+                       RenderOptions.EdgeMode="Aliased"
+                       RenderOptions.BitmapScalingMode="Fant"
+                       UseLayoutRounding="True"
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}"
                        SizeChanged="MainImage_SizeChanged"/>
-                <lib:GifAnimeLayer x:Name="GifAnimation"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Width="{Binding ActualWidth, ElementName=ScrollViewer}"
-                                   Height="{Binding ActualHeight, ElementName=ScrollViewer}"
-                                   Visibility="{Binding State.IsGifAnimationView, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=ScrollViewer}"
-                                   Height="{Binding ActualHeight, ElementName=ScrollViewer}"
+                <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=MainImage}"
+                                   Height="{Binding ActualHeight, ElementName=MainImage}"
                                    Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </lib:AdvancedScrollViewer>
-        <materialDesign:PackIcon Grid.Column="1"
-                                 Kind="StarBoxOutline"
-                                 Width="60" Height="60"
-                                 HorizontalAlignment="Right"
-                                 VerticalAlignment="Bottom"
-                                 Foreground="Gold"
-                                 Visibility="{Binding Images.Current.IsStar, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <Border Grid.Column="1"
+                x:Name="StartBorder"
+                BorderThickness="10"
+                BorderBrush="#25A5FF"
+                Opacity="0.5"
+                Width="{Binding ActualWidth, ElementName=ScrollViewer}"
+                Height="{Binding ActualHeight, ElementName=ScrollViewer}"
+                Visibility="{Binding Images.Current.IsStar, Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Window>

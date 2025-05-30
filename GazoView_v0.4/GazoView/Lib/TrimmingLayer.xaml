@@ -3,12 +3,12 @@
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
-             xmlns:local="clr-namespace:GazoView.Lib"
+             xmlns:lib="clr-namespace:GazoView.Lib"
              xmlns:converter="clr-namespace:GazoView.Lib.Converter"
              Name="TrimLayer"
-             PreviewMouseLeftButtonDown="TrimLayer_PreviewMouseLeftButtonDown"
-             PreviewMouseLeftButtonUp="TrimLayer_PreviewMouseLeftButtonUp"
-             MouseMove="TrimLayer_MouseMove"
+             PreviewMouseLeftButtonDown="UserControl_PreviewMouseLeftButtonDown"
+             PreviewMouseLeftButtonUp="UserControl_PreviewMouseLeftButtonUp"
+             MouseMove="UserControl_MouseMove"
              mc:Ignorable="d">
     <UserControl.Resources>
         <SolidColorBrush x:Key="BackgroundBrush"
@@ -31,7 +31,7 @@
         </DrawingBrush>
         <converter:GrayAreaSizeConverter x:Key="GrayAreaSizeConverter" />
     </UserControl.Resources>
-    
+
     <Grid>
         <DockPanel>
             <!-- GrayArea (Top) -->
@@ -114,27 +114,32 @@
         <!-- Trimming Area Line -->
         <Line Name="LineTop"
               Stroke="Black" StrokeThickness="8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+              Cursor="SizeNS"
               X1="{Binding Trimming.ViewLeft}"
               X2="{Binding Trimming.ViewRight}"
               Y1="{Binding Trimming.ViewTop}"
               Y2="{Binding Y1, RelativeSource={RelativeSource Mode=Self}}" />
         <Line Name="LineBottom"
               Stroke="Black" StrokeThickness="8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+              Cursor="SizeNS"
               X1="{Binding Trimming.ViewLeft}"
               X2="{Binding Trimming.ViewRight}"
               Y1="{Binding Trimming.ViewBottom}"
               Y2="{Binding Y1, RelativeSource={RelativeSource Mode=Self}}" />
         <Line Name="LineLeft"
               Stroke="Black" StrokeThickness="8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+              Cursor="SizeWE"
               X1="{Binding Trimming.ViewLeft}"
               X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
               Y1="{Binding Trimming.ViewTop}"
               Y2="{Binding Trimming.ViewBottom}" />
         <Line Name="LineRight"
               Stroke="Black" StrokeThickness="8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
+              Cursor="SizeWE"
               X1="{Binding Trimming.ViewRight}"
               X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
               Y1="{Binding Trimming.ViewTop}"
               Y2="{Binding Trimming.ViewBottom}" />
+
     </Grid>
 </UserControl>

@@ -12,17 +12,24 @@ namespace GazoView.Lib.Conf
     {
         public double Width { get; set; }
         public double Height { get; set; }
-        public double Left { get; set; }
-        public double Top { get; set; }
+        public double X { get; set; }
+        public double Y { get; set; }
 
-        public int MaxTrimmingHistory { get; set; }
-        public List<string> TrimmingHistries { get; set; }
+        public int MaxHistory { get; set; }
+        public List<string> Histories { get; set; }
+
+
+        //public TrimmingSetting Trimming { get; set; }
 
         const string _fileName = "setting.json";
 
+        /// <summary>
+        /// Load setting file.
+        /// </summary>
+        /// <returns></returns>
         public static Setting Load()
         {
-            var path = Path.Combine(Item.WorkDirectory, _fileName);
+            var path = Path.Combine(Item.WorkingDirectory, _fileName);
             try
             {
                 using (var sr = new StreamReader(path, Encoding.UTF8))
@@ -37,29 +44,28 @@ namespace GazoView.Lib.Conf
                 {
                     Width = 800,
                     Height = 600,
-                    Left = 0,
-                    Top = 0,
-                    MaxTrimmingHistory = 10,
-                    TrimmingHistries = new List<string>()
+                    X = 100,
+                    Y = 100,
+                    MaxHistory = 10,
+                    Histories = new List<string>() { "100,300,100,300" },
                 };
             }
         }
 
+        /// <summary>
+        /// Save setting file.
+        /// </summary>
         public void Save()
         {
-            var path = Path.Combine(Item.WorkDirectory, _fileName);
-            try
+            var path = Path.Combine(Item.WorkingDirectory, _fileName);
+            using (var sw = new StreamWriter(path, false, Encoding.UTF8))
             {
-                using (var sw = new StreamWriter(path, false, Encoding.UTF8))
+                var json = JsonSerializer.Serialize(this, new JsonSerializerOptions()
                 {
-                    var json = JsonSerializer.Serialize(this, new JsonSerializerOptions()
-                    {
-                        WriteIndented = true,
-                    });
-                    sw.Write(json);
-                }
+                    WriteIndented = true,
+                });
+                sw.Write(json);
             }
-            catch { }
         }
     }
 }
