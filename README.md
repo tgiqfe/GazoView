@@ -2,7 +2,7 @@
 
 ## 画像ビューア
 
-.NET 8対応版
+.NET 10対応版
 
-Version: 0.5
+Version: 0.6
 
