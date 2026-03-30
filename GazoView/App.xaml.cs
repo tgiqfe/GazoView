@@ -16,7 +16,26 @@ namespace GazoView
         /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-
+            bool isDebug = false;
+#if DEBUG
+            isDebug = true;
+#endif
+            if (isDebug)
+            {
+                Item.BindingParam = new()
+                {
+                    Setting = Setting.Load(),
+                    Images = new(new string[] { @"D:\Test\Images" }),
+                };
+            }
+            else
+            {
+                Item.BindingParam = new()
+                {
+                    Setting = Setting.Load(),
+                    Images = new(e.Args),
+                };
+            }
         }
 
         /// <summary>
@@ -26,7 +45,7 @@ namespace GazoView
         /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-
+            Item.BindingParam.Setting.Save();
         }
     }
 }

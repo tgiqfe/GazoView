@@ -7,5 +7,7 @@ namespace GazoView.Lib
     public class BindingParam
     {
         public Setting Setting { get; set; }
+
+        public Images Images { get; set; }
     }
 }

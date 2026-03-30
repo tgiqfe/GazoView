@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Lib;
+using System;
 using System.Collections.Generic;
 using System.Diagnostics;
 using System.IO;
@@ -31,5 +32,8 @@ namespace GazoView
         /// This is set when MainWindow is created and can be used for IPC and other purposes.
         /// </summary>
         internal static MainWindow MainWindow = null;
+
+
+        public static BindingParam BindingParam = null;
     }
 }
