@@ -32,5 +32,8 @@
         <panel:MoveTriangleLayer x:Name="MoveTriangleLayer"
                                  Grid.Row="1"
                                  Grid.Column="1" />
+        <panel:TrimmingLayer x:Name="TrimmingLayer"
+                             Grid.Row="1"
+                             Grid.Column="1" />
     </Grid>
 </Window>

@@ -6,7 +6,51 @@
              xmlns:local="clr-namespace:GazoView.Lib.Panel"
              xmlns:converter="clr-namespace:GazoView.Lib.Converter"
              mc:Ignorable="d">
-    <Grid>
-            
-    </Grid>
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush"
+                         Color="AliceBlue"
+                         Opacity="0.5"/>
+        <DrawingBrush x:Key="DiagonalBrush"
+                      Viewport="0,0,10,10" ViewportUnits="Absolute"
+                      Viewbox="0,0,10,10" ViewboxUnits="Absolute"
+                      TileMode="Tile">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <Geometry>M10,0 L0,10 M5,-5 L-5,5 M15,5 L5,15</Geometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+    </UserControl.Resources>
+
+    <DockPanel>
+        <Grid DockPanel.Dock="Top"
+              Height="200">
+            <Rectangle Fill="{StaticResource BackgroundBrush}" />
+            <Rectangle Fill="{StaticResource DiagonalBrush}" />
+        </Grid>
+        <Grid DockPanel.Dock="Bottom"
+              Height="200">
+            <Rectangle Fill="{StaticResource BackgroundBrush}" />
+            <Rectangle Fill="{StaticResource DiagonalBrush}" />
+        </Grid>
+        <Grid DockPanel.Dock="Left"
+              Width="200">
+            <Rectangle Fill="{StaticResource BackgroundBrush}" />
+            <Rectangle Fill="{StaticResource DiagonalBrush}" />
+        </Grid>
+        <Grid DockPanel.Dock="Right"
+              Width="200">
+            <Rectangle Fill="{StaticResource BackgroundBrush}" />
+            <Rectangle Fill="{StaticResource DiagonalBrush}" />
+        </Grid>
+        <Rectangle Fill="Transparent"/>
+
+    </DockPanel>
 </UserControl>
+        

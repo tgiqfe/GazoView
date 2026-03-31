@@ -13,9 +13,6 @@ using System.Windows.Shapes;
 
 namespace GazoView.Lib.Panel
 {
-    /// <summary>
-    /// TrimmingLayer.xaml の相互作用ロジック
-    /// </summary>
     public partial class TrimmingLayer : UserControl
     {
         public TrimmingLayer()
