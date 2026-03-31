@@ -1,5 +1,7 @@
-﻿using System.Configuration;
+﻿using System.ComponentModel;
+using System.Configuration;
 using System.Data;
+using System.IO;
 using System.Windows;
 
 namespace GazoView
@@ -20,22 +22,14 @@ namespace GazoView
 #if DEBUG
             isDebug = true;
 #endif
-            if (isDebug)
+            var imageFileTargets = e.Args;
+            if (isDebug) imageFileTargets = new string[] { @"D:\Test\Images" };
+
+            Item.BindingParam = new()
             {
-                Item.BindingParam = new()
-                {
-                    Setting = Setting.Load(),
-                    Images = new(new string[] { @"D:\Test\Images" }),
-                };
-            }
-            else
-            {
-                Item.BindingParam = new()
-                {
-                    Setting = Setting.Load(),
-                    Images = new(e.Args),
-                };
-            }
+                Setting = Setting.Load(),
+                Images = new(imageFileTargets),
+            };
         }
 
         /// <summary>
@@ -45,6 +39,7 @@ namespace GazoView
         /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
+            Item.BindingParam.Images?.Dispose();
             Item.BindingParam.Setting.Save();
         }
     }

@@ -15,7 +15,9 @@
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
         Background="DimGray">
-    <Grid Name="GlobalGrid">
+    <Grid Name="GlobalGrid"
+          MouseMove="GlobalGrid_MouseMove"
+          MouseLeave="GlobalGrid_MouseLeave">
         <Grid.RowDefinitions>
             <RowDefinition Height="0" Name="Row0" />
             <RowDefinition Height="*" Name="Row1" />
@@ -27,5 +29,8 @@
         <panel:ImagePanel x:Name="ImagePanel"
                           Grid.Row="1"
                           Grid.Column="1" />
+        <panel:MoveTriangleLayer x:Name="MoveTriangleLayer"
+                                 Grid.Row="1"
+                                 Grid.Column="1" />
     </Grid>
 </Window>

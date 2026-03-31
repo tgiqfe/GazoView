@@ -79,5 +79,70 @@ namespace GazoView
                 Item.BindingParam.Images.ViewImage();
             }
         }
+
+        /// <summary>
+        /// Show navigation triangles on mouse move.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GlobalGrid_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Item.BindingParam.Images == null || Item.BindingParam.Images.Length <= 1)
+                return;
+
+            Point position = e.GetPosition(GlobalGrid);
+            double windowWidth = GlobalGrid.ActualWidth;
+            double leftThreshold = 100;
+            double rightThreshold = windowWidth - 100;
+
+            if (position.X < leftThreshold)
+            {
+                MoveTriangleLayer.LeftTriangleArea.Visibility = Visibility.Visible;
+                MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Collapsed;
+            }
+            else if (position.X > rightThreshold)
+            {
+                MoveTriangleLayer.LeftTriangleArea.Visibility = Visibility.Collapsed;
+                MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Visible;
+            }
+            else
+            {
+                MoveTriangleLayer.LeftTriangleArea.Visibility = Visibility.Collapsed;
+                MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Collapsed;
+            }
+        }
+
+        /// <summary>
+        /// Hide navigation triangles on mouse leave.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void GlobalGrid_MouseLeave(object sender, MouseEventArgs e)
+        {
+            MoveTriangleLayer.LeftTriangleArea.Visibility = Visibility.Collapsed;
+            MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Collapsed;
+        }
+
+        /// <summary>
+        /// Navigate to previous image.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void LeftTriangle_Click(object sender, MouseButtonEventArgs e)
+        {
+            Item.BindingParam.Images.Index--;
+            Item.BindingParam.Images.ViewImage();
+        }
+
+        /// <summary>
+        /// Navigate to next image.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RightTriangle_Click(object sender, MouseButtonEventArgs e)
+        {
+            Item.BindingParam.Images.Index++;
+            Item.BindingParam.Images.ViewImage();
+        }
     }
 }
