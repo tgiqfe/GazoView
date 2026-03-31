@@ -1,4 +1,5 @@
 ﻿using GazoView.Lib;
+using GazoView.Lib.Functions;
 using GazoView.Lib.Panel;
 using System.Text;
 using System.Windows;
@@ -49,6 +50,33 @@ namespace GazoView
                 case Key.Escape:
                     Application.Current.Shutdown();
                     break;
+                case Key.Left:
+                    Item.BindingParam.Images.Index--;
+                    Item.BindingParam.Images.ViewImage();
+                    break;
+                case Key.Right:
+                    Item.BindingParam.Images.Index++;
+                    Item.BindingParam.Images.ViewImage();
+                    break;
+            }
+        }
+
+        /// <summary>
+        /// Mouse wheel event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+            if (SpecialKeyStatus.IsCtrlPressed())
+            {
+
+            }
+            else
+            {
+                Item.BindingParam.Images.Index += e.Delta > 0 ? -1 : 1;
+                Item.BindingParam.Images.ViewImage();
             }
         }
     }

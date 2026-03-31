@@ -46,6 +46,15 @@ namespace GazoView.Lib
                     _index = 0;
                 }
                 OnPropertyChanged();
+                OnPropertyChanged(nameof(Title));
+            }
+        }
+
+        public string Title
+        {
+            get
+            {
+                return string.Format("[{0}/{1}] {2}", this.Index + 1, this.Length, this.Current.FileName);
             }
         }
 

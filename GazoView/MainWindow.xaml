@@ -7,19 +7,25 @@
         xmlns:converter="clr-namespace:GazoView.Lib.Converter"
         xmlns:panel="clr-namespace:GazoView.Lib.Panel"
         mc:Ignorable="d"
-        Title="MainWindow"
+        Title="{Binding Images.Title}"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.Left, Mode=TwoWay}"
         Top="{Binding Setting.Top, Mode=TwoWay}"
         PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewMouseWheel="Window_PreviewMouseWheel"
         Background="DimGray">
     <Grid Name="GlobalGrid">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" Name="Row0" />
+            <RowDefinition Height="*" Name="Row1" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0" Name="Column0" />
             <ColumnDefinition Width="*" Name="Column1" />
         </Grid.ColumnDefinitions>
         <panel:ImagePanel x:Name="ImagePanel"
+                          Grid.Row="1"
                           Grid.Column="1" />
     </Grid>
 </Window>
