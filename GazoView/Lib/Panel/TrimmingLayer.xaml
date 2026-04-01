@@ -16,7 +16,8 @@
         <DrawingBrush x:Key="DiagonalBrush"
                       Viewport="0,0,10,10" ViewportUnits="Absolute"
                       Viewbox="0,0,10,10" ViewboxUnits="Absolute"
-                      TileMode="Tile">
+                      TileMode="Tile"
+                      Opacity="0.8">
             <DrawingBrush.Drawing>
                 <GeometryDrawing>
                     <GeometryDrawing.Pen>
