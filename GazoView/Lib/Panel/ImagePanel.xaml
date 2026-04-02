@@ -4,7 +4,12 @@
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GazoView.Lib.Panel"
+             xmlns:converter="clr-namespace:GazoView.Lib.Converter"
              mc:Ignorable="d">
+    <UserControl.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </UserControl.Resources>
+    
     <Grid>
         <local:AdvancedScrollViewer x:Name="ScrollViewer"
                                     HorizontalScrollBarVisibility="Auto"
@@ -16,6 +21,10 @@
                        Source="{Binding Images.Current.Source}"
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}" />
+                <local:TrimmingLayer
+                             Width="{Binding ActualWidth, ElementName=ScrollViewer}"
+                             Height="{Binding ActualHeight, ElementName=ScrollViewer}"
+                             Visibility="{Binding Trimming.IsTrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </local:AdvancedScrollViewer>
     </Grid>

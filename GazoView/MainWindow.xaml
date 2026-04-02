@@ -15,6 +15,7 @@
         PreviewKeyDown="Window_PreviewKeyDown"
         PreviewMouseWheel="Window_PreviewMouseWheel"
         Background="DimGray">
+   
     <Grid Name="GlobalGrid"
           MouseMove="GlobalGrid_MouseMove"
           MouseLeave="GlobalGrid_MouseLeave">
@@ -32,5 +33,6 @@
         <panel:MoveTriangleLayer x:Name="MoveTriangleLayer"
                                  Grid.Row="1"
                                  Grid.Column="1" />
+
     </Grid>
 </Window>

@@ -58,6 +58,18 @@ namespace GazoView
                     Item.BindingParam.Images.Index++;
                     Item.BindingParam.Images.ViewImage();
                     break;
+                case Key.Home:
+                    Item.BindingParam.Images.Index = 0;
+                    Item.BindingParam.Images.ViewImage();
+                    break;
+                case Key.End:
+                    Item.BindingParam.Images.Index = Item.BindingParam.Images.Length - 1;
+                    Item.BindingParam.Images.ViewImage();
+                    break;
+                case Key.T:
+                    //  Switch trimming mode.
+                    ImageFunction.SwitchTrimmingMode();
+                    break;
             }
         }
 

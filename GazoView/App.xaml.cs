@@ -29,6 +29,7 @@ namespace GazoView
             {
                 Setting = Setting.Load(),
                 Images = new(imageFileTargets),
+                Trimming = new()
             };
         }
 
