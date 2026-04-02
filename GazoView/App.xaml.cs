@@ -40,7 +40,7 @@ namespace GazoView
         private void Application_Exit(object sender, ExitEventArgs e)
         {
             Item.BindingParam.Images?.Dispose();
-            Item.BindingParam.Setting.Save();
+            Item.BindingParam.Setting?.Save();
         }
     }
 }
