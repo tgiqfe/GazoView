@@ -24,6 +24,16 @@ namespace GazoView
             InitializeComponent();
 
             Init();
+
+            //  Load後1秒後にMainWindow loaded flagをtrueにする。これにより、MainWindowの初期化が完了したとみなす。
+            Task.Run(() =>
+            {
+                Thread.Sleep(1000);
+                Application.Current.Dispatcher.Invoke(() =>
+                {
+                    Item.IsInitialized = true;
+                });
+            });
         }
 
         private void Init()

@@ -35,5 +35,10 @@ namespace GazoView
 
 
         public static BindingParam BindingParam = null;
+
+        /// <summary>
+        /// MainWindow loaded flag.
+        /// </summary>
+        internal static bool IsInitialized = false;
     }
 }
