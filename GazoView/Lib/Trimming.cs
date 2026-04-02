@@ -89,6 +89,18 @@ namespace GazoView.Lib
         public double ViewLeft { get { return this.Left * this._scale; } }
         public double ViewRight { get { return this.Right * this._scale; } }
 
+        #region Constructor
+
+        public Trimming(int top, int bottom, int left, int right)
+        {
+            this.Top = top;
+            this.Bottom = bottom;
+            this.Left = left;
+            this.Right = right;
+        }
+
+        #endregion
+
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;

@@ -12,5 +12,14 @@ namespace GazoView.Lib
         public Images Images { get; set; }
 
         public Trimming Trimming { get; set; }
+
+        public BindingParam(string[] imageFileTargets)
+        {
+            var setting = Setting.Load();
+
+            this.Setting = setting;
+            this.Images = new(imageFileTargets);
+            this.Trimming = new(setting.TrimmingTop, setting.TrimmingBottom, setting.TrimmingLeft, setting.TrimmingRight);
+        }
     }
 }

@@ -18,6 +18,8 @@ namespace GazoView.Lib.Panel
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
+                    Debug.WriteLine("TrimmingLayer is visible.");
+
                     double viewScale = 1.0;
                     if (this.ActualWidth < Item.BindingParam.Images.Current.Width)
                     {
@@ -75,6 +77,7 @@ namespace GazoView.Lib.Panel
             else
             {
                 //  TrimmingMode to disable event.
+                Debug.WriteLine("TrimmingLayer is not visible.");
             }
         }
     }

@@ -30,8 +30,18 @@ namespace GazoView
         /// </summary>
         public double Top { get; set; } = 0;
 
+        public int TrimmingTop { get; set; } = -1;
+        public int TrimmingBottom { get; set; } = -1;
+        public int TrimmingLeft { get; set; } = -1;
+        public int TrimmingRight { get; set; } = -1;
+
+
         #region Load/Save setting
 
+        /// <summary>
+        /// Setting load from file. If failed, return default setting.
+        /// </summary>
+        /// <returns></returns>
         public static Setting Load()
         {
             var setting = new Setting();
@@ -44,6 +54,9 @@ namespace GazoView
             return setting;
         }
 
+        /// <summary>
+        /// Setting save to file. If failed, do nothing.
+        /// </summary>
         public void Save()
         {
             var path = Path.Combine(Item.WorkDirectory, SETTING_FILE);
