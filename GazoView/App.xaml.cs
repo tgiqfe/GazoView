@@ -25,7 +25,13 @@ namespace GazoView
             var imageFileTargets = e.Args;
             if (isDebug) imageFileTargets = new string[] { @"D:\Test\Images" };
 
-            Item.BindingParam = new(imageFileTargets);
+            Setting setting = Setting.Load();
+            Item.BindingParam = new()
+            {
+                Setting = setting,
+                Images = new(imageFileTargets),
+                Trimming = new(setting),
+            };
         }
 
         /// <summary>

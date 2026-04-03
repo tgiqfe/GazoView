@@ -24,60 +24,64 @@ namespace GazoView.Lib
 
         private double _scale = 1;
 
-        private int _top = -1;
+        //private int _top = -1;
         public int Top
         {
-            get => _top;
+            //get => _top;
+            get => _setting.TrimmingTop;
             set
             {
-                if (_top != value)
+                if (_setting.TrimmingTop != value)
                 {
-                    _top = value;
+                    _setting.TrimmingTop = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ViewTop));
                 }
             }
         }
 
-        private int _bottom = -1;
+        //private int _bottom = -1;
         public int Bottom
         {
-            get => _bottom;
+            //get => _bottom;
+            get => _setting.TrimmingBottom;
             set
             {
-                if (_bottom != value)
+                if (_setting.TrimmingBottom != value)
                 {
-                    _bottom = value;
+                    _setting.TrimmingBottom = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ViewBottom));
                 }
             }
         }
         
-        private int _left = -1;
+        //private int _left = -1;
         public int Left
         {
-            get => _left;
+            //get => _left;
+            get => _setting.TrimmingLeft;
             set
             {
-                if (_left != value)
+                if (_setting.TrimmingLeft != value)
                 {
-                    _left = value;
+                    _setting.TrimmingLeft = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ViewLeft));
                 }
             }
         }
 
-        private int _right = -1;
+        //private int _right = -1;
         public int Right
         {
-            get => _right;
+            //get => _right;
+            get => _setting.TrimmingRight;
             set
             {
-                if (_right != value)
+                if (_setting.TrimmingRight != value)
                 {
-                    _right = value;
+                    _setting.TrimmingRight = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ViewRight));
                 }
@@ -89,17 +93,15 @@ namespace GazoView.Lib
         public double ViewLeft { get { return this.Left * this._scale; } }
         public double ViewRight { get { return this.Right * this._scale; } }
 
-        #region Constructor
 
-        public Trimming(int top, int bottom, int left, int right)
+        // Setting reference for save trimming setting.
+        // If referencing the settings doesn't work, consider other methods.
+        private Setting _setting = null;
+
+        public Trimming(Setting setting)
         {
-            this.Top = top;
-            this.Bottom = bottom;
-            this.Left = left;
-            this.Right = right;
+            _setting = setting;
         }
-
-        #endregion
 
         #region Inotify change
 
