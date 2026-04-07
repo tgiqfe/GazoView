@@ -113,11 +113,13 @@ namespace GazoView.Lib
             OnPropertyChanged(nameof(Current));
         }
 
+        #region File wathcing start/stop/resume.
+
         /// <summary>
         /// Start watching the directory for file changes.
         /// </summary>
         /// <param name="directory"></param>
-        private void StartWatching(string directory)
+        public void StartWatching(string directory)
         {
             if (_watcher != null)
             {
@@ -138,6 +140,31 @@ namespace GazoView.Lib
             _watcher.Deleted += OnFileChanged;
             _watcher.Renamed += OnFileRenamed;
         }
+
+        /// <summary>
+        /// Stop watching the directory for file changes.
+        /// </summary>
+        public void StopWatching()
+        {
+            if (_watcher != null)
+            {
+                _watcher.EnableRaisingEvents = false;
+            }
+        }
+
+        /// <summary>
+        /// Resume watching the directory for file changes.
+        /// </summary>
+        public void ResumeWatching()
+        {
+            if (_watcher != null)
+            {
+                _watcher.EnableRaisingEvents = true;
+            }
+        }
+
+        #endregion
+        #region File watching event handlers.
 
         /// <summary>
         /// Handle file system changes.
@@ -163,6 +190,8 @@ namespace GazoView.Lib
                 RefreshFileList();
             });
         }
+
+        #endregion
 
         /// <summary>
         /// Check if the file is a valid image file.
