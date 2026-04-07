@@ -45,7 +45,10 @@ namespace GazoView
             EventManager.RegisterClassHandler(
                 typeof(AdvancedScrollViewer),
                 FrameworkElement.MouseLeftButtonDownEvent,
-                new MouseButtonEventHandler((sender, e) => this.DragMove()));
+                new MouseButtonEventHandler((sender, e) =>
+                {
+                    if (!Item.BindingParam.Trimming.IsTrimmingMode) this.DragMove();
+                }));
         }
 
         /// <summary>
@@ -109,8 +112,8 @@ namespace GazoView
         /// <param name="e"></param>
         private void GlobalGrid_MouseMove(object sender, MouseEventArgs e)
         {
-            if (Item.BindingParam.Images == null || Item.BindingParam.Images.Length <= 1)
-                return;
+            if (Item.BindingParam.Images == null || Item.BindingParam.Images.Length <= 1) return;
+            if(Item.BindingParam.Trimming.IsTrimmingMode) return;
 
             Point position = e.GetPosition(GlobalGrid);
             double windowWidth = GlobalGrid.ActualWidth;

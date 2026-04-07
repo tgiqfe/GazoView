@@ -7,7 +7,10 @@
              xmlns:converter="clr-namespace:GazoView.Lib.Converter"
              mc:Ignorable="d"
              Name="TrimmingLayer_view"
-             IsVisibleChanged="TrimmingLayer_IsVisibleChanged">
+             IsVisibleChanged="TrimmingLayer_IsVisibleChanged"
+             PreviewMouseLeftButtonDown="TrimmingLayer_view_PreviewMouseLeftButtonDown"
+             PreviewMouseLeftButtonUp="TrimmingLayer_view_PreviewMouseLeftButtonUp"
+             MouseMove="TrimmingLayer_view_MouseMove">
 
     <UserControl.Resources>
         <SolidColorBrush x:Key="BackgroundBrush"
