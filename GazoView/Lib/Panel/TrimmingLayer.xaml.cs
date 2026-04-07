@@ -9,11 +9,6 @@ namespace GazoView.Lib.Panel
     {
         private DragLine _dragLine = DragLine.None;
 
-        private double _viewWidth = 0;
-        private double _viewHeight = 0;
-        private double _viewLeft = 0;
-        private double _viewTop = 0;
-
         public TrimmingLayer()
         {
             InitializeComponent();
@@ -26,57 +21,27 @@ namespace GazoView.Lib.Panel
             {
                 Dispatcher.BeginInvoke(new Action(() =>
                 {
-                    Debug.WriteLine("TrimmingLayer is visible.");
-
-                    double viewScale = 1.0;
-                    if (this.ActualWidth < Item.BindingParam.Images.Current.Width)
-                    {
-                        viewScale = this.ActualWidth / Item.BindingParam.Images.Current.Width;
-                    }
-                    if (this.ActualHeight < Item.BindingParam.Images.Current.Height)
-                    {
-                        viewScale = Math.Min(viewScale, this.ActualHeight / Item.BindingParam.Images.Current.Height);
-                    }
-
-                    _viewWidth = Item.BindingParam.Images.Current.Width * viewScale;
-                    _viewHeight = Item.BindingParam.Images.Current.Height * viewScale;
-                    _viewLeft = 0;
-                    _viewTop = 0;
-                    if (Item.BindingParam.Images.Current.Width > Item.BindingParam.Images.Current.Height)
-                    {
-                        _viewTop = (int)((this.ActualHeight - _viewHeight) / 2);
-                    }
-                    else if (Item.BindingParam.Images.Current.Width < Item.BindingParam.Images.Current.Height)
-                    {
-                        _viewLeft = ((this.ActualWidth - _viewWidth) / 2);
-                    }
-
-                    //  TrimmingMode to enable event.
                     if (Item.BindingParam.Trimming.Top < 0)
                     {
-                        int top = (int)(_viewHeight / 3);
-                        //int top = 100;
+                        int top = (int)(this.DesiredSize.Height / 3);
                         Item.BindingParam.Trimming.Top = top;
                         Debug.WriteLine($"Trimming.Top is set to {top}.");
                     }
-                    if (Item.BindingParam.Trimming.Bottom < 0 || _viewHeight > this.ActualHeight)
+                    if (Item.BindingParam.Trimming.Bottom > this.DesiredSize.Height)
                     {
-                        int bottom = (int)(_viewHeight / 3 * 2);
-                        //int bottom = 200;
+                        int bottom = (int)(this.DesiredSize.Height / 3 * 2);
                         Item.BindingParam.Trimming.Bottom = bottom;
                         Debug.WriteLine($"Trimming.Bottom is set to {bottom}.");
                     }
                     if (Item.BindingParam.Trimming.Left < 0)
                     {
-                        int left = (int)(_viewWidth / 3);
-                        //int left = 100;
+                        int left = (int)(this.DesiredSize.Width / 3);
                         Item.BindingParam.Trimming.Left = left;
                         Debug.WriteLine($"Trimming.Left is set to {left}.");
                     }
-                    if (Item.BindingParam.Trimming.Right < 0 || _viewWidth > this.ActualWidth)
+                    if (Item.BindingParam.Trimming.Right > this.DesiredSize.Width)
                     {
-                        int right = (int)(_viewWidth / 3 * 2);
-                        //int right = 200;
+                        int right = (int)(this.DesiredSize.Width / 3 * 2);
                         Item.BindingParam.Trimming.Right = right;
                         Debug.WriteLine($"Trimming.Right is set to {right}.");
                     }
@@ -122,7 +87,8 @@ namespace GazoView.Lib.Panel
                 _dragLine = DragLine.Top;
                 this.Cursor = Cursors.SizeNS;
             }
-            else if (point.X >= trimming.ViewLeft && point.X <= trimming.ViewRight && point.Y > (trimming.ViewBottom - margin))
+            else if (point.X >= trimming.ViewLeft && point.X <= trimming.ViewRight && 
+                (point.Y > (trimming.ViewBottom - margin) || point.Y > (this.DesiredSize.Height - margin)))
             {
                 _dragLine = DragLine.Bottom;
                 this.Cursor = Cursors.SizeNS;
@@ -132,7 +98,8 @@ namespace GazoView.Lib.Panel
                 _dragLine = DragLine.Left;
                 this.Cursor = Cursors.SizeWE;
             }
-            else if (point.Y >= trimming.ViewTop && point.Y <= trimming.ViewBottom && point.X > (trimming.ViewRight - margin))
+            else if (point.Y >= trimming.ViewTop && point.Y <= trimming.ViewBottom && 
+                (point.X > (trimming.ViewRight - margin) || point.X > (this.DesiredSize.Width - margin)))
             {
                 _dragLine = DragLine.Right;
                 this.Cursor = Cursors.SizeWE;
@@ -182,32 +149,36 @@ namespace GazoView.Lib.Panel
                 var point = e.GetPosition(TrimmingLayer_view);
                 var trimming = Item.BindingParam.Trimming;
 
-                double maxRight = _viewLeft + _viewWidth;
-                double maxBottom = _viewTop + _viewHeight;
+                //double maxRight = _viewLeft + _viewWidth;
+                //double maxBottom = _viewTop + _viewHeight;
 
                 switch (_dragLine)
                 {
                     case DragLine.Top:
                         {
-                            double y = Math.Max(0, Math.Min(point.Y, TrimmingLayer_view.ActualHeight));
+                            double y = point.Y;
+                            if (y < 0) y = 0;
                             trimming.Top = (int)y;
                         }
                         break;
                     case DragLine.Bottom:
                         {
-                            double y = point.Y >= 0 ? Math.Min(point.Y, maxBottom) : maxBottom;
+                            double y = point.Y;
+                            if (y > this.DesiredSize.Height) y = this.DesiredSize.Height;
                             trimming.Bottom = (int)y;
                         }
                         break;
                     case DragLine.Left:
                         {
-                            double x = Math.Max(0, Math.Min(point.X, TrimmingLayer_view.ActualWidth));
+                            double x = point.X;
+                            if (x < 0) x = 0;
                             trimming.Left = (int)x;
                         }
                         break;
                     case DragLine.Right:
                         {
-                            double x = point.X >= 0 ? Math.Min(point.X, maxRight) : maxRight;
+                            double x = point.X;
+                            if(x > this.DesiredSize.Width) x = this.DesiredSize.Width;
                             trimming.Right = (int)x;
                         }
                         break;
@@ -221,24 +192,30 @@ namespace GazoView.Lib.Panel
                         break;
                     case DragLine.TopRight:
                         {
-                            double x = point.X >= 0 ? Math.Min(point.X, maxRight) : maxRight;
-                            double y = Math.Max(0, Math.Min(point.Y, TrimmingLayer_view.ActualHeight));
+                            double x = point.X;
+                            if (x > this.DesiredSize.Width) x = this.DesiredSize.Width;
+                            double y = point.Y;
+                            if (y < 0) y = 0;
                             trimming.Top = (int)y;
                             trimming.Right = (int)x;
                         }
                         break;
                     case DragLine.BottomLeft:
                         {
-                            double x = Math.Max(0, Math.Min(point.X, TrimmingLayer_view.ActualWidth));
-                            double y = point.Y >= 0 ? Math.Min(point.Y, maxBottom) : maxBottom;
+                            double x = point.X;
+                            if (x < 0) x = 0;
+                            double y = point.Y;
+                            if (y > this.DesiredSize.Height) y = this.DesiredSize.Height;
                             trimming.Bottom = (int)y;
                             trimming.Left = (int)x;
                         }
                         break;
                     case DragLine.BottomRight:
                         {
-                            double x = point.X >= 0 ? Math.Min(point.X, maxRight) : maxRight;
-                            double y = point.Y >= 0 ? Math.Min(point.Y, maxBottom) : maxBottom;
+                            double x = point.X;
+                            if (x > this.DesiredSize.Width) x = this.DesiredSize.Width;
+                            double y = point.Y;
+                            if (y > this.DesiredSize.Height) y = this.DesiredSize.Height;
                             trimming.Bottom = (int)y;
                             trimming.Right = (int)x;
                         }
