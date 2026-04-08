@@ -1,6 +1,7 @@
 ﻿
 using GazoView.Lib.Panel;
 using System.Diagnostics;
+using System.Windows;
 using System.Windows.Controls;
 using System.Windows.Data;
 using System.Windows.Input;
@@ -11,11 +12,12 @@ namespace GazoView.Lib
     {
         private static readonly double[] _ticks = new double[]
         {
-            0.2, 0.22, 0.24, 0.26, 0.28, 0.3, 0.32, 0.34, 0.36, 0.38,
-            0.4, 0.44, 0.48, 0.52, 0.56,  0.6, 0.64, 0.68, 0.72, 0.76, 0.8, 0.9,
-            1, 1.1, 1.2, 1.3, 1.4, 1.5, 1.6, 1.7, 1.8, 1.9,
-            2, 2.2, 2.4, 2.6, 2.8, 3, 3.2, 3.4, 3.6, 3.8,
-            4, 4.4, 4.8, 5.2, 5.6, 6, 6.4, 6.8, 7.2, 7.6,
+            0.18,  0.26, 0.34, 0.42,
+            0.5, 0.56, 0.62, 0.68, 0.74, 0.8, 0.84, 0.88, 0.92, 0.96,
+            1, 1.04, 1.08, 1.12, 1.16, 1.2, 1.26, 1.32, 1.38, 1.44, 1.5,
+            1.58, 1.64, 1.72, 1.8, 1.9, 2, 2,1, 2.2, 2.3, 2.4,
+            2.6, 2.8, 3, 3.2, 3.4, 3.6, 3.8, 4,
+            4.4, 4.8, 5.2, 5.6, 6, 6.4, 6.8, 7.2, 7.6,
             8, 8.8, 9.6, 10.4, 11.2, 12, 12.8, 13.6, 14.4, 15.2, 16
         };
 
@@ -54,8 +56,18 @@ namespace GazoView.Lib
             }
             else
             {
-                int direction = e.Delta > 0 ? 1 : -1;
-                this.Index += direction;
+                if (e.Delta > 0 && !this.IsMax)
+                {
+                    this.Index++;
+                }
+                else if (e.Delta < 0 && !this.IsMin)
+                {
+                    this.Index--;
+                }
+                else
+                {
+                    return;
+                }
             }
 
             if (this.Scale == 1.0)
@@ -68,8 +80,8 @@ namespace GazoView.Lib
             {
                 BindingOperations.ClearBinding(mainImage, Image.WidthProperty);
                 BindingOperations.ClearBinding(mainImage, Image.HeightProperty);
-                var newWidth = mainImage.ActualHeight * this.Scale;
-                var newHeight = mainImage.ActualWidth * this.Scale;
+                var newWidth = Item.MainWindow.ActualWidth * this.Scale;
+                var newHeight = (Item.MainWindow.ActualHeight - SystemParameters.WindowCaptionHeight) * this.Scale;
                 if (this.Scale > 1)
                 {
                     //  Before scaling, get poinger location.
@@ -88,7 +100,6 @@ namespace GazoView.Lib
                     mainImage.Height = newHeight;
                 }
             }
-
         }
     }
 }
