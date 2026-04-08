@@ -3,7 +3,7 @@ using System.Windows.Media;
 
 namespace GazoView.Lib.Panel
 {
-    internal class AdvancedScrollViewer : ScrollViewer
+    public class AdvancedScrollViewer : ScrollViewer
     {
         protected override GeometryHitTestResult HitTestCore(GeometryHitTestParameters hitTestParameters)
         {

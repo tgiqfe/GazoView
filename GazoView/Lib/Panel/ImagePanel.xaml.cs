@@ -1,4 +1,5 @@
-﻿using System;
+﻿using GazoView.Lib.Functions;
+using System;
 using System.Collections.Generic;
 using System.Text;
 using System.Windows;
@@ -19,6 +20,21 @@ namespace GazoView.Lib.Panel
         {
             InitializeComponent();
             this.DataContext = Item.BindingParam;
+        }
+
+        private void UserControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
+        {
+            e.Handled = true;
+            if (SpecialKeyStatus.IsCtrlPressed())
+            {
+                Item.BindingParam.ScaleRate.IsScalingMode = true;
+                Item.BindingParam.ScaleRate.ZoomImage(MainImage, ScrollViewer, e);
+            }
+            else
+            {
+                Item.BindingParam.Images.Index += e.Delta > 0 ? -1 : 1;
+                Item.BindingParam.Images.ViewImage();
+            }
         }
     }
 }

@@ -11,5 +11,7 @@ namespace GazoView.Lib.Functions
             Item.BindingParam.Trimming.IsTrimmingMode = 
                 toEnable ?? !Item.BindingParam.Trimming.IsTrimmingMode;
         }
+
+        
     }
 }

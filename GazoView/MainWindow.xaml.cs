@@ -88,24 +88,7 @@ namespace GazoView
             }
         }
 
-        /// <summary>
-        /// Mouse wheel event.
-        /// </summary>
-        /// <param name="sender"></param>
-        /// <param name="e"></param>
-        private void Window_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
-        {
-            e.Handled = true;
-            if (SpecialKeyStatus.IsCtrlPressed())
-            {
 
-            }
-            else
-            {
-                Item.BindingParam.Images.Index += e.Delta > 0 ? -1 : 1;
-                Item.BindingParam.Images.ViewImage();
-            }
-        }
 
         /// <summary>
         /// Show navigation triangles on mouse move.
