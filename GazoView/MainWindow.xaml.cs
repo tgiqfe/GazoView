@@ -88,7 +88,7 @@ namespace GazoView
             }
         }
 
-
+        #region Navigation triangles
 
         /// <summary>
         /// Show navigation triangles on mouse move.
@@ -148,11 +148,12 @@ namespace GazoView
         /// Navigate to next image.
         /// </summary>
         /// <param name="sender"></param>
-        /// <param name="e"></param>
         private void RightTriangle_Click(object sender, MouseButtonEventArgs e)
         {
             Item.BindingParam.Images.Index++;
             Item.BindingParam.Images.ViewImage();
         }
+
+        #endregion
     }
 }
