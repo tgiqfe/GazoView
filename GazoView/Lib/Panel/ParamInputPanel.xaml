@@ -49,20 +49,24 @@
             <ColumnDefinition Width="75"/>
         </Grid.ColumnDefinitions>
 
-        <materialDesign:PackIcon Grid.Row="0" Grid.Column="0" Kind="ArrowCollapseRight" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="0" Grid.Column="1" Text="Left:" />
-        <TextBox Grid.Row="0" Grid.Column="2" Name="LeftTextBox" PreviewTextInput="NumberValidationTextBox"/>
+        <materialDesign:PackIcon Grid.Row="0" Grid.Column="0" Kind="ArrowCollapseUp" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Top:" />
+        <TextBox Grid.Row="0" Grid.Column="2" Name="TopTextBox" PreviewTextInput="NumberValidationTextBox"
+                 Text="{Binding Trimming.Top, Mode=TwoWay}"/>
 
         <materialDesign:PackIcon Grid.Row="0" Grid.Column="3" Kind="ArrowCollapseDown" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="0" Grid.Column="4" Text="Top:" />
-        <TextBox Grid.Row="0" Grid.Column="5" Name="TopTextBox" PreviewTextInput="NumberValidationTextBox"/>
+        <TextBlock Grid.Row="0" Grid.Column="4" Text="Bottom:" />
+        <TextBox Grid.Row="0" Grid.Column="5" Name="BottomTextBox" PreviewTextInput="NumberValidationTextBox"
+                 Text="{Binding Trimming.Bottom, Mode=TwoWay}"/>
 
-        <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="ArrowExpandHorizontal" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="1" Grid.Column="1" Text="Width:" />
-        <TextBox Grid.Row="1" Grid.Column="2" Name="WidthTextBox" PreviewTextInput="NumberValidationTextBox"/>
+        <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="ArrowCollapseLeft" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Left:" />
+        <TextBox Grid.Row="1" Grid.Column="2" Name="LeftTextBox" PreviewTextInput="NumberValidationTextBox"
+                 Text="{Binding Trimming.Left, Mode=TwoWay}"/>
 
-        <materialDesign:PackIcon Grid.Row="1" Grid.Column="3" Kind="ArrowExpandVertical" VerticalAlignment="Center"/>
-        <TextBlock Grid.Row="1" Grid.Column="4" Text="Height:" />
-        <TextBox Grid.Row="1" Grid.Column="5" Name="HeightTextBox" PreviewTextInput="NumberValidationTextBox"/>
+        <materialDesign:PackIcon Grid.Row="1" Grid.Column="3" Kind="ArrowCollapseRight" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="4" Text="Right:" />
+        <TextBox Grid.Row="1" Grid.Column="5" Name="RightTextBox" PreviewTextInput="NumberValidationTextBox"
+                 Text="{Binding Trimming.Right, Mode=TwoWay}"/>
     </Grid>
 </UserControl>
