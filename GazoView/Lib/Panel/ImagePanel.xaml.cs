@@ -18,7 +18,7 @@ namespace GazoView.Lib.Panel
             e.Handled = true;
             if (SpecialKeyStatus.IsCtrlPressed())
             {
-                Item.BindingParam.ScaleRate.IsScalingMode = true;
+                //Item.BindingParam.ScaleRate.IsScalingMode = true;
                 Item.BindingParam.ScaleRate.ZoomImage(MainImage, ScrollViewer, e);
             }
             else

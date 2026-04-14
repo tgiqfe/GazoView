@@ -31,7 +31,9 @@ namespace GazoView.Lib
         public bool IsMax { get => _index == _ticks.Length - 1; }
         public bool IsMin { get => _index == 0; }
 
-        public bool IsScalingMode = true;
+        public bool IsScalingMode { get => _ticks[_index] != 1.0; }
+
+        //public bool IsScalingMode = true;
 
         public int Index
         {
@@ -78,7 +80,7 @@ namespace GazoView.Lib
             {
                 mainImage.SetBinding(Image.WidthProperty, new Binding("ActualWidth") { Source = scrollViewer });
                 mainImage.SetBinding(Image.HeightProperty, new Binding("ActualHeight") { Source = scrollViewer });
-                this.IsScalingMode = false;
+                //this.IsScalingMode = false;
             }
             else
             {

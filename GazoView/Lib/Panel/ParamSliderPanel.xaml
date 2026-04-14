@@ -77,22 +77,23 @@
     <Grid Margin="10">
         <StackPanel Orientation="Horizontal">
             <Slider Name="ScaleRateSlider"
-                Minimum="0"
-                Width="250"
-                Template="{StaticResource HorizontalSlider}"
-                ValueChanged="ScaleRateSlider_ValueChanged"
-                VerticalAlignment="Center"/>
+                    Minimum="0"
+                    Width="250"
+                    Template="{StaticResource HorizontalSlider}"
+                    ValueChanged="ScaleRateSlider_ValueChanged"
+                    IsMoveToPointEnabled="True"
+                    VerticalAlignment="Center" />
             <Border BorderThickness="0.5"
-                BorderBrush="Gray"
-                CornerRadius="5"
-                Width="50"
-                Margin="10,3"
-                Padding="3"
-                Background="WhiteSmoke"
-                VerticalAlignment="Center">
+                    BorderBrush="Gray"
+                    CornerRadius="5"
+                    Width="50"
+                    Margin="10,3"
+                    Padding="3"
+                    Background="WhiteSmoke"
+                    VerticalAlignment="Center">
                 <TextBlock Name="ScaleRateValue"
-                       FontSize="14"
-                       FontFamily="Noto Sans JP"/>
+                           FontSize="14"
+                           FontFamily="Noto Sans JP"/>
             </Border>
         </StackPanel>
     </Grid>
