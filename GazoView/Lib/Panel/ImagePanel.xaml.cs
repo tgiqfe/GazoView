@@ -10,7 +10,7 @@ namespace GazoView.Lib.Panel
         public ImagePanel()
         {
             InitializeComponent();
-            this.DataContext = Item.BindingParam;
+            //this.DataContext = Item.BindingParam;
         }
 
         private void UserControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)

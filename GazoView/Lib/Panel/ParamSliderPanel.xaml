@@ -73,6 +73,7 @@
             </ControlTemplate.Triggers>
         </ControlTemplate>
     </UserControl.Resources>
+    
     <Grid Margin="10">
         <StackPanel Orientation="Horizontal">
             <Slider Name="ScaleRateSlider"

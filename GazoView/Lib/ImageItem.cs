@@ -1,10 +1,5 @@
 ﻿using GazoView.Lib.Functions;
-using System;
-using System.Collections.Generic;
-using System.Drawing;
 using System.IO;
-using System.Security.Cryptography.X509Certificates;
-using System.Text;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -59,7 +54,7 @@ namespace GazoView.Lib
                     bitmap.EndInit();
                     bitmap.Freeze();
 
-                    this.Width= bitmap.PixelWidth;
+                    this.Width = bitmap.PixelWidth;
                     this.Height = bitmap.PixelHeight;
                     this.DpiX = bitmap.DpiX;
                     this.DpiY = bitmap.DpiY;

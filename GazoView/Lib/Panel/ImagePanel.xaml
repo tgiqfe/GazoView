@@ -25,10 +25,10 @@
                        Source="{Binding Images.Current.Source}"
                        Width="{Binding ActualWidth, ElementName=ScrollViewer}"
                        Height="{Binding ActualHeight, ElementName=ScrollViewer}" />
-                <local:TrimmingLayer x:Name="TrimmingLayer"
-                                     Width="{Binding ActualWidth, ElementName=MainImage}"          
-                                     Height="{Binding ActualHeight, ElementName=MainImage}"
-                                     Visibility="{Binding Trimming.IsTrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                <local:TrimmingLayer2 x:Name="TrimmingLayer"
+                                      Width="{Binding ActualWidth, ElementName=MainImage}"          
+                                      Height="{Binding ActualHeight, ElementName=MainImage}"
+                                      Visibility="{Binding Trimming.IsTrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
             </Grid>
         </local:AdvancedScrollViewer>
     </Grid>

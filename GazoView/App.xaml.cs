@@ -1,8 +1,4 @@
-﻿using System.ComponentModel;
-using System.Configuration;
-using System.Data;
-using System.IO;
-using System.Windows;
+﻿using System.Windows;
 
 namespace GazoView
 {

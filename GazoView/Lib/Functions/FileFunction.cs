@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.IO;
+﻿using System.IO;
 using System.Security.Cryptography;
-using System.Text;
 
 namespace GazoView.Lib.Functions
 {
@@ -23,9 +20,9 @@ namespace GazoView.Lib.Functions
 
         public static string GetHash(string path)
         {
-            using(var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                using(var md5 = MD5.Create())
+                using (var md5 = MD5.Create())
                 {
                     var hash = md5.ComputeHash(fs);
                     return BitConverter.ToString(hash).Replace("-", "").ToLower();

@@ -1,8 +1,5 @@
-﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
+﻿using System.ComponentModel;
 using System.Runtime.CompilerServices;
-using System.Text;
 
 namespace GazoView.Lib
 {
@@ -34,6 +31,7 @@ namespace GazoView.Lib
                     _setting.TrimmingTop = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ViewTop));
+                    OnPropertyChanged(nameof(AssistTop));
                 }
             }
         }
@@ -48,10 +46,11 @@ namespace GazoView.Lib
                     _setting.TrimmingBottom = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ViewBottom));
+                    OnPropertyChanged(nameof(AssistBottom));
                 }
             }
         }
-        
+
         public int Left
         {
             get => _setting.TrimmingLeft;
@@ -62,6 +61,7 @@ namespace GazoView.Lib
                     _setting.TrimmingLeft = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ViewLeft));
+                    OnPropertyChanged(nameof(AssistLeft));
                 }
             }
         }
@@ -76,15 +76,22 @@ namespace GazoView.Lib
                     _setting.TrimmingRight = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(ViewRight));
+                    OnPropertyChanged(nameof(AssistRight));
                 }
             }
         }
 
         public double ViewTop { get { return this.Top * this._scale; } }
-        public double ViewBottom { get { return this.Bottom * this._scale; } } 
+        public double ViewBottom { get { return this.Bottom * this._scale; } }
         public double ViewLeft { get { return this.Left * this._scale; } }
         public double ViewRight { get { return this.Right * this._scale; } }
 
+
+        //  Assist values for assist line display (4px outside of trimming area).
+        public double AssistTop { get => this.Top - 4; }
+        public double AssistBottom { get => this.Bottom + 4; }
+        public double AssistLeft { get => this.Left - 4; }
+        public double AssistRight { get => this.Right + 4; }
 
         // Setting reference for save trimming setting.
         private Setting _setting = null;

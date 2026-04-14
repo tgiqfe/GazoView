@@ -37,7 +37,7 @@
                                        Foreground="DimGray"
                                        Margin="20,0"/>
                             <local:ParamSliderPanel x:Name="ParamParamSlider"
-                                    HorizontalAlignment="Center" />
+                                                    HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
                     <Border  CornerRadius="20" Background="WhiteSmoke"
