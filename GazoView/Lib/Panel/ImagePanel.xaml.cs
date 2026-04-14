@@ -1,16 +1,7 @@
 ﻿using GazoView.Lib.Functions;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 using System.Windows.Controls;
-using System.Windows.Data;
-using System.Windows.Documents;
 using System.Windows.Input;
-using System.Windows.Media;
-using System.Windows.Media.Imaging;
-using System.Windows.Navigation;
-using System.Windows.Shapes;
 
 namespace GazoView.Lib.Panel
 {
@@ -36,5 +27,39 @@ namespace GazoView.Lib.Panel
                 Item.BindingParam.Images.ViewImage();
             }
         }
+
+        #region Drag move in scaling mode.
+
+        private Point _startPoint;
+
+        private void ScrollViewer_PreviewMouseRightButtonDown(object sender, MouseButtonEventArgs e)
+        {
+            if (Item.BindingParam.ScaleRate.IsScalingMode)
+            {
+                e.Handled = true;
+                _startPoint = e.GetPosition(ScrollViewer);
+                Item.MainWindow.Cursor = Cursors.ScrollAll;
+            }
+        }
+
+        private void ScrollViewer_MouseMove(object sender, MouseEventArgs e)
+        {
+            if (Item.BindingParam.ScaleRate.IsScalingMode && e.RightButton == MouseButtonState.Pressed)
+            {
+                Point currentPoint = e.GetPosition(ScrollViewer);
+                double offsetX = currentPoint.X - _startPoint.X;
+                double offsetY = currentPoint.Y - _startPoint.Y;
+                ScrollViewer.ScrollToHorizontalOffset(ScrollViewer.HorizontalOffset - offsetX);
+                ScrollViewer.ScrollToVerticalOffset(ScrollViewer.VerticalOffset - offsetY);
+                _startPoint = currentPoint;
+            }
+        }
+
+        private void ScrollViewer_PreviewMouseRightButtonUp(object sender, MouseButtonEventArgs e)
+        {
+            Item.MainWindow.Cursor = Cursors.Arrow;
+        }
+
+        #endregion
     }
 }

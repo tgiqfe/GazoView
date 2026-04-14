@@ -95,7 +95,6 @@ namespace GazoView.Lib
 
 
         // Setting reference for save trimming setting.
-        // If referencing the settings doesn't work, consider other methods.
         private Setting _setting = null;
 
         public Trimming(Setting setting)

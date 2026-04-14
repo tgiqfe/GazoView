@@ -74,6 +74,8 @@ namespace GazoView.Lib.Panel
             var point = e.GetPosition(TrimmingLayer_view);
             var trimming = Item.BindingParam.Trimming;
 
+            Debug.WriteLine("Change trimming area");
+
             //  20px margin for dragging line start position.
             var margin = 20;
             var letherAreaLength = Math.Min(trimming.ViewRight - trimming.ViewLeft, trimming.ViewBottom - trimming.ViewTop);
@@ -87,7 +89,7 @@ namespace GazoView.Lib.Panel
                 _dragLine = DragLine.Top;
                 this.Cursor = Cursors.SizeNS;
             }
-            else if (point.X >= trimming.ViewLeft && point.X <= trimming.ViewRight && 
+            else if (point.X >= trimming.ViewLeft && point.X <= trimming.ViewRight &&
                 (point.Y > (trimming.ViewBottom - margin) || point.Y > (this.DesiredSize.Height - margin)))
             {
                 _dragLine = DragLine.Bottom;
@@ -98,7 +100,7 @@ namespace GazoView.Lib.Panel
                 _dragLine = DragLine.Left;
                 this.Cursor = Cursors.SizeWE;
             }
-            else if (point.Y >= trimming.ViewTop && point.Y <= trimming.ViewBottom && 
+            else if (point.Y >= trimming.ViewTop && point.Y <= trimming.ViewBottom &&
                 (point.X > (trimming.ViewRight - margin) || point.X > (this.DesiredSize.Width - margin)))
             {
                 _dragLine = DragLine.Right;
@@ -149,43 +151,48 @@ namespace GazoView.Lib.Panel
                 var point = e.GetPosition(TrimmingLayer_view);
                 var trimming = Item.BindingParam.Trimming;
 
-                //double maxRight = _viewLeft + _viewWidth;
-                //double maxBottom = _viewTop + _viewHeight;
-
                 switch (_dragLine)
                 {
                     case DragLine.Top:
                         {
                             double y = point.Y;
-                            if (y < 0) y = 0;
+                            if (y <= 0) y = 0;
+                            if (y >= trimming.Bottom) y = trimming.Bottom - 1;
                             trimming.Top = (int)y;
                         }
                         break;
                     case DragLine.Bottom:
                         {
                             double y = point.Y;
-                            if (y > this.DesiredSize.Height) y = this.DesiredSize.Height;
+                            if (y >= this.DesiredSize.Height) y = this.DesiredSize.Height;
+                            if (y <= trimming.Top) y = trimming.Top + 1;
                             trimming.Bottom = (int)y;
                         }
                         break;
                     case DragLine.Left:
                         {
                             double x = point.X;
-                            if (x < 0) x = 0;
+                            if (x <= 0) x = 0;
+                            if (x >= trimming.Right) x = trimming.Right - 1;
                             trimming.Left = (int)x;
                         }
                         break;
                     case DragLine.Right:
                         {
                             double x = point.X;
-                            if(x > this.DesiredSize.Width) x = this.DesiredSize.Width;
+                            if (x >= this.DesiredSize.Width) x = this.DesiredSize.Width;
+                            if (x <= trimming.Left) x = trimming.Left + 1;
                             trimming.Right = (int)x;
                         }
                         break;
                     case DragLine.TopLeft:
                         {
-                            double x = Math.Max(0, Math.Min(point.X, TrimmingLayer_view.ActualWidth));
-                            double y = Math.Max(0, Math.Min(point.Y, TrimmingLayer_view.ActualHeight));
+                            double x = point.X;
+                            double y = point.Y;
+                            if (x <= 0) x = 0;
+                            if (y <= 0) y = 0;
+                            if (x >= trimming.Right) x = trimming.Right - 1;
+                            if (y >= trimming.Bottom) y = trimming.Bottom - 1;
                             trimming.Top = (int)y;
                             trimming.Left = (int)x;
                         }
@@ -193,9 +200,11 @@ namespace GazoView.Lib.Panel
                     case DragLine.TopRight:
                         {
                             double x = point.X;
-                            if (x > this.DesiredSize.Width) x = this.DesiredSize.Width;
                             double y = point.Y;
-                            if (y < 0) y = 0;
+                            if (x >= this.DesiredSize.Width) x = this.DesiredSize.Width;
+                            if (y <= 0) y = 0;
+                            if (x <= trimming.Left) x = trimming.Left + 1;
+                            if (y >= trimming.Bottom) y = trimming.Bottom - 1;
                             trimming.Top = (int)y;
                             trimming.Right = (int)x;
                         }
@@ -203,9 +212,11 @@ namespace GazoView.Lib.Panel
                     case DragLine.BottomLeft:
                         {
                             double x = point.X;
-                            if (x < 0) x = 0;
                             double y = point.Y;
-                            if (y > this.DesiredSize.Height) y = this.DesiredSize.Height;
+                            if (x <= 0) x = 0;
+                            if (y >= this.DesiredSize.Height) y = this.DesiredSize.Height;
+                            if (x >= trimming.Right) x = trimming.Right - 1;
+                            if (y <= trimming.Top) y = trimming.Top + 1;
                             trimming.Bottom = (int)y;
                             trimming.Left = (int)x;
                         }
@@ -213,9 +224,11 @@ namespace GazoView.Lib.Panel
                     case DragLine.BottomRight:
                         {
                             double x = point.X;
-                            if (x > this.DesiredSize.Width) x = this.DesiredSize.Width;
                             double y = point.Y;
-                            if (y > this.DesiredSize.Height) y = this.DesiredSize.Height;
+                            if (x >= this.DesiredSize.Width) x = this.DesiredSize.Width;
+                            if (y >= this.DesiredSize.Height) y = this.DesiredSize.Height;
+                            if (x <= trimming.Left) x = trimming.Left + 1;
+                            if (y <= trimming.Top) y = trimming.Top + 1;
                             trimming.Bottom = (int)y;
                             trimming.Right = (int)x;
                         }

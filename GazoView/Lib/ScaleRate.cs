@@ -58,14 +58,17 @@ namespace GazoView.Lib
             {
                 if (e.Delta > 0 && !this.IsMax)
                 {
+                    //  Zoom in.
                     this.Index++;
                 }
                 else if (e.Delta < 0 && !this.IsMin)
                 {
+                    //  Zoom out.
                     this.Index--;
                 }
                 else
                 {
+                    //  No change. current index is max or min.
                     return;
                 }
             }
