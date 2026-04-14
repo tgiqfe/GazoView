@@ -82,8 +82,19 @@ namespace GazoView.Lib.Panel
                 this.ReleaseMouseCapture();
                 e.Handled = true;
 
-                Item.BindingParam.Setting.ParamPanelLeft = (int)this.Margin.Left;
-                Item.BindingParam.Setting.ParamPanelTop = (int)this.Margin.Top;
+                var mainWindowWidth = Item.MainWindow.ActualWidth;
+                var mainWindowHeight = Item.MainWindow.ActualHeight - SystemParameters.WindowCaptionHeight;
+                var paramPanelWidth = this.ActualWidth;
+                var paramPanelHeight = this.ActualHeight;
+                var margin = this.Margin;
+                if (margin.Left < 0) margin.Left = 0;
+                if (margin.Top < 0) margin.Top = 0;
+                if (margin.Left + paramPanelWidth > mainWindowWidth) margin.Left = mainWindowWidth - paramPanelWidth;
+                if (margin.Top + paramPanelHeight > mainWindowHeight) margin.Top = mainWindowHeight - paramPanelHeight;
+                this.Margin = new Thickness(margin.Left, margin.Top, 0, 0);
+
+                Item.BindingParam.Setting.ParamPanelLeft = (int)margin.Left;
+                Item.BindingParam.Setting.ParamPanelTop = (int)margin.Top;
             }
         }
 
