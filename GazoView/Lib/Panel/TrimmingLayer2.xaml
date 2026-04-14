@@ -1,0 +1,85 @@
+﻿<UserControl x:Class="GazoView.Lib.Panel.TrimmingLayer2"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GazoView.Lib.Panel"
+             xmlns:converter="clr-namespace:GazoView.Lib.Converter"
+             mc:Ignorable="d"
+             Name="TrimmingLayer_view2">
+
+    <UserControl.Resources>
+        <SolidColorBrush x:Key="BackgroundBrush"
+                         Color="AliceBlue"
+                         Opacity="0.5"/>
+        <DrawingBrush x:Key="DiagonalBrush"
+                      Viewport="0,0,10,10" ViewportUnits="Absolute"
+                      Viewbox="0,0,10,10" ViewboxUnits="Absolute"
+                      TileMode="Tile"
+                      Opacity="0.8">
+            <DrawingBrush.Drawing>
+                <GeometryDrawing>
+                    <GeometryDrawing.Pen>
+                        <Pen Brush="Black" Thickness="1"/>
+                    </GeometryDrawing.Pen>
+                    <GeometryDrawing.Geometry>
+                        <Geometry>M10,0 L0,10 M5,-5 L-5,5 M15,5 L5,15</Geometry>
+                    </GeometryDrawing.Geometry>
+                </GeometryDrawing>
+            </DrawingBrush.Drawing>
+        </DrawingBrush>
+        <converter:GrayAreaSizeConverter x:Key="GrayAreaSizeConverter" />
+    </UserControl.Resources>
+
+    <Grid>
+        <DockPanel>
+            <!-- GrayArea -->
+            <Grid DockPanel.Dock="Top" Name="GrayAreaTop">
+                <Rectangle Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Fill="{StaticResource DiagonalBrush}" />
+                <Grid.Height>
+                    <MultiBinding Converter="{StaticResource GrayAreaSizeConverter}" ConverterParameter="top">
+                        <Binding Path="Trimming.Top" />
+                        <Binding Path="ActualHeight" ElementName="TrimmingLayer_view2" />
+                    </MultiBinding>
+                </Grid.Height>
+            </Grid>
+            <Grid DockPanel.Dock="Bottom" Name="GrayAreaBottom">
+                <Rectangle Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Fill="{StaticResource DiagonalBrush}" />
+                <Grid.Height>
+                    <MultiBinding Converter="{StaticResource GrayAreaSizeConverter}" ConverterParameter="bottom">
+                        <Binding Path="Trimming.Bottom" />
+                        <Binding Path="ActualHeight" ElementName="TrimmingLayer_view2" />
+                    </MultiBinding>
+                </Grid.Height>
+            </Grid>
+            <Grid DockPanel.Dock="Left" Name="GrayAreaLeft">
+                <Rectangle Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Fill="{StaticResource DiagonalBrush}" />
+                <Grid.Width>
+                    <MultiBinding Converter="{StaticResource GrayAreaSizeConverter}" ConverterParameter="left">
+                        <Binding Path="Trimming.Left" />
+                        <Binding Path="ActualWidth" ElementName="TrimmingLayer_view2" />
+                    </MultiBinding>
+                </Grid.Width>
+            </Grid>
+            <Grid DockPanel.Dock="Right" Name="GrayAreaRight">
+                <Rectangle Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Fill="{StaticResource DiagonalBrush}" />
+                <Grid.Width>
+                    <MultiBinding Converter="{StaticResource GrayAreaSizeConverter}" ConverterParameter="right">
+                        <Binding Path="Trimming.Right" />
+                        <Binding Path="ActualWidth" ElementName="TrimmingLayer_view2" />
+                    </MultiBinding>
+                </Grid.Width>
+            </Grid>
+            <Rectangle Fill="Transparent"/>
+        </DockPanel>
+    
+        
+        
+        
+
+    </Grid>
+</UserControl>

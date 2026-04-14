@@ -24,10 +24,8 @@ namespace GazoView.Lib
 
         private double _scale = 1;
 
-        //private int _top = -1;
         public int Top
         {
-            //get => _top;
             get => _setting.TrimmingTop;
             set
             {
@@ -40,10 +38,8 @@ namespace GazoView.Lib
             }
         }
 
-        //private int _bottom = -1;
         public int Bottom
         {
-            //get => _bottom;
             get => _setting.TrimmingBottom;
             set
             {
@@ -56,10 +52,8 @@ namespace GazoView.Lib
             }
         }
         
-        //private int _left = -1;
         public int Left
         {
-            //get => _left;
             get => _setting.TrimmingLeft;
             set
             {
@@ -72,10 +66,8 @@ namespace GazoView.Lib
             }
         }
 
-        //private int _right = -1;
         public int Right
         {
-            //get => _right;
             get => _setting.TrimmingRight;
             set
             {
