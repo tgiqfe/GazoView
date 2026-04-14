@@ -10,6 +10,8 @@ namespace GazoView
     {
         const string SETTING_FILE = "Setting.json";
 
+        #region MainWindow Size/Location
+
         /// <summary>
         /// Last ended windows width.
         /// </summary>
@@ -30,11 +32,21 @@ namespace GazoView
         /// </summary>
         public double Top { get; set; } = 0;
 
+        #endregion
+        #region Trimmin area Size/Location
+
         public int TrimmingTop { get; set; } = -1;
         public int TrimmingBottom { get; set; } = -1;
         public int TrimmingLeft { get; set; } = -1;
         public int TrimmingRight { get; set; } = -1;
 
+        #endregion
+        #region ParamPanel Location
+
+        public int ParamPanelLeft { get; set; } = -1;
+        public int ParamPanelTop { get; set; } = -1;
+
+        #endregion
 
         #region Load/Save setting
 

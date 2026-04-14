@@ -10,7 +10,7 @@ namespace GazoView.Lib
 {
     public class ScaleRate
     {
-        private static readonly double[] _ticks = new double[]
+        private static double[] _ticks = new double[]
         {
             0.18,  0.26, 0.34, 0.42,
             0.5, 0.56, 0.62, 0.68, 0.74, 0.8, 0.84, 0.88, 0.92, 0.96,
@@ -25,6 +25,8 @@ namespace GazoView.Lib
         private int _index = DEF_INDEX;
         private int _preview = DEF_INDEX;
 
+        public int TicksLength { get => _ticks.Length; }
+        public int DefaultIndex { get => DEF_INDEX; }
         public double Scale { get => _ticks[_index]; }
         public double PreviewScale { get => _ticks[_preview]; }
         public bool IsMax { get => _index == _ticks.Length - 1; }
