@@ -20,6 +20,13 @@ namespace GazoView.Lib.Panel
         public RenameBoxWindow()
         {
             InitializeComponent();
+            this.DataContext = Item.BindingParam;
+        }
+
+        private void RenameBox_Loaded(object sender, RoutedEventArgs e)
+        {
+            TextBoxForFileName.Focus();
+            TextBoxForFileName.Select(TextBoxForFileName.Text.Length, 0);
         }
 
         private void RenameWindowBase_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
@@ -30,5 +37,24 @@ namespace GazoView.Lib.Panel
                 TextBoxForFileName.SelectAll();
             }
         }
+
+        /// <summary>
+        /// Key down event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void RenameBox_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    this.Hide();
+                    break;
+                case Key.Enter:
+                    break;
+            }
+        }
+
+
     }
 }

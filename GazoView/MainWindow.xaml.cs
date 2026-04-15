@@ -12,6 +12,16 @@ namespace GazoView
     /// </summary>
     public partial class MainWindow : Window
     {
+        //  Esc key event
+        private DispatcherTimer _keyHoldTimer;
+        private Key? _currentHeldKey;
+        private const int KeyHoldDelay = 500;
+
+        //  F2 key event
+        private RenameBoxWindow _renameBoxWindow;
+        double _windowShadowSize = -1;
+        double _titleBarSize = -1;
+
         public MainWindow()
         {
             InitializeComponent();
@@ -41,13 +51,31 @@ namespace GazoView
                 {
                     if (!Item.BindingParam.Trimming.IsTrimmingMode) this.DragMove();
                 }));
+
+            //  Add event (for RenameBoxWindow sync).
+            //this.LocationChanged += MainWindow_LocationChanged;
+            this.LocationChanged += (sender, e) =>
+            {
+                if (_renameBoxWindow != null && _renameBoxWindow.IsVisible)
+                {
+                    _renameBoxWindow.Left = this.Left + _windowShadowSize;
+                    _renameBoxWindow.Top = this.Top + _titleBarSize;
+                }
+            };
         }
 
-        #region Key events
+        /*
+        private void MainWindow_LocationChanged(object? sender, EventArgs e)
+        {
+            if (_renameBoxWindow != null && _renameBoxWindow.IsVisible)
+            {
+                _renameBoxWindow.Left = this.Left + _windowShadowSize;
+                _renameBoxWindow.Top = this.Top + _titleBarSize;
+            }
+        }
+        */
 
-        private DispatcherTimer _keyHoldTimer;
-        private Key? _currentHeldKey;
-        private const int KeyHoldDelay = 500;
+        #region Key events
 
         /// <summary>
         /// Key down event.
@@ -62,6 +90,7 @@ namespace GazoView
             switch (e.Key)
             {
                 case Key.Escape:
+                    if (_renameBoxWindow != null) return;
                     _currentHeldKey = e.Key;
                     _keyHoldTimer = new DispatcherTimer();
                     _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
@@ -112,8 +141,13 @@ namespace GazoView
                     }
                     break;
                 case Key.F2:
-                    var renameBox = new RenameBoxWindow();
-                    renameBox.Show();
+                    _windowShadowSize = (Item.MainWindow.ActualWidth - ((FrameworkElement)Item.MainWindow.Content).ActualWidth) / 2;
+                    _titleBarSize = (Item.MainWindow.ActualHeight - ((FrameworkElement)Item.MainWindow.Content).ActualHeight) - _windowShadowSize;
+                    _renameBoxWindow ??= new RenameBoxWindow();
+                    _renameBoxWindow.Owner = this;
+                    _renameBoxWindow.Show();
+                    _renameBoxWindow.Left = this.Left + _windowShadowSize;
+                    _renameBoxWindow.Top = this.Top + _titleBarSize;
                     break;
             }
         }
@@ -130,6 +164,14 @@ namespace GazoView
             {
                 _keyHoldTimer.Stop();
                 _currentHeldKey = null;
+            }
+
+            //  Close rename box if F2 is released.
+            if (_renameBoxWindow != null)
+            {
+                _renameBoxWindow.Close();
+                _renameBoxWindow = null;
+                return;
             }
 
             switch (e.Key)

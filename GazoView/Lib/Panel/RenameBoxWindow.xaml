@@ -8,9 +8,13 @@
         mc:Ignorable="d"
         Name="RenameBox"
         Background="Transparent"
+        AllowsTransparency="True"
         WindowStyle="None"
         ResizeMode="NoResize"
-        Height="80" Width="590">
+        Loaded="RenameBox_Loaded"
+        WindowStartupLocation="Manual"
+        PreviewKeyDown="RenameBox_PreviewKeyDown"
+        Height="70" Width="635">
     
     <Window.Resources>
         <Style x:Key="RoundedTextBoxStyle" TargetType="TextBox">
@@ -66,23 +70,23 @@
         </Style>
     </Window.Resources>
 
-    <Grid>
+    <Grid Margin="0,0,10,10">
         <Border Name="RenameWindowBase"
-                CornerRadius="0,0,20,20" Background="#DFDFDF"
+                CornerRadius="0,0,15,15" Background="#DFDFDF"
                 MouseLeftButtonUp="RenameWindowBase_MouseLeftButtonUp">
             <Border.Effect>
                 <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="2" Opacity="0.5"/>
             </Border.Effect>
             <StackPanel Orientation="Horizontal">
                 <materialDesign:PackIcon Kind="FormTextbox"
-                                         Width="40"
+                                         Width="30"
                                          Height="Auto"
                                          Margin="10,5,0,5"        
                                          Padding="5"
                                          VerticalAlignment="Center"
                                          VerticalContentAlignment="Center"/>
-                <Border Width="38" 
-                        Height="36" 
+                <Border Width="40" 
+                        Height="40" 
                         CornerRadius="18,0,0,18"
                         BorderThickness="1"
                         BorderBrush="#bdbdbd"
@@ -97,8 +101,8 @@
                                          Foreground="Gray"/>
                 </Border>
                 <TextBox Name="TextBoxForFileName"
-                         Width="300"
-                         Height="36"
+                         Width="360"
+                         Height="40"
                          Margin="-1,5,5,5"
                          Padding="5"
                          VerticalAlignment="Center"
@@ -106,14 +110,14 @@
                          FontFamily="Noto Sans JP"
                          FontSize="16"
                          Style="{StaticResource RoundedTextBoxStyle}"/>
-                <TextBlock Text=".png"
+                <TextBlock Text="{Binding Images.Current.FileExtension}"
                            Margin="5,1,5,5" 
-                           MaxWidth="100"
+                           Width="100"
                            TextTrimming="CharacterEllipsis"
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Stretch"
                            FontFamily="Noto Sans JP"
-                           FontSize="18"/>
+                           FontSize="16"/>
                 <Button Margin="15,5"
                         Width="30"
                         Height="30"
