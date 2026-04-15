@@ -94,11 +94,12 @@
                         Margin="5,5,0,5">
                     <!-- CheckCircle, CloseCircle, PencilCircle -->
                     <materialDesign:PackIcon Kind="PencilCircle"
-                                         Width="25"
-                                         Height="Auto"
-                                         VerticalAlignment="Center"
-                                         HorizontalAlignment="Center"
-                                         Foreground="Gray"/>
+                                             Name="PrecheckStatusIcon"
+                                             Width="25"
+                                             Height="Auto"
+                                             VerticalAlignment="Center"
+                                             HorizontalAlignment="Center"
+                                             Foreground="Gray"/>
                 </Border>
                 <TextBox Name="TextBoxForFileName"
                          Width="360"
@@ -109,15 +110,16 @@
                          VerticalContentAlignment="Center"
                          FontFamily="Noto Sans JP"
                          FontSize="16"
+                         TextChanged="TextBoxForFileName_TextChanged"
                          Style="{StaticResource RoundedTextBoxStyle}"/>
-                <TextBlock Text="{Binding Images.Current.FileExtension}"
+                <TextBlock Name="TextBlockForExtension"
                            Margin="5,1,5,5" 
                            Width="100"
                            TextTrimming="CharacterEllipsis"
                            VerticalAlignment="Center" 
                            HorizontalAlignment="Stretch"
                            FontFamily="Noto Sans JP"
-                           FontSize="16"/>
+                           FontSize="16" />
                 <Button Margin="15,5"
                         Width="30"
                         Height="30"
