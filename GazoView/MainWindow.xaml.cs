@@ -52,6 +52,8 @@ namespace GazoView
                     if (!Item.BindingParam.Trimming.IsTrimmingMode) this.DragMove();
                 }));
 
+
+            /*
             //  Add event (for RenameBoxWindow sync).
             //this.LocationChanged += MainWindow_LocationChanged;
             this.LocationChanged += (sender, e) =>
@@ -62,6 +64,7 @@ namespace GazoView
                     _renameBoxWindow.Top = this.Top + _titleBarSize;
                 }
             };
+            */
         }
 
         /*
@@ -90,7 +93,7 @@ namespace GazoView
             switch (e.Key)
             {
                 case Key.Escape:
-                    if (_renameBoxWindow != null) return;
+                    if (Item.BindingParam.RenameBox.IsVisibleRenameBox) return;
                     _currentHeldKey = e.Key;
                     _keyHoldTimer = new DispatcherTimer();
                     _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
@@ -141,6 +144,7 @@ namespace GazoView
                     }
                     break;
                 case Key.F2:
+                    /*
                     _windowShadowSize = (Item.MainWindow.ActualWidth - ((FrameworkElement)Item.MainWindow.Content).ActualWidth) / 2;
                     _titleBarSize = (Item.MainWindow.ActualHeight - ((FrameworkElement)Item.MainWindow.Content).ActualHeight) - _windowShadowSize;
                     _renameBoxWindow ??= new RenameBoxWindow();
@@ -148,6 +152,11 @@ namespace GazoView
                     _renameBoxWindow.Show();
                     _renameBoxWindow.Left = this.Left + _windowShadowSize;
                     _renameBoxWindow.Top = this.Top + _titleBarSize;
+                    */
+                    //var windowShadowSize = (Item.MainWindow.ActualWidth - ((FrameworkElement)Item.MainWindow.Content).ActualWidth) / 2;
+                    //var titleBarSize = (Item.MainWindow.ActualHeight - ((FrameworkElement)Item.MainWindow.Content).ActualHeight) - _windowShadowSize;
+                    //Item.BindingParam.RenameBox.ShowWindow(windowShadowSize, titleBarSize);
+                    Item.BindingParam.RenameBox.ShowWindow();
                     break;
             }
         }
@@ -167,12 +176,20 @@ namespace GazoView
             }
 
             //  Close rename box if F2 is released.
+            if (Item.BindingParam.RenameBox.IsVisibleRenameBox)
+            {
+                Item.BindingParam.RenameBox.HideWindow();
+                Debug.WriteLine("Rename box closed.");
+                return;
+            }
+            /*
             if (_renameBoxWindow != null)
             {
                 _renameBoxWindow.Close();
                 _renameBoxWindow = null;
                 return;
             }
+            */
 
             switch (e.Key)
             {
