@@ -13,6 +13,7 @@
         Left="{Binding Setting.Left, Mode=TwoWay}"
         Top="{Binding Setting.Top, Mode=TwoWay}"
         PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewKeyUp="Window_PreviewKeyUp"
         Background="DimGray">
    
     <Grid Name="GlobalGrid"

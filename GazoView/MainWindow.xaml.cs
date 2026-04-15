@@ -1,7 +1,9 @@
 ﻿using GazoView.Lib.Functions;
 using GazoView.Lib.Panel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace GazoView
 {
@@ -13,7 +15,6 @@ namespace GazoView
         public MainWindow()
         {
             InitializeComponent();
-
             Init();
 
             //  Load後1秒後にMainWindow loaded flagをtrueにする。これにより、MainWindowの初期化が完了したとみなす。
@@ -42,6 +43,12 @@ namespace GazoView
                 }));
         }
 
+        #region Key events
+
+        private DispatcherTimer _keyHoldTimer;
+        private Key? _currentHeldKey;
+        private const int KeyHoldDelay = 500;
+
         /// <summary>
         /// Key down event.
         /// </summary>
@@ -49,10 +56,27 @@ namespace GazoView
         /// <param name="e"></param>
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // Detects key repeat. Ignores if Esc is already pressed.
+            if (e.IsRepeat && _currentHeldKey.HasValue) return;
+
             switch (e.Key)
             {
                 case Key.Escape:
-                    Application.Current.Shutdown();
+                    _currentHeldKey = e.Key;
+                    _keyHoldTimer = new DispatcherTimer();
+                    _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
+                    _keyHoldTimer.Tick += (sender, e) =>
+                    {
+                        if (_currentHeldKey.HasValue)
+                        {
+                            FolderWindow.Open(Item.BindingParam.Images.Current.Parent, Item.BindingParam.Images.Current.FileName);
+                        }
+                        if (!this.IsFocused)
+                        {
+                            Application.Current.Shutdown();
+                        }
+                    };
+                    _keyHoldTimer.Start();
                     break;
                 case Key.Left:
                     Item.BindingParam.Images.Index--;
@@ -76,8 +100,43 @@ namespace GazoView
                     MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Collapsed;
                     ImageFunction.SwitchTrimmingMode();
                     break;
+                case Key.O:
+                    //  Open or close folder path.
+                    if (SpecialKeyStatus.IsCtrlPressed())
+                    {
+                        FolderWindow.Close(Item.BindingParam.Images.Current.Parent);
+                    }
+                    else
+                    {
+                        FolderWindow.Open(Item.BindingParam.Images.Current.Parent, Item.BindingParam.Images.Current.FileName);
+                    }
+                    break;
             }
         }
+
+        /// <summary>
+        /// Key up event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            // The timer stops when the key is released.
+            if (_keyHoldTimer != null && _currentHeldKey.HasValue && _currentHeldKey.Value == e.Key)
+            {
+                _keyHoldTimer.Stop();
+                _currentHeldKey = null;
+            }
+
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    Application.Current.Shutdown();
+                    break;
+            }
+        }
+
+        #endregion
 
         #region Navigation triangles
 
@@ -146,5 +205,7 @@ namespace GazoView
         }
 
         #endregion
+
+
     }
 }

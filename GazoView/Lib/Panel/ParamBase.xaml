@@ -11,7 +11,15 @@
              MouseLeftButtonUp="ParamBase_MouseLeftButtonUp">
     <Grid>
         <Grid Name="BackGroundSquare">
-            <Border CornerRadius="25" Background="#DFDFDF" />
+            <Border CornerRadius="25" Background="#DFDFDF">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" 
+                                      BlurRadius="10" 
+                                      ShadowDepth="2" 
+                                      Direction="270"
+                                      Opacity="0.3"/>
+                </Border.Effect>
+            </Border>
             <Grid>
                 <Grid.RowDefinitions>
                     <RowDefinition Height="25"/>
