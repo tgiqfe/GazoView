@@ -111,6 +111,10 @@ namespace GazoView
                         FolderWindow.Open(Item.BindingParam.Images.Current.Parent, Item.BindingParam.Images.Current.FileName);
                     }
                     break;
+                case Key.F2:
+                    var renameBox = new RenameBoxWindow();
+                    renameBox.Show();
+                    break;
             }
         }
 
