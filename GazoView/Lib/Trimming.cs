@@ -19,7 +19,7 @@ namespace GazoView.Lib
             }
         }
 
-        private double _scale = 1;
+        //private double _scale = 1;
 
         public int Top
         {
@@ -30,7 +30,7 @@ namespace GazoView.Lib
                 {
                     _setting.TrimmingTop = value;
                     OnPropertyChanged();
-                    OnPropertyChanged(nameof(ViewTop));
+                    //OnPropertyChanged(nameof(ViewTop));
                     OnPropertyChanged(nameof(AssistTop));
                 }
             }
@@ -45,7 +45,7 @@ namespace GazoView.Lib
                 {
                     _setting.TrimmingBottom = value;
                     OnPropertyChanged();
-                    OnPropertyChanged(nameof(ViewBottom));
+                    //OnPropertyChanged(nameof(ViewBottom));
                     OnPropertyChanged(nameof(AssistBottom));
                 }
             }
@@ -60,7 +60,7 @@ namespace GazoView.Lib
                 {
                     _setting.TrimmingLeft = value;
                     OnPropertyChanged();
-                    OnPropertyChanged(nameof(ViewLeft));
+                    //OnPropertyChanged(nameof(ViewLeft));
                     OnPropertyChanged(nameof(AssistLeft));
                 }
             }
@@ -75,17 +75,18 @@ namespace GazoView.Lib
                 {
                     _setting.TrimmingRight = value;
                     OnPropertyChanged();
-                    OnPropertyChanged(nameof(ViewRight));
+                    //OnPropertyChanged(nameof(ViewRight));
                     OnPropertyChanged(nameof(AssistRight));
                 }
             }
         }
 
+        /*
         public double ViewTop { get { return this.Top * this._scale; } }
         public double ViewBottom { get { return this.Bottom * this._scale; } }
         public double ViewLeft { get { return this.Left * this._scale; } }
         public double ViewRight { get { return this.Right * this._scale; } }
-
+        */
 
         //  Assist values for assist line display (4px outside of trimming area).
         public double AssistTop { get => this.Top - 4; }

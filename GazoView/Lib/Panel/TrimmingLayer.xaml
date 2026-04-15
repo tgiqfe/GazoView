@@ -36,102 +36,102 @@
     </UserControl.Resources>
 
     <Grid>
-    <DockPanel>
-        <!-- GrayArea -->
-        <Grid DockPanel.Dock="Top" Name="GrayAreaTop">
-            <Rectangle Fill="{StaticResource BackgroundBrush}" />
-            <Rectangle Fill="{StaticResource DiagonalBrush}" />
+        <DockPanel>
+            <!-- GrayArea -->
+            <Grid DockPanel.Dock="Top" Name="GrayAreaTop">
+                <Rectangle Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Fill="{StaticResource DiagonalBrush}" />
                 <Grid.Height>
                     <MultiBinding Converter="{StaticResource GrayAreaSizeConverter}" ConverterParameter="top">
-                        <Binding Path="Trimming.ViewTop" />
+                        <Binding Path="Trimming.AssistTop" />
                         <Binding Path="ActualHeight" ElementName="TrimmingLayer_view" />
                     </MultiBinding>
                 </Grid.Height>
-        </Grid>
-        <Grid DockPanel.Dock="Bottom" Name="GrayAreaBottom">
-            <Rectangle Fill="{StaticResource BackgroundBrush}" />
-            <Rectangle Fill="{StaticResource DiagonalBrush}" />
+            </Grid>
+            <Grid DockPanel.Dock="Bottom" Name="GrayAreaBottom">
+                <Rectangle Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Fill="{StaticResource DiagonalBrush}" />
                 <Grid.Height>
                     <MultiBinding Converter="{StaticResource GrayAreaSizeConverter}" ConverterParameter="bottom">
-                        <Binding Path="Trimming.ViewBottom" />
+                        <Binding Path="Trimming.AssistBottom" />
                         <Binding Path="ActualHeight" ElementName="TrimmingLayer_view" />
                     </MultiBinding>
                 </Grid.Height>
-        </Grid>
-        <Grid DockPanel.Dock="Left" Name="GrayAreaLeft">
-            <Rectangle Fill="{StaticResource BackgroundBrush}" />
-            <Rectangle Fill="{StaticResource DiagonalBrush}" />
+            </Grid>
+            <Grid DockPanel.Dock="Left" Name="GrayAreaLeft">
+                <Rectangle Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Fill="{StaticResource DiagonalBrush}" />
                 <Grid.Width>
                     <MultiBinding Converter="{StaticResource GrayAreaSizeConverter}" ConverterParameter="left">
-                        <Binding Path="Trimming.ViewLeft" />
+                        <Binding Path="Trimming.AssistLeft" />
                         <Binding Path="ActualWidth" ElementName="TrimmingLayer_view" />
                     </MultiBinding>
                 </Grid.Width>
-        </Grid>
-        <Grid DockPanel.Dock="Right" Name="GrayAreaRight">
-            <Rectangle Fill="{StaticResource BackgroundBrush}" />
-            <Rectangle Fill="{StaticResource DiagonalBrush}" />
+            </Grid>
+            <Grid DockPanel.Dock="Right" Name="GrayAreaRight">
+                <Rectangle Fill="{StaticResource BackgroundBrush}" />
+                <Rectangle Fill="{StaticResource DiagonalBrush}" />
                 <Grid.Width>
                     <MultiBinding Converter="{StaticResource GrayAreaSizeConverter}" ConverterParameter="right">
-                        <Binding Path="Trimming.ViewRight" />
+                        <Binding Path="Trimming.AssistRight" />
                         <Binding Path="ActualWidth" ElementName="TrimmingLayer_view" />
                     </MultiBinding>
                 </Grid.Width>
-        </Grid>
+            </Grid>
             <Rectangle Fill="Transparent"/>
         </DockPanel>
-        
+
         <!-- Assist line -->
         <Line Name="AssistlineTop"
               Stroke="DimGray" StrokeThickness="2"
               X1="0"
               X2="{Binding ActualWidth, ElementName=TrimmingLayer_view}"
-              Y1="{Binding Trimming.ViewTop}"
+              Y1="{Binding Trimming.AssistTop}"
               Y2="{Binding Y1, RelativeSource={RelativeSource Mode=Self}}" />
         <Line Name="AssistantLineBottom"
               Stroke="DimGray" StrokeThickness="2"
               X1="0"
               X2="{Binding ActualWidth, ElementName=TrimmingLayer_view}"
-              Y1="{Binding Trimming.ViewBottom}"
+              Y1="{Binding Trimming.AssistBottom}"
               Y2="{Binding Y1, RelativeSource={RelativeSource Mode=Self}}" />
         <Line Name="AssitantLineLeft"
               Stroke="DimGray" StrokeThickness="2"
-              X1="{Binding Trimming.ViewLeft}"
+              X1="{Binding Trimming.AssistLeft}"
               X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
               Y1="0"
               Y2="{Binding ActualHeight, ElementName=TrimmingLayer_view}" />
         <Line Name="AssitantLineRight"
               Stroke="DimGray" StrokeThickness="2"
-              X1="{Binding Trimming.ViewRight}"
+              X1="{Binding Trimming.AssistRight}"
               X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
               Y1="0"
               Y2="{Binding ActualHeight, ElementName=TrimmingLayer_view}" />
-        
+
         <!-- Trimming area line -->
         <Line Name="LineTop"
               Stroke="Black" StrokeThickness="8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
-              X1="{Binding Trimming.ViewLeft}"
-              X2="{Binding Trimming.ViewRight}"
-              Y1="{Binding Trimming.ViewTop}"
+              X1="{Binding Trimming.AssistLeft}"
+              X2="{Binding Trimming.AssistRight}"
+              Y1="{Binding Trimming.AssistTop}"
               Y2="{Binding Y1, RelativeSource={RelativeSource Mode=Self}}" />
         <Line Name="LineBottom"
               Stroke="Black" StrokeThickness="8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
-              X1="{Binding Trimming.ViewLeft}"
-              X2="{Binding Trimming.ViewRight}"
-              Y1="{Binding Trimming.ViewBottom}"
+              X1="{Binding Trimming.AssistLeft}"
+              X2="{Binding Trimming.AssistRight}"
+              Y1="{Binding Trimming.AssistBottom}"
               Y2="{Binding Y1, RelativeSource={RelativeSource Mode=Self}}" />
         <Line Name="LineLeft"
               Stroke="Black" StrokeThickness="8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
-              X1="{Binding Trimming.ViewLeft}"
+              X1="{Binding Trimming.AssistLeft}"
               X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
-              Y1="{Binding Trimming.ViewTop}"
-              Y2="{Binding Trimming.ViewBottom}" />
+              Y1="{Binding Trimming.AssistTop}"
+              Y2="{Binding Trimming.AssistBottom}" />
         <Line Name="LineRight"
               Stroke="Black" StrokeThickness="8" StrokeStartLineCap="Round" StrokeEndLineCap="Round"
-              X1="{Binding Trimming.ViewRight}"
+              X1="{Binding Trimming.AssistRight}"
               X2="{Binding X1, RelativeSource={RelativeSource Mode=Self}}"
-              Y1="{Binding Trimming.ViewTop}"
-              Y2="{Binding Trimming.ViewBottom}" />
+              Y1="{Binding Trimming.AssistTop}"
+              Y2="{Binding Trimming.AssistBottom}" />
     </Grid>
 </UserControl>
         

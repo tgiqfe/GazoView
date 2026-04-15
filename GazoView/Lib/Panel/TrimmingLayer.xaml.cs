@@ -7,8 +7,6 @@ namespace GazoView.Lib.Panel
 {
     public partial class TrimmingLayer : UserControl
     {
-        private DragLine _dragLine = DragLine.None;
-
         public TrimmingLayer()
         {
             InitializeComponent();
@@ -56,6 +54,8 @@ namespace GazoView.Lib.Panel
 
         #region Mouse event for trimming area moving.
 
+        private DragLine _dragLine = DragLine.None;
+
         enum DragLine
         {
             None,
@@ -78,50 +78,48 @@ namespace GazoView.Lib.Panel
 
             //  20px margin for dragging line start position.
             var margin = 20;
-            var letherAreaLength = Math.Min(trimming.ViewRight - trimming.ViewLeft, trimming.ViewBottom - trimming.ViewTop);
+            var letherAreaLength = Math.Min(trimming.AssistRight - trimming.AssistLeft, trimming.AssistBottom - trimming.AssistTop);
             if (margin * 2 > letherAreaLength)
             {
                 margin = 0;
             }
 
-            if (point.X >= trimming.ViewLeft && point.X <= trimming.ViewRight && point.Y < (trimming.ViewTop + margin))
+            if (point.X >= trimming.AssistLeft && point.X <= trimming.AssistRight && point.Y < (trimming.AssistTop + margin))
             {
                 _dragLine = DragLine.Top;
                 this.Cursor = Cursors.SizeNS;
             }
-            else if (point.X >= trimming.ViewLeft && point.X <= trimming.ViewRight &&
-                (point.Y > (trimming.ViewBottom - margin) || point.Y > (this.DesiredSize.Height - margin)))
+            else if (point.X >= trimming.AssistLeft && point.X <= trimming.AssistRight && point.Y > (trimming.AssistBottom - margin))
             {
                 _dragLine = DragLine.Bottom;
                 this.Cursor = Cursors.SizeNS;
             }
-            else if (point.Y >= trimming.ViewTop && point.Y <= trimming.ViewBottom && point.X < (trimming.ViewLeft + margin))
+            else if (point.Y >= trimming.AssistTop && point.Y <= trimming.AssistBottom && point.X < (trimming.AssistLeft + margin))
             {
                 _dragLine = DragLine.Left;
                 this.Cursor = Cursors.SizeWE;
             }
-            else if (point.Y >= trimming.ViewTop && point.Y <= trimming.ViewBottom &&
-                (point.X > (trimming.ViewRight - margin) || point.X > (this.DesiredSize.Width - margin)))
+            else if (point.Y >= trimming.AssistTop && point.Y <= trimming.AssistBottom && point.X > (trimming.AssistRight - margin))
             {
                 _dragLine = DragLine.Right;
                 this.Cursor = Cursors.SizeWE;
             }
-            else if (point.X < trimming.ViewLeft && point.Y < trimming.ViewTop)
+            else if (point.X < trimming.AssistLeft && point.Y < trimming.AssistTop)
             {
                 _dragLine = DragLine.TopLeft;
                 this.Cursor = Cursors.SizeNWSE;
             }
-            else if (point.X < trimming.ViewLeft && point.Y > trimming.ViewBottom)
+            else if (point.X < trimming.AssistLeft && point.Y > trimming.AssistBottom)
             {
                 _dragLine = DragLine.BottomLeft;
                 this.Cursor = Cursors.SizeNESW;
             }
-            else if (point.X > trimming.ViewRight && point.Y < trimming.ViewTop)
+            else if (point.X > trimming.AssistRight && point.Y < trimming.AssistTop)
             {
                 _dragLine = DragLine.TopRight;
                 this.Cursor = Cursors.SizeNESW;
             }
-            else if (point.X > trimming.ViewRight && point.Y > trimming.ViewBottom)
+            else if (point.X > trimming.AssistRight && point.Y > trimming.AssistBottom)
             {
                 _dragLine = DragLine.BottomRight;
                 this.Cursor = Cursors.SizeNWSE;
