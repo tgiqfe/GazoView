@@ -1,0 +1,100 @@
+﻿<UserControl x:Class="GazoView.Lib.Panel.ParamSliderPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GazoView.Lib.Panel"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TickBar">
+            <Setter Property="Fill" Value="DimGray" />
+            <Setter Property="Width" Value="3" />
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+        </Style>
+        <Style x:Key="SliderRepeatButtonStyle" TargetType="RepeatButton">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="IsTabStop" Value="False"/>
+            <Setter Property="Focusable" Value="False"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="RepeatButton">
+                        <Border Background="{TemplateBinding Background}" Height="6"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style x:Key="SliderThumbStyle" TargetType="Thumb">
+            <Setter Property="SnapsToDevicePixels" Value="True"/>
+            <Setter Property="OverridesDefaultStyle" Value="True"/>
+            <Setter Property="Height" Value="16"/>
+            <Setter Property="Width" Value="16"/>
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="Thumb">
+                        <Ellipse Fill="#FF3C7FB1" Stroke="#FF3C7FB1"/>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <ControlTemplate x:Key="HorizontalSlider" TargetType="Slider">
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="Auto"/>
+                    <RowDefinition Height="Auto" MinHeight="{TemplateBinding MinHeight}"/>
+                    <RowDefinition Height="Auto"/>
+                </Grid.RowDefinitions>
+                <TickBar x:Name="TopTick" Grid.Row="0" Height="4" Placement="Top" Visibility="Collapsed"/>
+                <Border x:Name="TrackBackground" Grid.Row="1" Height="6" Background="#FFE0E0E0" CornerRadius="3"/>
+                <Track x:Name="PART_Track" Grid.Row="1">
+                    <Track.DecreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButtonStyle}" Background="#FF0078D7" Command="Slider.DecreaseLarge"/>
+                    </Track.DecreaseRepeatButton>
+                    <Track.Thumb>
+                        <Thumb Style="{StaticResource SliderThumbStyle}"/>
+                    </Track.Thumb>
+                    <Track.IncreaseRepeatButton>
+                        <RepeatButton Style="{StaticResource SliderRepeatButtonStyle}" Background="Transparent" Command="Slider.IncreaseLarge"/>
+                    </Track.IncreaseRepeatButton>
+                </Track>
+                <TickBar x:Name="BottomTick" Grid.Row="2" Height="4" Placement="Bottom" Visibility="Collapsed"/>
+            </Grid>
+            <ControlTemplate.Triggers>
+                <Trigger Property="TickPlacement" Value="TopLeft">
+                    <Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="BottomRight">
+                    <Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+                <Trigger Property="TickPlacement" Value="Both">
+                    <Setter TargetName="TopTick" Property="Visibility" Value="Visible"/>
+                    <Setter TargetName="BottomTick" Property="Visibility" Value="Visible"/>
+                </Trigger>
+            </ControlTemplate.Triggers>
+        </ControlTemplate>
+    </UserControl.Resources>
+    
+    <Grid Margin="10">
+        <StackPanel Orientation="Horizontal">
+            <Slider Name="ScaleRateSlider"
+                    Minimum="0"
+                    Width="250"
+                    Template="{StaticResource HorizontalSlider}"
+                    ValueChanged="ScaleRateSlider_ValueChanged"
+                    IsMoveToPointEnabled="True"
+                    VerticalAlignment="Center" />
+            <Border BorderThickness="0.5"
+                    BorderBrush="Gray"
+                    CornerRadius="5"
+                    Width="50"
+                    Margin="10,3"
+                    Padding="3"
+                    Background="WhiteSmoke"
+                    VerticalAlignment="Center">
+                <TextBlock Name="ScaleRateValue"
+                           FontSize="14"
+                           FontFamily="Noto Sans JP"/>
+            </Border>
+        </StackPanel>
+    </Grid>
+</UserControl>

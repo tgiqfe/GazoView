@@ -1,0 +1,72 @@
+﻿<UserControl x:Class="GazoView.Lib.Panel.ParamInputPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GazoView.Lib.Panel"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Noto Sans JP" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="0, 5,10,5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="TextBox">
+            <Setter Property="FontFamily" Value="Noto Sans JP"/>
+            <Setter Property="FontSize" Value="14" />
+            <Setter Property="Margin" Value="0,5" />
+            <Setter Property="Template">
+                <Setter.Value>
+                    <ControlTemplate TargetType="TextBox">
+                        <Border Background="{TemplateBinding Background}"
+                            BorderBrush="{TemplateBinding BorderBrush}"
+                            BorderThickness="{TemplateBinding BorderThickness}"
+                            CornerRadius="5">
+                            <ScrollViewer x:Name="PART_ContentHost" Margin="2"/>
+                        </Border>
+                    </ControlTemplate>
+                </Setter.Value>
+            </Setter>
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="10,0,5,0" />
+        </Style>
+    </UserControl.Resources>
+
+    <Grid Margin="10">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto"/>
+        </Grid.RowDefinitions>
+        <Grid.ColumnDefinitions>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="Auto"/>
+            <ColumnDefinition Width="75"/>
+        </Grid.ColumnDefinitions>
+
+        <materialDesign:PackIcon Grid.Row="0" Grid.Column="0" Kind="ArrowCollapseUp" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.Column="1" Text="Top:" />
+        <TextBox Grid.Row="0" Grid.Column="2" Name="TopTextBox" PreviewTextInput="NumberValidationTextBox"
+                 Text="{Binding Trimming.Top, Mode=TwoWay}"/>
+
+        <materialDesign:PackIcon Grid.Row="0" Grid.Column="3" Kind="ArrowCollapseDown" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="0" Grid.Column="4" Text="Bottom:" />
+        <TextBox Grid.Row="0" Grid.Column="5" Name="BottomTextBox" PreviewTextInput="NumberValidationTextBox"
+                 Text="{Binding Trimming.Bottom, Mode=TwoWay}"/>
+
+        <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="ArrowCollapseLeft" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="1" Text="Left:" />
+        <TextBox Grid.Row="1" Grid.Column="2" Name="LeftTextBox" PreviewTextInput="NumberValidationTextBox"
+                 Text="{Binding Trimming.Left, Mode=TwoWay}"/>
+
+        <materialDesign:PackIcon Grid.Row="1" Grid.Column="3" Kind="ArrowCollapseRight" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="1" Grid.Column="4" Text="Right:" />
+        <TextBox Grid.Row="1" Grid.Column="5" Name="RightTextBox" PreviewTextInput="NumberValidationTextBox"
+                 Text="{Binding Trimming.Right, Mode=TwoWay}"/>
+    </Grid>
+</UserControl>

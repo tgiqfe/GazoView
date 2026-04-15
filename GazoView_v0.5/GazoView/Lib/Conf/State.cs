@@ -5,8 +5,8 @@ namespace GazoView.Lib.Conf
 {
     internal class State : INotifyPropertyChanged
     {
+        public string ProcessName { get { return Item.ProcessName; } }
         public string Version { get { return Item.Version; } }
-
 
         private bool _scalingMode = false;
         public bool ScalingMode

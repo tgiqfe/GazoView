@@ -1,78 +1,31 @@
-﻿using GazoView.Lib.Conf;
-using System.Collections.Specialized;
-using System.IO;
-using System.Windows;
+﻿using System.IO;
+using System.Security.Cryptography;
 
 namespace GazoView.Lib.Functions
 {
     internal class FileFunction
     {
-        public static void ToggleStarFile(Images images)
+        public static string GetFileSize(long FileSize)
         {
-            if (images.Length > 0)
+            return FileSize switch
             {
-                var newPath = images.Current.IsStar ?
-                    Path.Combine(
-                        images.Current.Parent,
-                        Path.GetFileNameWithoutExtension(images.Current.FileName).TrimEnd('★') + images.Current.FileExtension) :
-                    Path.Combine(
-                        images.Current.Parent,
-                        Path.GetFileNameWithoutExtension(images.Current.FileName) + "★" + images.Current.FileExtension);
-                File.Move(images.Current.FilePath, newPath);
-
-                images.ReloadFiles(newPath);
-            }
+                long size when size < 1024 => $"{size} Byte",
+                long size when size < 1024 * 1024 => $"{size / 1024D:F2} KB",
+                long size when size < 1024 * 1024 * 1024 => $"{size / (1024D * 1024):F2} MB",
+                long size when size < 1024L * 1024 * 1024 * 1024 => $"{size / (1024D * 1024 * 1024):F2} GB",
+                long size when size < 1024L * 1024 * 1024 * 1024 * 1024 => $"{size / (1024D * 1024 * 1024 * 1024):F2} TB",
+                _ => ""
+            };
         }
 
-        public static void CopyImageFile(Images images, bool isText = false)
+        public static string GetHash(string path)
         {
-            if (images.Length > 0)
+            using (var fs = new FileStream(path, FileMode.Open, FileAccess.Read))
             {
-                if (isText)
+                using (var md5 = MD5.Create())
                 {
-                    string text = images.Current.FilePath;
-                    Clipboard.SetText(text);
-                }
-                else
-                {
-                    var targets = new StringCollection();
-                    targets.Add(images.Current.FilePath);
-                    Clipboard.SetFileDropList(targets);
-                }
-            }
-        }
-
-        public static void DeleteImageFile(Images images)
-        {
-            if (images.FileList.Count > 0)
-            {
-                var ret = MessageBox.Show($"Delete?\n{images.Current.FileName}",
-                    Item.ProcessName,
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Information,
-                    MessageBoxResult.OK);
-                if (ret == MessageBoxResult.OK)
-                {
-                    Item.DeletedStore ??= new();
-                    Item.DeletedStore.CopyToDeletedStore(images.Current.FilePath);
-                    images.DeleteCurrentImageFile();
-                }
-            }
-        }
-
-        public static void RestoreImageFile(Images images)
-        {
-            if (Item.DeletedStore?.DeletedList?.Count > 0)
-            {
-                var ret = MessageBox.Show($"Restore?\n{Item.DeletedStore.RestorableFileName}",
-                    Item.ProcessName,
-                    MessageBoxButton.OKCancel,
-                    MessageBoxImage.Question,
-                    MessageBoxResult.OK);
-                if(ret == MessageBoxResult.OK)
-                {
-                    Item.DeletedStore.RestoreFromDeletedStore(images.Current.Parent);
-                    images.ReloadFiles(Item.DeletedStore.RestoredFilePath);
+                    var hash = md5.ComputeHash(fs);
+                    return BitConverter.ToString(hash).Replace("-", "").ToLower();
                 }
             }
         }

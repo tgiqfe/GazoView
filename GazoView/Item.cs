@@ -1,30 +1,41 @@
-﻿using GazoView.Lib.Conf;
-using System;
-using System.Collections.Generic;
+﻿using GazoView.Lib;
 using System.Diagnostics;
 using System.IO;
-using System.Linq;
 using System.Reflection;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace GazoView
 {
-    internal class Item
+    class Item
     {
+        /// <summary>
+        /// Process name of GazoView. This is used for IPC and other purposes.
+        /// </summary>
         public const string ProcessName = "GazoView";
 
+        /// <summary>
+        /// Application version.
+        /// v0.6.*
+        /// </summary>
         public static readonly string Version = Assembly.GetExecutingAssembly().GetName().Version.ToString();
 
-        public static readonly string WorkDirectory = Path.Combine(
-            Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName));
+        /// <summary>
+        /// Working directory.
+        /// Same location as the executable file of GazoView. 
+        /// </summary>
+        public static readonly string WorkDirectory = Path.GetDirectoryName(Process.GetCurrentProcess().MainModule.FileName);
+
+        /// <summary>
+        /// MainWindow instance.
+        /// This is set when MainWindow is created and can be used for IPC and other purposes.
+        /// </summary>
+        internal static MainWindow MainWindow = null;
+
 
         public static BindingParam BindingParam = null;
 
-        public static MainWindow MainBase = null;
-
-        public static ScaleRate ScaleRate = null;
-
-        public static DeletedStore DeletedStore = null;
+        /// <summary>
+        /// MainWindow loaded flag.
+        /// </summary>
+        internal static bool IsInitialized = false;
     }
 }

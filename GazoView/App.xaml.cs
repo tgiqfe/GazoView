@@ -1,7 +1,4 @@
-﻿using GazoView.Lib.Conf;
-using System.Configuration;
-using System.Data;
-using System.Windows;
+﻿using System.Windows;
 
 namespace GazoView
 {
@@ -10,23 +7,39 @@ namespace GazoView
     /// </summary>
     public partial class App : Application
     {
+        /// <summary>
+        /// Application startup.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Application_Startup(object sender, StartupEventArgs e)
         {
-            var setting = Setting.Load();
-            Item.BindingParam = new BindingParam()
+            bool isDebug = false;
+#if DEBUG
+            isDebug = true;
+#endif
+            var imageFileTargets = e.Args;
+            if (isDebug) imageFileTargets = new string[] { @"D:\Test\Images" };
+
+            Setting setting = Setting.Load();
+            Item.BindingParam = new()
             {
                 Setting = setting,
-                Images = new(e.Args),
-                State = new(),
-                Trimming = new()
+                Images = new(imageFileTargets),
+                Trimming = new(setting),
+                ScaleRate = new()
             };
-            Item.ScaleRate = new ScaleRate();
         }
 
+        /// <summary>
+        /// Application exit.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void Application_Exit(object sender, ExitEventArgs e)
         {
-            Item.BindingParam.Setting.Save();
-            Item.DeletedStore?.Close();
+            Item.BindingParam.Images?.Dispose();
+            Item.BindingParam.Setting?.Save();
         }
     }
 }

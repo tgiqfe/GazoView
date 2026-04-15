@@ -15,7 +15,7 @@ using System.Windows;
 
 namespace GazoView.Lib.Conf
 {
-    internal class Images : INotifyPropertyChanged
+    public class Images : INotifyPropertyChanged
     {
         private static readonly string[] _validExtensions = new string[]
         {

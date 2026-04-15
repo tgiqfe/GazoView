@@ -4,62 +4,39 @@
         xmlns:d="http://schemas.microsoft.com/expression/blend/2008"
         xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006"
         xmlns:local="clr-namespace:GazoView"
-        xmlns:lib="clr-namespace:GazoView.Lib"
         xmlns:converter="clr-namespace:GazoView.Lib.Converter"
-        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+        xmlns:panel="clr-namespace:GazoView.Lib.Panel"
         mc:Ignorable="d"
         Title="{Binding Images.Title}"
         Width="{Binding Setting.Width, Mode=TwoWay}"
         Height="{Binding Setting.Height, Mode=TwoWay}"
         Left="{Binding Setting.Left, Mode=TwoWay}"
-        Top="{Binding Setting.Top,Mode=TwoWay}"
+        Top="{Binding Setting.Top, Mode=TwoWay}"
         PreviewKeyDown="Window_PreviewKeyDown"
-        PreviewMouseWheel="Window_PreviewMouseWheel"
-        PreviewDragOver="Window_PreviewDragOver"
-        PreviewDragLeave="Window_PreviewDragLeave"
-        PreviewDrop="Window_PreviewDrop"
-        AllowDrop="True"
         Background="DimGray">
-    <Window.Resources>
-        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
-    </Window.Resources>
-    <Grid Name="GlobalGrid">
+   
+    <Grid Name="GlobalGrid"
+          MouseMove="GlobalGrid_MouseMove"
+          MouseLeave="GlobalGrid_MouseLeave">
+        <Grid.RowDefinitions>
+            <RowDefinition Height="0" Name="Row0" />
+            <RowDefinition Height="*" Name="Row1" />
+        </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
             <ColumnDefinition Width="0" Name="Column0" />
             <ColumnDefinition Width="*" Name="Column1" />
         </Grid.ColumnDefinitions>
-        <lib:AdvancedScrollViewer x:Name="ScrollViewer"
-                                  Grid.Column="1"
-                                  HorizontalScrollBarVisibility="Auto"
-                                  VerticalScrollBarVisibility="Auto"
-                                  PreviewMouseRightButtonDown="ScrollViewer_PreviewMouseRightButtonDown"
-                                  MouseMove="ScrollViewer_MouseMove"
-                                  PreviewMouseRightButtonUp="ScrollViewer_PreviewMouseRightButtonUp">
-            <Grid Name="MainGrid"
-                  Width="{Binding ActualWidth, ElementName=MainImage}"
-                  Height="{Binding ActualHeight, ElementName=MainImage}">
-                <Image Name="MainImage"
-                       Source="{Binding Images.Current.Source}"
-                       Width="{Binding ActualWidth, ElementName=ScrollViewer}"
-                       Height="{Binding ActualHeight, ElementName=ScrollViewer}"
-                       SizeChanged="MainImage_SizeChanged"/>
-                <lib:GifAnimeLayer x:Name="GifAnimation"
-                                   HorizontalAlignment="Center"
-                                   VerticalAlignment="Center"
-                                   Width="{Binding ActualWidth, ElementName=ScrollViewer}"
-                                   Height="{Binding ActualHeight, ElementName=ScrollViewer}"
-                                   Visibility="{Binding State.IsGifAnimationView, Converter={StaticResource BoolToVisibilityConverter}}" />
-                <lib:TrimmingLayer Width="{Binding ActualWidth, ElementName=ScrollViewer}"
-                                   Height="{Binding ActualHeight, ElementName=ScrollViewer}"
-                                   Visibility="{Binding State.TrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
-            </Grid>
-        </lib:AdvancedScrollViewer>
-        <materialDesign:PackIcon Grid.Column="1"
-                                 Kind="StarBoxOutline"
-                                 Width="60" Height="60"
-                                 HorizontalAlignment="Right"
-                                 VerticalAlignment="Bottom"
-                                 Foreground="Gold"
-                                 Visibility="{Binding Images.Current.IsStar, Converter={StaticResource BoolToVisibilityConverter}}" />
+        <panel:ImagePanel x:Name="ImagePanel"
+                          Grid.Row="1"
+                          Grid.Column="1" />
+        <panel:ParamBase x:Name="ParamBase"
+                         Grid.Row="1" Grid.Column="1"
+                         Width="420" Height="285"
+                         HorizontalAlignment="Left"
+                         VerticalAlignment="Top" />
+        <panel:MoveTriangleLayer x:Name="MoveTriangleLayer"
+                                 Grid.Row="1"
+                                 Grid.Column="1" />
+
     </Grid>
 </Window>

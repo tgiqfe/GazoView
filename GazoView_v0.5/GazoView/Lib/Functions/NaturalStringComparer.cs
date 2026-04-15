@@ -2,9 +2,6 @@
 
 namespace GazoView.Lib.Functions
 {
-    /// <summary>
-    /// Natural sorter for string.
-    /// </summary>
     internal class NaturalStringComparer :
         System.Collections.IComparer,
         System.Collections.Generic.IComparer<string>
