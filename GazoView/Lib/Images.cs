@@ -1,6 +1,7 @@
 ﻿using GazoView.Lib.Functions;
 using System.Collections.ObjectModel;
 using System.ComponentModel;
+using System.Diagnostics;
 using System.IO;
 using System.Runtime.CompilerServices;
 using System.Windows;
@@ -34,13 +35,15 @@ namespace GazoView.Lib
 
         public int Length { get { return this.FileList?.Count ?? 0; } }
 
-        private int _index;
+        private int _index = 0;
+        private int _preview = -1;
 
         public int Index
         {
             get { return _index; }
             set
             {
+                _preview = _index;
                 _index = value;
                 int length = this.Length;
                 if (_index < 0)
@@ -231,12 +234,6 @@ namespace GazoView.Lib
                 .ToList();
 
             this.FileList.Clear();
-            /*
-            foreach (var file in collection)
-            {
-                this.FileList.Add(file);
-            }
-            */
             collection.ForEach(x => this.FileList.Add(x));
 
             if (!string.IsNullOrEmpty(currentFile) && this.FileList.Contains(currentFile))
@@ -268,7 +265,7 @@ namespace GazoView.Lib
                 .ToList();
 
             this.FileList.Clear();
-            collection.ForEach(x =>  this.FileList.Add(x));
+            collection.ForEach(x => this.FileList.Add(x));
             this.Index = this.FileList.IndexOf(currentFile);
             UpdateImage();
 
@@ -278,7 +275,21 @@ namespace GazoView.Lib
 
         public void DeleteImageFile()
         {
+            //  stop watching to avoid multiple events triggered by deleting.
+            StopWatching();
 
+            FileFunction.DeleteFile(this.Current.FilePath);
+            this.FileList.RemoveAt(_index);
+            this.Index = _index switch
+            {
+                0 => 0,                                     //  if the first file is deleted, stay at index 0.
+                var i when i == this.Length => _index - 1,  //  if the last file is deleted, move to the previous file.
+                _ => _index > _preview ? 0 : -1             //  if the deleted file is before the current index, stay at the same index; if it's after, move to the previous index.
+            };
+            UpdateImage();
+
+            //  refresh file list after deleting.
+            ResumeWatching();
         }
 
         #region Inotify change

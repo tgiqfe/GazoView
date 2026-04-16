@@ -15,7 +15,7 @@ namespace GazoView
         //  Esc key event
         private DispatcherTimer _keyHoldTimer;
         private Key? _currentHeldKey;
-        private const int KeyHoldDelay = 500;
+        private const int KeyHoldDelay = 300;
 
         public MainWindow()
         {
@@ -29,6 +29,9 @@ namespace GazoView
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     Item.IsInitialized = true;
+
+                    //  テスト用に配置
+                    Item.BindingParam.DeleteMessage.ShowWindow();
                 });
             });
         }
@@ -63,7 +66,7 @@ namespace GazoView
             switch (e.Key)
             {
                 case Key.Escape:
-                    if (Item.BindingParam.RenameBox.IsVisibleRenameBox) return;
+                    if (Item.BindingParam.RenameBox.IsVisible) return;
                     _currentHeldKey = e.Key;
                     _keyHoldTimer = new DispatcherTimer();
                     _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
@@ -81,18 +84,22 @@ namespace GazoView
                     _keyHoldTimer.Start();
                     break;
                 case Key.Left:
+                    if (Item.BindingParam.RenameBox.IsVisible) return;
                     Item.BindingParam.Images.Index--;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Right:
+                    if (Item.BindingParam.RenameBox.IsVisible) return;
                     Item.BindingParam.Images.Index++;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Home:
+                    if (Item.BindingParam.RenameBox.IsVisible) return;
                     Item.BindingParam.Images.Index = 0;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.End:
+                    if (Item.BindingParam.RenameBox.IsVisible) return;
                     Item.BindingParam.Images.Index = Item.BindingParam.Images.Length - 1;
                     Item.BindingParam.Images.UpdateImage();
                     break;
@@ -116,6 +123,9 @@ namespace GazoView
                 case Key.F2:
                     Item.BindingParam.RenameBox.SwitchMode();
                     break;
+                case Key.Delete:
+                    Item.BindingParam.Images.DeleteImageFile();
+                    break;
             }
         }
 
@@ -133,17 +143,16 @@ namespace GazoView
                 _currentHeldKey = null;
             }
 
-            //  Close rename box if F2 is released.
-            if (Item.BindingParam.RenameBox.IsVisibleRenameBox)
-            {
-                Item.BindingParam.RenameBox.HideWindow();
-                Debug.WriteLine("Rename box closed.");
-                return;
-            }
-
             switch (e.Key)
             {
                 case Key.Escape:
+                    //  Close rename box if F2 is released.
+                    if (Item.BindingParam.RenameBox.IsVisible)
+                    {
+                        Item.BindingParam.RenameBox.HideWindow();
+                        Debug.WriteLine("Rename box closed.");
+                        return;
+                    }
                     Application.Current.Shutdown();
                     break;
             }

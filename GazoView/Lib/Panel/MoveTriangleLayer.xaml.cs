@@ -20,6 +20,7 @@ namespace GazoView.Lib.Panel
         /// <param name="e"></param>
         private void LeftTriangle_Click(object sender, MouseButtonEventArgs e)
         {
+            if (Item.BindingParam.RenameBox.IsVisible) return;
             Item.BindingParam.Images.Index--;
             Item.BindingParam.Images.UpdateImage();
         }
@@ -31,6 +32,7 @@ namespace GazoView.Lib.Panel
         /// <param name="e"></param>
         private void RightTriangle_Click(object sender, MouseButtonEventArgs e)
         {
+            if (Item.BindingParam.RenameBox.IsVisible) return;
             Item.BindingParam.Images.Index++;
             Item.BindingParam.Images.UpdateImage();
         }

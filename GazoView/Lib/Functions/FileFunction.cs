@@ -58,10 +58,17 @@ namespace GazoView.Lib.Functions
         /// <param name="toRecycleBin"></param>
         public static void DeleteFile(string path, bool toRecycleBin = true)
         {
-            FileSystem.DeleteFile(
-                path,
-                UIOption.OnlyErrorDialogs,
-                toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
+            if (path.StartsWith("\\\\"))
+            {
+                File.Delete(path);
+            }
+            else
+            {
+                FileSystem.DeleteFile(
+                    path,
+                    UIOption.OnlyErrorDialogs,
+                    toRecycleBin ? RecycleOption.SendToRecycleBin : RecycleOption.DeletePermanently);
+            }
         }
 
         /// <summary>
@@ -79,7 +86,7 @@ namespace GazoView.Lib.Functions
             for (int i = 1; i < 1000; i++)
             {
                 var tempPath = Path.Combine(parent, $"{baseName}_{i}{extension}");
-                if(File.Exists(tempPath))
+                if (File.Exists(tempPath))
                 {
                     continue;
                 }

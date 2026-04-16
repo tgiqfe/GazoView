@@ -147,7 +147,7 @@ namespace GazoView.Lib.Panel
                 }
             }
             string selectedText = TextBoxForFileName.SelectedText;
-            int newNumber = int.Parse(selectedText) + offset;
+            long newNumber = long.Parse(selectedText) + offset;
             string newSelectedText = newNumber.ToString().PadLeft(selectedText.Length, '0');
             string newText = TextBoxForFileName.Text.
                 Remove(TextBoxForFileName.SelectionStart, TextBoxForFileName.SelectionLength).

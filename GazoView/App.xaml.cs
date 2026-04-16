@@ -28,7 +28,8 @@ namespace GazoView
                 Images = new(imageFileTargets),
                 Trimming = new(setting),
                 ScaleRate = new(),
-                RenameBox = new()
+                RenameBox = new(),
+                DeleteMessage = new()
             };
         }
 

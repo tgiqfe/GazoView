@@ -28,7 +28,7 @@ namespace GazoView.Lib.Panel
             }
             else
             {
-                
+                if (Item.BindingParam.RenameBox.IsVisible) return;
                 Item.BindingParam.Images.Index += e.Delta > 0 ? -1 : 1;
                 Item.BindingParam.Images.UpdateImage();
             }

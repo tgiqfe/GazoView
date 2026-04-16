@@ -26,5 +26,10 @@
         /// For RenameBox window.
         /// </summary>
         public RenameBox RenameBox { get; set; }
+
+        /// <summary>
+        /// For DeleteMessage window.
+        /// </summary>
+        public DeleteMessage DeleteMessage { get; set; }
     }
 }
