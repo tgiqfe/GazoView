@@ -21,7 +21,7 @@ namespace GazoView.Lib.Panel
         private void LeftTriangle_Click(object sender, MouseButtonEventArgs e)
         {
             Item.BindingParam.Images.Index--;
-            Item.BindingParam.Images.ViewImage();
+            Item.BindingParam.Images.UpdateImage();
         }
 
         /// <summary>
@@ -32,7 +32,7 @@ namespace GazoView.Lib.Panel
         private void RightTriangle_Click(object sender, MouseButtonEventArgs e)
         {
             Item.BindingParam.Images.Index++;
-            Item.BindingParam.Images.ViewImage();
+            Item.BindingParam.Images.UpdateImage();
         }
     }
 }

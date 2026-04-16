@@ -1,7 +1,9 @@
 ﻿using GazoView.Lib.Functions;
 using GazoView.Lib.Panel;
+using System.Diagnostics;
 using System.Windows;
 using System.Windows.Input;
+using System.Windows.Threading;
 
 namespace GazoView
 {
@@ -10,10 +12,14 @@ namespace GazoView
     /// </summary>
     public partial class MainWindow : Window
     {
+        //  Esc key event
+        private DispatcherTimer _keyHoldTimer;
+        private Key? _currentHeldKey;
+        private const int KeyHoldDelay = 500;
+
         public MainWindow()
         {
             InitializeComponent();
-
             Init();
 
             //  Load後1秒後にMainWindow loaded flagをtrueにする。これにより、MainWindowの初期化が完了したとみなす。
@@ -42,6 +48,8 @@ namespace GazoView
                 }));
         }
 
+        #region Key events
+
         /// <summary>
         /// Key down event.
         /// </summary>
@@ -49,35 +57,99 @@ namespace GazoView
         /// <param name="e"></param>
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            // Detects key repeat. Ignores if Esc is already pressed.
+            if (e.IsRepeat && _currentHeldKey.HasValue) return;
+
             switch (e.Key)
             {
                 case Key.Escape:
-                    Application.Current.Shutdown();
+                    if (Item.BindingParam.RenameBox.IsVisibleRenameBox) return;
+                    _currentHeldKey = e.Key;
+                    _keyHoldTimer = new DispatcherTimer();
+                    _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
+                    _keyHoldTimer.Tick += (sender, e) =>
+                    {
+                        if (_currentHeldKey.HasValue)
+                        {
+                            FolderWindow.Open(Item.BindingParam.Images.Current.Parent, Item.BindingParam.Images.Current.FileName);
+                        }
+                        if (!this.IsFocused)
+                        {
+                            Application.Current.Shutdown();
+                        }
+                    };
+                    _keyHoldTimer.Start();
                     break;
                 case Key.Left:
                     Item.BindingParam.Images.Index--;
-                    Item.BindingParam.Images.ViewImage();
+                    Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Right:
                     Item.BindingParam.Images.Index++;
-                    Item.BindingParam.Images.ViewImage();
+                    Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Home:
                     Item.BindingParam.Images.Index = 0;
-                    Item.BindingParam.Images.ViewImage();
+                    Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.End:
                     Item.BindingParam.Images.Index = Item.BindingParam.Images.Length - 1;
-                    Item.BindingParam.Images.ViewImage();
+                    Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.T:
                     //  Switch trimming mode.
                     MoveTriangleLayer.LeftTriangleArea.Visibility = Visibility.Collapsed;
                     MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Collapsed;
-                    ImageFunction.SwitchTrimmingMode();
+                    Item.BindingParam.Trimming.SwitchMode();
+                    break;
+                case Key.O:
+                    //  Open or close folder path.
+                    if (SpecialKeyStatus.IsCtrlPressed())
+                    {
+                        FolderWindow.Close(Item.BindingParam.Images.Current.Parent);
+                    }
+                    else
+                    {
+                        FolderWindow.Open(Item.BindingParam.Images.Current.Parent, Item.BindingParam.Images.Current.FileName);
+                    }
+                    break;
+                case Key.F2:
+                    Item.BindingParam.RenameBox.SwitchMode();
                     break;
             }
         }
+
+        /// <summary>
+        /// Key up event.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
+        private void Window_PreviewKeyUp(object sender, KeyEventArgs e)
+        {
+            // The timer stops when the key is released.
+            if (_keyHoldTimer != null && _currentHeldKey.HasValue && _currentHeldKey.Value == e.Key)
+            {
+                _keyHoldTimer.Stop();
+                _currentHeldKey = null;
+            }
+
+            //  Close rename box if F2 is released.
+            if (Item.BindingParam.RenameBox.IsVisibleRenameBox)
+            {
+                Item.BindingParam.RenameBox.HideWindow();
+                Debug.WriteLine("Rename box closed.");
+                return;
+            }
+
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    Application.Current.Shutdown();
+                    break;
+            }
+        }
+
+        #endregion
 
         #region Navigation triangles
 
@@ -132,7 +204,7 @@ namespace GazoView
         private void LeftTriangle_Click(object sender, MouseButtonEventArgs e)
         {
             Item.BindingParam.Images.Index--;
-            Item.BindingParam.Images.ViewImage();
+            Item.BindingParam.Images.UpdateImage();
         }
 
         /// <summary>
@@ -142,8 +214,9 @@ namespace GazoView
         private void RightTriangle_Click(object sender, MouseButtonEventArgs e)
         {
             Item.BindingParam.Images.Index++;
-            Item.BindingParam.Images.ViewImage();
+            Item.BindingParam.Images.UpdateImage();
         }
+
 
         #endregion
     }

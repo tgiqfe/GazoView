@@ -10,21 +10,27 @@ namespace GazoView.Lib.Panel
         public ImagePanel()
         {
             InitializeComponent();
-            //this.DataContext = Item.BindingParam;
         }
 
+        /// <summary>
+        /// Mouse wheel event handler for zooming and image switching.
+        /// If Ctrl is pressed, it zooms the image.
+        /// Otherwise, it switches to the next or previous image.
+        /// </summary>
+        /// <param name="sender"></param>
+        /// <param name="e"></param>
         private void UserControl_PreviewMouseWheel(object sender, MouseWheelEventArgs e)
         {
             e.Handled = true;
             if (SpecialKeyStatus.IsCtrlPressed())
             {
-                //Item.BindingParam.ScaleRate.IsScalingMode = true;
                 Item.BindingParam.ScaleRate.ZoomImage(MainImage, ScrollViewer, e);
             }
             else
             {
+                
                 Item.BindingParam.Images.Index += e.Delta > 0 ? -1 : 1;
-                Item.BindingParam.Images.ViewImage();
+                Item.BindingParam.Images.UpdateImage();
             }
         }
 

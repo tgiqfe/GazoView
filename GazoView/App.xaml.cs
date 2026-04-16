@@ -27,7 +27,8 @@ namespace GazoView
                 Setting = setting,
                 Images = new(imageFileTargets),
                 Trimming = new(setting),
-                ScaleRate = new()
+                ScaleRate = new(),
+                RenameBox = new()
             };
         }
 

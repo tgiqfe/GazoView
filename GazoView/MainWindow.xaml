@@ -13,8 +13,12 @@
         Left="{Binding Setting.Left, Mode=TwoWay}"
         Top="{Binding Setting.Top, Mode=TwoWay}"
         PreviewKeyDown="Window_PreviewKeyDown"
+        PreviewKeyUp="Window_PreviewKeyUp"
         Background="DimGray">
-   
+    <Window.Resources>
+        <converter:BoolToVisibilityConverter x:Key="BoolToVisibilityConverter" />
+    </Window.Resources>
+    
     <Grid Name="GlobalGrid"
           MouseMove="GlobalGrid_MouseMove"
           MouseLeave="GlobalGrid_MouseLeave">
@@ -29,14 +33,14 @@
         <panel:ImagePanel x:Name="ImagePanel"
                           Grid.Row="1"
                           Grid.Column="1" />
+        <panel:MoveTriangleLayer x:Name="MoveTriangleLayer"
+                                 Grid.Row="1"
+                                 Grid.Column="1" />
         <panel:ParamBase x:Name="ParamBase"
                          Grid.Row="1" Grid.Column="1"
                          Width="420" Height="285"
                          HorizontalAlignment="Left"
-                         VerticalAlignment="Top" />
-        <panel:MoveTriangleLayer x:Name="MoveTriangleLayer"
-                                 Grid.Row="1"
-                                 Grid.Column="1" />
-
+                         VerticalAlignment="Top"
+                         Visibility="{Binding Trimming.IsTrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
     </Grid>
 </Window>

@@ -24,7 +24,12 @@ namespace GazoView.Lib
 
         private FileSystemWatcher _watcher;
         private string _watchingDirectory;
+        private string[] _fileListBeforeStop;
 
+        /// <summary>
+        /// File name list.
+        /// image files in the same directory as the target file.
+        /// </summary>
         public ObservableCollection<string> FileList { get; private set; }
 
         public int Length { get { return this.FileList?.Count ?? 0; } }
@@ -47,7 +52,6 @@ namespace GazoView.Lib
                     _index = 0;
                 }
                 OnPropertyChanged();
-                OnPropertyChanged(nameof(Title));
             }
         }
 
@@ -87,7 +91,7 @@ namespace GazoView.Lib
                         OrderBy(x => x, new NaturalStringComparer());
                     this.FileList = new ObservableCollection<string>(collection);
                     this.Index = this.FileList.IndexOf(targets[0]);
-                    ViewImage();
+                    UpdateImage();
                     StartWatching(parent);
                 }
                 else if (Directory.Exists(targets[0]))
@@ -97,16 +101,26 @@ namespace GazoView.Lib
                         OrderBy(x => x, new NaturalStringComparer());
                     this.FileList = new ObservableCollection<string>(collection);
                     this.Index = 0;
-                    ViewImage();
+                    UpdateImage();
                     StartWatching(targets[0]);
                 }
             }
         }
 
-        public void ViewImage()
+        /// <summary>
+        /// Check if the file is a valid image file.
+        /// </summary>
+        private bool IsValidImageFile(string filePath)
+        {
+            string extension = Path.GetExtension(filePath).ToLower();
+            return _validExtensions.Contains(extension);
+        }
+
+        public void UpdateImage()
         {
             this.Current = new ImageItem(this.FileList[this.Index]);
             OnPropertyChanged(nameof(Current));
+            OnPropertyChanged(nameof(Title));
         }
 
         #region File wathcing start/stop/resume.
@@ -145,6 +159,7 @@ namespace GazoView.Lib
             if (_watcher != null)
             {
                 _watcher.EnableRaisingEvents = false;
+                _fileListBeforeStop = this.FileList?.ToArray();
             }
         }
 
@@ -156,6 +171,21 @@ namespace GazoView.Lib
             if (_watcher != null)
             {
                 _watcher.EnableRaisingEvents = true;
+                if (_fileListBeforeStop != null && !string.IsNullOrEmpty(_watchingDirectory))
+                {
+                    var currentFiles = Directory.GetFiles(_watchingDirectory)
+                        .Where(x => IsValidImageFile(x))
+                        .OrderBy(x => x, new NaturalStringComparer())
+                        .ToList();
+                    if (!_fileListBeforeStop.SequenceEqual(currentFiles))
+                    {
+                        Application.Current?.Dispatcher.Invoke(() =>
+                        {
+                            RefreshFileList();
+                        });
+                    }
+                    _fileListBeforeStop = null;
+                }
             }
         }
 
@@ -187,37 +217,27 @@ namespace GazoView.Lib
             });
         }
 
-        #endregion
-
-        /// <summary>
-        /// Check if the file is a valid image file.
-        /// </summary>
-        private bool IsValidImageFile(string filePath)
-        {
-            string extension = Path.GetExtension(filePath).ToLower();
-            return _validExtensions.Contains(extension);
-        }
-
         /// <summary>
         /// Refresh the file list from the watching directory.
         /// </summary>
         private void RefreshFileList()
         {
-            if (string.IsNullOrEmpty(_watchingDirectory) || !Directory.Exists(_watchingDirectory))
-                return;
+            if (string.IsNullOrEmpty(_watchingDirectory) || !Directory.Exists(_watchingDirectory)) return;
 
             string currentFile = this.FileList.Count > this.Index ? this.FileList[this.Index] : null;
-
             var collection = Directory.GetFiles(_watchingDirectory)
                 .Where(x => IsValidImageFile(x))
                 .OrderBy(x => x, new NaturalStringComparer())
                 .ToList();
 
             this.FileList.Clear();
+            /*
             foreach (var file in collection)
             {
                 this.FileList.Add(file);
             }
+            */
+            collection.ForEach(x => this.FileList.Add(x));
 
             if (!string.IsNullOrEmpty(currentFile) && this.FileList.Contains(currentFile))
             {
@@ -226,14 +246,40 @@ namespace GazoView.Lib
             else if (this.FileList.Count > 0)
             {
                 this.Index = Math.Min(this.Index, this.FileList.Count - 1);
-                ViewImage();
+                UpdateImage();
             }
 
             OnPropertyChanged(nameof(Length));
             OnPropertyChanged(nameof(Title));
         }
 
+        #endregion
 
+        public void RenameImageFile(string newName)
+        {
+            //  stop watching to avoid multiple events triggered by renaming.
+            StopWatching();
+
+            FileFunction.RenameFile(this.Current.FilePath, newName);
+            string currentFile = Path.Combine(Path.GetDirectoryName(this.Current.FilePath), newName);
+            var collection = Directory.GetFiles(_watchingDirectory)
+                .Where(x => IsValidImageFile(x))
+                .OrderBy(x => x, new NaturalStringComparer())
+                .ToList();
+
+            this.FileList.Clear();
+            collection.ForEach(x =>  this.FileList.Add(x));
+            this.Index = this.FileList.IndexOf(currentFile);
+            UpdateImage();
+
+            //  resume watching after renaming.
+            ResumeWatching();
+        }
+
+        public void DeleteImageFile()
+        {
+
+        }
 
         #region Inotify change
 

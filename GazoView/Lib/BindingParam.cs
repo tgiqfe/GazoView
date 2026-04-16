@@ -21,5 +21,10 @@
         /// For scaling mode instance.
         /// </summary>
         public ScaleRate ScaleRate { get; set; }
+
+        /// <summary>
+        /// For RenameBox window.
+        /// </summary>
+        public RenameBox RenameBox { get; set; }
     }
 }
