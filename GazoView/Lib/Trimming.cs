@@ -89,6 +89,11 @@ namespace GazoView.Lib
             _setting = setting;
         }
 
+        public void SwitchMode(bool? toEnable = null)
+        {
+            IsTrimmingMode = toEnable ?? !IsTrimmingMode;
+        }
+
         #region Inotify change
 
         public event PropertyChangedEventHandler PropertyChanged;

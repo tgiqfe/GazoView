@@ -55,8 +55,23 @@ namespace GazoView.Lib.Panel
                     this.Hide();
                     break;
                 case Key.Enter:
+                    RenameImageFile();
                     break;
             }
+        }
+
+        private void ButtonRenameStart_Click(object sender, RoutedEventArgs e)
+        {
+            RenameImageFile();
+        }
+
+        private void RenameImageFile()
+        {
+            if (_renamable)
+            {
+                Item.BindingParam.Images.RenameImageFile($"{TextBoxForFileName.Text}{TextBlockForExtension.Text}");
+                Item.BindingParam.RenameBox.HideWindow();
+            }   
         }
 
         /// <summary>

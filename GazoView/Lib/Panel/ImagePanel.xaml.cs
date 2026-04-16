@@ -28,8 +28,9 @@ namespace GazoView.Lib.Panel
             }
             else
             {
+                
                 Item.BindingParam.Images.Index += e.Delta > 0 ? -1 : 1;
-                Item.BindingParam.Images.ViewImage();
+                Item.BindingParam.Images.UpdateImage();
             }
         }
 

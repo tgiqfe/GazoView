@@ -14,7 +14,7 @@
         Loaded="RenameBox_Loaded"
         WindowStartupLocation="Manual"
         PreviewKeyDown="RenameBox_PreviewKeyDown"
-        Height="70" Width="635">
+        MaxHeight="70" MaxWidth="635">
     
     <Window.Resources>
         <Style x:Key="RoundedTextBoxStyle" TargetType="TextBox">
@@ -120,10 +120,11 @@
                            HorizontalAlignment="Stretch"
                            FontFamily="Noto Sans JP"
                            FontSize="16" />
-                <Button Margin="15,5"
+                <Button Name="ButtonRenameStart" Margin="15,5"
                         Width="30"
                         Height="30"
                         BorderThickness="0"
+                        Click="ButtonRenameStart_Click"
                         Style="{StaticResource NoHoverButtonStyle}">
                 </Button>
             </StackPanel>

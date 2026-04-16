@@ -82,25 +82,25 @@ namespace GazoView
                     break;
                 case Key.Left:
                     Item.BindingParam.Images.Index--;
-                    Item.BindingParam.Images.ViewImage();
+                    Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Right:
                     Item.BindingParam.Images.Index++;
-                    Item.BindingParam.Images.ViewImage();
+                    Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Home:
                     Item.BindingParam.Images.Index = 0;
-                    Item.BindingParam.Images.ViewImage();
+                    Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.End:
                     Item.BindingParam.Images.Index = Item.BindingParam.Images.Length - 1;
-                    Item.BindingParam.Images.ViewImage();
+                    Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.T:
                     //  Switch trimming mode.
                     MoveTriangleLayer.LeftTriangleArea.Visibility = Visibility.Collapsed;
                     MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Collapsed;
-                    ImageFunction.SwitchTrimmingMode();
+                    Item.BindingParam.Trimming.SwitchMode();
                     break;
                 case Key.O:
                     //  Open or close folder path.
@@ -114,7 +114,7 @@ namespace GazoView
                     }
                     break;
                 case Key.F2:
-                    Item.BindingParam.RenameBox.ShowWindow();
+                    Item.BindingParam.RenameBox.SwitchMode();
                     break;
             }
         }
@@ -204,7 +204,7 @@ namespace GazoView
         private void LeftTriangle_Click(object sender, MouseButtonEventArgs e)
         {
             Item.BindingParam.Images.Index--;
-            Item.BindingParam.Images.ViewImage();
+            Item.BindingParam.Images.UpdateImage();
         }
 
         /// <summary>
@@ -214,11 +214,10 @@ namespace GazoView
         private void RightTriangle_Click(object sender, MouseButtonEventArgs e)
         {
             Item.BindingParam.Images.Index++;
-            Item.BindingParam.Images.ViewImage();
+            Item.BindingParam.Images.UpdateImage();
         }
 
+
         #endregion
-
-
     }
 }

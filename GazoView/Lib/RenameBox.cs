@@ -1,7 +1,4 @@
 ﻿using GazoView.Lib.Panel;
-using System;
-using System.Collections.Generic;
-using System.Text;
 using System.Windows;
 
 namespace GazoView.Lib
@@ -12,22 +9,8 @@ namespace GazoView.Lib
         private double _windowShadowSize = -1;
         private double _titleBarSize = -1;
 
+
         public bool IsVisibleRenameBox { get; set; }
-
-        public void ShowWindow(double windowShadowSize, double titleBarSize)
-        {
-            _windowShadowSize = windowShadowSize;
-            _titleBarSize = titleBarSize;
-
-            _renameBoxWindow ??= new RenameBoxWindow();
-            _renameBoxWindow.Owner = Item.MainWindow;
-            _renameBoxWindow.Show();
-            _renameBoxWindow.Left = Item.MainWindow.Left + _windowShadowSize;
-            _renameBoxWindow.Top = Item.MainWindow.Top + _titleBarSize;
-
-            this.IsVisibleRenameBox = true;
-            Item.MainWindow.LocationChanged += MainWindow_LocationChanged;
-        }
 
         public void ShowWindow()
         {
@@ -45,11 +28,13 @@ namespace GazoView.Lib
             _renameBoxWindow.Show();
             _renameBoxWindow.Left = Item.MainWindow.Left + _windowShadowSize;
             _renameBoxWindow.Top = Item.MainWindow.Top + _titleBarSize;
+            _renameBoxWindow.Width = _renameBoxWindow.MaxWidth;
+            _renameBoxWindow.Height = _renameBoxWindow.MaxHeight;
 
             this.IsVisibleRenameBox = true;
             Item.MainWindow.LocationChanged += MainWindow_LocationChanged;
+            Item.MainWindow.SizeChanged += MainWindow_SizeChanged;
         }
-
 
         public void HideWindow()
         {
@@ -59,7 +44,21 @@ namespace GazoView.Lib
                 _renameBoxWindow.Close();
                 _renameBoxWindow = null;
                 Item.MainWindow.LocationChanged -= MainWindow_LocationChanged;
+                Item.MainWindow.SizeChanged -= MainWindow_SizeChanged;
                 this.IsVisibleRenameBox = false;
+            }
+        }
+
+        public void SwitchMode(bool? toEnable = null)
+        {
+            if (toEnable == null) toEnable = !this.IsVisibleRenameBox;
+            if (toEnable == true)
+            {
+                ShowWindow();
+            }
+            else
+            {
+                HideWindow();
             }
         }
 
@@ -70,6 +69,17 @@ namespace GazoView.Lib
                 _renameBoxWindow.Left = Item.MainWindow.Left + _windowShadowSize;
                 _renameBoxWindow.Top = Item.MainWindow.Top + _titleBarSize;
             }
+        }
+
+        private void MainWindow_SizeChanged(object sender, SizeChangedEventArgs e)
+        {
+            double contentWidth = e.NewSize.Width - (_windowShadowSize * 2);
+            double contentHeight = e.NewSize.Height - _titleBarSize - _windowShadowSize;
+
+            _renameBoxWindow.Width = contentWidth <= _renameBoxWindow.MaxWidth ?
+                contentWidth : _renameBoxWindow.MaxWidth;
+            _renameBoxWindow.Height = contentHeight <= _renameBoxWindow.MaxHeight ?
+                contentHeight : _renameBoxWindow.MaxHeight;
         }
     }
 }
