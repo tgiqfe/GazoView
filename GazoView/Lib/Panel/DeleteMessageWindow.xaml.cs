@@ -22,9 +22,34 @@ namespace GazoView.Lib.Panel
             InitializeComponent();
         }
 
+        public DeleteMessageWindow(
+            string action,
+            string filePath,
+            string fileName,
+            string fileExtension,
+            string imageSize,
+            string fileSize,
+            string timeStamp,
+            ImageSource imageSource)
+        {
+            InitializeComponent();
+            TextBlockAction.Text = action;
+            TextBlockFilePath.Text = filePath;
+            TextBlockFileName.Text = fileName;
+            TextBlockFileExtension.Text = fileExtension;
+            TextBlockImageSize.Text = imageSize;
+            TextBlockFileSize.Text = fileSize;
+            TextBlockTimeStamp.Text = timeStamp;
+            TargetImage.Source = imageSource;
+        }
+
         private void Window_PreviewMouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
-            this.DragMove();
+            Button eventObject = e.Source as Button;
+            if (eventObject == null)
+            {
+                this.DragMove();
+            }
         }
     }
 }

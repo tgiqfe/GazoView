@@ -7,9 +7,6 @@ using System.Diagnostics;
 
 namespace GazoView.Lib.Panel
 {
-    /// <summary>
-    /// RenameBoxWindow.xaml の相互作用ロジック
-    /// </summary>
     public partial class RenameBoxWindow : Window
     {
         private bool _isLoaded = false;

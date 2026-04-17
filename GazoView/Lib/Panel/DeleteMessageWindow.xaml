@@ -18,27 +18,43 @@
             <Setter Property="FontSize" Value="14" />
         </Style>
         <Style TargetType="Button">
+            <Setter Property="Background" Value="LightGray" />
+            <Setter Property="Foreground" Value="Black" />
             <Setter Property="Template">
                 <Setter.Value>
                     <ControlTemplate TargetType="Button">
-                        <Border Background="{TemplateBinding Background}"
+                        <Border x:Name="ButtonBorder"
+                                Background="{TemplateBinding Background}"
                                 BorderBrush="{TemplateBinding BorderBrush}"
                                 BorderThickness="{TemplateBinding BorderThickness}"
-                                CornerRadius="10"
+                                CornerRadius="12"
                                 Padding="{TemplateBinding Padding}">
-                            <ContentPresenter HorizontalAlignment="Center" VerticalAlignment="Center"/>
+                            <ContentPresenter x:Name="ButtonContent" 
+                                              HorizontalAlignment="Center" 
+                                              VerticalAlignment="Center"
+                                              TextElement.Foreground="{TemplateBinding Foreground}"/>
                         </Border>
+                        <ControlTemplate.Triggers>
+                            <Trigger Property="IsMouseOver" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="AliceBlue" />
+                            </Trigger>
+                            <Trigger Property="IsPressed" Value="True">
+                                <Setter TargetName="ButtonBorder" Property="Background" Value="DimGray" />
+                                <Setter TargetName="ButtonContent" Property="TextElement.Foreground" Value="White" />
+                                <Setter TargetName="ButtonContent" Property="TextElement.FontWeight" Value="Bold" />
+                            </Trigger>
+                        </ControlTemplate.Triggers>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
             <Setter Property="Width" Value="100" />
-            <Setter Property="Height" Value="25" />
+            <Setter Property="Height" Value="26" />
             <Setter Property="Margin" Value="5,0" />
             <Setter Property="FontFamily" Value="Noto Sans JP" />
-            <Setter Property="FontSize" Value="12" />
+            <Setter Property="FontSize" Value="14" />
         </Style>
     </Window.Resources>
-    
+
     <Grid Margin="5">
         <Border CornerRadius="15" Background="LightGray">
             <Border.Effect>
@@ -61,7 +77,7 @@
                 <Grid Margin="0,25">
                     <Grid.RowDefinitions>
                         <RowDefinition />
-                        <RowDefinition />
+                        <RowDefinition Height="23"/>
                         <RowDefinition />
                         <RowDefinition />
                         <RowDefinition />
@@ -86,8 +102,8 @@
                     <TextBlock Grid.Row="4" Grid.Column="2" Text=":" />
                     <TextBlock Grid.Row="5" Grid.Column="2" Text=":" />
                     <TextBlock Grid.Row="6" Grid.Column="2" Text=":" />
-                    <TextBlock Grid.Row="2" Grid.Column="3" Text="Filename.jpg" Name="TextBlockName"/>
-                    <TextBlock Grid.Row="3" Grid.Column="3" Text="Filename.jpg" Name="TextBlockExtension"/>
+                    <TextBlock Grid.Row="2" Grid.Column="3" Text="Filename.jpg" Name="TextBlockFileName"/>
+                    <TextBlock Grid.Row="3" Grid.Column="3" Text="Filename.jpg" Name="TextBlockFileExtension"/>
                     <TextBlock Grid.Row="4" Grid.Column="3" Text="Filename.jpg" Name="TextBlockImageSize"/>
                     <TextBlock Grid.Row="5" Grid.Column="3" Text="Filename.jpg" Name="TextBlockFileSize"/>
                     <TextBlock Grid.Row="6" Grid.Column="3" Text="Filename.jpg" Name="TextBlockTimeStamp"/>
