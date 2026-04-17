@@ -1,8 +1,11 @@
-﻿using GazoView.Lib.Panel;
+﻿using GazoView.Lib.Functions;
+using GazoView.Lib.Panel;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows.Media;
+using System.Windows.Media.Imaging;
 
 namespace GazoView.Lib
 {
@@ -22,10 +25,11 @@ namespace GazoView.Lib
             public string TrueName { get; set; }
             public string ManagedName { get; set; }
         }
-        private string RestorableFileName
+        private DeletedItem RestorableFile
         {
-            get => DeletedList.Last().TrueName;
+            get => DeletedList.Last();
         }
+
         private string RestoredFilePath = null;
 
         public DeleteMessage()
@@ -59,7 +63,6 @@ namespace GazoView.Lib
 
         private void RestoreFromDeletedStore()
         {
-            /*
             if (this.DeletedList.Count == 0)
             {
                 return;
@@ -68,7 +71,6 @@ namespace GazoView.Lib
             File.Copy(sourcePath, RestoredFilePath);
             File.Delete(sourcePath);
             DeletedList.RemoveAt(DeletedList.Count - 1);
-            */
         }
 
 
@@ -76,6 +78,9 @@ namespace GazoView.Lib
 
         #region Show/Hide window.
 
+        /// <summary>
+        /// Show message window for delete.
+        /// </summary>
         public void ShowDeleteWindow()
         {
             _deleteMessageWindow ??= new DeleteMessageWindow(
@@ -92,13 +97,38 @@ namespace GazoView.Lib
             this.IsVisible = true;
         }
 
+        /// <summary>
+        /// Show message window for restore.
+        /// </summary>
         public void ShowRestoreWindow()
         {
+            if (this.DeletedList.Count == 0) return;
 
+            var restoreFilePath = Path.Combine(_storeDirectory, this.RestorableFile.ManagedName);
+            ImageSource imageSource = new BitmapImage(new Uri(restoreFilePath));
+
+            _deleteMessageWindow ??= new DeleteMessageWindow(
+                "Restore?",
+                Path.Combine(Item.BindingParam.Images.Current.Parent, RestorableFile.TrueName),
+                RestorableFile.TrueName,
+                Path.GetExtension(RestorableFile.TrueName),
+                $"{imageSource.Width} x {imageSource.Height}",
+                FileFunction.GetFileSize(new FileInfo(restoreFilePath).Length),
+                File.GetLastWriteTime(restoreFilePath).ToString("yyyy/MM/dd HH:mm:ss"),
+                imageSource);
+            _deleteMessageWindow.Owner = Item.MainWindow;
+            _deleteMessageWindow.Show();
+            this.IsVisible = true;
         }
 
+        /// <summary>
+        /// Hide message window.
+        /// </summary>
         public void HideWindow()
         {
+            _deleteMessageWindow.Hide();
+            _deleteMessageWindow.Close();
+            _deleteMessageWindow = null;
             this.IsVisible = false;
         }
 

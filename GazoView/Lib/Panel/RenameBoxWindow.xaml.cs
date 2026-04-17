@@ -144,14 +144,20 @@ namespace GazoView.Lib.Panel
                 }
             }
             string selectedText = TextBoxForFileName.SelectedText;
-            long newNumber = long.Parse(selectedText) + offset;
-            string newSelectedText = newNumber.ToString().PadLeft(selectedText.Length, '0');
-            string newText = TextBoxForFileName.Text.
-                Remove(TextBoxForFileName.SelectionStart, TextBoxForFileName.SelectionLength).
-                Insert(TextBoxForFileName.SelectionStart, newSelectedText);
-            int newSelectionStart = TextBoxForFileName.SelectionStart;
-            TextBoxForFileName.Text = newText;
-            TextBoxForFileName.Select(newSelectionStart, selectedText.Length);
+            if (!string.IsNullOrEmpty(selectedText) && long.TryParse(selectedText, out long num))
+            {
+                long newNumber = num + offset;
+                if (newNumber >= 0)
+                {
+                    string newSelectedText = newNumber.ToString().PadLeft(selectedText.Length, '0');
+                    string newText = TextBoxForFileName.Text.
+                        Remove(TextBoxForFileName.SelectionStart, TextBoxForFileName.SelectionLength).
+                        Insert(TextBoxForFileName.SelectionStart, newSelectedText);
+                    int newSelectionStart = TextBoxForFileName.SelectionStart;
+                    TextBoxForFileName.Text = newText;
+                    TextBoxForFileName.Select(newSelectionStart, selectedText.Length);
+                }
+            }
         }
 
         /// <summary>
@@ -164,7 +170,9 @@ namespace GazoView.Lib.Panel
         {
             if (string.IsNullOrEmpty(text) || position < 0 || position > text.Length) return string.Empty;
 
-            int currentPos = position == text.Length ? position - 1 : position;
+            int currentPos = position == text.Length || !int.TryParse(text[position].ToString(), out _) ?
+                position - 1 :
+                position;
             if (currentPos < 0 || currentPos >= text.Length || !char.IsDigit(text[currentPos])) return string.Empty;
 
             int startPos = currentPos;
