@@ -114,8 +114,8 @@
                         VerticalAlignment="Bottom"
                         Height="48"
                         Margin="30,0">
-                <Button Name="ButtonOK" Content="OK" />
-                <Button Name="ButtonCancel" Content="Cancel" />
+                <Button Name="ButtonOK" Content="OK" Click="ButtonOK_Click"/>
+                <Button Name="ButtonCancel" Content="Cancel" Click="ButtonCancel_Click"/>
             </StackPanel>
         </Grid>
     </Grid>

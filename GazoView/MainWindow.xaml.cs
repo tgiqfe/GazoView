@@ -29,9 +29,6 @@ namespace GazoView
                 Application.Current.Dispatcher.Invoke(() =>
                 {
                     Item.IsInitialized = true;
-
-                    //  テスト用に配置
-                    Item.BindingParam.DeleteMessage.ShowDeleteWindow();
                 });
             });
         }
@@ -129,7 +126,14 @@ namespace GazoView
                     Item.BindingParam.RenameBox.SwitchMode();
                     break;
                 case Key.Delete:
-                    Item.BindingParam.Images.DeleteImageFile();
+                    Item.BindingParam.DeleteMessage.ShowDeleteWindow();
+                    //Item.BindingParam.Images.DeleteImageFile();
+                    break;
+                case Key.Z:
+                    if (SpecialKeyStatus.IsCtrlPressed())
+                    {
+                        Item.BindingParam.DeleteMessage.ShowRestoreWindow();
+                    }
                     break;
             }
         }
