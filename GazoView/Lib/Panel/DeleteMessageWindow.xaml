@@ -69,8 +69,8 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" HorizontalAlignment="Left"
-                    CornerRadius="15" Background="White" Width="180" Height="180" Margin="25,20">
-                <Image Name="TargetImage" />
+                    CornerRadius="15" Background="GhostWhite" Width="180" Height="180" Margin="25,20">
+                <Image Name="TargetImage" Margin="10" />
             </Border>
             <StackPanel Grid.Column="1" 
                         Orientation="Vertical">
@@ -102,11 +102,11 @@
                     <TextBlock Grid.Row="4" Grid.Column="2" Text=":" />
                     <TextBlock Grid.Row="5" Grid.Column="2" Text=":" />
                     <TextBlock Grid.Row="6" Grid.Column="2" Text=":" />
-                    <TextBlock Grid.Row="2" Grid.Column="3" Text="Filename.jpg" Name="TextBlockFileName"/>
-                    <TextBlock Grid.Row="3" Grid.Column="3" Text="Filename.jpg" Name="TextBlockFileExtension"/>
-                    <TextBlock Grid.Row="4" Grid.Column="3" Text="Filename.jpg" Name="TextBlockImageSize"/>
-                    <TextBlock Grid.Row="5" Grid.Column="3" Text="Filename.jpg" Name="TextBlockFileSize"/>
-                    <TextBlock Grid.Row="6" Grid.Column="3" Text="Filename.jpg" Name="TextBlockTimeStamp"/>
+                    <TextBlock Grid.Row="2" Grid.Column="3" Text="Example.jpg" Name="TextBlockFileName"/>
+                    <TextBlock Grid.Row="3" Grid.Column="3" Text=".jpg" Name="TextBlockFileExtension"/>
+                    <TextBlock Grid.Row="4" Grid.Column="3" Text="1920x1080" Name="TextBlockImageSize"/>
+                    <TextBlock Grid.Row="5" Grid.Column="3" Text="1.2 MB" Name="TextBlockFileSize"/>
+                    <TextBlock Grid.Row="6" Grid.Column="3" Text="2024-06-01 12:34:56" Name="TextBlockTimeStamp"/>
                 </Grid>
             </StackPanel>
             <StackPanel Grid.Column="1" 

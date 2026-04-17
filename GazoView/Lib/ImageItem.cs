@@ -26,6 +26,7 @@ namespace GazoView.Lib
 
         public int Width { get; private set; }
         public int Height { get; private set; }
+        public string Resolution { get => $"{Width} x {Height}"; }
         public double DpiX { get; private set; }
         public double DpiY { get; private set; }
 

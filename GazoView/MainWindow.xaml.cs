@@ -31,7 +31,7 @@ namespace GazoView
                     Item.IsInitialized = true;
 
                     //  テスト用に配置
-                    Item.BindingParam.DeleteMessage.ShowWindow();
+                    Item.BindingParam.DeleteMessage.ShowDeleteWindow();
                 });
             });
         }
@@ -67,6 +67,7 @@ namespace GazoView
             {
                 case Key.Escape:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
+                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
                     _currentHeldKey = e.Key;
                     _keyHoldTimer = new DispatcherTimer();
                     _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
@@ -85,21 +86,25 @@ namespace GazoView
                     break;
                 case Key.Left:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
+                    if(Item.BindingParam.DeleteMessage.IsVisible) return;
                     Item.BindingParam.Images.Index--;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Right:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
+                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
                     Item.BindingParam.Images.Index++;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Home:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
+                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
                     Item.BindingParam.Images.Index = 0;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.End:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
+                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
                     Item.BindingParam.Images.Index = Item.BindingParam.Images.Length - 1;
                     Item.BindingParam.Images.UpdateImage();
                     break;
