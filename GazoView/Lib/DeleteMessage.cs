@@ -4,6 +4,7 @@ using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Text;
+using System.Windows;
 using System.Windows.Media;
 using System.Windows.Media.Imaging;
 
@@ -94,6 +95,22 @@ namespace GazoView.Lib
                 Item.BindingParam.Images.Current.Source);
             _deleteMessageWindow.Owner = Item.MainWindow;
             _deleteMessageWindow.Show();
+
+
+            _deleteMessageWindow.ButtonOK.Click += (s, e) =>
+            {
+                RestoredFilePath = Item.BindingParam.Images.Current.FilePath;
+                CopyToDeletedStore(Item.BindingParam.Images.Current.FilePath);
+                File.Delete(Item.BindingParam.Images.Current.FilePath);
+                HideWindow();
+            };
+            _deleteMessageWindow.ButtonCancel.Click += (s, e) =>
+            {
+                HideWindow();
+            };
+
+
+            _deleteMessageWindow.Show();
             this.IsVisible = true;
         }
 
@@ -117,6 +134,20 @@ namespace GazoView.Lib
                 File.GetLastWriteTime(restoreFilePath).ToString("yyyy/MM/dd HH:mm:ss"),
                 imageSource);
             _deleteMessageWindow.Owner = Item.MainWindow;
+
+            _deleteMessageWindow.ButtonOK.Click += (s, e) =>
+            {
+                RestoreFromDeletedStore();
+                Item.BindingParam.Images.UpdateImage();
+                HideWindow();
+
+            };
+            _deleteMessageWindow.ButtonCancel.Click += (s, e) =>
+            {
+                HideWindow();
+            };
+            _deleteMessageWindow.Show();
+
             _deleteMessageWindow.Show();
             this.IsVisible = true;
         }
@@ -130,6 +161,10 @@ namespace GazoView.Lib
             _deleteMessageWindow.Close();
             _deleteMessageWindow = null;
             this.IsVisible = false;
+            Application.Current.Dispatcher.Invoke(() =>
+            {
+                _deleteMessageWindow = null;
+            });
         }
 
         #endregion

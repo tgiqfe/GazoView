@@ -51,15 +51,5 @@ namespace GazoView.Lib.Panel
                 this.DragMove();
             }
         }
-
-        private void ButtonOK_Click(object sender, RoutedEventArgs e)
-        {
-            
-        }
-
-        private void ButtonCancel_Click(object sender, RoutedEventArgs e)
-        {
-
-        }
     }
 }
