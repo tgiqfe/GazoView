@@ -84,18 +84,17 @@ namespace GazoView.Lib
         /// </summary>
         public void ShowDeleteWindow()
         {
-            _deleteMessageWindow ??= new DeleteMessageWindow(
-                "Delete?",
-                Item.BindingParam.Images.Current.FilePath,
-                Item.BindingParam.Images.Current.FileName,
-                Item.BindingParam.Images.Current.FileExtension,
-                Item.BindingParam.Images.Current.Resolution,
-                Item.BindingParam.Images.Current.Size,
-                Item.BindingParam.Images.Current.LastWriteTime,
-                Item.BindingParam.Images.Current.Source);
+            _deleteMessageWindow = new();
+            _deleteMessageWindow.TextBlockAction.Text = "Delete?";
+            _deleteMessageWindow.TextBlockFilePath.Text = Item.BindingParam.Images.Current.FilePath;
+            _deleteMessageWindow.TextBlockFileName.Text = Item.BindingParam.Images.Current.FileName;
+            _deleteMessageWindow.TextBlockFileExtension.Text = Item.BindingParam.Images.Current.FileExtension;
+            _deleteMessageWindow.TextBlockImageSize.Text = Item.BindingParam.Images.Current.Resolution;
+            _deleteMessageWindow.TextBlockFileSize.Text = Item.BindingParam.Images.Current.Size;
+            _deleteMessageWindow.TextBlockTimeStamp.Text = Item.BindingParam.Images.Current.LastWriteTime;
+            _deleteMessageWindow.TargetImage.Source = Item.BindingParam.Images.Current.Source;
             _deleteMessageWindow.Owner = Item.MainWindow;
             _deleteMessageWindow.Show();
-
 
             _deleteMessageWindow.ButtonOK.Click += (s, e) =>
             {
@@ -124,16 +123,20 @@ namespace GazoView.Lib
             var restoreFilePath = Path.Combine(_storeDirectory, this.RestorableFile.ManagedName);
             ImageSource imageSource = new BitmapImage(new Uri(restoreFilePath));
 
-            _deleteMessageWindow ??= new DeleteMessageWindow(
-                "Restore?",
-                Path.Combine(Item.BindingParam.Images.Current.Parent, RestorableFile.TrueName),
-                RestorableFile.TrueName,
-                Path.GetExtension(RestorableFile.TrueName),
-                $"{imageSource.Width} x {imageSource.Height}",
-                FileFunction.GetFileSize(new FileInfo(restoreFilePath).Length),
-                File.GetLastWriteTime(restoreFilePath).ToString("yyyy/MM/dd HH:mm:ss"),
-                imageSource);
+            //  ImageSourceの取得の部分はもう少しブラッシュアップ予定。
+
+            _deleteMessageWindow = new();
+            _deleteMessageWindow.TextBlockAction.Text = "Restore?";
+            _deleteMessageWindow.TextBlockFilePath.Text = Path.Combine(Item.BindingParam.Images.Current.Parent, RestorableFile.TrueName);
+            _deleteMessageWindow.TextBlockFileName.Text = RestorableFile.TrueName;
+            _deleteMessageWindow.TextBlockFileExtension.Text = Path.GetExtension(RestorableFile.TrueName);
+            _deleteMessageWindow.TextBlockImageSize.Text = $"{imageSource.Width} x {imageSource.Height}";
+            _deleteMessageWindow.TextBlockFileSize.Text = FileFunction.GetFileSize(new FileInfo(restoreFilePath).Length);
+            _deleteMessageWindow.TextBlockTimeStamp.Text = File.GetLastWriteTime(restoreFilePath).ToString("yyyy/MM/dd HH:mm:ss");
+            _deleteMessageWindow.TargetImage.Source = imageSource;
             _deleteMessageWindow.Owner = Item.MainWindow;
+
+
 
             _deleteMessageWindow.ButtonOK.Click += (s, e) =>
             {
