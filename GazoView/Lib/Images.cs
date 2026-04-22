@@ -126,21 +126,6 @@ namespace GazoView.Lib
             OnPropertyChanged(nameof(Title));
         }
 
-        public void MoveImageFromName(string name)
-        {
-            if (name.Contains("\\"))
-            {
-                name = Path.GetFileName(name);
-            }
-            int targetIndex = this.FileList.IndexOf(
-                this.FileList.FirstOrDefault(x => Path.GetFileName(x) == name));
-            if (targetIndex != -1)
-            {
-                this.Index = targetIndex;
-                UpdateImage();
-            }
-        }
-
         #region File wathcing start/stop/resume.
 
         /// <summary>
@@ -304,6 +289,22 @@ namespace GazoView.Lib
             UpdateImage();
 
             //  refresh file list after deleting.
+            ResumeWatching();
+        }
+
+        public void ReloadAndJumpFile(string name)
+        {
+            //  stop watching to avoid multiple events triggered by reloading.
+            StopWatching();
+
+            if (name.Contains("\\"))
+            {
+                name = Path.GetFileName(name);
+            }
+            var index = this.FileList.Select(x => Path.GetFileName(x)).ToList().IndexOf(name);
+            if (index >= 0) this.Index = index;
+
+            //  reload file list and jump to the specified file.
             ResumeWatching();
         }
 

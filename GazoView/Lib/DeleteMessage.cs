@@ -70,14 +70,22 @@ namespace GazoView.Lib
             }
             string managedPath = Path.Combine(_storeDirectory, DeletedList.Last().ManagedName);
             string truePath = Path.Combine(Item.BindingParam.Images.Current.Parent, this.DeletedList.Last().TrueName);
-            File.Copy(managedPath, truePath);
+            if (File.Exists(truePath))
+            {
+                // If a file with the same name already exists, append a number to the file name.
+                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(truePath);
+                string extension = Path.GetExtension(truePath);
+                int copyIndex = 1;
+                while (File.Exists(truePath))
+                {
+                    truePath = Path.Combine(Item.BindingParam.Images.Current.Parent, $"{fileNameWithoutExtension} ({copyIndex}){extension}");
+                    copyIndex++;
+                }
+            }
+            File.Move(managedPath, truePath);
             new FileInfo(truePath).LastWriteTime = this.DeletedList.Last().LastWriteTime;
-            File.Delete(managedPath);
             this.DeletedList.RemoveAt(DeletedList.Count - 1);
         }
-
-
-
 
         #region Show/Hide window.
 
@@ -137,7 +145,9 @@ namespace GazoView.Lib
             _deleteMessageWindow.ButtonOK.Click += (s, e) =>
             {
                 RestoreFromDeletedStore();
-                Item.BindingParam.Images.MoveImageFromName(restorableFile.TrueName);
+                //  ここがうまくいかない。
+                Item.BindingParam.Images.ReloadAndJumpFile(restorableFile.TrueName);
+
                 HideWindow();
             };
             _deleteMessageWindow.ButtonCancel.Click += (s, e) =>
