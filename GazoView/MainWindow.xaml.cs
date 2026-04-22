@@ -127,7 +127,6 @@ namespace GazoView
                     break;
                 case Key.Delete:
                     Item.BindingParam.DeleteMessage.ShowDeleteWindow();
-                    //Item.BindingParam.Images.DeleteImageFile();
                     break;
                 case Key.Z:
                     if (SpecialKeyStatus.IsCtrlPressed())
@@ -160,6 +159,12 @@ namespace GazoView
                     {
                         Item.BindingParam.RenameBox.HideWindow();
                         Debug.WriteLine("Rename box closed.");
+                        return;
+                    }
+                    if (Item.BindingParam.DeleteMessage.IsVisible)
+                    {
+                        Item.BindingParam.DeleteMessage.HideWindow();
+                        Debug.WriteLine("Delete message box closed.");
                         return;
                     }
                     Application.Current.Shutdown();

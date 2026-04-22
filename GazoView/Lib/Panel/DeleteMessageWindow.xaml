@@ -11,6 +11,7 @@
         AllowsTransparency="True"
         WindowStartupLocation="CenterOwner"
         PreviewMouseLeftButtonDown="Window_PreviewMouseLeftButtonDown"
+        PreviewKeyDown="Window_PreviewKeyDown"
         Height="240" Width="580">
     <Window.Resources>
         <Style TargetType="TextBlock">

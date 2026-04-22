@@ -25,13 +25,8 @@ namespace GazoView.Lib
         {
             public string TrueName { get; set; }
             public string ManagedName { get; set; }
+            public DateTime LastWriteTime { get; set; }
         }
-        private DeletedItem RestorableFile
-        {
-            get => DeletedList.Last();
-        }
-
-        private string RestoredFilePath = null;
 
         public DeleteMessage()
         {
@@ -47,31 +42,38 @@ namespace GazoView.Lib
             this.DeletedList = new();
         }
 
-        private void CopyToDeletedStore(string filePath)
+        public void CopyToDeletedStore(string truePath)
         {
             if (!Directory.Exists(_storeDirectory))
             {
                 Directory.CreateDirectory(_storeDirectory);
             }
-            string managedName = Guid.NewGuid().ToString();
-            File.Copy(filePath, Path.Combine(_storeDirectory, managedName));
-            DeletedList.Add(new DeletedItem
+            string managedName = Guid.NewGuid().ToString() + Path.GetExtension(truePath);
+            DateTime lastWriteTime = File.GetLastWriteTime(truePath);
+            this.DeletedList.Add(new DeletedItem
             {
-                TrueName = Path.GetFileName(filePath),
-                ManagedName = managedName
+                TrueName = Path.GetFileName(truePath),
+                ManagedName = managedName,
+                LastWriteTime = lastWriteTime
             });
+            var managedPath = Path.Combine(_storeDirectory, managedName);
+
+            File.Copy(truePath, managedPath);
+            new FileInfo(managedPath).LastWriteTime = lastWriteTime;
         }
 
-        private void RestoreFromDeletedStore()
+        public void RestoreFromDeletedStore()
         {
             if (this.DeletedList.Count == 0)
             {
                 return;
             }
-            string sourcePath = Path.Combine(_storeDirectory, DeletedList.Last().ManagedName);
-            File.Copy(sourcePath, RestoredFilePath);
-            File.Delete(sourcePath);
-            DeletedList.RemoveAt(DeletedList.Count - 1);
+            string managedPath = Path.Combine(_storeDirectory, DeletedList.Last().ManagedName);
+            string truePath = Path.Combine(Item.BindingParam.Images.Current.Parent, this.DeletedList.Last().TrueName);
+            File.Copy(managedPath, truePath);
+            new FileInfo(truePath).LastWriteTime = this.DeletedList.Last().LastWriteTime;
+            File.Delete(managedPath);
+            this.DeletedList.RemoveAt(DeletedList.Count - 1);
         }
 
 
@@ -98,17 +100,14 @@ namespace GazoView.Lib
 
             _deleteMessageWindow.ButtonOK.Click += (s, e) =>
             {
-                RestoredFilePath = Item.BindingParam.Images.Current.FilePath;
                 CopyToDeletedStore(Item.BindingParam.Images.Current.FilePath);
-                File.Delete(Item.BindingParam.Images.Current.FilePath);
+                Item.BindingParam.Images.DeleteImageFile();
                 HideWindow();
             };
             _deleteMessageWindow.ButtonCancel.Click += (s, e) =>
             {
                 HideWindow();
             };
-
-
             _deleteMessageWindow.Show();
             this.IsVisible = true;
         }
@@ -120,37 +119,31 @@ namespace GazoView.Lib
         {
             if (this.DeletedList.Count == 0) return;
 
-            var restoreFilePath = Path.Combine(_storeDirectory, this.RestorableFile.ManagedName);
-            ImageSource imageSource = new BitmapImage(new Uri(restoreFilePath));
-
-            //  ImageSourceの取得の部分はもう少しブラッシュアップ予定。
+            var restorableFile = this.DeletedList.Last();
+            var managedPath = Path.Combine(_storeDirectory, restorableFile.ManagedName);
+            var source = new ImageItem(managedPath);
 
             _deleteMessageWindow = new();
             _deleteMessageWindow.TextBlockAction.Text = "Restore?";
-            _deleteMessageWindow.TextBlockFilePath.Text = Path.Combine(Item.BindingParam.Images.Current.Parent, RestorableFile.TrueName);
-            _deleteMessageWindow.TextBlockFileName.Text = RestorableFile.TrueName;
-            _deleteMessageWindow.TextBlockFileExtension.Text = Path.GetExtension(RestorableFile.TrueName);
-            _deleteMessageWindow.TextBlockImageSize.Text = $"{imageSource.Width} x {imageSource.Height}";
-            _deleteMessageWindow.TextBlockFileSize.Text = FileFunction.GetFileSize(new FileInfo(restoreFilePath).Length);
-            _deleteMessageWindow.TextBlockTimeStamp.Text = File.GetLastWriteTime(restoreFilePath).ToString("yyyy/MM/dd HH:mm:ss");
-            _deleteMessageWindow.TargetImage.Source = imageSource;
+            _deleteMessageWindow.TextBlockFilePath.Text = Path.Combine(Item.BindingParam.Images.Current.Parent, restorableFile.TrueName);
+            _deleteMessageWindow.TextBlockFileName.Text = restorableFile.TrueName;
+            _deleteMessageWindow.TextBlockFileExtension.Text = Path.GetExtension(restorableFile.TrueName);
+            _deleteMessageWindow.TextBlockImageSize.Text = source.Resolution;
+            _deleteMessageWindow.TextBlockFileSize.Text = source.Size;
+            _deleteMessageWindow.TextBlockTimeStamp.Text = restorableFile.LastWriteTime.ToString("yyyy/MM/dd HH:mm:ss");
+            _deleteMessageWindow.TargetImage.Source = source.Source;
             _deleteMessageWindow.Owner = Item.MainWindow;
-
-
 
             _deleteMessageWindow.ButtonOK.Click += (s, e) =>
             {
                 RestoreFromDeletedStore();
-                Item.BindingParam.Images.UpdateImage();
+                Item.BindingParam.Images.MoveImageFromName(restorableFile.TrueName);
                 HideWindow();
-
             };
             _deleteMessageWindow.ButtonCancel.Click += (s, e) =>
             {
                 HideWindow();
             };
-            _deleteMessageWindow.Show();
-
             _deleteMessageWindow.Show();
             this.IsVisible = true;
         }
@@ -162,7 +155,6 @@ namespace GazoView.Lib
         {
             _deleteMessageWindow.Hide();
             _deleteMessageWindow.Close();
-            _deleteMessageWindow = null;
             this.IsVisible = false;
             Application.Current.Dispatcher.Invoke(() =>
             {

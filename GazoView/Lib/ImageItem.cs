@@ -66,6 +66,7 @@ namespace GazoView.Lib
                             int stride = Width * (bitmap.Format.BitsPerPixel / 8);
                             byte[] pixels = new byte[Height * stride];
                             bitmap.CopyPixels(pixels, stride, 0);
+                            bitmap.Freeze();    //  Freeze the original bitmap to release the file lock.    
                             return BitmapSource.Create(Width, Height, DPI_96, DPI_96, PixelFormats.Pbgra32, null, pixels, stride);
                         })();
                 }

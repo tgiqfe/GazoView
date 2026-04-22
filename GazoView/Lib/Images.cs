@@ -126,6 +126,21 @@ namespace GazoView.Lib
             OnPropertyChanged(nameof(Title));
         }
 
+        public void MoveImageFromName(string name)
+        {
+            if (name.Contains("\\"))
+            {
+                name = Path.GetFileName(name);
+            }
+            int targetIndex = this.FileList.IndexOf(
+                this.FileList.FirstOrDefault(x => Path.GetFileName(x) == name));
+            if (targetIndex != -1)
+            {
+                this.Index = targetIndex;
+                UpdateImage();
+            }
+        }
+
         #region File wathcing start/stop/resume.
 
         /// <summary>

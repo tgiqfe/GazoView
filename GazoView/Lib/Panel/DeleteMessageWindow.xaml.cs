@@ -30,5 +30,18 @@ namespace GazoView.Lib.Panel
                 this.DragMove();
             }
         }
+
+        private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
+        {
+            switch (e.Key)
+            {
+                case Key.Escape:
+                    this.Hide();
+                    break;
+                case Key.Enter:
+                    ButtonOK.RaiseEvent(new RoutedEventArgs(Button.ClickEvent));
+                    break;
+            }
+        }
     }
 }
