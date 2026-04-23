@@ -126,6 +126,18 @@ namespace GazoView.Lib
             OnPropertyChanged(nameof(Title));
         }
 
+        public void JumptoImage(string name)
+        {
+            var index = name.Contains("\\") ?
+                this.FileList.IndexOf(name) :
+                this.FileList.Select(x => Path.GetFileName(x)).ToList().IndexOf(name);
+            if (index >= 0)
+            {
+                this.Index = index;
+                UpdateImage();
+            }
+        }
+
         #region File wathcing start/stop/resume.
 
         /// <summary>
@@ -258,15 +270,14 @@ namespace GazoView.Lib
             StopWatching();
 
             FileFunction.RenameFile(this.Current.FilePath, newName);
-            string currentFile = Path.Combine(Path.GetDirectoryName(this.Current.FilePath), newName);
+            string currentPath = Path.Combine(Path.GetDirectoryName(this.Current.FilePath), newName);
             var collection = Directory.GetFiles(_watchingDirectory)
                 .Where(x => IsValidImageFile(x))
                 .OrderBy(x => x, new NaturalStringComparer())
                 .ToList();
-
             this.FileList.Clear();
             collection.ForEach(x => this.FileList.Add(x));
-            this.Index = this.FileList.IndexOf(currentFile);
+            this.Index = this.FileList.IndexOf(currentPath);
             UpdateImage();
 
             //  resume watching after renaming.
@@ -292,19 +303,28 @@ namespace GazoView.Lib
             ResumeWatching();
         }
 
-        public void ReloadAndJumpFile(string name)
+        public void MoveInImageFile(string sourcePath, string destinationName = null)
         {
-            //  stop watching to avoid multiple events triggered by reloading.
+            //  stop watching to avoid multiple events triggered by moving.
             StopWatching();
 
-            if (name.Contains("\\"))
-            {
-                name = Path.GetFileName(name);
-            }
-            var index = this.FileList.Select(x => Path.GetFileName(x)).ToList().IndexOf(name);
-            if (index >= 0) this.Index = index;
+            var destinationPath = Path.Combine(
+                this.Current.Parent,
+                destinationName ?? Path.GetFileName(sourcePath));
+            destinationPath = FileFunction.GetSafeNamePth(destinationPath);
 
-            //  reload file list and jump to the specified file.
+            FileFunction.MoveFile(sourcePath, destinationPath);
+
+            var collection = Directory.GetFiles(this.Current.Parent)
+                .Where(x => IsValidImageFile(x))
+                .OrderBy(x => x, new NaturalStringComparer())
+                .ToList();
+            this.FileList.Clear();
+            collection.ForEach(x => this.FileList.Add(x));
+            this.Index = this.FileList.IndexOf(destinationPath);
+            UpdateImage();
+
+            //  refresh file list after moving.
             ResumeWatching();
         }
 

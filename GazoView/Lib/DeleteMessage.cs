@@ -42,72 +42,6 @@ namespace GazoView.Lib
             this.DeletedList = new();
         }
 
-        /*
-        public void CopyToDeletedStore(string truePath)
-        {
-            if (!Directory.Exists(_storeDirectory))
-            {
-                Directory.CreateDirectory(_storeDirectory);
-            }
-            string managedName = Guid.NewGuid().ToString() + Path.GetExtension(truePath);
-            DateTime lastWriteTime = File.GetLastWriteTime(truePath);
-            this.DeletedList.Add(new DeletedItem
-            {
-                TrueName = Path.GetFileName(truePath),
-                ManagedName = managedName,
-                LastWriteTime = lastWriteTime
-            });
-            var managedPath = Path.Combine(_storeDirectory, managedName);
-
-            File.Copy(truePath, managedPath);
-            new FileInfo(managedPath).LastWriteTime = lastWriteTime;
-        }
-        */
-
-        private void DeleteImageFile(ImageItem imageItem)
-        {
-            if (!Directory.Exists(_storeDirectory))
-            {
-                Directory.CreateDirectory(_storeDirectory);
-            }
-            string managedName = Guid.NewGuid().ToString() + imageItem.FileExtension;
-            string managedPath = Path.Combine(_storeDirectory, managedName);
-            File.Copy(imageItem.FilePath, managedPath);
-            this.DeletedList.Add(new DeletedItem()
-            {
-                TrueName = imageItem.FileName,
-                ManagedName = managedName,
-                LastWriteTime = imageItem.LastWriteTimeRaw
-            });
-            new FileInfo(managedPath).LastWriteTime = imageItem.LastWriteTimeRaw;
-        }
-
-
-        public void RestoreFromDeletedStore()
-        {
-            if (this.DeletedList.Count == 0)
-            {
-                return;
-            }
-            string managedPath = Path.Combine(_storeDirectory, DeletedList.Last().ManagedName);
-            string truePath = Path.Combine(Item.BindingParam.Images.Current.Parent, this.DeletedList.Last().TrueName);
-            if (File.Exists(truePath))
-            {
-                // If a file with the same name already exists, append a number to the file name.
-                string fileNameWithoutExtension = Path.GetFileNameWithoutExtension(truePath);
-                string extension = Path.GetExtension(truePath);
-                int copyIndex = 1;
-                while (File.Exists(truePath))
-                {
-                    truePath = Path.Combine(Item.BindingParam.Images.Current.Parent, $"{fileNameWithoutExtension} ({copyIndex}){extension}");
-                    copyIndex++;
-                }
-            }
-            File.Move(managedPath, truePath);
-            new FileInfo(truePath).LastWriteTime = this.DeletedList.Last().LastWriteTime;
-            this.DeletedList.RemoveAt(DeletedList.Count - 1);
-        }
-
         #region Show/Hide window.
 
         /// <summary>
@@ -129,8 +63,24 @@ namespace GazoView.Lib
 
             _deleteMessageWindow.ButtonOK.Click += (s, e) =>
             {
-                //CopyToDeletedStore(Item.BindingParam.Images.Current.FilePath);
-                this.DeleteImageFile(Item.BindingParam.Images.Current);
+                //this.DeleteImageFile(Item.BindingParam.Images.Current);
+
+                if (!Directory.Exists(_storeDirectory))
+                {
+                    Directory.CreateDirectory(_storeDirectory);
+                }
+                var imageItem = Item.BindingParam.Images.Current;
+                string managedName = Guid.NewGuid().ToString() + imageItem.FileExtension;
+                string managedPath = Path.Combine(_storeDirectory, managedName);
+                this.DeletedList.Add(new DeletedItem()
+                {
+                    TrueName = imageItem.FileName,
+                    ManagedName = managedName,
+                    LastWriteTime = imageItem.LastWriteTimeRaw
+                });
+                File.Copy(imageItem.FilePath, managedPath);
+                new FileInfo(managedPath).LastWriteTime = imageItem.LastWriteTimeRaw;
+
                 Item.BindingParam.Images.DeleteImageFile();
                 HideWindow();
             };
@@ -166,10 +116,11 @@ namespace GazoView.Lib
 
             _deleteMessageWindow.ButtonOK.Click += (s, e) =>
             {
-                RestoreFromDeletedStore();
-                //  ここがうまくいかない。
-                Item.BindingParam.Images.ReloadAndJumpFile(restorableFile.TrueName);
-
+                string managedPath = Path.Combine(_storeDirectory, DeletedList.Last().ManagedName);
+                Item.BindingParam.Images.MoveInImageFile(
+                    managedPath,
+                    DeletedList.Last().TrueName);
+                this.DeletedList.RemoveAt(DeletedList.Count - 1);
                 HideWindow();
             };
             _deleteMessageWindow.ButtonCancel.Click += (s, e) =>
