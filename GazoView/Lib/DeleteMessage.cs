@@ -42,6 +42,7 @@ namespace GazoView.Lib
             this.DeletedList = new();
         }
 
+        /*
         public void CopyToDeletedStore(string truePath)
         {
             if (!Directory.Exists(_storeDirectory))
@@ -61,6 +62,26 @@ namespace GazoView.Lib
             File.Copy(truePath, managedPath);
             new FileInfo(managedPath).LastWriteTime = lastWriteTime;
         }
+        */
+
+        private void DeleteImageFile(ImageItem imageItem)
+        {
+            if (!Directory.Exists(_storeDirectory))
+            {
+                Directory.CreateDirectory(_storeDirectory);
+            }
+            string managedName = Guid.NewGuid().ToString() + imageItem.FileExtension;
+            string managedPath = Path.Combine(_storeDirectory, managedName);
+            File.Copy(imageItem.FilePath, managedPath);
+            this.DeletedList.Add(new DeletedItem()
+            {
+                TrueName = imageItem.FileName,
+                ManagedName = managedName,
+                LastWriteTime = imageItem.LastWriteTimeRaw
+            });
+            new FileInfo(managedPath).LastWriteTime = imageItem.LastWriteTimeRaw;
+        }
+
 
         public void RestoreFromDeletedStore()
         {
@@ -108,7 +129,8 @@ namespace GazoView.Lib
 
             _deleteMessageWindow.ButtonOK.Click += (s, e) =>
             {
-                CopyToDeletedStore(Item.BindingParam.Images.Current.FilePath);
+                //CopyToDeletedStore(Item.BindingParam.Images.Current.FilePath);
+                this.DeleteImageFile(Item.BindingParam.Images.Current);
                 Item.BindingParam.Images.DeleteImageFile();
                 HideWindow();
             };

@@ -70,8 +70,12 @@
                 <ColumnDefinition Width="*" />
             </Grid.ColumnDefinitions>
             <Border Grid.Column="0" HorizontalAlignment="Left"
-                    CornerRadius="15" Background="GhostWhite" Width="180" Height="180" Margin="25,20">
-                <Image Name="TargetImage" Margin="10" />
+                    CornerRadius="15" Background="#F3F3F3" Width="180" Height="180" Margin="25,20">
+                <Image Name="TargetImage" Margin="10" >
+                    <Image.Effect>
+                        <DropShadowEffect Color="Black" BlurRadius="10" ShadowDepth="3" Opacity="0.2" />
+                    </Image.Effect>
+                </Image>
             </Border>
             <StackPanel Grid.Column="1" 
                         Orientation="Vertical">

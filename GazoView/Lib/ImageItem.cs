@@ -20,9 +20,10 @@ namespace GazoView.Lib
         public string FileName { get; private set; }
         public string FileExtension { get; private set; }
         public string Parent { get; private set; }
-        public string Size { get; private set; }
-        public string LastWriteTime { get; private set; }
-        public string Hash { get; private set; }
+        public string Size { get => FileFunction.GetFileSize(new FileInfo(this.FilePath).Length); }
+        public DateTime LastWriteTimeRaw { get; private set; }
+        public string LastWriteTime { get => this.LastWriteTimeRaw.ToString("yyyy/MM/dd HH:mm:ss"); }
+        public string Hash { get => FileFunction.GetHash(this.FilePath); }
 
         public int Width { get; private set; }
         public int Height { get; private set; }
@@ -38,9 +39,10 @@ namespace GazoView.Lib
             this.FileName = Path.GetFileName(path);
             this.FileExtension = Path.GetExtension(path);
             this.Parent = Path.GetDirectoryName(path);
-            this.Size = FileFunction.GetFileSize(new FileInfo(path).Length);
-            this.LastWriteTime = File.GetLastWriteTime(path).ToString("yyyy/MM/dd HH:mm:ss");
-            this.Hash = FileFunction.GetHash(path);
+            //this.Size = FileFunction.GetFileSize(new FileInfo(path).Length);
+            this.LastWriteTimeRaw = File.GetLastWriteTime(path);
+            //this.LastWriteTime = this.LastWriteTimeRaw.ToString("yyyy/MM/dd HH:mm:ss");
+            //this.Hash = FileFunction.GetHash(path);
 
             if (_bitmapExtensions.Any(x => string.Equals(x, this.FileExtension, StringComparison.OrdinalIgnoreCase)))
             {
@@ -73,6 +75,7 @@ namespace GazoView.Lib
             }
             else if (_vectorExtensions.Any(x => string.Equals(x, this.FileExtension, StringComparison.OrdinalIgnoreCase)))
             {
+                //  SVG rendering is not implemented yet.
             }
         }
     }
