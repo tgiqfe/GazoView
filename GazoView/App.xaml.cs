@@ -29,7 +29,7 @@ namespace GazoView
                 Trimming = new(setting),
                 ScaleRate = new(),
                 RenameBox = new(),
-                DeleteMessage = new()
+                MessageDialog = new()
             };
         }
 

@@ -64,7 +64,7 @@ namespace GazoView
             {
                 case Key.Escape:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     _currentHeldKey = e.Key;
                     _keyHoldTimer = new DispatcherTimer();
                     _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
@@ -83,25 +83,25 @@ namespace GazoView
                     break;
                 case Key.Left:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if(Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if(Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index--;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Right:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index++;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Home:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index = 0;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.End:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index = Item.BindingParam.Images.Length - 1;
                     Item.BindingParam.Images.UpdateImage();
                     break;
@@ -110,6 +110,14 @@ namespace GazoView
                     MoveTriangleLayer.LeftTriangleArea.Visibility = Visibility.Collapsed;
                     MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Collapsed;
                     Item.BindingParam.Trimming.SwitchMode();
+                    break;
+                case Key.G:
+                    //  Start trimming.
+                    if (Item.BindingParam.Trimming.IsTrimmingMode)
+                    {
+                        //Item.BindingParam.Trimming.StartTrimming();
+                        Item.BindingParam.MessageDialog.ShowTrimmingWindow();
+                    }
                     break;
                 case Key.O:
                     //  Open or close folder path.
@@ -126,13 +134,12 @@ namespace GazoView
                     Item.BindingParam.RenameBox.SwitchMode();
                     break;
                 case Key.Delete:
-                    Item.BindingParam.DeleteMessage.ShowDeleteWindow();
-                    //Item.BindingParam.Images.DeleteImageFile();
+                    Item.BindingParam.MessageDialog.ShowDeleteWindow();
                     break;
                 case Key.Z:
                     if (SpecialKeyStatus.IsCtrlPressed())
                     {
-                        Item.BindingParam.DeleteMessage.ShowRestoreWindow();
+                        Item.BindingParam.MessageDialog.ShowRestoreWindow();
                     }
                     break;
             }
@@ -160,6 +167,12 @@ namespace GazoView
                     {
                         Item.BindingParam.RenameBox.HideWindow();
                         Debug.WriteLine("Rename box closed.");
+                        return;
+                    }
+                    if (Item.BindingParam.MessageDialog.IsVisible)
+                    {
+                        Item.BindingParam.MessageDialog.HideWindow();
+                        Debug.WriteLine("Delete message box closed.");
                         return;
                     }
                     Application.Current.Shutdown();

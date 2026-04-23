@@ -72,13 +72,25 @@ namespace GazoView.Lib.Functions
         }
 
         /// <summary>
+        /// Move file.
+        /// </summary>
+        /// <param name="sourcePath"></param>
+        /// <param name="destinationPath"></param>
+        public static void MoveFile(string sourcePath, string destinationPath)
+        {
+            FileSystem.MoveFile(sourcePath, destinationPath);
+        }
+
+        /// <summary>
         /// Get safe (non-conflicting) file name.
         /// </summary>
         /// <param name="path"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static string GetSafeNamePth(string path)
+        public static string GetSafeNamePath(string path)
         {
+            if (!File.Exists(path)) return path;
+
             var parent = Path.GetDirectoryName(path);
             var baseName = Path.GetFileNameWithoutExtension(path);
             var extension = Path.GetExtension(path);
