@@ -61,6 +61,8 @@ namespace GazoView.Lib
             }
         }
 
+        #region Move with MainWindow
+
         public void MainWindow_LocationChanged(object sender, EventArgs e)
         {
             if (_renameBoxWindow != null && _renameBoxWindow.IsVisible)
@@ -80,5 +82,7 @@ namespace GazoView.Lib
             _renameBoxWindow.Height = contentHeight <= _renameBoxWindow.MaxHeight ?
                 contentHeight : _renameBoxWindow.MaxHeight;
         }
+
+        #endregion
     }
 }
