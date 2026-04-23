@@ -64,7 +64,7 @@ namespace GazoView
             {
                 case Key.Escape:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     _currentHeldKey = e.Key;
                     _keyHoldTimer = new DispatcherTimer();
                     _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
@@ -83,25 +83,25 @@ namespace GazoView
                     break;
                 case Key.Left:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if(Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if(Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index--;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Right:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index++;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.Home:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index = 0;
                     Item.BindingParam.Images.UpdateImage();
                     break;
                 case Key.End:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if (Item.BindingParam.DeleteMessage.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index = Item.BindingParam.Images.Length - 1;
                     Item.BindingParam.Images.UpdateImage();
                     break;
@@ -126,12 +126,12 @@ namespace GazoView
                     Item.BindingParam.RenameBox.SwitchMode();
                     break;
                 case Key.Delete:
-                    Item.BindingParam.DeleteMessage.ShowDeleteWindow();
+                    Item.BindingParam.MessageDialog.ShowDeleteWindow();
                     break;
                 case Key.Z:
                     if (SpecialKeyStatus.IsCtrlPressed())
                     {
-                        Item.BindingParam.DeleteMessage.ShowRestoreWindow();
+                        Item.BindingParam.MessageDialog.ShowRestoreWindow();
                     }
                     break;
             }
@@ -161,9 +161,9 @@ namespace GazoView
                         Debug.WriteLine("Rename box closed.");
                         return;
                     }
-                    if (Item.BindingParam.DeleteMessage.IsVisible)
+                    if (Item.BindingParam.MessageDialog.IsVisible)
                     {
-                        Item.BindingParam.DeleteMessage.HideWindow();
+                        Item.BindingParam.MessageDialog.HideWindow();
                         Debug.WriteLine("Delete message box closed.");
                         return;
                     }

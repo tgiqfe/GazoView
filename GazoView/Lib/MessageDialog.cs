@@ -10,9 +10,9 @@ using System.Windows.Media.Imaging;
 
 namespace GazoView.Lib
 {
-    public class DeleteMessage : IDisposable
+    public class MessageDialog : IDisposable
     {
-        private DeleteMessageWindow _deleteMessageWindow;
+        private MessageDialogWindow _messageDialogWindow;
         public bool IsVisible { get; set; }
 
         const string CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-+[]@";
@@ -28,7 +28,7 @@ namespace GazoView.Lib
             public DateTime LastWriteTime { get; set; }
         }
 
-        public DeleteMessage()
+        public MessageDialog()
         {
             var random = new Random();
             _serial = new string(
@@ -49,19 +49,19 @@ namespace GazoView.Lib
         /// </summary>
         public void ShowDeleteWindow()
         {
-            _deleteMessageWindow = new();
-            _deleteMessageWindow.TextBlockAction.Text = "Delete?";
-            _deleteMessageWindow.TextBlockFilePath.Text = Item.BindingParam.Images.Current.FilePath;
-            _deleteMessageWindow.TextBlockFileName.Text = Item.BindingParam.Images.Current.FileName;
-            _deleteMessageWindow.TextBlockFileExtension.Text = Item.BindingParam.Images.Current.FileExtension;
-            _deleteMessageWindow.TextBlockImageSize.Text = Item.BindingParam.Images.Current.Resolution;
-            _deleteMessageWindow.TextBlockFileSize.Text = Item.BindingParam.Images.Current.Size;
-            _deleteMessageWindow.TextBlockTimeStamp.Text = Item.BindingParam.Images.Current.LastWriteTime;
-            _deleteMessageWindow.TargetImage.Source = Item.BindingParam.Images.Current.Source;
-            _deleteMessageWindow.Owner = Item.MainWindow;
-            _deleteMessageWindow.Show();
+            _messageDialogWindow = new();
+            _messageDialogWindow.TextBlockAction.Text = "Delete?";
+            _messageDialogWindow.TextBlockFilePath.Text = Item.BindingParam.Images.Current.FilePath;
+            _messageDialogWindow.TextBlockFileName.Text = Item.BindingParam.Images.Current.FileName;
+            _messageDialogWindow.TextBlockFileExtension.Text = Item.BindingParam.Images.Current.FileExtension;
+            _messageDialogWindow.TextBlockImageSize.Text = Item.BindingParam.Images.Current.Resolution;
+            _messageDialogWindow.TextBlockFileSize.Text = Item.BindingParam.Images.Current.Size;
+            _messageDialogWindow.TextBlockTimeStamp.Text = Item.BindingParam.Images.Current.LastWriteTime;
+            _messageDialogWindow.TargetImage.Source = Item.BindingParam.Images.Current.Source;
+            _messageDialogWindow.Owner = Item.MainWindow;
+            _messageDialogWindow.Show();
 
-            _deleteMessageWindow.ButtonOK.Click += (s, e) =>
+            _messageDialogWindow.ButtonOK.Click += (s, e) =>
             {
                 //this.DeleteImageFile(Item.BindingParam.Images.Current);
 
@@ -84,11 +84,11 @@ namespace GazoView.Lib
                 Item.BindingParam.Images.DeleteImageFile();
                 HideWindow();
             };
-            _deleteMessageWindow.ButtonCancel.Click += (s, e) =>
+            _messageDialogWindow.ButtonCancel.Click += (s, e) =>
             {
                 HideWindow();
             };
-            _deleteMessageWindow.Show();
+            _messageDialogWindow.Show();
             this.IsVisible = true;
         }
 
@@ -103,18 +103,18 @@ namespace GazoView.Lib
             var managedPath = Path.Combine(_storeDirectory, restorableFile.ManagedName);
             var source = new ImageItem(managedPath);
 
-            _deleteMessageWindow = new();
-            _deleteMessageWindow.TextBlockAction.Text = "Restore?";
-            _deleteMessageWindow.TextBlockFilePath.Text = Path.Combine(Item.BindingParam.Images.Current.Parent, restorableFile.TrueName);
-            _deleteMessageWindow.TextBlockFileName.Text = restorableFile.TrueName;
-            _deleteMessageWindow.TextBlockFileExtension.Text = Path.GetExtension(restorableFile.TrueName);
-            _deleteMessageWindow.TextBlockImageSize.Text = source.Resolution;
-            _deleteMessageWindow.TextBlockFileSize.Text = source.Size;
-            _deleteMessageWindow.TextBlockTimeStamp.Text = restorableFile.LastWriteTime.ToString("yyyy/MM/dd HH:mm:ss");
-            _deleteMessageWindow.TargetImage.Source = source.Source;
-            _deleteMessageWindow.Owner = Item.MainWindow;
+            _messageDialogWindow = new();
+            _messageDialogWindow.TextBlockAction.Text = "Restore?";
+            _messageDialogWindow.TextBlockFilePath.Text = Path.Combine(Item.BindingParam.Images.Current.Parent, restorableFile.TrueName);
+            _messageDialogWindow.TextBlockFileName.Text = restorableFile.TrueName;
+            _messageDialogWindow.TextBlockFileExtension.Text = Path.GetExtension(restorableFile.TrueName);
+            _messageDialogWindow.TextBlockImageSize.Text = source.Resolution;
+            _messageDialogWindow.TextBlockFileSize.Text = source.Size;
+            _messageDialogWindow.TextBlockTimeStamp.Text = restorableFile.LastWriteTime.ToString("yyyy/MM/dd HH:mm:ss");
+            _messageDialogWindow.TargetImage.Source = source.Source;
+            _messageDialogWindow.Owner = Item.MainWindow;
 
-            _deleteMessageWindow.ButtonOK.Click += (s, e) =>
+            _messageDialogWindow.ButtonOK.Click += (s, e) =>
             {
                 string managedPath = Path.Combine(_storeDirectory, DeletedList.Last().ManagedName);
                 Item.BindingParam.Images.MoveInImageFile(
@@ -123,11 +123,11 @@ namespace GazoView.Lib
                 this.DeletedList.RemoveAt(DeletedList.Count - 1);
                 HideWindow();
             };
-            _deleteMessageWindow.ButtonCancel.Click += (s, e) =>
+            _messageDialogWindow.ButtonCancel.Click += (s, e) =>
             {
                 HideWindow();
             };
-            _deleteMessageWindow.Show();
+            _messageDialogWindow.Show();
             this.IsVisible = true;
         }
 
@@ -136,12 +136,12 @@ namespace GazoView.Lib
         /// </summary>
         public void HideWindow()
         {
-            _deleteMessageWindow.Hide();
-            _deleteMessageWindow.Close();
+            _messageDialogWindow.Hide();
+            _messageDialogWindow.Close();
             this.IsVisible = false;
             Application.Current.Dispatcher.Invoke(() =>
             {
-                _deleteMessageWindow = null;
+                _messageDialogWindow = null;
             });
         }
 

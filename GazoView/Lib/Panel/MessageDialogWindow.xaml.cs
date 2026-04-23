@@ -4,9 +4,9 @@ using System.Windows.Input;
 
 namespace GazoView.Lib.Panel
 {
-    public partial class DeleteMessageWindow : Window
+    public partial class MessageDialogWindow : Window
     {
-        public DeleteMessageWindow()
+        public MessageDialogWindow()
         {
             InitializeComponent();
         }

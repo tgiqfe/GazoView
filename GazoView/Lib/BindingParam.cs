@@ -28,8 +28,8 @@
         public RenameBox RenameBox { get; set; }
 
         /// <summary>
-        /// For DeleteMessage window.
+        /// For MessageDialog window.
         /// </summary>
-        public DeleteMessage DeleteMessage { get; set; }
+        public MessageDialog MessageDialog { get; set; }
     }
 }
