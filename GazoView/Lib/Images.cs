@@ -311,7 +311,7 @@ namespace GazoView.Lib
             var destinationPath = Path.Combine(
                 this.Current.Parent,
                 destinationName ?? Path.GetFileName(sourcePath));
-            destinationPath = FileFunction.GetSafeNamePth(destinationPath);
+            destinationPath = FileFunction.GetSafeNamePath(destinationPath);
 
             FileFunction.MoveFile(sourcePath, destinationPath);
 

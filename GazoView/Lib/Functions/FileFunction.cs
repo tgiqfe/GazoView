@@ -87,9 +87,9 @@ namespace GazoView.Lib.Functions
         /// <param name="path"></param>
         /// <returns></returns>
         /// <exception cref="Exception"></exception>
-        public static string GetSafeNamePth(string path)
+        public static string GetSafeNamePath(string path)
         {
-            if (File.Exists(path)) return path;
+            if (!File.Exists(path)) return path;
 
             var parent = Path.GetDirectoryName(path);
             var baseName = Path.GetFileNameWithoutExtension(path);

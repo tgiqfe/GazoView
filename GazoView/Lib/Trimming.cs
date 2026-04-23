@@ -1,5 +1,9 @@
-﻿using System.ComponentModel;
+﻿using System.Windows;
+using GazoView.Lib.Functions;
+using System.ComponentModel;
 using System.Runtime.CompilerServices;
+using System.Windows.Media.Imaging;
+using System.IO;
 
 namespace GazoView.Lib
 {
@@ -18,6 +22,8 @@ namespace GazoView.Lib
                 OnPropertyChanged();
             }
         }
+
+        #region Trimming area values (Top, Bottom, Left, Right)
 
         public int Top
         {
@@ -75,6 +81,12 @@ namespace GazoView.Lib
             }
         }
 
+        #endregion
+
+        public int Width { get => this.Right - this.Left; }
+        public int Height { get => this.Bottom - this.Top; }
+        public string TrimmedResolution { get => $"{this.Width} x {this.Height}"; }
+
         //  Assist values for assist line display (4px outside of trimming area).
         public double AssistTop { get => this.Top - 4; }
         public double AssistBottom { get => this.Bottom + 4; }
@@ -92,6 +104,42 @@ namespace GazoView.Lib
         public void SwitchMode(bool? toEnable = null)
         {
             IsTrimmingMode = toEnable ?? !IsTrimmingMode;
+        }
+
+        /// <summary>
+        /// Trimming start process.
+        /// It crops the current image based on trimming area values and saves it as a new file.
+        /// </summary>
+        public void StartTrimming()
+        {
+            string outputPath = FileFunction.GetSafeNamePath(Item.BindingParam.Images.Current.FilePath);
+
+            var scale = Item.MainWindow.ImagePanel.DesiredSize.Width / Item.BindingParam.Images.Current.Width;
+            var (left, top, width, height) = (
+                (int)(this.Left / scale),
+                (int)(this.Top / scale),
+                (int)(this.Width / scale),
+                (int)(this.Height / scale)
+            );
+
+            if (Item.BindingParam.Images.Current.Source is BitmapSource imgSrc)
+            {
+                var bitmap = new CroppedBitmap(imgSrc, new Int32Rect(left, top, width, height));
+                using (var fs = new FileStream(outputPath, FileMode.Create, FileAccess.Write))
+                {
+                    BitmapEncoder encoder = Item.BindingParam.Images.Current.FileExtension.ToLower() switch
+                    {
+                        ".jpg" or ".jpeg" => new JpegBitmapEncoder(),
+                        ".png" => new PngBitmapEncoder(),
+                        ".tif" or ".tiff" => new TiffBitmapEncoder(),
+                        ".bmp" => new BmpBitmapEncoder(),
+                        _ => null
+                    };
+                    encoder.Frames.Add(BitmapFrame.Create(bitmap));
+                    encoder.Save(fs);
+                }
+                bitmap.Freeze();
+            }
         }
 
         #region Inotify change

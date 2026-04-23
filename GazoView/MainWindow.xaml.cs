@@ -111,6 +111,14 @@ namespace GazoView
                     MoveTriangleLayer.RightTriangleArea.Visibility = Visibility.Collapsed;
                     Item.BindingParam.Trimming.SwitchMode();
                     break;
+                case Key.G:
+                    //  Start trimming.
+                    if (Item.BindingParam.Trimming.IsTrimmingMode)
+                    {
+                        //Item.BindingParam.Trimming.StartTrimming();
+                        Item.BindingParam.MessageDialog.ShowTrimmingWindow();
+                    }
+                    break;
                 case Key.O:
                     //  Open or close folder path.
                     if (SpecialKeyStatus.IsCtrlPressed())

@@ -15,6 +15,8 @@ namespace GazoView.Lib
         private MessageDialogWindow _messageDialogWindow;
         public bool IsVisible { get; set; }
 
+        #region for Delete/Restore parameters
+
         const string CHARACTERS = "abcdefghijklmnopqrstuvwxyzABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789_-+[]@";
         const int NAME_LENGTH = 16;
 
@@ -27,6 +29,8 @@ namespace GazoView.Lib
             public string ManagedName { get; set; }
             public DateTime LastWriteTime { get; set; }
         }
+
+        #endregion
 
         public MessageDialog()
         {
@@ -63,8 +67,6 @@ namespace GazoView.Lib
 
             _messageDialogWindow.ButtonOK.Click += (s, e) =>
             {
-                //this.DeleteImageFile(Item.BindingParam.Images.Current);
-
                 if (!Directory.Exists(_storeDirectory))
                 {
                     Directory.CreateDirectory(_storeDirectory);
@@ -121,6 +123,33 @@ namespace GazoView.Lib
                     managedPath,
                     DeletedList.Last().TrueName);
                 this.DeletedList.RemoveAt(DeletedList.Count - 1);
+                HideWindow();
+            };
+            _messageDialogWindow.ButtonCancel.Click += (s, e) =>
+            {
+                HideWindow();
+            };
+            _messageDialogWindow.Show();
+            this.IsVisible = true;
+        }
+
+        public void ShowTrimmingWindow()
+        {
+            _messageDialogWindow = new();
+            _messageDialogWindow.TextBlockAction.Text = "Delete?";
+            _messageDialogWindow.TextBlockFilePath.Text = Item.BindingParam.Images.Current.FilePath;
+            _messageDialogWindow.TextBlockFileName.Text = Item.BindingParam.Images.Current.FileName;
+            _messageDialogWindow.TextBlockFileExtension.Text = Item.BindingParam.Images.Current.FileExtension;
+            _messageDialogWindow.TextBlockImageSize.Text = $"{Item.BindingParam.Images.Current.Resolution} -> {Item.BindingParam.Trimming.TrimmedResolution}";
+            _messageDialogWindow.TextBlockFileSize.Text = Item.BindingParam.Images.Current.Size;
+            _messageDialogWindow.TextBlockTimeStamp.Text = Item.BindingParam.Images.Current.LastWriteTime;
+            _messageDialogWindow.TargetImage.Source = Item.BindingParam.Images.Current.Source;
+            _messageDialogWindow.Owner = Item.MainWindow;
+            _messageDialogWindow.Show();
+
+            _messageDialogWindow.ButtonOK.Click += (s, e) =>
+            {
+                Item.BindingParam.Trimming.StartTrimming();
                 HideWindow();
             };
             _messageDialogWindow.ButtonCancel.Click += (s, e) =>
