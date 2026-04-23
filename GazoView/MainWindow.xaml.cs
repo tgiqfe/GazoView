@@ -2,6 +2,7 @@
 using GazoView.Lib.Panel;
 using System.Diagnostics;
 using System.Windows;
+using System.Windows.Controls;
 using System.Windows.Input;
 using System.Windows.Threading;
 
@@ -57,6 +58,9 @@ namespace GazoView
         /// <param name="e"></param>
         private void Window_PreviewKeyDown(object sender, KeyEventArgs e)
         {
+            //  Skips if a TextBox is focused to avoid interfering with text input.
+            if (Keyboard.FocusedElement is TextBox) return;
+
             // Detects key repeat. Ignores if Esc is already pressed.
             if (e.IsRepeat && _currentHeldKey.HasValue) return;
 
@@ -65,6 +69,7 @@ namespace GazoView
                 case Key.Escape:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
                     if (Item.BindingParam.MessageDialog.IsVisible) return;
+                    if (Item.BindingParam.Trimming.IsTrimmingMode) return;
                     _currentHeldKey = e.Key;
                     _keyHoldTimer = new DispatcherTimer();
                     _keyHoldTimer.Interval = TimeSpan.FromMilliseconds(KeyHoldDelay);
@@ -83,7 +88,7 @@ namespace GazoView
                     break;
                 case Key.Left:
                     if (Item.BindingParam.RenameBox.IsVisible) return;
-                    if(Item.BindingParam.MessageDialog.IsVisible) return;
+                    if (Item.BindingParam.MessageDialog.IsVisible) return;
                     Item.BindingParam.Images.Index--;
                     Item.BindingParam.Images.UpdateImage();
                     break;
@@ -173,6 +178,11 @@ namespace GazoView
                     {
                         Item.BindingParam.MessageDialog.HideWindow();
                         Debug.WriteLine("Delete message box closed.");
+                        return;
+                    }
+                    if (Item.BindingParam.Trimming.IsTrimmingMode)
+                    {
+                        Item.BindingParam.Trimming.SwitchMode();
                         return;
                     }
                     Application.Current.Shutdown();

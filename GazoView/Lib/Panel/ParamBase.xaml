@@ -28,6 +28,7 @@
                 <Border Grid.Row="1" CornerRadius="0,0,25,25" Background="White"
                         Name="MiddleArea" />
                 <StackPanel Grid.Row="1" Orientation="Vertical">
+                    <!--
                     <Border CornerRadius="20" Background="WhiteSmoke"
                             Name="SliderArea" Margin="10,10,10,5" Padding="0,10">
                         <Border.Effect>
@@ -48,6 +49,7 @@
                                                     HorizontalAlignment="Center" />
                         </StackPanel>
                     </Border>
+                    -->
                     <Border  CornerRadius="20" Background="WhiteSmoke"
                              Name="InputArea" Margin="10,5,10,10" Padding="0,10">
                         <Border.Effect>
