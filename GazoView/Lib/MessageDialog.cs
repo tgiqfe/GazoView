@@ -41,7 +41,7 @@ namespace GazoView.Lib
                     ToArray());
             _storeDirectory = Path.Combine(
                 Environment.GetEnvironmentVariable("TEMP"),
-                Item.ProcessName,
+                Item.ProcessName + "Temp",
                 this._serial);
             this.DeletedList = new();
         }
@@ -118,9 +118,9 @@ namespace GazoView.Lib
 
             _messageDialogWindow.ButtonOK.Click += (s, e) =>
             {
-                string managedPath = Path.Combine(_storeDirectory, DeletedList.Last().ManagedName);
+                //string managedPath = Path.Combine(_storeDirectory, DeletedList.Last().ManagedName);
                 Item.BindingParam.Images.MoveInImageFile(
-                    managedPath,
+                    Path.Combine(_storeDirectory, DeletedList.Last().ManagedName),
                     DeletedList.Last().TrueName);
                 this.DeletedList.RemoveAt(DeletedList.Count - 1);
                 HideWindow();
@@ -133,10 +133,13 @@ namespace GazoView.Lib
             this.IsVisible = true;
         }
 
+        /// <summary>
+        /// Show message window for trimming.
+        /// </summary>
         public void ShowTrimmingWindow()
         {
             _messageDialogWindow = new();
-            _messageDialogWindow.TextBlockAction.Text = "Delete?";
+            _messageDialogWindow.TextBlockAction.Text = "Trimming?";
             _messageDialogWindow.TextBlockFilePath.Text = Item.BindingParam.Images.Current.FilePath;
             _messageDialogWindow.TextBlockFileName.Text = Item.BindingParam.Images.Current.FileName;
             _messageDialogWindow.TextBlockFileExtension.Text = Item.BindingParam.Images.Current.FileExtension;

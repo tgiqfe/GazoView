@@ -295,7 +295,8 @@ namespace GazoView.Lib
             {
                 0 => 0,                                     //  if the first file is deleted, stay at index 0.
                 var i when i == this.Length => _index - 1,  //  if the last file is deleted, move to the previous file.
-                _ => _index > _preview ? 0 : -1             //  if the deleted file is before the current index, stay at the same index; if it's after, move to the previous index.
+                var i when i < _preview => _index - 1,      //  if the deleted file is before the current index, stay at the same index.
+                _ => _index                                 //  if the deleted file is before the current index, stay at the same index; if it's after, move to the previous index.
             };
             UpdateImage();
 
