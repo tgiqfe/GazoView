@@ -6,6 +6,7 @@
         xmlns:local="clr-namespace:GazoView"
         xmlns:converter="clr-namespace:GazoView.Lib.Converter"
         xmlns:panel="clr-namespace:GazoView.Lib.Panel"
+        xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
         mc:Ignorable="d"
         Title="{Binding Images.Title}"
         Width="{Binding Setting.Width, Mode=TwoWay}"
@@ -42,5 +43,12 @@
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Visibility="{Binding Trimming.IsTrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+        <materialDesign:PackIcon Grid.Row="1" Grid.Column="1"
+                                 Kind="StarBoxOutline"
+                                 Width="60" Height="60"
+                                 HorizontalAlignment="Right"
+                                 VerticalAlignment="Bottom"
+                                 Foreground="Gold"
+                                 Visibility="{Binding Images.HasStar, Converter={StaticResource BoolToVisibilityConverter}}" />
     </Grid>
 </Window>

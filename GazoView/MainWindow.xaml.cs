@@ -147,6 +147,9 @@ namespace GazoView
                         Item.BindingParam.MessageDialog.ShowRestoreWindow();
                     }
                     break;
+                case Key.OemBackslash:
+                    Item.BindingParam.Images.ToggleStarFile();
+                    break;
             }
         }
 

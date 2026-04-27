@@ -60,11 +60,14 @@ namespace GazoView.Lib
 
         public string Title
         {
-            get
-            {
-                return string.Format("[{0}/{1}] {2}", this.Index + 1, this.Length, this.Current.FileName);
-            }
+            get => string.Format("[{0}/{1}] {2}", this.Index + 1, this.Length, this.Current.FileName);
         }
+
+        public bool HasStar
+        {
+            get => Path.GetFileNameWithoutExtension(this.Current.FileName).EndsWith("★");
+        }
+
 
         public ImageItem Current { get; private set; }
 
@@ -124,6 +127,7 @@ namespace GazoView.Lib
             this.Current = new ImageItem(this.FileList[this.Index]);
             OnPropertyChanged(nameof(Current));
             OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(HasStar));
         }
 
         public void JumptoImage(string name)
@@ -260,6 +264,7 @@ namespace GazoView.Lib
 
             OnPropertyChanged(nameof(Length));
             OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(HasStar));
         }
 
         #endregion
@@ -327,6 +332,16 @@ namespace GazoView.Lib
 
             //  refresh file list after moving.
             ResumeWatching();
+        }
+
+        public void ToggleStarFile()
+        {
+            string newFileNameWithoutExtension = this.HasStar ?
+                Path.GetFileNameWithoutExtension(this.Current.FileName).TrimEnd('★') :
+                Path.GetFileNameWithoutExtension(this.Current.FileName) + "★";
+            string newFileName = newFileNameWithoutExtension + this.Current.FileExtension;
+            RenameImageFile(newFileName);
+            OnPropertyChanged(nameof(HasStar));
         }
 
         #region Inotify change
