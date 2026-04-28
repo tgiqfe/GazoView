@@ -5,7 +5,7 @@
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GazoView.Lib.Panel"
              mc:Ignorable="d"
-             Width="420" Height="285"
+             Width="420" Height="270"
              Background="Transparent"
              MouseLeftButtonDown="ParamBase_MouseLeftButtonDown"
              MouseMove="ParamBase_MouseMove"
