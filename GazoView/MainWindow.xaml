@@ -39,7 +39,6 @@
                                  Grid.Column="1" />
         <panel:ParamBase x:Name="ParamBase"
                          Grid.Row="1" Grid.Column="1"
-                         Width="420" Height="285"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
                          Visibility="{Binding Trimming.IsTrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
