@@ -60,11 +60,14 @@ namespace GazoView.Lib
 
         public string Title
         {
-            get
-            {
-                return string.Format("[{0}/{1}] {2}", this.Index + 1, this.Length, this.Current.FileName);
-            }
+            get => string.Format("[{0}/{1}] {2}", this.Index + 1, this.Length, this.Current.FileName);
         }
+
+        public bool HasStar
+        {
+            get => Path.GetFileNameWithoutExtension(this.Current.FileName).EndsWith("★");
+        }
+
 
         public ImageItem Current { get; private set; }
 
@@ -124,6 +127,7 @@ namespace GazoView.Lib
             this.Current = new ImageItem(this.FileList[this.Index]);
             OnPropertyChanged(nameof(Current));
             OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(HasStar));
         }
 
         public void JumptoImage(string name)
@@ -260,6 +264,7 @@ namespace GazoView.Lib
 
             OnPropertyChanged(nameof(Length));
             OnPropertyChanged(nameof(Title));
+            OnPropertyChanged(nameof(HasStar));
         }
 
         #endregion
@@ -295,7 +300,8 @@ namespace GazoView.Lib
             {
                 0 => 0,                                     //  if the first file is deleted, stay at index 0.
                 var i when i == this.Length => _index - 1,  //  if the last file is deleted, move to the previous file.
-                _ => _index > _preview ? 0 : -1             //  if the deleted file is before the current index, stay at the same index; if it's after, move to the previous index.
+                var i when i < _preview => _index - 1,      //  if the deleted file is before the current index, stay at the same index.
+                _ => _index                                 //  if the deleted file is before the current index, stay at the same index; if it's after, move to the previous index.
             };
             UpdateImage();
 
@@ -326,6 +332,16 @@ namespace GazoView.Lib
 
             //  refresh file list after moving.
             ResumeWatching();
+        }
+
+        public void ToggleStarFile()
+        {
+            string newFileNameWithoutExtension = this.HasStar ?
+                Path.GetFileNameWithoutExtension(this.Current.FileName).TrimEnd('★') :
+                Path.GetFileNameWithoutExtension(this.Current.FileName) + "★";
+            string newFileName = newFileNameWithoutExtension + this.Current.FileExtension;
+            RenameImageFile(newFileName);
+            OnPropertyChanged(nameof(HasStar));
         }
 
         #region Inotify change

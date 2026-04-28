@@ -1,0 +1,40 @@
+﻿<UserControl x:Class="GazoView.Lib.Panel.ParamSummaryPanel"
+             xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+             xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+             xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
+             xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
+             xmlns:local="clr-namespace:GazoView.Lib.Panel"
+             xmlns:materialDesign="http://materialdesigninxaml.net/winfx/xaml/themes"
+             mc:Ignorable="d">
+    <UserControl.Resources>
+        <Style TargetType="TextBlock">
+            <Setter Property="FontFamily" Value="Noto Sans JP" />
+            <Setter Property="FontSize" Value="16" />
+            <Setter Property="Margin" Value="0, 5,10,5" />
+            <Setter Property="VerticalAlignment" Value="Center" />
+        </Style>
+        <Style TargetType="materialDesign:PackIcon">
+            <Setter Property="Margin" Value="10,0,5,0" />
+        </Style>
+    </UserControl.Resources>
+
+    <StackPanel Orientation="Horizontal" Margin="5">
+        <materialDesign:PackIcon Grid.Column="0"
+                                 Kind="ArrowExpandHorizontal"
+                                 VerticalAlignment="Center"
+                                 Width="18" Height="18" />
+        <TextBlock Grid.Column="1" Text="Width:"
+                   Width="55" />
+        <TextBlock Grid.Column="2" Text="{Binding Trimming.Width}"
+                   Width="60" />
+
+        <materialDesign:PackIcon Grid.Column="3"
+                                 Kind="ArrowExpandVertical"
+                                 VerticalAlignment="Center"
+                                 Width="18" Height="18" />
+        <TextBlock Grid.Column="4" Text="Height:"
+                   Width="55" />
+        <TextBlock Grid.Column="5" Text="{Binding Trimming.Height}"
+                   Width="60" />
+    </StackPanel>
+</UserControl>

@@ -21,21 +21,23 @@
                 <Setter.Value>
                     <ControlTemplate TargetType="TextBox">
                         <Border Background="{TemplateBinding Background}"
-                            BorderBrush="{TemplateBinding BorderBrush}"
-                            BorderThickness="{TemplateBinding BorderThickness}"
-                            CornerRadius="5">
+                                BorderBrush="{TemplateBinding BorderBrush}"
+                                BorderThickness="{TemplateBinding BorderThickness}"
+                                CornerRadius="5">
                             <ScrollViewer x:Name="PART_ContentHost" Margin="2"/>
                         </Border>
                     </ControlTemplate>
                 </Setter.Value>
             </Setter>
+            <EventSetter Event="PreviewTextInput" Handler="TextBox_NumberValidation" />
+            <EventSetter Event="PreviewKeyDown" Handler="TextBox_PreviewKeyDown" />
         </Style>
         <Style TargetType="materialDesign:PackIcon">
             <Setter Property="Margin" Value="10,0,5,0" />
         </Style>
     </UserControl.Resources>
 
-    <Grid Margin="10">
+    <Grid Margin="5">
         <Grid.RowDefinitions>
             <RowDefinition Height="Auto"/>
             <RowDefinition Height="Auto"/>
@@ -51,22 +53,22 @@
 
         <materialDesign:PackIcon Grid.Row="0" Grid.Column="0" Kind="ArrowCollapseUp" VerticalAlignment="Center"/>
         <TextBlock Grid.Row="0" Grid.Column="1" Text="Top:" />
-        <TextBox Grid.Row="0" Grid.Column="2" Name="TopTextBox" PreviewTextInput="NumberValidationTextBox"
+        <TextBox Grid.Row="0" Grid.Column="2" Name="TopTextBox"
                  Text="{Binding Trimming.Top, Mode=TwoWay}"/>
 
         <materialDesign:PackIcon Grid.Row="0" Grid.Column="3" Kind="ArrowCollapseDown" VerticalAlignment="Center"/>
         <TextBlock Grid.Row="0" Grid.Column="4" Text="Bottom:" />
-        <TextBox Grid.Row="0" Grid.Column="5" Name="BottomTextBox" PreviewTextInput="NumberValidationTextBox"
+        <TextBox Grid.Row="0" Grid.Column="5" Name="BottomTextBox"
                  Text="{Binding Trimming.Bottom, Mode=TwoWay}"/>
 
         <materialDesign:PackIcon Grid.Row="1" Grid.Column="0" Kind="ArrowCollapseLeft" VerticalAlignment="Center"/>
         <TextBlock Grid.Row="1" Grid.Column="1" Text="Left:" />
-        <TextBox Grid.Row="1" Grid.Column="2" Name="LeftTextBox" PreviewTextInput="NumberValidationTextBox"
+        <TextBox Grid.Row="1" Grid.Column="2" Name="LeftTextBox"
                  Text="{Binding Trimming.Left, Mode=TwoWay}"/>
 
         <materialDesign:PackIcon Grid.Row="1" Grid.Column="3" Kind="ArrowCollapseRight" VerticalAlignment="Center"/>
         <TextBlock Grid.Row="1" Grid.Column="4" Text="Right:" />
-        <TextBox Grid.Row="1" Grid.Column="5" Name="RightTextBox" PreviewTextInput="NumberValidationTextBox"
+        <TextBox Grid.Row="1" Grid.Column="5" Name="RightTextBox"
                  Text="{Binding Trimming.Right, Mode=TwoWay}"/>
     </Grid>
 </UserControl>
