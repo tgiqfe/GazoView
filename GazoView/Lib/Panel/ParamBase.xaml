@@ -28,30 +28,8 @@
                 <Border Grid.Row="1" CornerRadius="0,0,15,15" Background="White"
                         Name="MiddleArea" />
                 <StackPanel Grid.Row="1" Orientation="Vertical">
-                    <!--
-                    <Border CornerRadius="20" Background="WhiteSmoke"
-                            Name="SliderArea" Margin="10,10,10,5" Padding="0,10">
-                        <Border.Effect>
-                            <DropShadowEffect Color="Black" 
-                                              BlurRadius="10" 
-                                              ShadowDepth="2" 
-                                              Direction="270"
-                                              Opacity="0.3"/>
-                        </Border.Effect>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Scaling"
-                                       FontFamily="Noto Sans JP"
-                                       FontSize="14"
-                                       FontWeight="Black"
-                                       Foreground="DimGray"
-                                       Margin="20,0"/>
-                            <local:ParamSliderPanel x:Name="ParamParamSlider"
-                                                    HorizontalAlignment="Center" />
-                        </StackPanel>
-                    </Border>
-                    -->
                     <Border  CornerRadius="12" Background="WhiteSmoke"
-                             Name="InputArea" Margin="10,5,10,10" Padding="0,10">
+                             Name="InputArea" Margin="10,10,10,5" Padding="0,10">
                         <Border.Effect>
                             <DropShadowEffect Color="Black" 
                               BlurRadius="10" 
@@ -68,6 +46,26 @@
                                        Margin="20,0"/>
                             <local:ParamInputPanel x:Name="ParamInput"
                                                    HorizontalAlignment="Center"/>
+                        </StackPanel>
+                    </Border>
+                    <Border  CornerRadius="12" Background="WhiteSmoke"
+                             Name="SummaryArea" Margin="10,5,10,5" Padding="0,10">
+                        <Border.Effect>
+                            <DropShadowEffect Color="Black" 
+                              BlurRadius="10" 
+                              ShadowDepth="2" 
+                              Direction="270"
+                              Opacity="0.3"/>
+                        </Border.Effect>
+                        <StackPanel Orientation="Vertical">
+                            <TextBlock Text="Summary"
+                                       FontFamily="Noto Sans JP"
+                                       FontSize="14"
+                                       FontWeight="Black"
+                                       Foreground="DimGray"
+                                       Margin="20,0"/>
+                            <local:ParamSummaryPanel x:Name="ParamSummary"
+                                                 HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                 </StackPanel>

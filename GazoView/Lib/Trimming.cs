@@ -35,6 +35,7 @@ namespace GazoView.Lib
                     _setting.TrimmingTop = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(AssistTop));
+                    OnPropertyChanged(nameof(Height));
                 }
             }
         }
@@ -49,6 +50,7 @@ namespace GazoView.Lib
                     _setting.TrimmingBottom = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(AssistBottom));
+                    OnPropertyChanged(nameof(Height));
                 }
             }
         }
@@ -63,6 +65,7 @@ namespace GazoView.Lib
                     _setting.TrimmingLeft = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(AssistLeft));
+                    OnPropertyChanged(nameof(Width));
                 }
             }
         }
@@ -77,6 +80,7 @@ namespace GazoView.Lib
                     _setting.TrimmingRight = value;
                     OnPropertyChanged();
                     OnPropertyChanged(nameof(AssistRight));
+                    OnPropertyChanged(nameof(Width));
                 }
             }
         }
