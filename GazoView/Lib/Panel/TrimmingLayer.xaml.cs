@@ -76,6 +76,9 @@ namespace GazoView.Lib.Panel
 
             Debug.WriteLine("Change trimming area");
 
+            //  Undo/Redo for trimming.
+            Item.BindingParam.Trimming.AddTrimHistory();
+
             //  20px margin for dragging line start position.
             var margin = 20;
             var letherAreaLength = Math.Min(trimming.AssistRight - trimming.AssistLeft, trimming.AssistBottom - trimming.AssistTop);

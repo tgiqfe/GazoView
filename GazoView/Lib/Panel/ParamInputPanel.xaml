@@ -39,16 +39,17 @@
 
     <Grid Margin="5">
         <Grid.RowDefinitions>
-            <RowDefinition Height="Auto"/>
-            <RowDefinition Height="Auto"/>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="Auto" />
         </Grid.RowDefinitions>
         <Grid.ColumnDefinitions>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="75"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="Auto"/>
-            <ColumnDefinition Width="75"/>
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="75" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="Auto" />
+            <ColumnDefinition Width="75" />
         </Grid.ColumnDefinitions>
 
         <materialDesign:PackIcon Grid.Row="0" Grid.Column="0" Kind="ArrowCollapseUp" VerticalAlignment="Center"/>
@@ -70,5 +71,14 @@
         <TextBlock Grid.Row="1" Grid.Column="4" Text="Right:" />
         <TextBox Grid.Row="1" Grid.Column="5" Name="RightTextBox"
                  Text="{Binding Trimming.Right, Mode=TwoWay}"/>
+
+        <materialDesign:PackIcon Grid.Row="2" Grid.Column="0" Kind="ArrowExpandHorizontal" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.Column="1" Text="Width:" />
+        <TextBlock Grid.Row="2" Grid.Column="2" Name="WidthTextBox" Text="{Binding Trimming.Width}"/>
+
+        <materialDesign:PackIcon Grid.Row="2" Grid.Column="3" Kind="ArrowExpandVertical" VerticalAlignment="Center"/>
+        <TextBlock Grid.Row="2" Grid.Column="4" Text="Height:" />
+        <TextBlock Grid.Row="2" Grid.Column="5" Name="HeightTextBox" Text="{Binding Trimming.Height}"/>
+
     </Grid>
 </UserControl>
