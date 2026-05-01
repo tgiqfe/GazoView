@@ -70,7 +70,7 @@ namespace GazoView.Lib.Panel
         }
 
         private void TrimmingLayer_view_PreviewMouseLeftButtonDown(object sender, System.Windows.Input.MouseButtonEventArgs e)
-        {
+        { 
             var point = e.GetPosition(TrimmingLayer_view);
             var trimming = Item.BindingParam.Trimming;
 
@@ -140,6 +140,9 @@ namespace GazoView.Lib.Panel
             _dragLine = DragLine.None;
             this.Cursor = Cursors.Arrow;
             TrimmingLayer_view.ReleaseMouseCapture();
+
+            //  Undo/Redo for trimming.
+            Item.BindingParam.Trimming.AddTrimHistory();
         }
 
         private void TrimmingLayer_view_MouseMove(object sender, MouseEventArgs e)
