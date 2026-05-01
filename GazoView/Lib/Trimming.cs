@@ -97,12 +97,23 @@ namespace GazoView.Lib
         public double AssistLeft { get => this.Left - 4; }
         public double AssistRight { get => this.Right + 4; }
 
+        public List<TrimHistory> TrimHistories = null;
+        public int TrimHistoryIndex { get; set; }
+
         // Setting reference for save trimming setting.
         private Setting _setting = null;
 
         public Trimming(Setting setting)
         {
             _setting = setting;
+            this.TrimHistories = new();
+            this.TrimHistories.Add(new()
+            {
+                Top = _setting.TrimmingTop,
+                Bottom = _setting.TrimmingBottom,
+                Left = _setting.TrimmingLeft,
+                Right = _setting.TrimmingRight
+            });
         }
 
         public void SwitchMode(bool? toEnable = null)
@@ -145,6 +156,54 @@ namespace GazoView.Lib
                 bitmap.Freeze();
             }
         }
+
+        #region Trim history management
+
+        public void AddTrimHistory()
+        {
+            if (this.TrimHistories.Count > this.TrimHistoryIndex + 1)
+            {
+                this.TrimHistories.RemoveRange(
+                    this.TrimHistoryIndex + 1,
+                    this.TrimHistories.Count - (this.TrimHistoryIndex + 1));
+            }
+            this.TrimHistories.Add(new TrimHistory()
+            {
+                Top = this.Top,
+                Bottom = this.Bottom,
+                Left = this.Left,
+                Right = this.Right
+            });
+            this.TrimHistoryIndex++;
+        }
+
+        public void UndoTrimHistory()
+        {
+            if (this.TrimHistoryIndex > 0)
+            {
+                this.TrimHistoryIndex--;
+                var history = this.TrimHistories[this.TrimHistoryIndex];
+                this.Top = history.Top;
+                this.Bottom = history.Bottom;
+                this.Left = history.Left;
+                this.Right = history.Right;
+            }
+        }
+
+        public void RedoTrimHistory()
+        {
+            if (this.TrimHistoryIndex < this.TrimHistories.Count -1)
+            {
+                this.TrimHistoryIndex++;
+                var history = this.TrimHistories[this.TrimHistoryIndex];
+                this.Top = history.Top;
+                this.Bottom = history.Bottom;
+                this.Left = history.Left;
+                this.Right = history.Right;
+            }
+        }
+
+        #endregion
 
         #region Inotify change
 

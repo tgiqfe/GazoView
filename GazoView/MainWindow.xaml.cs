@@ -144,7 +144,23 @@ namespace GazoView
                 case Key.Z:
                     if (SpecialKeyStatus.IsCtrlPressed())
                     {
-                        Item.BindingParam.MessageDialog.ShowRestoreWindow();
+                        if (Item.BindingParam.Trimming.IsTrimmingMode)
+                        {
+                            Item.BindingParam.Trimming.UndoTrimHistory();
+                        }
+                        else
+                        {
+                            Item.BindingParam.MessageDialog.ShowRestoreWindow();
+                        }
+                    }
+                    break;
+                case Key.Y:
+                    if (SpecialKeyStatus.IsCtrlPressed())
+                    {
+                        if (Item.BindingParam.Trimming.IsTrimmingMode)
+                        {
+                            Item.BindingParam.Trimming.RedoTrimHistory();
+                        }
                     }
                     break;
                 case Key.OemBackslash:
