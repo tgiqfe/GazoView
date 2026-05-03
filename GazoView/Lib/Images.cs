@@ -92,7 +92,7 @@ namespace GazoView.Lib
                 if (File.Exists(targets[0]))
                 {
                     string parent = Path.GetDirectoryName(targets[0]);
-                    var files = File.ReadAllLines(parent);
+                    var files = Directory.GetFiles(parent);
                     var collection = files.
                         Where(x => IsValidImageFile(x)).
                         OrderBy(x => x, new NaturalStringComparer());
