@@ -92,7 +92,8 @@ namespace GazoView.Lib
                 if (File.Exists(targets[0]))
                 {
                     string parent = Path.GetDirectoryName(targets[0]);
-                    var collection = Directory.GetFiles(parent).
+                    var files = File.ReadAllLines(parent);
+                    var collection = files.
                         Where(x => IsValidImageFile(x)).
                         OrderBy(x => x, new NaturalStringComparer());
                     this.FileList = new ObservableCollection<string>(collection);
@@ -102,11 +103,19 @@ namespace GazoView.Lib
                 }
                 else if (Directory.Exists(targets[0]))
                 {
-                    var collection = Directory.GetFiles(targets[0]).
-                        Where(x => IsValidImageFile(x)).
-                        OrderBy(x => x, new NaturalStringComparer());
-                    this.FileList = new ObservableCollection<string>(collection);
-                    this.Index = 0;
+                    var files = Directory.GetFiles(targets[0]);
+                    if (files.Length > 0)
+                    {
+                        var collection = files.
+                            Where(x => IsValidImageFile(x)).
+                            OrderBy(x => x, new NaturalStringComparer());
+                        this.FileList = new ObservableCollection<string>(collection);
+                        this.Index = 0;
+                    }
+                    else
+                    {
+                        this.FileList = new();
+                    }
                     UpdateImage();
                     StartWatching(targets[0]);
                 }
@@ -124,7 +133,9 @@ namespace GazoView.Lib
 
         public void UpdateImage()
         {
-            this.Current = new ImageItem(this.FileList[this.Index]);
+            this.Current = this.Length == 0 ?
+                new ImageItem() :
+                new ImageItem(this.FileList[this.Index]);
             OnPropertyChanged(nameof(Current));
             OnPropertyChanged(nameof(Title));
             OnPropertyChanged(nameof(HasStar));
