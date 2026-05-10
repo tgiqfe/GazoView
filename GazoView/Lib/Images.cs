@@ -254,6 +254,8 @@ namespace GazoView.Lib
         {
             if (string.IsNullOrEmpty(_watchingDirectory) || !Directory.Exists(_watchingDirectory)) return;
 
+            bool isLast = this.Index == this.Length - 1;
+
             string currentFile = this.FileList.Count > this.Index ? this.FileList[this.Index] : null;
             var collection = Directory.GetFiles(_watchingDirectory)
                 .Where(x => IsValidImageFile(x))
@@ -263,7 +265,12 @@ namespace GazoView.Lib
             this.FileList.Clear();
             collection.ForEach(x => this.FileList.Add(x));
 
-            if (!string.IsNullOrEmpty(currentFile) && this.FileList.Contains(currentFile))
+            if (isLast && this.FileList.Count > 0)
+            {
+                this.Index = this.FileList.Count - 1;
+                UpdateImage();
+            }
+            else if (!string.IsNullOrEmpty(currentFile) && this.FileList.Contains(currentFile))
             {
                 this.Index = this.FileList.IndexOf(currentFile);
             }
@@ -272,7 +279,6 @@ namespace GazoView.Lib
                 this.Index = Math.Min(this.Index, this.FileList.Count - 1);
                 UpdateImage();
             }
-
             OnPropertyChanged(nameof(Length));
             OnPropertyChanged(nameof(Title));
             OnPropertyChanged(nameof(HasStar));
