@@ -23,6 +23,17 @@ namespace GazoView.Lib
             }
         }
 
+        private bool _isVisibleTrimmingPanel = false;
+        public bool IsVisibleTrimmingPanel
+        {
+            get { return _isVisibleTrimmingPanel; }
+            set
+            {
+                _isVisibleTrimmingPanel = value;
+                OnPropertyChanged();
+            }
+        }
+
         #region Trimming area values (Top, Bottom, Left, Right)
 
         public int Top
@@ -107,20 +118,20 @@ namespace GazoView.Lib
         {
             _setting = setting;
             this.TrimHistories = new();
-            /*
-            this.TrimHistories.Add(new()
-            {
-                Top = _setting.TrimmingTop,
-                Bottom = _setting.TrimmingBottom,
-                Left = _setting.TrimmingLeft,
-                Right = _setting.TrimmingRight
-            });
-            */
         }
 
         public void SwitchMode(bool? toEnable = null)
         {
-            IsTrimmingMode = toEnable ?? !IsTrimmingMode;
+            this.IsTrimmingMode = toEnable ?? !this.IsTrimmingMode;
+
+            if (SpecialKeyStatus.IsShiftPressed() || SpecialKeyStatus.IsCtrlPressed())
+            {
+                this.IsVisibleTrimmingPanel = this.IsTrimmingMode;
+            }
+            if (!this.IsTrimmingMode && this.IsVisibleTrimmingPanel)
+            {
+                this.IsVisibleTrimmingPanel = false;
+            }
         }
 
         /// <summary>

@@ -41,7 +41,7 @@
                          Grid.Row="1" Grid.Column="1"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
-                         Visibility="{Binding Trimming.IsTrimmingMode, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                         Visibility="{Binding Trimming.IsVisibleTrimmingPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <materialDesign:PackIcon Grid.Row="1" Grid.Column="1"
                                  Kind="StarBoxOutline"
                                  Width="60" Height="60"
