@@ -45,7 +45,7 @@
                                        FontWeight="Black"
                                        Foreground="DimGray"
                                        Margin="20,0"/>
-                            <local:TrimInfoPanelInput x:Name="ParamInput"
+                            <local:TrimInfoPanelInput x:Name="TrimInfoPanelInput"
                                                       HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
