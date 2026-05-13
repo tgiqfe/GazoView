@@ -23,6 +23,17 @@ namespace GazoView.Lib
             }
         }
 
+        private bool _isVisibleTrimInfoPanel = false;
+        public bool IsVisibleTrimInfoPanel
+        {
+            get { return _isVisibleTrimInfoPanel; }
+            set
+            {
+                _isVisibleTrimInfoPanel = value;
+                OnPropertyChanged();
+            }
+        }
+
         #region Trimming area values (Top, Bottom, Left, Right)
 
         public int Top
@@ -107,18 +118,20 @@ namespace GazoView.Lib
         {
             _setting = setting;
             this.TrimHistories = new();
-            this.TrimHistories.Add(new()
-            {
-                Top = _setting.TrimmingTop,
-                Bottom = _setting.TrimmingBottom,
-                Left = _setting.TrimmingLeft,
-                Right = _setting.TrimmingRight
-            });
         }
 
         public void SwitchMode(bool? toEnable = null)
         {
-            IsTrimmingMode = toEnable ?? !IsTrimmingMode;
+            this.IsTrimmingMode = toEnable ?? !IsTrimmingMode;
+
+            if (SpecialKeyStatus.IsShiftPressed() || SpecialKeyStatus.IsCtrlPressed())
+            {
+                this.IsVisibleTrimInfoPanel = this.IsTrimmingMode;
+            }
+            if (!this.IsTrimmingMode && this.IsVisibleTrimInfoPanel)
+            {
+                this.IsVisibleTrimInfoPanel = false;
+            }
         }
 
         /// <summary>
@@ -161,6 +174,27 @@ namespace GazoView.Lib
 
         public void AddTrimHistory()
         {
+            if (this.TrimHistories.Count == 0)
+            {
+                this.TrimHistories.Add(new TrimHistory()
+                {
+                    Top = this.Top,
+                    Bottom = this.Bottom,
+                    Left = this.Left,
+                    Right = this.Right
+                });
+                this.TrimHistoryIndex = 0;
+                return;
+            }
+            if (this.TrimHistoryIndex >= 0 &&
+               this.TrimHistories[this.TrimHistoryIndex].Top == this.Top &&
+               this.TrimHistories[this.TrimHistoryIndex].Bottom == this.Bottom &&
+               this.TrimHistories[this.TrimHistoryIndex].Left == this.Left &&
+               this.TrimHistories[this.TrimHistoryIndex].Right == this.Right)
+            {
+                // No change in trimming area, do not add history.
+                return;
+            }
             if (this.TrimHistories.Count > this.TrimHistoryIndex + 1)
             {
                 this.TrimHistories.RemoveRange(
@@ -192,7 +226,7 @@ namespace GazoView.Lib
 
         public void RedoTrimHistory()
         {
-            if (this.TrimHistoryIndex < this.TrimHistories.Count -1)
+            if (this.TrimHistoryIndex < this.TrimHistories.Count - 1)
             {
                 this.TrimHistoryIndex++;
                 var history = this.TrimHistories[this.TrimHistoryIndex];

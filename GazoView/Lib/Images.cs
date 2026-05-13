@@ -92,7 +92,8 @@ namespace GazoView.Lib
                 if (File.Exists(targets[0]))
                 {
                     string parent = Path.GetDirectoryName(targets[0]);
-                    var collection = Directory.GetFiles(parent).
+                    var files = Directory.GetFiles(parent);
+                    var collection = files.
                         Where(x => IsValidImageFile(x)).
                         OrderBy(x => x, new NaturalStringComparer());
                     this.FileList = new ObservableCollection<string>(collection);
@@ -102,11 +103,19 @@ namespace GazoView.Lib
                 }
                 else if (Directory.Exists(targets[0]))
                 {
-                    var collection = Directory.GetFiles(targets[0]).
-                        Where(x => IsValidImageFile(x)).
-                        OrderBy(x => x, new NaturalStringComparer());
-                    this.FileList = new ObservableCollection<string>(collection);
-                    this.Index = 0;
+                    var files = Directory.GetFiles(targets[0]);
+                    if (files.Length > 0)
+                    {
+                        var collection = files.
+                            Where(x => IsValidImageFile(x)).
+                            OrderBy(x => x, new NaturalStringComparer());
+                        this.FileList = new ObservableCollection<string>(collection);
+                        this.Index = 0;
+                    }
+                    else
+                    {
+                        this.FileList = new();
+                    }
                     UpdateImage();
                     StartWatching(targets[0]);
                 }
@@ -124,7 +133,9 @@ namespace GazoView.Lib
 
         public void UpdateImage()
         {
-            this.Current = new ImageItem(this.FileList[this.Index]);
+            this.Current = this.Length == 0 ?
+                new ImageItem() :
+                new ImageItem(this.FileList[this.Index]);
             OnPropertyChanged(nameof(Current));
             OnPropertyChanged(nameof(Title));
             OnPropertyChanged(nameof(HasStar));
@@ -243,6 +254,8 @@ namespace GazoView.Lib
         {
             if (string.IsNullOrEmpty(_watchingDirectory) || !Directory.Exists(_watchingDirectory)) return;
 
+            bool isLast = this.Index == this.Length - 1;
+
             string currentFile = this.FileList.Count > this.Index ? this.FileList[this.Index] : null;
             var collection = Directory.GetFiles(_watchingDirectory)
                 .Where(x => IsValidImageFile(x))
@@ -252,7 +265,12 @@ namespace GazoView.Lib
             this.FileList.Clear();
             collection.ForEach(x => this.FileList.Add(x));
 
-            if (!string.IsNullOrEmpty(currentFile) && this.FileList.Contains(currentFile))
+            if (isLast && this.FileList.Count > 0)
+            {
+                this.Index = this.FileList.Count - 1;
+                UpdateImage();
+            }
+            else if (!string.IsNullOrEmpty(currentFile) && this.FileList.Contains(currentFile))
             {
                 this.Index = this.FileList.IndexOf(currentFile);
             }
@@ -261,7 +279,6 @@ namespace GazoView.Lib
                 this.Index = Math.Min(this.Index, this.FileList.Count - 1);
                 UpdateImage();
             }
-
             OnPropertyChanged(nameof(Length));
             OnPropertyChanged(nameof(Title));
             OnPropertyChanged(nameof(HasStar));

@@ -5,14 +5,14 @@ using System.Windows.Input;
 namespace GazoView.Lib.Panel
 {
     /// <summary>
-    /// ParamBase.xaml の相互作用ロジック
+    /// TrimInfoPanel.xaml の相互作用ロジック
     /// </summary>
-    public partial class ParamBase : UserControl
+    public partial class TrimInfoPanel : UserControl
     {
         private bool _isDragging = false;
         private Point _dragStartPoint;
 
-        public ParamBase()
+        public TrimInfoPanel()
         {
             InitializeComponent();
             this.Margin = new Thickness(
@@ -21,12 +21,12 @@ namespace GazoView.Lib.Panel
                 0, 0);
         }
 
-        #region Drag move for ParamBase
+        #region Drag move for TrimInfoPanel
 
         /// <summary>
         /// ドラッグ開始
         /// </summary>
-        private void ParamBase_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
+        private void TrimInfoPanel_MouseLeftButtonDown(object sender, MouseButtonEventArgs e)
         {
             if (this.Parent is Grid parentGrid)
             {
@@ -40,7 +40,7 @@ namespace GazoView.Lib.Panel
         /// <summary>
         /// ドラッグ中の移動
         /// </summary>
-        private void ParamBase_MouseMove(object sender, MouseEventArgs e)
+        private void TrimInfoPanel_MouseMove(object sender, MouseEventArgs e)
         {
             if (_isDragging && e.LeftButton == MouseButtonState.Pressed)
             {
@@ -65,7 +65,7 @@ namespace GazoView.Lib.Panel
         /// <summary>
         /// ドラッグ終了
         /// </summary>
-        private void ParamBase_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
+        private void TrimInfoPanel_MouseLeftButtonUp(object sender, MouseButtonEventArgs e)
         {
             if (_isDragging)
             {
@@ -91,9 +91,5 @@ namespace GazoView.Lib.Panel
         }
 
         #endregion
-
-
-
-
     }
 }

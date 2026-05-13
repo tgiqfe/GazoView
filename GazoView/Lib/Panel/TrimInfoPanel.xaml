@@ -1,24 +1,24 @@
-﻿<UserControl x:Class="GazoView.Lib.Panel.ParamBase"
+﻿<UserControl x:Class="GazoView.Lib.Panel.TrimInfoPanel"
              xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
              xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
              xmlns:mc="http://schemas.openxmlformats.org/markup-compatibility/2006" 
              xmlns:d="http://schemas.microsoft.com/expression/blend/2008" 
              xmlns:local="clr-namespace:GazoView.Lib.Panel"
-             mc:Ignorable="d"
+             mc:Ignorable="d" 
              Width="420" Height="270"
              Background="Transparent"
-             MouseLeftButtonDown="ParamBase_MouseLeftButtonDown"
-             MouseMove="ParamBase_MouseMove"
-             MouseLeftButtonUp="ParamBase_MouseLeftButtonUp">
+             MouseLeftButtonDown="TrimInfoPanel_MouseLeftButtonDown"
+             MouseMove="TrimInfoPanel_MouseMove"
+             MouseLeftButtonUp="TrimInfoPanel_MouseLeftButtonUp">
     <Grid>
         <Grid Name="BackGroundSquare">
             <Border CornerRadius="15" Background="#DFDFDF">
                 <Border.Effect>
-                    <DropShadowEffect Color="Black" 
+                    <DropShadowEffect Color="Black"
                                       BlurRadius="10" 
                                       ShadowDepth="2" 
                                       Direction="270"
-                                      Opacity="0.3"/>
+                                      Opacity="0.3" />
                 </Border.Effect>
             </Border>
             <Grid>
@@ -32,11 +32,11 @@
                     <Border  CornerRadius="12" Background="WhiteSmoke"
                              Name="InputArea" Margin="10,10,10,5" Padding="0,10">
                         <Border.Effect>
-                            <DropShadowEffect Color="Black" 
-                              BlurRadius="10" 
-                              ShadowDepth="2" 
-                              Direction="270"
-                              Opacity="0.3"/>
+                            <DropShadowEffect Color="Black"
+                                              BlurRadius="10"
+                                              ShadowDepth="2"
+                                              Direction="270"
+                                              Opacity="0.3"/>
                         </Border.Effect>
                         <StackPanel Orientation="Vertical">
                             <TextBlock Text="Trimming"
@@ -45,30 +45,32 @@
                                        FontWeight="Black"
                                        Foreground="DimGray"
                                        Margin="20,0"/>
-                            <local:ParamInputPanel x:Name="ParamInput"
-                                                   HorizontalAlignment="Center"/>
+                            <local:TrimInfoPanelInput x:Name="TrimInfoPanelInput"
+                                                      HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
-                    <Border  CornerRadius="12" Background="WhiteSmoke"
-                             Name="SummaryArea" Margin="10,5,10,5" Padding="0,10">
-                        <Border.Effect>
-                            <DropShadowEffect Color="Black" 
-                              BlurRadius="10" 
-                              ShadowDepth="2" 
-                              Direction="270"
-                              Opacity="0.3"/>
-                        </Border.Effect>
-                        <StackPanel Orientation="Vertical">
-                            <TextBlock Text="Summary"
-                                       FontFamily="Noto Sans JP"
-                                       FontSize="14"
-                                       FontWeight="Black"
-                                       Foreground="DimGray"
-                                       Margin="20,0"/>
-                            <local:ParamSummaryPanel x:Name="ParamSummary"
-                                                 HorizontalAlignment="Center"/>
-                        </StackPanel>
-                    </Border>
+                    <!--
+            <Border  CornerRadius="12" Background="WhiteSmoke"
+                     Name="SummaryArea" Margin="10,5,10,5" Padding="0,10">
+                <Border.Effect>
+                    <DropShadowEffect Color="Black" 
+                      BlurRadius="10"
+                      ShadowDepth="2"
+                      Direction="270"
+                      Opacity="0.3"/>
+                </Border.Effect>
+                <StackPanel Orientation="Vertical">
+                    <TextBlock Text="Summary"
+                               FontFamily="Noto Sans JP"
+                               FontSize="14"
+                               FontWeight="Black"
+                               Foreground="DimGray"
+                               Margin="20,0"/>
+                    <local:ParamSummaryPanel x:Name="ParamSummary"
+                                         HorizontalAlignment="Center"/>
+                </StackPanel>
+            </Border>
+            -->
                 </StackPanel>
             </Grid>
         </Grid>

@@ -7,6 +7,8 @@ namespace GazoView.Lib
 {
     public class ImageItem
     {
+        #region valid image extensions
+
         private static readonly string[] _bitmapExtensions = new string[]
         {
             ".jpg", ".jpeg", ".png", ".bmp", ".tiff", ".tif", ".webp",
@@ -15,6 +17,8 @@ namespace GazoView.Lib
         {
             ".svg",
         };
+
+        #endregion
 
         public string FilePath { get; private set; }
         public string FileName { get; private set; }
@@ -33,30 +37,71 @@ namespace GazoView.Lib
 
         public ImageSource Source { get; private set; }
 
+        /// <summary>
+        /// Create empty image.
+        /// </summary>
+        public ImageItem()
+        {
+            this.FilePath = "-";
+            this.FileName = "-";
+            this.FileExtension = string.Empty;
+            this.Parent = string.Empty;
+            this.LastWriteTimeRaw = DateTime.MinValue;
+            this.Source = null;
+        }
+
+        /// <summary>
+        /// Read image file and create image item.
+        /// </summary>
+        /// <param name="path">The path of the</param>
         public ImageItem(string path)
         {
             this.FilePath = path;
             this.FileName = Path.GetFileName(path);
             this.FileExtension = Path.GetExtension(path);
             this.Parent = Path.GetDirectoryName(path);
-            //this.Size = FileFunction.GetFileSize(new FileInfo(path).Length);
             this.LastWriteTimeRaw = File.GetLastWriteTime(path);
-            //this.LastWriteTime = this.LastWriteTimeRaw.ToString("yyyy/MM/dd HH:mm:ss");
-            //this.Hash = FileFunction.GetHash(path);
 
             if (_bitmapExtensions.Any(x => string.Equals(x, this.FileExtension, StringComparison.OrdinalIgnoreCase)))
             {
                 double DPI_96 = 96.0;
-                using (var fs = new FileStream(this.FilePath, FileMode.Open, FileAccess.Read))
-                {
-                    var bitmap = new BitmapImage();
-                    bitmap.BeginInit();
-                    bitmap.CacheOption = BitmapCacheOption.OnLoad;
-                    bitmap.CreateOptions = BitmapCreateOptions.None;
-                    bitmap.StreamSource = fs;
-                    bitmap.EndInit();
-                    bitmap.Freeze();
+                BitmapImage bitmap = null;
+                int retryCount = 3;
+                int retryDelay = 100;
 
+                for (int i = 0; i < retryCount; i++)
+                {
+                    try
+                    {
+                        using (var fs = new FileStream(this.FilePath, FileMode.Open, FileAccess.Read, FileShare.ReadWrite))
+                        {
+                            bitmap = new BitmapImage();
+                            bitmap.BeginInit();
+                            bitmap.CacheOption = BitmapCacheOption.OnLoad;
+                            bitmap.CreateOptions = BitmapCreateOptions.None;
+                            bitmap.StreamSource = fs;
+                            bitmap.EndInit();
+                            bitmap.Freeze();
+                        }
+                        break;
+                    }
+                    catch (IOException) when (i < retryCount - 1)
+                    {
+                        System.Threading.Thread.Sleep(retryDelay);
+                    }
+                    catch (IOException)
+                    {
+                        this.Width = 0;
+                        this.Height = 0;
+                        this.DpiX = 0;
+                        this.DpiY = 0;
+                        this.Source = null;
+                        return;
+                    }
+                }
+
+                if (bitmap != null)
+                {
                     this.Width = bitmap.PixelWidth;
                     this.Height = bitmap.PixelHeight;
                     this.DpiX = bitmap.DpiX;
@@ -68,7 +113,7 @@ namespace GazoView.Lib
                             int stride = Width * (bitmap.Format.BitsPerPixel / 8);
                             byte[] pixels = new byte[Height * stride];
                             bitmap.CopyPixels(pixels, stride, 0);
-                            bitmap.Freeze();    //  Freeze the original bitmap to release the file lock.    
+                            bitmap.Freeze();
                             return BitmapSource.Create(Width, Height, DPI_96, DPI_96, PixelFormats.Pbgra32, null, pixels, stride);
                         })();
                 }
