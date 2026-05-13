@@ -4,14 +4,11 @@ using System.Windows.Input;
 
 namespace GazoView.Lib.Panel
 {
-    /// <summary>
-    /// ParamInputPanel.xaml の相互作用ロジック
-    /// </summary>
-    public partial class ParamInputPanel : UserControl
+    public partial class TrimInfoPanelInput : UserControl
     {
-        public ParamInputPanel()
+        public TrimInfoPanelInput()
         {
-            //InitializeComponent();
+            InitializeComponent();
         }
 
         private void TextBox_NumberValidation(object sender, TextCompositionEventArgs e)

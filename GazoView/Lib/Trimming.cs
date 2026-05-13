@@ -23,13 +23,13 @@ namespace GazoView.Lib
             }
         }
 
-        private bool _isVisibleTrimmingPanel = false;
-        public bool IsVisibleTrimmingPanel
+        private bool _isVisibleTrimInfoPanel = false;
+        public bool IsVisibleTrimInfoPanel
         {
-            get { return _isVisibleTrimmingPanel; }
+            get { return _isVisibleTrimInfoPanel; }
             set
             {
-                _isVisibleTrimmingPanel = value;
+                _isVisibleTrimInfoPanel = value;
                 OnPropertyChanged();
             }
         }
@@ -122,15 +122,15 @@ namespace GazoView.Lib
 
         public void SwitchMode(bool? toEnable = null)
         {
-            this.IsTrimmingMode = toEnable ?? !this.IsTrimmingMode;
+            this.IsTrimmingMode = toEnable ?? !IsTrimmingMode;
 
             if (SpecialKeyStatus.IsShiftPressed() || SpecialKeyStatus.IsCtrlPressed())
             {
-                this.IsVisibleTrimmingPanel = this.IsTrimmingMode;
+                this.IsVisibleTrimInfoPanel = this.IsTrimmingMode;
             }
-            if (!this.IsTrimmingMode && this.IsVisibleTrimmingPanel)
+            if (!this.IsTrimmingMode && this.IsVisibleTrimInfoPanel)
             {
-                this.IsVisibleTrimmingPanel = false;
+                this.IsVisibleTrimInfoPanel = false;
             }
         }
 

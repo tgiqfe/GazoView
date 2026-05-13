@@ -37,11 +37,11 @@
         <panel:MoveTriangleLayer x:Name="MoveTriangleLayer"
                                  Grid.Row="1"
                                  Grid.Column="1" />
-        <panel:TrimInfoPanel x:Name="ParamBase"
+        <panel:TrimInfoPanel x:Name="TrimInfoPanel"
                          Grid.Row="1" Grid.Column="1"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
-                         Visibility="{Binding Trimming.IsVisibleTrimmingPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
+                         Visibility="{Binding Trimming.IsVisibleTrimInfoPanel, Converter={StaticResource BoolToVisibilityConverter}}"/>
         <materialDesign:PackIcon Grid.Row="1" Grid.Column="1"
                                  Kind="StarBoxOutline"
                                  Width="60" Height="60"

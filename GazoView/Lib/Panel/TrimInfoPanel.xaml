@@ -7,9 +7,9 @@
              mc:Ignorable="d" 
              Width="420" Height="270"
              Background="Transparent"
-             MouseLeftButtonDown="ParamBase_MouseLeftButtonDown"
-             MouseMove="ParamBase_MouseMove"
-             MouseLeftButtonUp="ParamBase_MouseLeftButtonUp">
+             MouseLeftButtonDown="TrimInfoPanel_MouseLeftButtonDown"
+             MouseMove="TrimInfoPanel_MouseMove"
+             MouseLeftButtonUp="TrimInfoPanel_MouseLeftButtonUp">
     <Grid>
         <Grid Name="BackGroundSquare">
             <Border CornerRadius="15" Background="#DFDFDF">
@@ -45,8 +45,8 @@
                                        FontWeight="Black"
                                        Foreground="DimGray"
                                        Margin="20,0"/>
-                            <local:ParamInputPanel x:Name="ParamInput"
-                                                   HorizontalAlignment="Center"/>
+                            <local:TrimInfoPanelInput x:Name="ParamInput"
+                                                      HorizontalAlignment="Center"/>
                         </StackPanel>
                     </Border>
                     <!--
