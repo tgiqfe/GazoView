@@ -37,7 +37,7 @@
         <panel:MoveTriangleLayer x:Name="MoveTriangleLayer"
                                  Grid.Row="1"
                                  Grid.Column="1" />
-        <panel:ParamBase x:Name="ParamBase"
+        <panel:TrimInfoPanel x:Name="ParamBase"
                          Grid.Row="1" Grid.Column="1"
                          HorizontalAlignment="Left"
                          VerticalAlignment="Top"
